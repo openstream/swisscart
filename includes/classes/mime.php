@@ -5,7 +5,10 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2003 osCommerce
+  Customized by swisscart®, Swiss Webshop Solutions
+  http://www.swisscart.com
+
+  Copyright (c) 2003-2007 osCommerce
 
   mime.php - a class to assist in building mime-HTML eMails
 
