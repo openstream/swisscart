@@ -1,14 +1,11 @@
 <?php
 /*
-  $Id: boxes.php,v 1.33 2003/06/09 22:22:50 hpdl Exp $
+  $Id: boxes.php,v 4.5.2 2006/12/05 19:05:12 wilt Exp $
 
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Customized by swisscart®, Swiss Webshop Solutions
-  http://www.swisscart.com
-
-  Copyright (c) 2003-2007 osCommerce
+  Copyright (c) 2003 osCommerce
 
   Released under the GNU General Public License
 */
@@ -40,6 +37,7 @@
             if (isset($contents[$i][$x]['text']) && tep_not_null($contents[$i][$x]['text'])) {
               $tableBox_string .= '    <td';
               if (isset($contents[$i][$x]['align']) && tep_not_null($contents[$i][$x]['align'])) $tableBox_string .= ' align="' . tep_output_string($contents[$i][$x]['align']) . '"';
+              if (isset($contents[$i][$x]['valign']) && tep_not_null($contents[$i][$x]['valign'])) $tableBox_string .= ' valign="' . $contents[$i][$x]['valign'] . '"'; // Added in v4.4
               if (isset($contents[$i][$x]['params']) && tep_not_null($contents[$i][$x]['params'])) {
                 $tableBox_string .= ' ' . $contents[$i][$x]['params'];
               } elseif (tep_not_null($this->table_data_parameters)) {
@@ -73,16 +71,86 @@
 
       return $tableBox_string;
     }
-  }
+	
+	function infoBoxHeaderTemplate($headertext,$right_arrow) {
+	// STS 4.3: put header template and tags in $sts object, do not display them now.
+	// STS 4.5.2: BUG corrected, was checking content cache instead of header cache
+	  global $sts;
+	
+		$btrace=debug_backtrace();
+		$boxname=basename($btrace[1]['file'],".php");
+		$boxprefix = "infobox_";
+		
+		// Added in v4.4: allows to use catalog_filename.html as template for boxes created directly in a catalog script.
+		$boxname2 = basename($btrace[2]['file'],".php"); // backtrace 2 is the file calling the calling file (like sts_column_left.php)
+    if ($boxname2=='') $boxprefix = "catalog_";
+
+	  if (file_exists(STS_TEMPLATE_DIR."boxes/$boxprefix".$boxname."_header.php.html")) {
+			$template=sts_read_template_file (STS_TEMPLATE_DIR."boxes/$boxprefix".$boxname."_header.php.html");
+		} elseif (isset($sts->infobox['default_header'])) { // Corrected in v4.5.2, was checking content cache
+		  $template = $sts->infobox['default_header']; // Default box already in memory, get it from there
+		}	elseif (file_exists(STS_TEMPLATE_DIR."boxes/infobox_header.php.html"))  { // v4.5.2: header template optional
+			$template=sts_read_template_file (STS_TEMPLATE_DIR."boxes/infobox_header.php.html");
+			$sts->infobox['default_header'] = $template;
+		} else $sts->infobox['default_header'] = ''; // v4.5.2: If no header template, cache an empty string
+		$sts->infobox_header_template = $template;
+		$sts->infobox_headertext = $headertext;
+		$sts->infobox_right_arrow = $right_arrow;
+	}
+
+	function infoBoxTemplate($content) {
+	// STS 4.3: read content, display header & content.
+	// STS 4.4: reset headertext and right_arrow variables in case next box has no header.
+	  global $sts;
+		$btrace=debug_backtrace();
+		$boxname=basename($btrace[1]['file'],".php"); // backtrace 1 is the calling file
+		$boxprefix = "infobox_"; // Added in v4.3SP2.
+		
+		// Added in v4.4: allows to use catalog_filename.html as template for boxes created directly in a catalog script.
+		$boxname2 = basename($btrace[2]['file'],".php"); // backtrace 2 is the file calling the calling file (like sts_column_left.php)
+    if ($boxname2=='') $boxprefix = "catalog_";
+		
+	  if (file_exists(STS_TEMPLATE_DIR."boxes/$boxprefix$boxname.php.html")) {
+			$template=sts_read_template_file (STS_TEMPLATE_DIR."boxes/$boxprefix$boxname.php.html");
+		} elseif (isset($sts->infobox['default_content'])) {
+		  $template = $sts->infobox['default_content']; // Default box already in memory, get it from there
+		} else { // Otherwise read it from file and save it
+		  $template = sts_read_template_file (STS_TEMPLATE_DIR."boxes/infobox.php.html");
+			$sts->infobox['default_content'] = $template;
+			
+		}
+		
+		$template = $sts->infobox_header_template."\n".$template;	// Add header before the content. Header can be empty.
+		$template = str_replace('$headertext', $sts->infobox_headertext, $template);
+		$template = str_replace('$right_arrow', $sts->infobox_right_arrow, $template);
+		$template = str_replace('$content', $content, $template);
+		
+		echo $template;
+		$sts->infobox_header_template = '';
+		$sts->infobox_headertext = '';
+		$sts->infobox_right_arrow = '';
+	}
+  } // END tableBox class
 
   class infoBox extends tableBox {
     function infoBox($contents) {
-      $info_box_contents = array();
-      $info_box_contents[] = array('text' => $this->infoBoxContents($contents));
-      $this->table_cellpadding = '1';
-      $this->table_parameters = 'class="infoBox"';
-      $this->tableBox($info_box_contents, true);
-    }
+
+    $info_box_contents = array();
+    $info_box_contents[] = array('text' => $this->infoBoxContents($contents));
+    $this->table_cellpadding = '1';
+    $this->table_parameters = 'class="infoBox"';
+
+	  
+	  // START  STS
+	  global $sts;
+	  if ($sts->infobox_enabled == true) {
+		  $this->infoboxtemplate($this->infoBoxContents($contents));
+	  } else {
+		  $this->tableBox($info_box_contents, true);
+	  }
+	  // END STS
+
+  }
 
     function infoBoxContents($contents) {
       $this->table_cellpadding = '3';
@@ -120,6 +188,16 @@
         $right_corner = $right_arrow . tep_draw_separator('pixel_trans.gif', '11', '14');
       }
 
+	  
+	  // START  STS
+	  global $sts;
+	  if ($sts->infobox_enabled == true) {
+      $info_box_contents = array();
+      $info_box_contents[] = array(array('params' => 'width="100%" class="infoBoxHeading"',
+                                         'text' => $contents[0]['text']));
+
+	    $this->infoBoxHeaderTemplate($this->tablebox($info_box_contents),$right_arrow);
+	  } else {
       $info_box_contents = array();
       $info_box_contents[] = array(array('params' => 'height="14" class="infoBoxHeading"',
                                          'text' => $left_corner),
@@ -127,55 +205,86 @@
                                          'text' => $contents[0]['text']),
                                    array('params' => 'height="14" class="infoBoxHeading" nowrap',
                                          'text' => $right_corner));
-
-      $this->tableBox($info_box_contents, true);
+  	  $this->tableBox($info_box_contents, true);
+	  }
+	  // END  STS
     }
   }
 
   class contentBox extends tableBox {
     function contentBox($contents) {
-      $info_box_contents = array();
-      $info_box_contents[] = array('text' => $this->contentBoxContents($contents));
-      $this->table_cellpadding = '1';
-      $this->table_parameters = 'class="infoBox"';
-      $this->tableBox($info_box_contents, true);
+
+	    global $sts;
+	    if ($sts->infobox_enabled == true) {
+		    $this->infoBoxTemplate($this->tableBox($contents));
+	    } else {
+        $info_box_contents = array();
+        $info_box_contents[] = array('text' => $this->contentBoxContents($contents));
+        $this->table_cellpadding = '1';
+        $this->table_parameters = 'class="infoBox"';
+        $this->tableBox($info_box_contents, true);
+	    }
     }
 
     function contentBoxContents($contents) {
       $this->table_cellpadding = '4';
       $this->table_parameters = 'class="infoBoxContents"';
+	  
       return $this->tableBox($contents);
     }
   }
 
   class contentBoxHeading extends tableBox {
     function contentBoxHeading($contents) {
-      $this->table_width = '100%';
-      $this->table_cellpadding = '0';
 
-      $info_box_contents = array();
-      $info_box_contents[] = array(array('params' => 'height="14" class="infoBoxHeading"',
-                                         'text' => tep_image(DIR_WS_IMAGES . 'infobox/corner_left.gif')),
-                                   array('params' => 'height="14" class="infoBoxHeading" width="100%"',
-                                         'text' => $contents[0]['text']),
-                                   array('params' => 'height="14" class="infoBoxHeading"',
-                                         'text' => tep_image(DIR_WS_IMAGES . 'infobox/corner_right_left.gif')));
+  	  // START  STS
+	    global $sts;
+	    if ($sts->infobox_enabled == true) {
+        $info_box_contents = array();
+        $info_box_contents[] = array(array('params' => 'class="infoBoxHeading" width="100%"',
+                                           'text' => $contents[0]['text']));
+	  
+	      $this->infoBoxHeaderTemplate($this->tablebox($info_box_contents),$right_arrow);
+	    } else {
+        $this->table_width = '100%';
+        $this->table_cellpadding = '0';
 
-      $this->tableBox($info_box_contents, true);
+        $info_box_contents = array();
+        $info_box_contents[] = array(array('params' => 'height="14" class="infoBoxHeading"',
+                                           'text' => tep_image(DIR_WS_IMAGES . 'infobox/corner_left.gif')),
+                                     array('params' => 'height="14" class="infoBoxHeading" width="100%"',
+                                           'text' => $contents[0]['text']),
+                                     array('params' => 'height="14" class="infoBoxHeading"',
+                                           'text' => tep_image(DIR_WS_IMAGES . 'infobox/corner_right_left.gif')));
+        $this->tableBox($info_box_contents, true);
+	    }
+  	  // END STS
+
     }
   }
 
   class errorBox extends tableBox {
     function errorBox($contents) {
       $this->table_data_parameters = 'class="errorBox"';
-      $this->tableBox($contents, true);
+	  
+	  	$this->infoBoxTemplate($this->infoBoxContents($contents));
     }
   }
 
   class productListingBox extends tableBox {
     function productListingBox($contents) {
-      $this->table_parameters = 'class="productListing"';
-      $this->tableBox($contents, true);
+		  // START  STS 4.4: optionally use template infobox_product_listing.php.html around product listing table.
+			// If template does not exist, do not use default infobox template but use standard osC.
+	    global $sts;
+	    if ($sts->infobox_enabled == true && file_exists(STS_TEMPLATE_DIR."boxes/infobox_product_listing.php.html")) {
+		    //$this->infoBoxHeaderTemplate("","");
+		    $this->infoBoxTemplate($this->tablebox($contents));
+	    } else {
+        $this->table_parameters = 'class="productListing"';
+        $this->tableBox($contents, true);
+			}
+		  // STOP STS
     }
+
   }
 ?>

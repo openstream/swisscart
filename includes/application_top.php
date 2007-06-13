@@ -506,6 +506,11 @@
     }
   }
 
+// STS
+  require (DIR_WS_CLASSES.'sts.php');
+  $sts= new sts();
+  $sts->start_capture();
+
 // initialize the message stack for output messages
   require(DIR_WS_CLASSES . 'message_stack.php');
   $messageStack = new messageStack;

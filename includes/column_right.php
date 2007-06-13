@@ -13,6 +13,11 @@
   Released under the GNU General Public License
 */
 
+// STS
+  if ($sts->display_template_output) {
+	$sts->restart_capture ('content');
+	} else {
+
   require(DIR_WS_BOXES . 'shopping_cart.php');
 
   if (isset($HTTP_GET_VARS['products_id'])) include(DIR_WS_BOXES . 'manufacturer_info.php');
@@ -47,4 +52,7 @@
     include(DIR_WS_BOXES . 'languages.php');
     include(DIR_WS_BOXES . 'currencies.php');
   }
+
+// STS
+}
 ?>

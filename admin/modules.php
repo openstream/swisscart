@@ -19,6 +19,14 @@
 
   if (tep_not_null($set)) {
     switch ($set) {
+	  // START STS 4.1
+	  case 'sts':
+        $module_type = 'sts';
+        $module_directory = DIR_FS_CATALOG_MODULES . 'sts/';
+        $module_key = 'MODULE_STS_INSTALLED';
+        define('HEADING_TITLE', HEADING_TITLE_MODULES_STS);	    
+	    break;
+	  // END STS 4.1	
       case 'shipping':
         $module_type = 'shipping';
         $module_directory = DIR_FS_CATALOG_MODULES . 'shipping/';
@@ -128,7 +136,7 @@
   for ($i=0, $n=sizeof($directory_array); $i<$n; $i++) {
     $file = $directory_array[$i];
 
-    include(DIR_FS_CATALOG_LANGUAGES . $language . '/modules/' . $module_type . '/' . $file);
+    @include(DIR_FS_CATALOG_LANGUAGES . $language . '/modules/' . $module_type . '/' . $file);
     include($module_directory . $file);
 
     $class = substr($file, 0, strrpos($file, '.'));

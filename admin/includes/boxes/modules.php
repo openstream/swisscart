@@ -5,7 +5,10 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2002 osCommerce
+  Customized by swisscart®, Swiss Webshop Solutions
+  http://www.swisscart.com
+
+  Copyright (c) 2003-2007 osCommerce
 
   Released under the GNU General Public License
 */
@@ -23,6 +26,9 @@
   if ($selected_box == 'modules') {
     $contents[] = array('text'  => '<a href="' . tep_href_link(FILENAME_MODULES, 'set=payment', 'NONSSL') . '" class="menuBoxContentLink">' . BOX_MODULES_PAYMENT . '</a><br>' .
                                    '<a href="' . tep_href_link(FILENAME_MODULES, 'set=shipping', 'NONSSL') . '" class="menuBoxContentLink">' . BOX_MODULES_SHIPPING . '</a><br>' .
+								   // START STS 4.1
+								   '<a href="' . tep_href_link(FILENAME_MODULES, 'set=sts', 'NONSSL') . '" class="menuBoxContentLink">' . BOX_MODULES_STS . '</a><br>' .
+								   // END STS 4.1
                                    '<a href="' . tep_href_link(FILENAME_MODULES, 'set=ordertotal', 'NONSSL') . '" class="menuBoxContentLink">' . BOX_MODULES_ORDER_TOTAL . '</a>');
   }
 

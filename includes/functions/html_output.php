@@ -93,6 +93,10 @@ if (SEO_ENABLED == 'true') {
 ////
 // The HTML image wrapper function
   function tep_image($src, $alt = '', $width = '', $height = '', $parameters = '') {
+	// START STS v4.4:
+	global $sts; 
+	$sts->image($src); // Take image from template folder if exists.
+	// END STS v4.4  
     if ( (empty($src) || ($src == DIR_WS_IMAGES)) && (IMAGE_REQUIRED == 'false') ) {
       return false;
     }
@@ -139,6 +143,14 @@ if (SEO_ENABLED == 'true') {
   function tep_image_submit($image, $alt = '', $parameters = '') {
     global $language;
 
+	// START STS v4.4:
+	global $sts;
+	$src = $sts->image_button($image,$language);
+	if ($src!='')
+		$image_submit = '<input type="image" src="' . tep_output_string($src) . '" border="0" alt="' . tep_output_string($alt) . '"';
+	else 
+	// END STS v4.4
+
     $image_submit = '<input type="image" src="' . tep_output_string(DIR_WS_LANGUAGES . $language . '/images/buttons/' . $image) . '" border="0" alt="' . tep_output_string($alt) . '"';
 
     if (tep_not_null($alt)) $image_submit .= ' title=" ' . tep_output_string($alt) . ' "';
@@ -154,6 +166,14 @@ if (SEO_ENABLED == 'true') {
 // Output a function button in the selected language
   function tep_image_button($image, $alt = '', $parameters = '') {
     global $language;
+
+	// START STS v4.4:
+	global $sts;
+	$src = $sts->image_button($image, $language, true); // 3rd parameter to tell tep_image that file check has been already done
+	if ($src!='') { // Take image from template folder if exists.
+	  return tep_image ($src);
+	}
+	// END STS v4.4
 
     return tep_image(DIR_WS_LANGUAGES . $language . '/images/buttons/' . $image, $alt, '', '', $parameters);
   }

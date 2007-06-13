@@ -298,4 +298,6 @@ define('ERROR_FILETYPE_NOT_ALLOWED', 'Errore: Tipo di file upload non consentito
 define('SUCCESS_FILE_SAVED_SUCCESSFULLY', 'Successo: File upload saved successfully.');
 define('WARNING_NO_FILE_UPLOADED', 'Warning: Nessuno file uplodato.');
 define('WARNING_FILE_UPLOADS_DISABLED', 'Warning: Il meccanismo di file uploads è disabilitato nel file di configurazione php.ini.');
+
+define('BOX_MODULES_STS', 'STS');
 ?>

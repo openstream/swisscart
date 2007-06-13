@@ -23,4 +23,6 @@ define('TABLE_HEADING_SORT_ORDER', 'Ordre de tri');
 define('TABLE_HEADING_ACTION', 'Action');
 
 define('TEXT_MODULE_DIRECTORY', 'R&eacute;pertoire du module&nbsp;:');
+
+define('HEADING_TITLE_MODULES_STS', 'STS Modules');
 ?>

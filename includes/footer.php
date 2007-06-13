@@ -13,6 +13,13 @@
   Released under the GNU General Public License
 */
 
+// STS
+  if ($sts->display_template_output) {
+  // Get content here, in case column_right is not called.
+	if (!isset($sts->template['content']))
+	$sts->restart_capture ('content');
+	} else {
+
   require(DIR_WS_INCLUDES . 'counter.php');
 ?>
 <table border="0" width="100%" cellspacing="0" cellpadding="1">
@@ -38,4 +45,6 @@
 </table>
 <?php
   }
+// STS
+}
 ?>

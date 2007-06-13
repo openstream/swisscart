@@ -19,4 +19,6 @@ define('TABLE_HEADING_SORT_ORDER', 'Ordine');
 define('TABLE_HEADING_ACTION', 'Azione');
 
 define('TEXT_MODULE_DIRECTORY', 'Directory Moduli:');
+
+define('HEADING_TITLE_MODULES_STS', 'STS Modules');
 ?>

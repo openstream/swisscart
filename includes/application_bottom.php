@@ -13,6 +13,12 @@
   Released under the GNU General Public License
 */
 
+// STS
+  if ($sts->display_template_output) {
+	$sts->stop_capture();
+	include DIR_WS_MODULES.'sts_inc/sts_display_output.php';
+  }
+
 // close session (store variables)
   tep_session_close();
 
