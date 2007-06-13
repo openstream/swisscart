@@ -94,4 +94,8 @@ define('ERROR_CANNOT_LINK_TO_SAME_CATEGORY', 'Erreur&nbsp;: Impossible de lier d
 define('ERROR_CATALOG_IMAGE_DIRECTORY_NOT_WRITEABLE', 'Erreur&nbsp;: Le r&eacute;pertoire d\'images du catalogue n\'est pas accessible en &eacute;criture&nbsp;: ' . DIR_FS_CATALOG_IMAGES);
 define('ERROR_CATALOG_IMAGE_DIRECTORY_DOES_NOT_EXIST', 'Erreur&nbsp;: Le r&eacute;pertoire d\'images du catalogue n\'existe pas&nbsp;: ' . DIR_FS_CATALOG_IMAGES);
 define('ERROR_CANNOT_MOVE_CATEGORY_TO_PARENT', 'Erreur&nbsp;: Une cat&eacute;gorie ne peut pas &ecirc;tre d&eacute;placer dans une sous-cat&eacute;gorie.');
+
+define('TEXT_PRODUCTS_SEO_URL', 'Products SEO URL:');
+define('TEXT_EDIT_CATEGORIES_SEO_URL', 'Category SEO URL:');
+define('TEXT_CATEGORIES_SEO_URL', 'Category SEO URL:');
 ?>

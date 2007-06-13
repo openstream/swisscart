@@ -287,6 +287,15 @@
 // include the language translations
   require(DIR_WS_LANGUAGES . $language . '.php');
 
+// Ultimate SEO URLs v2.1
+    if (SEO_ENABLED == 'true' or (SEO_ENABLED != 'true' and SEO_ENABLED != 'false')) {
+    include_once(DIR_WS_CLASSES . 'seo.class.php');
+    if ( !is_object($seo_urls) )
+    {
+      $seo_urls = new SEO_URL($languages_id);
+    }
+  }
+
 // currency
   if (!tep_session_is_registered('currency') || isset($HTTP_GET_VARS['currency']) || ( (USE_DEFAULT_LANGUAGE_CURRENCY == 'true') && (LANGUAGE_CURRENCY != $currency) ) ) {
     if (!tep_session_is_registered('currency')) tep_session_register('currency');

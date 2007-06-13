@@ -94,4 +94,8 @@ define('ERROR_CANNOT_LINK_TO_SAME_CATEGORY', 'Fehler: Produkte k&ouml;nnen nicht
 define('ERROR_CATALOG_IMAGE_DIRECTORY_NOT_WRITEABLE', 'Fehler: Das Verzeichnis \'images\' im Katalogverzeichnis ist schreibgesch&uuml;tzt: ' . DIR_FS_CATALOG_IMAGES);
 define('ERROR_CATALOG_IMAGE_DIRECTORY_DOES_NOT_EXIST', 'Fehler: Das Verzeichnis \'images\' im Katalogverzeichnis ist nicht vorhanden: ' . DIR_FS_CATALOG_IMAGES);
 define('ERROR_CANNOT_MOVE_CATEGORY_TO_PARENT', 'Error: Category cannot be moved into child category.');
+
+define('TEXT_PRODUCTS_SEO_URL', 'Produkt SEO URL:<br><small>(optional)</small>');
+define('TEXT_EDIT_CATEGORIES_SEO_URL', 'Kategorie SEO URL (optional):');
+define('TEXT_CATEGORIES_SEO_URL', 'Kategorie SEO URL (optional):');
 ?>

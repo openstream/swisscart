@@ -94,4 +94,8 @@ define('ERROR_CANNOT_LINK_TO_SAME_CATEGORY', 'Errore: Non puoi linkare i prodott
 define('ERROR_CATALOG_IMAGE_DIRECTORY_NOT_WRITEABLE', 'Errore: La Directory del Catalogo delle Immagini non è scrivibile: ' . DIR_FS_CATALOG_IMAGES);
 define('ERROR_CATALOG_IMAGE_DIRECTORY_DOES_NOT_EXIST', 'Errore: La Directory del Catalogo delle Immagini non esiste: ' . DIR_FS_CATALOG_IMAGES);
 define('ERROR_CANNOT_MOVE_CATEGORY_TO_PARENT', 'Errore: Questa categoria non può essere mossa in usa sotto-categoria.');
+
+define('TEXT_PRODUCTS_SEO_URL', 'Products SEO URL:');
+define('TEXT_EDIT_CATEGORIES_SEO_URL', 'Category SEO URL:');
+define('TEXT_CATEGORIES_SEO_URL', 'Category SEO URL:');
 ?>
