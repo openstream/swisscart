@@ -1,4 +1,4 @@
-<?
+<?php
 define('USE_SEO_REDIRECT_DEBUG', 'false');
 /**
  * Ultimate SEO URLs Contribution - osCommerce MS-2.2
@@ -112,7 +112,7 @@ class SEO_DataBase{
  * @return array 
  */	
 	function FetchArray($resource_id, $type = MYSQL_BOTH){
-		return mysql_fetch_array($resource_id, $type);
+		return @mysql_fetch_array($resource_id, $type);
 	} # end function
 	
 /**
