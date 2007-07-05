@@ -12,6 +12,7 @@
 
   require(DIR_WS_BOXES . 'configuration.php');
   require(DIR_WS_BOXES . 'catalog.php');
+  require(DIR_WS_BOXES . 'information.php');
   require(DIR_WS_BOXES . 'modules.php');
   require(DIR_WS_BOXES . 'customers.php');
   require(DIR_WS_BOXES . 'taxes.php');

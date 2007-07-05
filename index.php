@@ -33,6 +33,10 @@
     }
   }
 
+  // Information Pages Unlimited
+  require_once(DIR_WS_FUNCTIONS . 'information.php');
+  tep_information_customer_greeting_define(); // Should be called before the Default Language is defined
+  
   require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_DEFAULT);
 ?>
 <!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -301,7 +305,7 @@
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
           <tr>
-            <td class="main"><?php echo tep_customer_greeting(); ?></td>
+            <td class="main"><?php echo tep_information_customer_greeting(); ?></td>
           </tr>
           <tr>
             <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>

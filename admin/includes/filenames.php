@@ -28,6 +28,7 @@
   define('FILENAME_DEFINE_LANGUAGE', 'define_language.php');
   define('FILENAME_FILE_MANAGER', 'file_manager.php');
   define('FILENAME_GEO_ZONES', 'geo_zones.php');
+  define('FILENAME_INFORMATION_MANAGER', 'information_manager.php');  
   define('FILENAME_LANGUAGES', 'languages.php');
   define('FILENAME_MAIL', 'mail.php');
   define('FILENAME_MANUFACTURERS', 'manufacturers.php');

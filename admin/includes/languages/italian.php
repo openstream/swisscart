@@ -76,6 +76,8 @@ define('BOX_CATALOG_REVIEWS', 'Recensioni');
 define('BOX_CATALOG_SPECIALS', 'Offerte');
 define('BOX_CATALOG_PRODUCTS_EXPECTED', 'Prodotti in arrivo');
 
+define('BOX_HEADING_INFORMATION', 'Info Manager');
+
 // customers box text in includes/boxes/customers.php
 define('BOX_HEADING_CUSTOMERS', 'Clienti');
 define('BOX_CUSTOMERS_CUSTOMERS', 'Clienti');

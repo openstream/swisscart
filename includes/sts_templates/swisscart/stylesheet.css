@@ -15,10 +15,10 @@
 body, td, th, p, select, textarea {
   font-family: Verdana, Arial, sans-serif;
   font-size: 11px;
+  color: #575757;  
 }
 body {
   background: #fff url(images/bg-body.gif);
-  color: #000000;
   margin: 0px;
   text-align: center;
 }
@@ -31,13 +31,13 @@ body {
 }
 
 a {
-  color: #000000;
+  color: #575757;
   text-decoration: none;
 }
 
 a:hover {
-  color: #AABBDD;
-  text-decoration: underline;
+  color: #000;
+  text-decoration: none;
 }
 
 form {
@@ -54,16 +54,13 @@ tr.headerNavigation {
 }
 
 td.headerNavigation {
-  color: #000;
   padding-left: 10px;
 }
 
 .headerNavigation a { 
-  color: #000; 
 }
 
 .headerNavigation a:hover {
-  color: #424242;
 }
 
 TR.headerError {

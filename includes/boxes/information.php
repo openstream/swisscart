@@ -5,10 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Customized by swisscart®, Swiss Webshop Solutions
-  http://www.swisscart.com
-
-  Copyright (c) 2003-2007 osCommerce
+  Copyright (c) 2003 osCommerce
 
   Released under the GNU General Public License
 */
@@ -17,16 +14,21 @@
           <tr>
             <td>
 <?php
+  // Add-on - Information Pages Unlimited
+  require_once(DIR_WS_FUNCTIONS . 'information.php');
+
   $info_box_contents = array();
   $info_box_contents[] = array('text' => BOX_HEADING_INFORMATION);
 
   new infoBoxHeading($info_box_contents, false, false);
 
   $info_box_contents = array();
-  $info_box_contents[] = array('text' => '<a href="' . tep_href_link(FILENAME_SHIPPING) . '">' . BOX_INFORMATION_SHIPPING . '</a><br>' .
-                                         '<a href="' . tep_href_link(FILENAME_PRIVACY) . '">' . BOX_INFORMATION_PRIVACY . '</a><br>' .
-                                         '<a href="' . tep_href_link(FILENAME_CONDITIONS) . '">' . BOX_INFORMATION_CONDITIONS . '</a><br>' .
-                                         '<a href="' . tep_href_link(FILENAME_CONTACT_US) . '">' . BOX_INFORMATION_CONTACT . '</a>');
+  $info_box_contents[] = array('text' => tep_information_show_category() .
+//                                         '<a href="' . tep_href_link(FILENAME_SHIPPING) . '">' . BOX_INFORMATION_SHIPPING . '</a><br>' .
+//                                         '<a href="' . tep_href_link(FILENAME_PRIVACY) . '">' . BOX_INFORMATION_PRIVACY . '</a><br>' .
+//                                         '<a href="' . tep_href_link(FILENAME_CONDITIONS) . '">' . BOX_INFORMATION_CONDITIONS . '</a><br>' .
+                                         '<a href="' . tep_href_link(FILENAME_CONTACT_US) . '">' . BOX_INFORMATION_CONTACT . '</a>'
+  );
 
   new infoBox($info_box_contents);
 ?>

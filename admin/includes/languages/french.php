@@ -131,6 +131,8 @@ define('BOX_HEADING_CUSTOMERS', 'Clients');
 define('BOX_CUSTOMERS_CUSTOMERS', 'Clients');
 define('BOX_CUSTOMERS_ORDERS', 'Commandes');
 
+define('BOX_HEADING_INFORMATION', 'Info Manager');
+
 // taxes box text in includes/boxes/taxes.php
 define('BOX_HEADING_LOCATION_AND_TAXES', 'Lieux/Taxes');
 define('BOX_TAXES_COUNTRIES', 'Pays');
