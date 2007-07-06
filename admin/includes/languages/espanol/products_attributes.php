@@ -5,10 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Customized by swisscart®, Swiss Webshop Solutions
-  http://www.swisscart.com
-
-  Copyright (c) 2003-2007 osCommerce
+  Copyright (c) 2003 osCommerce
 
   Released under the GNU General Public License
 */
@@ -20,6 +17,9 @@ define('HEADING_TITLE_ATRIB', 'Atributos');
 define('TABLE_HEADING_ID', 'ID');
 define('TABLE_HEADING_PRODUCT', 'Nombre del Producto');
 define('TABLE_HEADING_OPT_NAME', 'Nombre de la Opci&oacute;n');
+define('TABLE_HEADING_OPT_TYPE', 'Tipo de la Opcion'); //CLR 031203 add option type column
+define('TABLE_HEADING_OPT_LENGTH', 'Length'); //CLR 031203 add option length column
+define('TABLE_HEADING_OPT_COMMENT', 'Comment'); //CLR 031203 add option comment column
 define('TABLE_HEADING_OPT_VALUE', 'Valor de la Opci&oacute;n');
 define('TABLE_HEADING_OPT_PRICE', 'Precio');
 define('TABLE_HEADING_OPT_PRICE_PREFIX', 'Prefijo');

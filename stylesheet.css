@@ -291,3 +291,16 @@ SPAN.errorText {
 /* input requirement */
 
 .inputRequirement { font-family: Verdana, Arial, sans-serif; font-size: 10px; color: #ff0000; }
+
+/* OTF contrib begins */
+/* DDB - 041031 - Form Field Progress Bar */
+.progress{
+  width: 1px;
+  height: 14px;
+  color: white;
+  font-size: 12px;
+  overflow: hidden;
+  background-color: navy;
+  padding-left: 5px;}
+}
+/* OTF contrib ends */

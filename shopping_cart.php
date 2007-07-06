@@ -4,7 +4,7 @@
 
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
-
+  
   Customized by swisscart®, Swiss Webshop Solutions
   http://www.swisscart.com
 
@@ -81,21 +81,32 @@
 // Push all attributes information in an array
       if (isset($products[$i]['attributes']) && is_array($products[$i]['attributes'])) {
         while (list($option, $value) = each($products[$i]['attributes'])) {
-          echo tep_draw_hidden_field('id[' . $products[$i]['id'] . '][' . $option . ']', $value);
+          //clr 030714 move hidden field to if statement below
+          //echo tep_draw_hidden_field('id[' . $products[$i]['id'] . '][' . $option . ']', $value);
           $attributes = tep_db_query("select popt.products_options_name, poval.products_options_values_name, pa.options_values_price, pa.price_prefix
                                       from " . TABLE_PRODUCTS_OPTIONS . " popt, " . TABLE_PRODUCTS_OPTIONS_VALUES . " poval, " . TABLE_PRODUCTS_ATTRIBUTES . " pa
-                                      where pa.products_id = '" . (int)$products[$i]['id'] . "'
-                                       and pa.options_id = '" . (int)$option . "'
+                                      where pa.products_id = '" . $products[$i]['id'] . "'
+                                       and pa.options_id = '" . $option . "'
                                        and pa.options_id = popt.products_options_id
-                                       and pa.options_values_id = '" . (int)$value . "'
+                                       and pa.options_values_id = '" . $value . "'
                                        and pa.options_values_id = poval.products_options_values_id
-                                       and popt.language_id = '" . (int)$languages_id . "'
-                                       and poval.language_id = '" . (int)$languages_id . "'");
+                                       and popt.language_id = '" . $languages_id . "'
+                                       and poval.language_id = '" . $languages_id . "'");
           $attributes_values = tep_db_fetch_array($attributes);
+
+          //clr 030714 determine if attribute is a text attribute and assign to $attr_value temporarily
+          if ($value == PRODUCTS_OPTIONS_VALUE_TEXT_ID) {
+            echo tep_draw_hidden_field('id[' . $products[$i]['id'] . '][' . TEXT_PREFIX . $option . ']',  $products[$i]['attributes_values'][$option]);
+            $attr_value = $products[$i]['attributes_values'][$option];
+          } else {
+            echo tep_draw_hidden_field('id[' . $products[$i]['id'] . '][' . $option . ']', $value);
+            $attr_value = $attributes_values['products_options_values_name'];
+          }
 
           $products[$i][$option]['products_options_name'] = $attributes_values['products_options_name'];
           $products[$i][$option]['options_values_id'] = $value;
-          $products[$i][$option]['products_options_values_name'] = $attributes_values['products_options_values_name'];
+          //clr 030714 assign $attr_value
+          $products[$i][$option]['products_options_values_name'] = $attr_value ;
           $products[$i][$option]['options_values_price'] = $attributes_values['options_values_price'];
           $products[$i][$option]['price_prefix'] = $attributes_values['price_prefix'];
         }

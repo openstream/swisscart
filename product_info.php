@@ -27,11 +27,37 @@
 <title><?php echo TITLE; ?></title>
 <base href="<?php echo (($request_type == 'SSL') ? HTTPS_SERVER : HTTP_SERVER) . DIR_WS_CATALOG; ?>">
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
-<script language="javascript"><!--
+<script language="javascript">
 function popupWindow(url) {
   window.open(url,'popupWindow','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=yes,copyhistory=no,width=100,height=100,screenX=150,screenY=150,top=150,left=150')
 }
-//--></script>
+/* DDB - 041031 - Form Field Progress Bar */
+/***********************************************
+* Form Field Progress Bar- By Ron Jonk- http://www.euronet.nl/~jonkr/
+* Modified by Dynamic Drive for minor changes
+* Script featured/ available at Dynamic Drive- http://www.dynamicdrive.com
+* Please keep this notice intact
+***********************************************/
+function textCounter(field,counter,maxlimit,linecounter) {
+	// text width//
+	var fieldWidth =  parseInt(field.offsetWidth);
+	var charcnt = field.value.length;        
+	// trim the extra text
+	if (charcnt > maxlimit) { 
+		field.value = field.value.substring(0, maxlimit);
+	} else { 
+	// progress bar percentage
+	var percentage = parseInt(100 - (( maxlimit - charcnt) * 100)/maxlimit) ;
+	document.getElementById(counter).style.width =  parseInt((fieldWidth*percentage)/100)+"px";
+	document.getElementById(counter).innerHTML="Limit: "+percentage+"%"
+	// color correction on style from CCFFF -> CC0000
+	setcolor(document.getElementById(counter),percentage,"background-color");
+	}
+}
+function setcolor(obj,percentage,prop){
+	obj.style[prop] = "rgb(80%,"+(100-percentage)+"%,"+(100-percentage)+"%)";
+}
+</script> 
 </head>
 <body marginwidth="0" marginheight="0" topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0">
 <!-- header //-->
@@ -131,33 +157,122 @@ document.write('<?php echo '<a href="javascript:popupWindow(\\\'' . tep_href_lin
               <td class="main" colspan="2"><?php echo TEXT_PRODUCT_OPTIONS; ?></td>
             </tr>
 <?php
-      $products_options_name_query = tep_db_query("select distinct popt.products_options_id, popt.products_options_name from " . TABLE_PRODUCTS_OPTIONS . " popt, " . TABLE_PRODUCTS_ATTRIBUTES . " patrib where patrib.products_id='" . (int)$HTTP_GET_VARS['products_id'] . "' and patrib.options_id = popt.products_options_id and popt.language_id = '" . (int)$languages_id . "' order by popt.products_options_name");
+			//clr 030714 update query to pull option_type
+      $products_options_name_query = tep_db_query("select distinct popt.products_options_id, popt.products_options_name, popt.products_options_type, popt.products_options_length, popt.products_options_comment from " . TABLE_PRODUCTS_OPTIONS . " popt, " . TABLE_PRODUCTS_ATTRIBUTES . " patrib where patrib.products_id='" . (int)$HTTP_GET_VARS['products_id'] . "' and patrib.options_id = popt.products_options_id and popt.language_id = '" . (int)$languages_id . "' order by popt.products_options_name");
       while ($products_options_name = tep_db_fetch_array($products_options_name_query)) {
-        $products_options_array = array();
-        $products_options_query = tep_db_query("select pov.products_options_values_id, pov.products_options_values_name, pa.options_values_price, pa.price_prefix from " . TABLE_PRODUCTS_ATTRIBUTES . " pa, " . TABLE_PRODUCTS_OPTIONS_VALUES . " pov where pa.products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and pa.options_id = '" . (int)$products_options_name['products_options_id'] . "' and pa.options_values_id = pov.products_options_values_id and pov.language_id = '" . (int)$languages_id . "'");
-        while ($products_options = tep_db_fetch_array($products_options_query)) {
-          $products_options_array[] = array('id' => $products_options['products_options_values_id'], 'text' => $products_options['products_options_values_name']);
-          if ($products_options['options_values_price'] != '0') {
-            $products_options_array[sizeof($products_options_array)-1]['text'] .= ' (' . $products_options['price_prefix'] . $currencies->display_price($products_options['options_values_price'], tep_get_tax_rate($product_info['products_tax_class_id'])) .') ';
-          }
-        }
-
-        if (isset($cart->contents[$HTTP_GET_VARS['products_id']]['attributes'][$products_options_name['products_options_id']])) {
-          $selected_attribute = $cart->contents[$HTTP_GET_VARS['products_id']]['attributes'][$products_options_name['products_options_id']];
-        } else {
-          $selected_attribute = false;
-        }
+				//clr 030714 add case statement to check option type
+        switch ($products_options_name['products_options_type']) {
+          case PRODUCTS_OPTIONS_TYPE_TEXT:
+            //CLR 030714 Add logic for text option
+            $products_attribs_query = tep_db_query("select distinct patrib.options_values_price, patrib.price_prefix from " . TABLE_PRODUCTS_ATTRIBUTES . " patrib where patrib.products_id='" . (int)$HTTP_GET_VARS['products_id'] . "' and patrib.options_id = '" . $products_options_name['products_options_id'] . "'");
+            $products_attribs_array = tep_db_fetch_array($products_attribs_query);
+            $tmp_html = '<input type="text" name ="id[' . TEXT_PREFIX . $products_options_name['products_options_id'] . ']" size="' . $products_options_name['products_options_length'] .'" maxlength="' . $products_options_name['products_options_length'] . '" value="' . $cart->contents[$HTTP_GET_VARS['products_id']]['attributes_values'][$products_options_name['products_options_id']] .'">  ' . $products_options_name['products_options_comment'] ;
+            if ($products_attribs_array['options_values_price'] != '0') {
+              $tmp_html .= '(' . $products_attribs_array['price_prefix'] . $currencies->display_price($products_attribs_array['options_values_price'], tep_get_tax_rate($product_info['products_tax_class_id'])) .')';
+            }
 ?>
             <tr>
               <td class="main"><?php echo $products_options_name['products_options_name'] . ':'; ?></td>
-              <td class="main"><?php echo tep_draw_pull_down_menu('id[' . $products_options_name['products_options_id'] . ']', $products_options_array, $selected_attribute); ?></td>
+              <td class="main"><?php echo $tmp_html;  ?></td>
             </tr>
 <?php
-      }
+            break;
+			
+          case PRODUCTS_OPTIONS_TYPE_TEXTAREA:
+            //CLR 030714 Add logic for text option
+            $products_attribs_query = tep_db_query("select distinct patrib.options_values_price, patrib.price_prefix from " . TABLE_PRODUCTS_ATTRIBUTES . " patrib where patrib.products_id='" . (int)$HTTP_GET_VARS['products_id'] . "' and patrib.options_id = '" . $products_options_name['products_options_id'] . "'");
+            $products_attribs_array = tep_db_fetch_array($products_attribs_query);
+		$tmp_html = '<textarea onKeyDown="textCounter(this,\'progressbar' . $products_options_name['products_options_id'] . '\',' . $products_options_name['products_options_length'] . ')" 
+								   onKeyUp="textCounter(this,\'progressbar' . $products_options_name['products_options_id'] . '\',' . $products_options_name['products_options_length'] . ')" 
+								   onFocus="textCounter(this,\'progressbar' . $products_options_name['products_options_id'] . '\',' . $products_options_name['products_options_length'] . ')" 
+								   wrap="soft" 
+								   name="id[' . TEXT_PREFIX . $products_options_name['products_options_id'] . ']" 
+								   rows=5 
+								   id="id[' . TEXT_PREFIX . $products_options_name['products_options_id'] . ']" 
+								   value="' . $cart->contents[$HTTP_GET_VARS['products_id']]['attributes_values'][$products_options_name['products_options_id']] . '"></textarea>
+						<div id="progressbar' . $products_options_name['products_options_id'] . '" class="progress"></div>
+						<script>textCounter(document.getElementById("id[' . TEXT_PREFIX . $products_options_name['products_options_id'] . ']"),"progressbar' . $products_options_name['products_options_id'] . '",' . $products_options_name['products_options_length'] . ')</script>';?>	<!-- DDB - 041031 - Form Field Progress Bar //-->
+            <tr>
+<?php
+            if ($products_attribs_array['options_values_price'] != '0') {
+?>
+              <td class="main"><?php echo $products_options_name['products_options_name'] . '<br>(' . $products_options_name['products_options_comment'] . ' ' . $products_attribs_array['price_prefix'] . $currencies->display_price($products_attribs_array['options_values_price'], tep_get_tax_rate($product_info['products_tax_class_id'])) . ')'; ?></td>
+<?php       } else {
+?>
+              <td class="main"><?php echo $products_options_name['products_options_name'] . '<br>(' . $products_options_name['products_options_comment'] . ')'; ?></td>
+<?php        }
+?>
+              <td class="main"><?php echo $tmp_html;  ?></td>
+            </tr>
+<?php
+            break;
+			
+          case PRODUCTS_OPTIONS_TYPE_RADIO:
+            //CLR 030714 Add logic for radio buttons
+            $tmp_html = '<table>';
+            $products_options_query = tep_db_query("select pov.products_options_values_id, pov.products_options_values_name, pa.options_values_price, pa.price_prefix from " . TABLE_PRODUCTS_ATTRIBUTES . " pa, " . TABLE_PRODUCTS_OPTIONS_VALUES . " pov where pa.products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and pa.options_id = '" . $products_options_name['products_options_id'] . "' and pa.options_values_id = pov.products_options_values_id and pov.language_id = '" . $languages_id . "'");
+            $checked = true;
+            while ($products_options_array = tep_db_fetch_array($products_options_query)) {
+              $tmp_html .= '<tr><td class="main">';
+              $tmp_html .= tep_draw_radio_field('id[' . $products_options_name['products_options_id'] . ']', $products_options_array['products_options_values_id'], $checked);
+              $checked = false;
+              $tmp_html .= $products_options_array['products_options_values_name'] ;
+              $tmp_html .=$products_options_name['products_options_comment'] ;
+              if ($products_options_array['options_values_price'] != '0') {
+                $tmp_html .= '(' . $products_options_array['price_prefix'] . $currencies->display_price($products_options_array['options_values_price'], tep_get_tax_rate($product_info['products_tax_class_id'])) .')&nbsp';
+              }
+              $tmp_html .= '</tr></td>';
+            }
+            $tmp_html .= '</table>';
+?>
+            <tr>
+              <td class="main"><?php echo $products_options_name['products_options_name'] . ':'; ?></td>
+              <td class="main"><?php echo $tmp_html;  ?></td>
+            </tr>
+<?php
+            break;
+          case PRODUCTS_OPTIONS_TYPE_CHECKBOX:
+            //CLR 030714 Add logic for checkboxes
+            $products_attribs_query = tep_db_query("select distinct patrib.options_values_id, patrib.options_values_price, patrib.price_prefix from " . TABLE_PRODUCTS_ATTRIBUTES . " patrib where patrib.products_id='" . (int)$HTTP_GET_VARS['products_id'] . "' and patrib.options_id = '" . $products_options_name['products_options_id'] . "'");
+            $products_attribs_array = tep_db_fetch_array($products_attribs_query);
+            echo '<tr><td class="main">' . $products_options_name['products_options_name'] . ': </td><td class="main">';
+            echo tep_draw_checkbox_field('id[' . $products_options_name['products_options_id'] . ']', $products_attribs_array['options_values_id']);
+            echo $products_options_name['products_options_comment'] ;
+            if ($products_attribs_array['options_values_price'] != '0') {
+              echo '(' . $products_attribs_array['price_prefix'] . $currencies->display_price($products_attribs_array['options_values_price'], tep_get_tax_rate($product_info['products_tax_class_id'])) .')&nbsp';
+            }
+            echo '</td></tr>';
+            break;
+          default:
+            //clr 030714 default is select list
+            //clr 030714 reset selected_attribute variable
+            $selected_attribute = false;
+        		$products_options_array = array();
+        		$products_options_query = tep_db_query("select pov.products_options_values_id, pov.products_options_values_name, pa.options_values_price, pa.price_prefix from " . TABLE_PRODUCTS_ATTRIBUTES . " pa, " . TABLE_PRODUCTS_OPTIONS_VALUES . " pov where pa.products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and pa.options_id = '" . (int)$products_options_name['products_options_id'] . "' and pa.options_values_id = pov.products_options_values_id and pov.language_id = '" . (int)$languages_id . "'");
+        		while ($products_options = tep_db_fetch_array($products_options_query)) {
+          		$products_options_array[] = array('id' => $products_options['products_options_values_id'], 'text' => $products_options['products_options_values_name']);
+          		if ($products_options['options_values_price'] != '0') {
+            		$products_options_array[sizeof($products_options_array)-1]['text'] .= ' (' . $products_options['price_prefix'] . $currencies->display_price($products_options['options_values_price'], tep_get_tax_rate($product_info['products_tax_class_id'])) .') ';
+          		}
+        		}
+
+        		if (isset($cart->contents[$HTTP_GET_VARS['products_id']]['attributes'][$products_options_name['products_options_id']])) {
+          		$selected_attribute = $cart->contents[$HTTP_GET_VARS['products_id']]['attributes'][$products_options_name['products_options_id']];
+        		} else {
+          		$selected_attribute = false;
+        		}
+?>
+            <tr>
+              <td class="main"><?php echo $products_options_name['products_options_name'] . ':'; ?></td>
+              <td class="main"><?php echo tep_draw_pull_down_menu('id[' . $products_options_name['products_options_id'] . ']', $products_options_array, $selected_attribute) . $products_options_name['products_options_comment'];  ?></td>
+            </tr>
+<?php
+        }  //clr 030714 end switch
+      } //clr 030714 end while
 ?>
           </table>
 <?php
-    }
+    } //clr 030714 end if
 ?>
         </td>
       </tr>

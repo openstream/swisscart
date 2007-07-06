@@ -17,6 +17,9 @@ define('HEADING_TITLE_ATRIB', 'Products Attributes');
 define('TABLE_HEADING_ID', 'ID');
 define('TABLE_HEADING_PRODUCT', 'Product Name');
 define('TABLE_HEADING_OPT_NAME', 'Option Name');
+define('TABLE_HEADING_OPT_TYPE', 'Option Type'); //CLR 031203 add option type column
+define('TABLE_HEADING_OPT_LENGTH', 'Length'); //CLR 031203 add option length column
+define('TABLE_HEADING_OPT_COMMENT', 'Comment'); //CLR 031203 add option comment column
 define('TABLE_HEADING_OPT_VALUE', 'Option Value');
 define('TABLE_HEADING_OPT_PRICE', 'Value Price');
 define('TABLE_HEADING_OPT_PRICE_PREFIX', 'Prefix');

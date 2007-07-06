@@ -36,7 +36,9 @@
             if (isset($this->contents[$products_id]['attributes'])) {
               reset($this->contents[$products_id]['attributes']);
               while (list($option, $value) = each($this->contents[$products_id]['attributes'])) {
-                tep_db_query("insert into " . TABLE_CUSTOMERS_BASKET_ATTRIBUTES . " (customers_id, products_id, products_options_id, products_options_value_id) values ('" . (int)$customer_id . "', '" . tep_db_input($products_id) . "', '" . (int)$option . "', '" . (int)$value . "')");
+                //clr 031714 udate query to include attribute value. This is needed for text attributes.
+                $attr_value = $this->contents[$products_id]['attributes_values'][$option];
+                tep_db_query("insert into " . TABLE_CUSTOMERS_BASKET_ATTRIBUTES . " (customers_id, products_id, products_options_id, products_options_value_id, products_options_value_text) values ('" . (int)$customer_id . "', '" . tep_db_input($products_id) . "', '" . (int)$option . "', '" . (int)$value . "', '" . tep_db_input($attr_value) . "')");
               }
             }
           } else {
@@ -52,9 +54,14 @@
       while ($products = tep_db_fetch_array($products_query)) {
         $this->contents[$products['products_id']] = array('qty' => $products['customers_basket_quantity']);
 // attributes
-        $attributes_query = tep_db_query("select products_options_id, products_options_value_id from " . TABLE_CUSTOMERS_BASKET_ATTRIBUTES . " where customers_id = '" . (int)$customer_id . "' and products_id = '" . tep_db_input($products['products_id']) . "'");
+        //CLR 020606 update query to pull attribute value_text. This is needed for text attributes.
+        $attributes_query = tep_db_query("select products_options_id, products_options_value_id, products_options_value_text from " . TABLE_CUSTOMERS_BASKET_ATTRIBUTES . " where customers_id = '" . (int)$customer_id . "' and products_id = '" . tep_db_input($products['products_id']) . "'");
         while ($attributes = tep_db_fetch_array($attributes_query)) {
           $this->contents[$products['products_id']]['attributes'][$attributes['products_options_id']] = $attributes['products_options_value_id'];
+          //CLR 020606 if text attribute, then set additional information
+          if ($attributes['products_options_value_id'] == PRODUCTS_OPTIONS_VALUE_TEXT_ID) {
+            $this->contents[$products['products_id']]['attributes_values'][$attributes['products_options_id']] = $attributes['products_options_value_text'];
+          }
         }
       }
 
@@ -81,85 +88,93 @@
     function add_cart($products_id, $qty = '1', $attributes = '', $notify = true) {
       global $new_products_id_in_cart, $customer_id;
 
-      $products_id_string = tep_get_uprid($products_id, $attributes);
-      $products_id = tep_get_prid($products_id_string);
-
-      $attributes_pass_check = true;
-
-      if (is_array($attributes)) {
-        reset($attributes);
-        while (list($option, $value) = each($attributes)) {
-          if (!is_numeric($option) || !is_numeric($value)) {
-            $attributes_pass_check = false;
-            break;
-          }
-        }
+      $products_id = tep_get_uprid($products_id, $attributes);
+      if ($notify == true) {
+        $new_products_id_in_cart = $products_id;
+        tep_session_register('new_products_id_in_cart');
       }
 
-      if (is_numeric($products_id) && is_numeric($qty) && ($attributes_pass_check == true)) {
-        $check_product_query = tep_db_query("select products_status from " . TABLE_PRODUCTS . " where products_id = '" . (int)$products_id . "'");
-        $check_product = tep_db_fetch_array($check_product_query);
-
-        if (($check_product !== false) && ($check_product['products_status'] == '1')) {
-          if ($notify == true) {
-            $new_products_id_in_cart = $products_id;
-            tep_session_register('new_products_id_in_cart');
-          }
-
-          if ($this->in_cart($products_id_string)) {
-            $this->update_quantity($products_id_string, $qty, $attributes);
-          } else {
-            $this->contents[$products_id_string] = array('qty' => $qty);
+      if ($this->in_cart($products_id)) {
+        $this->update_quantity($products_id, $qty, $attributes);
+      } else {
+        $this->contents[] = array($products_id);
+        $this->contents[$products_id] = array('qty' => $qty);
 // insert into database
-            if (tep_session_is_registered('customer_id')) tep_db_query("insert into " . TABLE_CUSTOMERS_BASKET . " (customers_id, products_id, customers_basket_quantity, customers_basket_date_added) values ('" . (int)$customer_id . "', '" . tep_db_input($products_id_string) . "', '" . (int)$qty . "', '" . date('Ymd') . "')");
+        if (tep_session_is_registered('customer_id')) tep_db_query("insert into " . TABLE_CUSTOMERS_BASKET . " (customers_id, products_id, customers_basket_quantity, customers_basket_date_added) values ('" . (int)$customer_id . "', '" . tep_db_input($products_id) . "', '" . $qty . "', '" . date('Ymd') . "')");
 
-            if (is_array($attributes)) {
-              reset($attributes);
-              while (list($option, $value) = each($attributes)) {
-                $this->contents[$products_id_string]['attributes'][$option] = $value;
-// insert into database
-                if (tep_session_is_registered('customer_id')) tep_db_query("insert into " . TABLE_CUSTOMERS_BASKET_ATTRIBUTES . " (customers_id, products_id, products_options_id, products_options_value_id) values ('" . (int)$customer_id . "', '" . tep_db_input($products_id_string) . "', '" . (int)$option . "', '" . (int)$value . "')");
+        if (is_array($attributes)) {
+          reset($attributes);
+          while (list($option, $value) = each($attributes)) {
+            //CLR 020606 check if input was from text box.  If so, store additional attribute information
+            //CLR 020708 check if text input is blank, if so do not add to attribute lists
+            //CLR 030228 add htmlspecialchars processing.  This handles quotes and other special chars in the user input.
+            $attr_value = NULL;
+            $blank_value = FALSE;
+            if (strstr($option, TEXT_PREFIX)) {
+              if (trim($value) == NULL)
+              {
+                $blank_value = TRUE;
+              } else {
+                $option = substr($option, strlen(TEXT_PREFIX));
+                $attr_value = htmlspecialchars(stripslashes($value), ENT_QUOTES);
+                $value = PRODUCTS_OPTIONS_VALUE_TEXT_ID;
+                $this->contents[$products_id]['attributes_values'][$option] = $attr_value;
               }
             }
+
+            if (!$blank_value)
+            {
+              $this->contents[$products_id]['attributes'][$option] = $value;
+// insert into database
+            //CLR 020606 update db insert to include attribute value_text. This is needed for text attributes.
+            //CLR 030228 add tep_db_input() processing
+              if (tep_session_is_registered('customer_id')) tep_db_query("insert into " . TABLE_CUSTOMERS_BASKET_ATTRIBUTES . " (customers_id, products_id, products_options_id, products_options_value_id, products_options_value_text) values ('" . (int)$customer_id . "', '" . tep_db_input($products_id) . "', '" . (int)$option . "', '" . (int)$value . "', '" . tep_db_input($attr_value) . "')");
+            }
           }
-
-          $this->cleanup();
-
-// assign a temporary unique ID to the order contents to prevent hack attempts during the checkout procedure
-          $this->cartID = $this->generate_cart_id();
         }
       }
+      $this->cleanup();
+
+// assign a temporary unique ID to the order contents to prevent hack attempts during the checkout procedure
+      $this->cartID = $this->generate_cart_id();
     }
 
     function update_quantity($products_id, $quantity = '', $attributes = '') {
       global $customer_id;
 
-      $products_id_string = tep_get_uprid($products_id, $attributes);
-      $products_id = tep_get_prid($products_id_string);
+      if (empty($quantity)) return true; // nothing needs to be updated if theres no quantity, so we return true..
 
-      $attributes_pass_check = true;
+      $this->contents[$products_id] = array('qty' => $quantity);
+// update database
+      if (tep_session_is_registered('customer_id')) tep_db_query("update " . TABLE_CUSTOMERS_BASKET . " set customers_basket_quantity = '" . $quantity . "' where customers_id = '" . (int)$customer_id . "' and products_id = '" . tep_db_input($products_id) . "'");
 
       if (is_array($attributes)) {
         reset($attributes);
         while (list($option, $value) = each($attributes)) {
-          if (!is_numeric($option) || !is_numeric($value)) {
-            $attributes_pass_check = false;
-            break;
+          //CLR 020606 check if input was from text box.  If so, store additional attribute information
+          //CLR 030108 check if text input is blank, if so do not update attribute lists
+          //CLR 030228 add htmlspecialchars processing.  This handles quotes and other special chars in the user input.
+          $attr_value = NULL;
+          $blank_value = FALSE;
+          if (strstr($option, TEXT_PREFIX)) {
+            if (trim($value) == NULL)
+            {
+              $blank_value = TRUE;
+            } else {
+              $option = substr($option, strlen(TEXT_PREFIX));
+              $attr_value = htmlspecialchars(stripslashes($value), ENT_QUOTES);
+              $value = PRODUCTS_OPTIONS_VALUE_TEXT_ID;
+              $this->contents[$products_id]['attributes_values'][$option] = $attr_value;
+            }
           }
-        }
-      }
 
-      if (is_numeric($products_id) && isset($this->contents[$products_id_string]) && is_numeric($quantity) && ($attributes_pass_check == true)) {
-        $this->contents[$products_id_string] = array('qty' => $quantity);
+          if (!$blank_value)
+          {
+            $this->contents[$products_id]['attributes'][$option] = $value;
 // update database
-        if (tep_session_is_registered('customer_id')) tep_db_query("update " . TABLE_CUSTOMERS_BASKET . " set customers_basket_quantity = '" . (int)$quantity . "' where customers_id = '" . (int)$customer_id . "' and products_id = '" . tep_db_input($products_id_string) . "'");
-
-        if (is_array($attributes)) {
-          reset($attributes);
-          while (list($option, $value) = each($attributes)) {
-            $this->contents[$products_id_string]['attributes'][$option] = $value;
-// update database
-            if (tep_session_is_registered('customer_id')) tep_db_query("update " . TABLE_CUSTOMERS_BASKET_ATTRIBUTES . " set products_options_value_id = '" . (int)$value . "' where customers_id = '" . (int)$customer_id . "' and products_id = '" . tep_db_input($products_id_string) . "' and products_options_id = '" . (int)$option . "'");
+            //CLR 020606 update db insert to include attribute value_text. This is needed for text attributes.
+            //CLR 030228 add tep_db_input() processing
+            if (tep_session_is_registered('customer_id')) tep_db_query("update " . TABLE_CUSTOMERS_BASKET_ATTRIBUTES . " set products_options_value_id = '" . (int)$value . "', products_options_value_text = '" . tep_db_input($attr_value) . "' where customers_id = '" . (int)$customer_id . "' and products_id = '" . tep_db_input($products_id) . "' and products_options_id = '" . (int)$option . "'");
           }
         }
       }
@@ -181,7 +196,7 @@
       }
     }
 
-    function count_contents() {  // get total number of items in cart 
+    function count_contents() {  // get total number of items in cart
       $total_items = 0;
       if (is_array($this->contents)) {
         reset($this->contents);
@@ -211,6 +226,9 @@
 
     function remove($products_id) {
       global $customer_id;
+
+      //CLR 030228 add call tep_get_uprid to correctly format product ids containing quotes
+      $products_id = tep_get_uprid($products_id, $attributes);
 
       unset($this->contents[$products_id]);
 // remove from database
@@ -320,6 +338,7 @@
             $products_price = $specials['specials_new_products_price'];
           }
 
+          //clr 030714 update $products_array to include attribute value_text. This is needed for text attributes.
           $products_array[] = array('id' => $products_id,
                                     'name' => $products['products_name'],
                                     'model' => $products['products_model'],
@@ -329,7 +348,9 @@
                                     'weight' => $products['products_weight'],
                                     'final_price' => ($products_price + $this->attributes_price($products_id)),
                                     'tax_class_id' => $products['products_tax_class_id'],
-                                    'attributes' => (isset($this->contents[$products_id]['attributes']) ? $this->contents[$products_id]['attributes'] : ''));
+                                    'attributes' => (isset($this->contents[$products_id]['attributes']) ? $this->contents[$products_id]['attributes'] : ''),
+                                    'attributes_values' => (isset($this->contents[$products_id]['attributes_values']) ? $this->contents[$products_id]['attributes_values'] : ''));
+
         }
       }
 

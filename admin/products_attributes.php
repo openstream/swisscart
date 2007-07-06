@@ -31,11 +31,14 @@
       case 'add_product_options':
         $products_options_id = tep_db_prepare_input($HTTP_POST_VARS['products_options_id']);
         $option_name_array = $HTTP_POST_VARS['option_name'];
+        $option_type = $HTTP_POST_VARS['option_type'];	//clr 030714 update to add option type to products_option
+		$option_length = $HTTP_POST_VARS['option_length'];	//clr 030714 update to add option length to products_option
 
         for ($i=0, $n=sizeof($languages); $i<$n; $i ++) {
           $option_name = tep_db_prepare_input($option_name_array[$languages[$i]['id']]);
+		  $option_comment = $HTTP_POST_VARS['option_comment'];	//clr 030714 update to add option comment to products_option
 
-          tep_db_query("insert into " . TABLE_PRODUCTS_OPTIONS . " (products_options_id, products_options_name, language_id) values ('" . (int)$products_options_id . "', '" . tep_db_input($option_name) . "', '" . (int)$languages[$i]['id'] . "')");
+          tep_db_query("insert into " . TABLE_PRODUCTS_OPTIONS . " (products_options_id, products_options_name, language_id, products_options_type, products_options_length, products_options_comment) values ('" . (int)$products_options_id . "', '" . tep_db_input($option_name) . "', '" . (int)$languages[$i]['id'] . "', '" . $option_type . "', '" . $option_length . "', '" . $option_comment[$languages[$i]['id']]  . "')");
         }
         tep_redirect(tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, $page_info));
         break;
@@ -79,12 +82,15 @@
         break;
       case 'update_option_name':
         $option_name_array = $HTTP_POST_VARS['option_name'];
+	    $option_type = $HTTP_POST_VARS['option_type'];	//clr 030714 update to add option type to products_option
+	    $option_length = $HTTP_POST_VARS['option_length'];	//clr 030714 update to add option length to products_option
         $option_id = tep_db_prepare_input($HTTP_POST_VARS['option_id']);
 
         for ($i=0, $n=sizeof($languages); $i<$n; $i ++) {
-          $option_name = tep_db_prepare_input($option_name_array[$languages[$i]['id']]);
+          $option_name = tep_db_prepare_input($option_name_array[$languages[$i]['id']]);	
+		  $option_comment = $HTTP_POST_VARS['option_comment'];	//clr 030714 update to add option comment to products_option
 
-          tep_db_query("update " . TABLE_PRODUCTS_OPTIONS . " set products_options_name = '" . tep_db_input($option_name) . "' where products_options_id = '" . (int)$option_id . "' and language_id = '" . (int)$languages[$i]['id'] . "'");
+          tep_db_query("update " . TABLE_PRODUCTS_OPTIONS . " set products_options_name = '" . tep_db_input($option_name) . "', products_options_type = '" . $option_type . "', products_options_length = '" . $option_length . "', products_options_comment = '" . $option_comment[$languages[$i]['id']] . "' where products_options_id = '" . (int)$option_id . "' and language_id = '" . (int)$languages[$i]['id'] . "'");
         }
 
         tep_redirect(tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, $page_info));
@@ -154,6 +160,30 @@
         break;
     }
   }
+
+//CLR 030312 add function to draw pulldown list of option types
+// Draw a pulldown for Option Types
+function draw_optiontype_pulldown($name, $default = '') {
+  $values = array();
+  $values[] = array('id' => 0, 'text' => 'Select');
+  $values[] = array('id' => 1, 'text' => 'Text');
+  $values[] = array('id' => 2, 'text' => 'Radio');
+  $values[] = array('id' => 3, 'text' => 'Checkbox');
+  $values[] = array('id' => 4, 'text' => 'Textarea');
+  return tep_draw_pull_down_menu($name, $values, $default);
+}
+
+//CLR 030312 add function to translate type_id to name
+// Translate option_type_values to english string
+function translate_type_to_name($opt_type) {
+  if ($opt_type == 0) return 'Select';
+  if ($opt_type == 1) return 'Text';
+  if ($opt_type == 2) return 'Radio';
+  if ($opt_type == 3) return 'Checkbox';
+  if ($opt_type == 4) return 'Textarea';
+  return 'Error ' . $opt_type;
+}
+
 ?>
 <!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html <?php echo HTML_PARAMS; ?>>
@@ -308,19 +338,23 @@ function go_option() {
     if ($option_page != $num_pages) {
       echo '<a href="' . tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, 'option_page=' . $next_option_page) . '"> &gt;&gt; </a>';
     }
+//CLR 030212 - Add column for option type
 ?>
                 </td>
               </tr>
               <tr>
-                <td colspan="3"><?php echo tep_black_line(); ?></td>
+                <td colspan="6"><?php echo tep_black_line(); ?></td>
               </tr>
               <tr class="dataTableHeadingRow">
                 <td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_ID; ?>&nbsp;</td>
                 <td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_OPT_NAME; ?>&nbsp;</td>
+				<td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_OPT_TYPE; ?>&nbsp;</td>	<!-- CLR 030212 - Add column for option type //-->
+    			<td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_OPT_LENGTH; ?>&nbsp;</td>	<!-- CLR 030212 - Add column for option length //-->
+                <td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_OPT_COMMENT; ?>&nbsp;</td>	<!-- CLR 030212 - Add column for option comment //-->
                 <td class="dataTableHeadingContent" align="center">&nbsp;<?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
               <tr>
-                <td colspan="3"><?php echo tep_black_line(); ?></td>
+                <td colspan="6"><?php echo tep_black_line(); ?></td>
               </tr>
 <?php
     $next_id = 1;
@@ -335,20 +369,27 @@ function go_option() {
         echo '<form name="option" action="' . tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, 'action=update_option_name', 'NONSSL') . '" method="post">';
         $inputs = '';
         for ($i = 0, $n = sizeof($languages); $i < $n; $i ++) {
-          $option_name = tep_db_query("select products_options_name from " . TABLE_PRODUCTS_OPTIONS . " where products_options_id = '" . $options_values['products_options_id'] . "' and language_id = '" . $languages[$i]['id'] . "'");
+          $option_name = tep_db_query("select products_options_name, products_options_length, products_options_comment from " . TABLE_PRODUCTS_OPTIONS . " where products_options_id = '" . $options_values['products_options_id'] . "' and language_id = '" . $languages[$i]['id'] . "'");
           $option_name = tep_db_fetch_array($option_name);
-          $inputs .= $languages[$i]['code'] . ':&nbsp;<input type="text" name="option_name[' . $languages[$i]['id'] . ']" size="20" value="' . $option_name['products_options_name'] . '">&nbsp;<br>';
+ 		  $inputs .= $languages[$i]['code'] . ':&nbsp;<input type="text" name="option_name[' . $languages[$i]['id'] . ']" size="32" value="' . $option_name['products_options_name'] . '">&nbsp; ' . TABLE_HEADING_OPT_COMMENT . ' <input type="text" name="option_comment[' . $languages[$i]['id'] . ']" size="32" value="' . $option_name['products_options_comment'] . '"><br>';
         }
+//CLR 030212 - Add column for option type
 ?>
                 <td align="center" class="smallText">&nbsp;<?php echo $options_values['products_options_id']; ?><input type="hidden" name="option_id" value="<?php echo $options_values['products_options_id']; ?>">&nbsp;</td>
-                <td class="smallText"><?php echo $inputs; ?></td>
+				<td class="smallText" colspan="3"><?php echo $inputs; ?></td>
+				<td class="smallText"><?php echo TABLE_HEADING_OPT_LENGTH . ' <input type="text" name="option_length" size="4" value="' . $option_name['products_options_length'] . '">'; ?></td>	<!-- CLR 030212 - Add column for option length //-->
+				<td class="smallText"><?php echo draw_optiontype_pulldown('option_type', $options_values['products_options_type']); ?></td>	<!-- CLR 030212 - Add column for option type //-->
                 <td align="center" class="smallText">&nbsp;<?php echo tep_image_submit('button_update.gif', IMAGE_UPDATE); ?>&nbsp;<?php echo '<a href="' . tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, '', 'NONSSL') . '">'; ?><?php echo tep_image_button('button_cancel.gif', IMAGE_CANCEL); ?></a>&nbsp;</td>
 <?php
         echo '</form>' . "\n";
       } else {
+//CLR 030212 - Add column for option type
 ?>
                 <td align="center" class="smallText">&nbsp;<?php echo $options_values["products_options_id"]; ?>&nbsp;</td>
                 <td class="smallText">&nbsp;<?php echo $options_values["products_options_name"]; ?>&nbsp;</td>
+                <td class="smallText">&nbsp;<?php echo translate_type_to_name($options_values["products_options_type"]); ?>&nbsp;</td> <!-- CLR 030212 - Add column for option type //-->
+				<td class="smallText">&nbsp;<?php echo $options_values["products_options_length"]; ?>&nbsp;</td>	<!-- CLR 030212 - Add column for option length //-->
+				<td class="smallText">&nbsp;<?php echo $options_values["products_options_comment"]; ?>&nbsp;</td>	<!-- CLR 030212 - Add column for option comment //-->
                 <td align="center" class="smallText">&nbsp;<?php echo '<a href="' . tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, 'action=update_option&option_id=' . $options_values['products_options_id'] . '&option_order_by=' . $option_order_by . '&option_page=' . $option_page, 'NONSSL') . '">'; ?><?php echo tep_image_button('button_edit.gif', IMAGE_UPDATE); ?></a>&nbsp;&nbsp;<?php echo '<a href="' . tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, 'action=delete_product_option&option_id=' . $options_values['products_options_id'], 'NONSSL') , '">'; ?><?php echo tep_image_button('button_delete.gif', IMAGE_DELETE); ?></a>&nbsp;</td>
 <?php
       }
@@ -361,7 +402,7 @@ function go_option() {
     }
 ?>
               <tr>
-                <td colspan="3"><?php echo tep_black_line(); ?></td>
+                <td colspan="6"><?php echo tep_black_line(); ?></td>
               </tr>
 <?php
     if ($action != 'update_option') {
@@ -371,18 +412,21 @@ function go_option() {
       echo '<form name="options" action="' . tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, 'action=add_product_options&option_page=' . $option_page, 'NONSSL') . '" method="post"><input type="hidden" name="products_options_id" value="' . $next_id . '">';
       $inputs = '';
       for ($i = 0, $n = sizeof($languages); $i < $n; $i ++) {
-        $inputs .= $languages[$i]['code'] . ':&nbsp;<input type="text" name="option_name[' . $languages[$i]['id'] . ']" size="20">&nbsp;<br>';
+		$inputs .= $languages[$i]['code'] . ':&nbsp;<input type="text" name="option_name[' . $languages[$i]['id'] . ']" size="32">' . TABLE_HEADING_OPT_COMMENT . ' <input type="text" name="option_comment[' . $languages[$i]['id'] . ']" size="32"><br>';
       }
+//CLR 030212 - Add column for option type
 ?>
                 <td align="center" class="smallText">&nbsp;<?php echo $next_id; ?>&nbsp;</td>
-                <td class="smallText"><?php echo $inputs; ?></td>
+                <td class="smallText" colspan="2"><?php echo $inputs; ?></td>
+		<td class="smallText"><?php echo TABLE_HEADING_OPT_LENGTH . ' <input type="text" name="option_length" size="4" value="' . $option_name['products_options_length'] . '">'; ?></td>	<!-- CLR 030212 - Add column for option length //-->
+		<td class="smallText"><?php echo draw_optiontype_pulldown('option_type'); ?></td>	<!-- CLR 030212 - Add column for option type //-->
                 <td align="center" class="smallText">&nbsp;<?php echo tep_image_submit('button_insert.gif', IMAGE_INSERT); ?>&nbsp;</td>
 <?php
       echo '</form>';
 ?>
               </tr>
               <tr>
-                <td colspan="3"><?php echo tep_black_line(); ?></td>
+                <td colspan="6"><?php echo tep_black_line(); ?></td>
               </tr>
 <?php
     }
@@ -545,11 +589,11 @@ function go_option() {
         $options = tep_db_query("select products_options_id, products_options_name from " . TABLE_PRODUCTS_OPTIONS . " where language_id = '" . (int)$languages_id . "' order by products_options_name");
         while ($options_values = tep_db_fetch_array($options)) {
           echo "\n" . '<option name="' . $options_values['products_options_name'] . '" value="' . $options_values['products_options_id'] . '"';
-          if ($values_values['products_options_id'] == $options_values['products_options_id']) { 
+          if ($values_values['products_options_id'] == $options_values['products_options_id']) {
             echo ' selected';
           }
           echo '>' . $options_values['products_options_name'] . '</option>';
-        } 
+        }
 ?>
                 </select>&nbsp;</td>
                 <td class="smallText"><?php echo $inputs; ?></td>
@@ -611,8 +655,8 @@ function go_option() {
           </tr>
         </table></td>
 <!-- option value eof //-->
-      </tr> 
-<!-- products_attributes //-->  
+      </tr>
+<!-- products_attributes //-->
       <tr>
         <td width="100%"><table border="0" width="100%" cellspacing="0" cellpadding="0">
           <tr>
@@ -715,7 +759,7 @@ function go_option() {
         } else {
           echo "\n" . '<option name="' . $products_values['products_name'] . '" value="' . $products_values['products_id'] . '">' . $products_values['products_name'] . '</option>';
         }
-      } 
+      }
 ?>
             </select>&nbsp;</td>
             <td class="smallText">&nbsp;<select name="options_id">
@@ -727,7 +771,7 @@ function go_option() {
         } else {
           echo "\n" . '<option name="' . $options_values['products_options_name'] . '" value="' . $options_values['products_options_id'] . '">' . $options_values['products_options_name'] . '</option>';
         }
-      } 
+      }
 ?>
             </select>&nbsp;</td>
             <td class="smallText">&nbsp;<select name="values_id">
@@ -739,16 +783,16 @@ function go_option() {
         } else {
           echo "\n" . '<option name="' . $values_values['products_options_values_name'] . '" value="' . $values_values['products_options_values_id'] . '">' . $values_values['products_options_values_name'] . '</option>';
         }
-      } 
-?>        
+      }
+?>
             </select>&nbsp;</td>
             <td align="right" class="smallText">&nbsp;<input type="text" name="value_price" value="<?php echo $attributes_values['options_values_price']; ?>" size="6">&nbsp;</td>
             <td align="center" class="smallText">&nbsp;<input type="text" name="price_prefix" value="<?php echo $attributes_values['price_prefix']; ?>" size="2">&nbsp;</td>
             <td align="center" class="smallText">&nbsp;<?php echo tep_image_submit('button_update.gif', IMAGE_UPDATE); ?>&nbsp;<?php echo '<a href="' . tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, '&attribute_page=' . $attribute_page, 'NONSSL') . '">'; ?><?php echo tep_image_button('button_cancel.gif', IMAGE_CANCEL); ?></a>&nbsp;</td>
 <?php
       if (DOWNLOAD_ENABLED == 'true') {
-        $download_query_raw ="select products_attributes_filename, products_attributes_maxdays, products_attributes_maxcount 
-                              from " . TABLE_PRODUCTS_ATTRIBUTES_DOWNLOAD . " 
+        $download_query_raw ="select products_attributes_filename, products_attributes_maxdays, products_attributes_maxcount
+                              from " . TABLE_PRODUCTS_ATTRIBUTES_DOWNLOAD . "
                               where products_attributes_id='" . $attributes_values['products_attributes_id'] . "'";
         $download_query = tep_db_query($download_query_raw);
         if (tep_db_num_rows($download_query) > 0) {
@@ -819,7 +863,7 @@ function go_option() {
     $products = tep_db_query("select p.products_id, pd.products_name from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where pd.products_id = p.products_id and pd.language_id = '" . $languages_id . "' order by pd.products_name");
     while ($products_values = tep_db_fetch_array($products)) {
       echo '<option name="' . $products_values['products_name'] . '" value="' . $products_values['products_id'] . '">' . $products_values['products_name'] . '</option>';
-    } 
+    }
 ?>
             </select>&nbsp;</td>
             <td class="smallText">&nbsp;<select name="options_id">
@@ -827,7 +871,7 @@ function go_option() {
     $options = tep_db_query("select * from " . TABLE_PRODUCTS_OPTIONS . " where language_id = '" . $languages_id . "' order by products_options_name");
     while ($options_values = tep_db_fetch_array($options)) {
       echo '<option name="' . $options_values['products_options_name'] . '" value="' . $options_values['products_options_id'] . '">' . $options_values['products_options_name'] . '</option>';
-    } 
+    }
 ?>
             </select>&nbsp;</td>
             <td class="smallText">&nbsp;<select name="values_id">
@@ -835,7 +879,7 @@ function go_option() {
     $values = tep_db_query("select * from " . TABLE_PRODUCTS_OPTIONS_VALUES . " where language_id = '" . $languages_id . "' order by products_options_values_name");
     while ($values_values = tep_db_fetch_array($values)) {
       echo '<option name="' . $values_values['products_options_values_name'] . '" value="' . $values_values['products_options_values_id'] . '">' . $values_values['products_options_values_name'] . '</option>';
-    } 
+    }
 ?>
             </select>&nbsp;</td>
             <td align="right" class="smallText">&nbsp;<input type="text" name="value_price" size="6">&nbsp;</td>

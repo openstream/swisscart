@@ -23,10 +23,6 @@
 ////
 // Redirect to another page or site
   function tep_redirect($url) {
-    if ( (strstr($url, "\n") != false) || (strstr($url, "\r") != false) ) { 
-      tep_redirect(tep_href_link(FILENAME_DEFAULT, '', 'NONSSL', false));
-    }
-
     if ( (ENABLE_SSL == true) && (getenv('HTTPS') == 'on') ) { // We are loading an SSL page
       if (substr($url, 0, strlen(HTTP_SERVER)) == HTTP_SERVER) { // NONSSL url
         $url = HTTPS_SERVER . substr($url, strlen(HTTP_SERVER)); // Change it to SSL
@@ -453,7 +449,7 @@
         $state = tep_get_zone_code($address['country_id'], $address['zone_id'], $state);
       }
     } elseif (isset($address['country']) && tep_not_null($address['country'])) {
-      $country = tep_output_string_protected($address['country']['title']);
+      $country = tep_output_string_protected($address['country']);
     } else {
       $country = '';
     }
@@ -483,6 +479,7 @@
     $statecomma = '';
     $streets = $street;
     if ($suburb != '') $streets = $street . $cr . $suburb;
+    if ($country == '') $country = tep_output_string_protected($address['country']);
     if ($state != '') $statecomma = $state . ', ';
 
     $fmt = $address_format['format'];
@@ -916,57 +913,21 @@
 ////
 // Return a product ID with attributes
   function tep_get_uprid($prid, $params) {
-    if (is_numeric($prid)) {
-      $uprid = $prid;
-
-      if (is_array($params) && (sizeof($params) > 0)) {
-        $attributes_check = true;
-        $attributes_ids = '';
-
-        reset($params);
-        while (list($option, $value) = each($params)) {
-          if (is_numeric($option) && is_numeric($value)) {
-            $attributes_ids .= '{' . (int)$option . '}' . (int)$value;
-          } else {
-            $attributes_check = false;
-            break;
-          }
-        }
-
-        if ($attributes_check == true) {
-          $uprid .= $attributes_ids;
-        }
+    $uprid = $prid;
+    if ( (is_array($params)) && (!strstr($prid, '{')) ) {
+      while (list($option, $value) = each($params)) {
+        //CLR 030714 Add processing around $value. This is needed for text attributes.
+        $uprid = $uprid . '{' . $option . '}' . htmlspecialchars(stripslashes(trim($value)), ENT_QUOTES);
       }
+    //CLR 030228 Add else stmt to process product ids passed in by other routines.
     } else {
-      $uprid = tep_get_prid($prid);
-
-      if (is_numeric($uprid)) {
-        if (strpos($prid, '{') !== false) {
-          $attributes_check = true;
-          $attributes_ids = '';
-
-// strpos()+1 to remove up to and including the first { which would create an empty array element in explode()
-          $attributes = explode('{', substr($prid, strpos($prid, '{')+1));
-
-          for ($i=0, $n=sizeof($attributes); $i<$n; $i++) {
-            $pair = explode('}', $attributes[$i]);
-
-            if (is_numeric($pair[0]) && is_numeric($pair[1])) {
-              $attributes_ids .= '{' . (int)$pair[0] . '}' . (int)$pair[1];
-            } else {
-              $attributes_check = false;
-              break;
-            }
-          }
-
-          if ($attributes_check == true) {
-            $uprid .= $attributes_ids;
-          }
-        }
-      } else {
-        return false;
-      }
+      $uprid = htmlspecialchars(stripslashes($uprid), ENT_QUOTES);
     }
+
+
+
+
+
 
     return $uprid;
   }
@@ -976,11 +937,7 @@
   function tep_get_prid($uprid) {
     $pieces = explode('{', $uprid);
 
-    if (is_numeric($pieces[0])) {
-      return $pieces[0];
-    } else {
-      return false;
-    }
+    return $pieces[0];
   }
 
 ////
@@ -1305,4 +1262,18 @@
       return str_replace($from, $to, $string);
     }
   }
+
+////
+//CLR 030228 Add function tep_decode_specialchars
+// Decode string encoded with htmlspecialchars()
+  function tep_decode_specialchars($string){
+    $string=str_replace('&gt;', '>', $string);
+    $string=str_replace('&lt;', '<', $string);
+    $string=str_replace('&#039;', "'", $string);
+    $string=str_replace('&quot;', "\"", $string);
+    $string=str_replace('&amp;', '&', $string);
+
+    return $string;
+  }
+
 ?>

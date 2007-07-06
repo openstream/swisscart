@@ -12,11 +12,6 @@
 
   Released under the GNU General Public License
 */
-// SEO debug
-  if ( $_REQUEST['profile'] == 'on' || $_SESSION['profile'] == 'on' ) {
-          $_SESSION['profile'] = isset($_REQUEST['profile']) ? $_REQUEST['profile'] : 'on';
-        $seo_urls->profile();
-  }
 
 // STS
   if ($sts->display_template_output) {
@@ -42,5 +37,11 @@
     if ( (PHP_VERSION < '4.0.4') && (PHP_VERSION >= '4') ) {
       tep_gzip_output(GZIP_LEVEL);
     }
+  }
+
+// SEO debug
+  if ( $_REQUEST['profile'] == 'on' || $_SESSION['profile'] == 'on' ) {
+          $_SESSION['profile'] = isset($_REQUEST['profile']) ? $_REQUEST['profile'] : 'on';
+        $seo_urls->profile();
   }
 ?>
