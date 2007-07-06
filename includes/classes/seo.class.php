@@ -1141,7 +1141,7 @@ class SEO_URL{
 				break;
 			default:
 				$this->performance['NUMBER_QUERIES']++;
-				$sql = "SELECT info_title as iName 
+				$sql = "SELECT information_title as iName 
 						FROM ".TABLE_INFORMATION." 
 						WHERE information_id='".(int)$iID."' 
 						AND languages_id='".(int)$this->languages_id."' 
