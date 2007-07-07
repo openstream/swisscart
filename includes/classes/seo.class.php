@@ -1650,9 +1650,9 @@ class SEO_URL{
 	function generate_information_cache(){
 		$this->is_cached($this->cache_file . 'information', $is_cached, $is_expired);  	
 		if ( !$is_cached || $is_expired ) { // it's not cached so create it
-			$sql = "SELECT information_id as id, info_title as name 
+			$sql = "SELECT information_id as id, information_title as name 
 					FROM ".TABLE_INFORMATION." 
-					WHERE languages_id='".(int)$this->languages_id."'";
+					WHERE language_id='".(int)$this->languages_id."'";
 			$information_query = $this->DB->Query( $sql );
 			$information_cache = '';
 			while ($information = $this->DB->FetchArray($information_query)) {
