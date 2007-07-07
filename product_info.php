@@ -134,12 +134,10 @@ function setcolor(obj,percentage,prop){
           <table border="0" cellspacing="0" cellpadding="2" align="right">
             <tr>
               <td align="center" class="smallText">
-<script language="javascript"><!--
-document.write('<?php echo '<a href="javascript:popupWindow(\\\'' . tep_href_link(FILENAME_POPUP_IMAGE, 'pID=' . $product_info['products_id']) . '\\\')">' . tep_image(DIR_WS_IMAGES . $product_info['products_image'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '<br>' . TEXT_CLICK_TO_ENLARGE . '</a>'; ?>');
-//--></script>
-<noscript>
-<?php echo '<a href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image']) . '" target="_blank">' . tep_image(DIR_WS_IMAGES . $product_info['products_image'], $product_info['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '<br>' . TEXT_CLICK_TO_ENLARGE . '</a>'; ?>
-</noscript>
+
+			<?php echo '<a rel="lightbox" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image']) . '" title="'. $product_info['products_name'] .' - '. $manufacturer['manufacturers_name'] .'">'. tep_image(DIR_WS_IMAGES . $product_info['products_image'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '<br>' . TEXT_CLICK_TO_ENLARGE .'</a>'; ?>
+
+
               </td>
             </tr>
           </table>

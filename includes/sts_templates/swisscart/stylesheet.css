@@ -29,7 +29,9 @@ body {
   text-align: left; 
   background-color: #fff;
 }
-
+h3 {
+  padding-top: 20px;
+}
 a {
   color: #575757;
   text-decoration: none;

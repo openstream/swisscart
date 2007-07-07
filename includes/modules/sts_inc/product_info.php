@@ -42,12 +42,13 @@ STS v4.3SP1 by Rigadin (rigadin@osc-help.net)
 if (tep_not_null($product_info['products_image'])) {
   $template_pinfo['imagesmall'] = tep_image(DIR_WS_IMAGES . $product_info['products_image'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"');
   $template_pinfo['imagelarge'] = tep_image(DIR_WS_IMAGES . $product_info['products_image'], addslashes($product_info['products_name']), '','','');
-  $template_pinfo['product_popup']= '<script language="javascript"><!--'."\n".
+  /*$template_pinfo['product_popup']= '<script language="javascript"><!--'."\n".
                                    'document.write(\'<a href="javascript:popupWindow(\\\'' . tep_href_link(FILENAME_POPUP_IMAGE, 'pID=' . (int)$products_id) . '\\\')">' . $template_pinfo['imagesmall'] . '<br>' . TEXT_CLICK_TO_ENLARGE . '</a>\');'."\n".
 								   '//--></script>'."\n".
 								   '<noscript>'."\n".
 								   '<a href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image']) . '" target="_blank">'.$template_pinfo['imagesmall'] . '<br>' . TEXT_CLICK_TO_ENLARGE .'</a>'."\n".
-								   '</noscript>'."\n";
+								   '</noscript>'."\n";*/
+  $template_pinfo['product_popup']= '<a rel="lightbox" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image']) . '" title="'. $product_info['products_name'] .' - '. $manufacturer['manufacturers_name'] .'">'.$template_pinfo['imagesmall'] . '<br>' . TEXT_CLICK_TO_ENLARGE .'</a>'."\n";								   
 } else {
   $template_pinfo['imagesmall'] ='';
   $template_pinfo['imagelarge'] ='';
