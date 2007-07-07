@@ -40,7 +40,7 @@ define('HTML_PARAMS','dir="ltr" lang="it"');
 define('CHARSET', 'iso-1040');
 
 // page title
-define('TITLE', 'osCommerce');
+define('TITLE', 'swisscart&reg; - swiss webshop solutions');
 
 // header text in includes/header.php
 define('HEADER_TITLE_TOP', 'Amministrazione');
