@@ -31,13 +31,10 @@
 function popupWindow(url) {
   window.open(url,'popupWindow','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=yes,copyhistory=no,width=100,height=100,screenX=150,screenY=150,top=150,left=150')
 }
-/* DDB - 041031 - Form Field Progress Bar */
-/***********************************************
-* Form Field Progress Bar- By Ron Jonk- http://www.euronet.nl/~jonkr/
-* Modified by Dynamic Drive for minor changes
-* Script featured/ available at Dynamic Drive- http://www.dynamicdrive.com
-* Please keep this notice intact
-***********************************************/
+
+/* DDB - 041031 - Form Field Progress Bar
+/* powered by Dynamic Drive, http://www.dynamicdrive.com */
+
 function textCounter(field,counter,maxlimit,linecounter) {
 	// text width//
 	var fieldWidth =  parseInt(field.offsetWidth);
