@@ -1144,7 +1144,7 @@ class SEO_URL{
 				$sql = "SELECT information_title as iName 
 						FROM ".TABLE_INFORMATION." 
 						WHERE information_id='".(int)$iID."' 
-						AND languages_id='".(int)$this->languages_id."' 
+						AND language_id='".(int)$this->languages_id."' 
 						LIMIT 1";
 				$result = $this->DB->FetchArray( $this->DB->Query( $sql ) );
 				$iName = $this->strip( $result['iName'] );
