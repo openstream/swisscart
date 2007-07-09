@@ -40,5 +40,5 @@
   define('DB_SERVER_PASSWORD', '');
   define('DB_DATABASE', 'swisscart_development');
   define('USE_PCONNECT', 'false'); // use persistent connections?
-  define('STORE_SESSIONS', ''); // leave empty '' for default handler or set to 'mysql'
+  define('STORE_SESSIONS', ''); // leave empty '' for default handler or set to 'mysql' 
 ?>

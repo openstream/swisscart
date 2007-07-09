@@ -232,6 +232,18 @@
           if (isset($HTTP_POST_VARS['products_image']) && tep_not_null($HTTP_POST_VARS['products_image']) && ($HTTP_POST_VARS['products_image'] != 'none')) {
             $sql_data_array['products_image'] = tep_db_prepare_input($HTTP_POST_VARS['products_image']);
           }
+		  
+          if (isset($HTTP_POST_VARS['products_image2']) && tep_not_null($HTTP_POST_VARS['products_image2']) && ($HTTP_POST_VARS['products_image2'] != 'none')) {
+            $sql_data_array['products_image2'] = tep_db_prepare_input($HTTP_POST_VARS['products_image2']);
+          }
+		  
+          if (isset($HTTP_POST_VARS['products_image3']) && tep_not_null($HTTP_POST_VARS['products_image3']) && ($HTTP_POST_VARS['products_image3'] != 'none')) {
+            $sql_data_array['products_image3'] = tep_db_prepare_input($HTTP_POST_VARS['products_image3']);
+          }
+		  
+          if (isset($HTTP_POST_VARS['products_image4']) && tep_not_null($HTTP_POST_VARS['products_image4']) && ($HTTP_POST_VARS['products_image4'] != 'none')) {
+            $sql_data_array['products_image4'] = tep_db_prepare_input($HTTP_POST_VARS['products_image4']);
+          }		  		  		  
 
           if ($action == 'insert_product') {
             $insert_sql_data = array('products_date_added' => 'now()');
@@ -295,10 +307,10 @@
               $messageStack->add_session(ERROR_CANNOT_LINK_TO_SAME_CATEGORY, 'error');
             }
           } elseif ($HTTP_POST_VARS['copy_as'] == 'duplicate') {
-            $product_query = tep_db_query("select products_quantity, products_model, products_image, products_price, products_date_available, products_weight, products_tax_class_id, manufacturers_id from " . TABLE_PRODUCTS . " where products_id = '" . (int)$products_id . "'");
+            $product_query = tep_db_query("select products_quantity, products_model, products_image, products_image2, products_image3, products_image4, products_price, products_date_available, products_weight, products_tax_class_id, manufacturers_id from " . TABLE_PRODUCTS . " where products_id = '" . (int)$products_id . "'");
             $product = tep_db_fetch_array($product_query);
 
-            tep_db_query("insert into " . TABLE_PRODUCTS . " (products_quantity, products_model,products_image, products_price, products_date_added, products_date_available, products_weight, products_status, products_tax_class_id, manufacturers_id) values ('" . tep_db_input($product['products_quantity']) . "', '" . tep_db_input($product['products_model']) . "', '" . tep_db_input($product['products_image']) . "', '" . tep_db_input($product['products_price']) . "',  now(), " . (empty($product['products_date_available']) ? "null" : "'" . tep_db_input($product['products_date_available']) . "'") . ", '" . tep_db_input($product['products_weight']) . "', '0', '" . (int)$product['products_tax_class_id'] . "', '" . (int)$product['manufacturers_id'] . "')");
+            tep_db_query("insert into " . TABLE_PRODUCTS . " (products_quantity, products_model,products_image, products_image2, products_image3, products_image4, products_price, products_date_added, products_date_available, products_weight, products_status, products_tax_class_id, manufacturers_id) values ('" . tep_db_input($product['products_quantity']) . "', '" . tep_db_input($product['products_model']) . "', '" . tep_db_input($product['products_image']) . "', '" . tep_db_input($product['products_image2']) . "', '" . tep_db_input($product['products_image3']) . "', '" . tep_db_input($product['products_image4']) . "', '" . tep_db_input($product['products_price']) . "',  now(), " . (empty($product['products_date_available']) ? "null" : "'" . tep_db_input($product['products_date_available']) . "'") . ", '" . tep_db_input($product['products_weight']) . "', '0', '" . (int)$product['products_tax_class_id'] . "', '" . (int)$product['manufacturers_id'] . "')");
             $dup_products_id = tep_db_insert_id();
 
             $description_query = tep_db_query("select language_id, products_name, products_seo_url, products_description, products_url from " . TABLE_PRODUCTS_DESCRIPTION . " where products_id = '" . (int)$products_id . "'");
@@ -327,6 +339,31 @@
         } else {
           $products_image_name = (isset($HTTP_POST_VARS['products_previous_image']) ? $HTTP_POST_VARS['products_previous_image'] : '');
         }
+
+        $products_image2 = new upload('products_image2');
+        $products_image2->set_destination(DIR_FS_CATALOG_IMAGES);
+        if ($products_image2->parse() && $products_image2->save()) {
+          $products_image2_name = $products_image2->filename;
+        } else {
+          $products_image2_name = (isset($HTTP_POST_VARS['products_previous_image2']) ? $HTTP_POST_VARS['products_previous_image2'] : '');
+        }
+
+        $products_image3 = new upload('products_image3');
+        $products_image3->set_destination(DIR_FS_CATALOG_IMAGES);
+        if ($products_image3->parse() && $products_image3->save()) {
+          $products_image3_name = $products_image3->filename;
+        } else {
+          $products_image3_name = (isset($HTTP_POST_VARS['products_previous_image3']) ? $HTTP_POST_VARS['products_previous_image3'] : '');
+        }
+
+        $products_image4 = new upload('products_image4');
+        $products_image4->set_destination(DIR_FS_CATALOG_IMAGES);
+        if ($products_image4->parse() && $products_image4->save()) {
+          $products_image4_name = $products_image4->filename;
+        } else {
+          $products_image4_name = (isset($HTTP_POST_VARS['products_previous_image4']) ? $HTTP_POST_VARS['products_previous_image4'] : '');
+        }
+		
         break;
     }
   }
@@ -346,7 +383,7 @@
 <link rel="stylesheet" type="text/css" href="includes/stylesheet.css">
 <script language="javascript" src="includes/general.js"></script>
 </head>
-<body marginwidth="0" marginheight="0" topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0" bgcolor="#FFFFFF" onload="SetFocus();">
+<body marginwidth="0" marginheight="0" topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0" bgcolor="#FFFFFF" onLoad="SetFocus();">
 <div id="spiffycalendar" class="text"></div>
 <!-- header //-->
 <?php require(DIR_WS_INCLUDES . 'header.php'); ?>
@@ -372,19 +409,22 @@
                        'products_quantity' => '',
                        'products_model' => '',
                        'products_image' => '',
+                       'products_image2' => '',
+                       'products_image3' => '',
+                       'products_image4' => '',					   					   					   
                        'products_price' => '',
                        'products_weight' => '',
                        'products_date_added' => '',
                        'products_last_modified' => '',
                        'products_date_available' => '',
                        'products_status' => '',
-                           'products_tax_class_id' => '',
+                       'products_tax_class_id' => '',
                        'manufacturers_id' => '');
 
     $pInfo = new objectInfo($parameters);
 
     if (isset($HTTP_GET_VARS['pID']) && empty($HTTP_POST_VARS)) {
-      $product_query = tep_db_query("select pd.products_name, pd.products_seo_url, pd.products_description, pd.products_url, p.products_id, p.products_quantity, p.products_model, p.products_image, p.products_price, p.products_weight, p.products_date_added, p.products_last_modified, date_format(p.products_date_available, '%Y-%m-%d') as products_date_available, p.products_status, p.products_tax_class_id, p.manufacturers_id from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = '" . (int)$HTTP_GET_VARS['pID'] . "' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
+      $product_query = tep_db_query("select pd.products_name, pd.products_seo_url, pd.products_description, pd.products_url, p.products_id, p.products_quantity, p.products_model, p.products_image, p.products_image2, p.products_image3, p.products_image4, p.products_price, p.products_weight, p.products_date_added, p.products_last_modified, date_format(p.products_date_available, '%Y-%m-%d') as products_date_available, p.products_status, p.products_tax_class_id, p.manufacturers_id from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = '" . (int)$HTTP_GET_VARS['pID'] . "' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
       $product = tep_db_fetch_array($product_query);
 
       $pInfo->objectInfo($product);
@@ -592,6 +632,27 @@ updateGross();
           <tr>
             <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
           </tr>
+          <tr>
+            <td class="main"><?php echo TEXT_PRODUCTS_IMAGE2; ?></td>
+            <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_file_field('products_image2') . '<br>' . tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . $pInfo->products_image . tep_draw_hidden_field('products_previous_image2', $pInfo->products_image2); ?></td>
+          </tr>
+          <tr>
+            <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+          </tr>
+          <tr>
+            <td class="main"><?php echo TEXT_PRODUCTS_IMAGE3; ?></td>
+            <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_file_field('products_image3') . '<br>' . tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . $pInfo->products_image . tep_draw_hidden_field('products_previous_image3', $pInfo->products_image3); ?></td>
+          </tr>
+          <tr>
+            <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+          </tr>
+          <tr>
+            <td class="main"><?php echo TEXT_PRODUCTS_IMAGE4; ?></td>
+            <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_file_field('products_image4') . '<br>' . tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . $pInfo->products_image . tep_draw_hidden_field('products_previous_image4', $pInfo->products_image4); ?></td>
+          </tr>
+          <tr>
+            <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+          </tr>                                        
 <?php
     for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
 ?>
@@ -627,11 +688,14 @@ updateGross();
       $products_url = $HTTP_POST_VARS['products_url'];
       $products_seo_url = $HTTP_POST_VARS['products_seo_url'];
     } else {
-      $product_query = tep_db_query("select p.products_id, pd.language_id, pd.products_name, pd.products_seo_url, pd.products_description, pd.products_url, p.products_quantity, p.products_model, p.products_image, p.products_price, p.products_weight, p.products_date_added, p.products_last_modified, p.products_date_available, p.products_status, p.manufacturers_id  from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = pd.products_id and p.products_id = '" . (int)$HTTP_GET_VARS['pID'] . "'");
+      $product_query = tep_db_query("select p.products_id, pd.language_id, pd.products_name, pd.products_seo_url, pd.products_description, pd.products_url, p.products_quantity, p.products_model, p.products_image, p.products_image2, p.products_image3, p.products_image4, p.products_price, p.products_weight, p.products_date_added, p.products_last_modified, p.products_date_available, p.products_status, p.manufacturers_id  from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = pd.products_id and p.products_id = '" . (int)$HTTP_GET_VARS['pID'] . "'");
       $product = tep_db_fetch_array($product_query);
 
       $pInfo = new objectInfo($product);
       $products_image_name = $pInfo->products_image;
+      $products_image2_name = $pInfo->products_image2;
+      $products_image3_name = $pInfo->products_image3;
+      $products_image4_name = $pInfo->products_image4;	  	  	  
     }
 
     $form_action = (isset($HTTP_GET_VARS['pID'])) ? 'update_product' : 'insert_product';
@@ -665,7 +729,7 @@ updateGross();
         <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
       </tr>
       <tr>
-        <td class="main"><?php echo tep_image(DIR_WS_CATALOG_IMAGES . $products_image_name, $pInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'align="right" hspace="5" vspace="5"') . $pInfo->products_description; ?></td>
+        <td class="main"><?php echo tep_image(DIR_WS_CATALOG_IMAGES . $products_image_name, $pInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'align="right" hspace="5" vspace="5"') . tep_image(DIR_WS_CATALOG_IMAGES . $products_image2_name, $pInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'align="right" hspace="5" vspace="5"') . tep_image(DIR_WS_CATALOG_IMAGES . $products_image3_name, $pInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'align="right" hspace="5" vspace="5"') . tep_image(DIR_WS_CATALOG_IMAGES . $products_image4_name, $pInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'align="right" hspace="5" vspace="5"') . $pInfo->products_description; ?></td>
       </tr>
 <?php
       if ($pInfo->products_url) {
@@ -742,6 +806,9 @@ updateGross();
         echo tep_draw_hidden_field('products_seo_url[' . $languages[$i]['id'] . ']', htmlspecialchars(stripslashes($products_seo_url[$languages[$i]['id']])));
       }
       echo tep_draw_hidden_field('products_image', stripslashes($products_image_name));
+      echo tep_draw_hidden_field('products_image2', stripslashes($products_image2_name));
+      echo tep_draw_hidden_field('products_image3', stripslashes($products_image3_name));
+      echo tep_draw_hidden_field('products_image4', stripslashes($products_image4_name));	  	  	  
 
       echo tep_image_submit('button_back.gif', IMAGE_BACK, 'name="edit"') . '&nbsp;&nbsp;';
 
@@ -836,9 +903,9 @@ updateGross();
 
     $products_count = 0;
     if (isset($HTTP_GET_VARS['search'])) {
-      $products_query = tep_db_query("select p.products_id, pd.products_name, pd.products_seo_url, p.products_quantity, p.products_image, p.products_price, p.products_date_added, p.products_last_modified, p.products_date_available, p.products_status, p2c.categories_id from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c where p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' and p.products_id = p2c.products_id and pd.products_name like '%" . tep_db_input($search) . "%' order by pd.products_name");
+      $products_query = tep_db_query("select p.products_id, pd.products_name, pd.products_seo_url, p.products_quantity, p.products_image, p.products_image2, p.products_image3, p.products_image4, p.products_price, p.products_date_added, p.products_last_modified, p.products_date_available, p.products_status, p2c.categories_id from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c where p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' and p.products_id = p2c.products_id and pd.products_name like '%" . tep_db_input($search) . "%' order by pd.products_name");
     } else {
-      $products_query = tep_db_query("select p.products_id, pd.products_name, pd.products_seo_url, p.products_quantity, p.products_image, p.products_price, p.products_date_added, p.products_last_modified, p.products_date_available, p.products_status from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c where p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' and p.products_id = p2c.products_id and p2c.categories_id = '" . (int)$current_category_id . "' order by pd.products_name");
+      $products_query = tep_db_query("select p.products_id, pd.products_name, pd.products_seo_url, p.products_quantity, p.products_image, p.products_image2, p.products_image3, p.products_image4, p.products_price, p.products_date_added, p.products_last_modified, p.products_date_available, p.products_status from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c where p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' and p.products_id = p2c.products_id and p2c.categories_id = '" . (int)$current_category_id . "' order by pd.products_name");
     }
     while ($products = tep_db_fetch_array($products_query)) {
       $products_count++;
