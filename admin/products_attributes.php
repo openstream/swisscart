@@ -33,12 +33,13 @@
         $option_name_array = $HTTP_POST_VARS['option_name'];
         $option_type = $HTTP_POST_VARS['option_type'];	//clr 030714 update to add option type to products_option
 		$option_length = $HTTP_POST_VARS['option_length'];	//clr 030714 update to add option length to products_option
+		$option_sort_order = $_POST['option_sort_order'];
 
         for ($i=0, $n=sizeof($languages); $i<$n; $i ++) {
           $option_name = tep_db_prepare_input($option_name_array[$languages[$i]['id']]);
 		  $option_comment = $HTTP_POST_VARS['option_comment'];	//clr 030714 update to add option comment to products_option
 
-          tep_db_query("insert into " . TABLE_PRODUCTS_OPTIONS . " (products_options_id, products_options_name, language_id, products_options_type, products_options_length, products_options_comment) values ('" . (int)$products_options_id . "', '" . tep_db_input($option_name) . "', '" . (int)$languages[$i]['id'] . "', '" . $option_type . "', '" . $option_length . "', '" . $option_comment[$languages[$i]['id']]  . "')");
+          tep_db_query("insert into " . TABLE_PRODUCTS_OPTIONS . " (products_options_id, products_options_name, language_id, products_options_type, products_options_length, products_options_sort_order, products_options_comment) values ('" . (int)$products_options_id . "', '" . tep_db_input($option_name) . "', '" . (int)$languages[$i]['id'] . "', '" . $option_type . "', '" . $option_length . "', '" . $option_sort_order . "', '" . $option_comment[$languages[$i]['id']]  . "')");
         }
         tep_redirect(tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, $page_info));
         break;
@@ -84,13 +85,14 @@
         $option_name_array = $HTTP_POST_VARS['option_name'];
 	    $option_type = $HTTP_POST_VARS['option_type'];	//clr 030714 update to add option type to products_option
 	    $option_length = $HTTP_POST_VARS['option_length'];	//clr 030714 update to add option length to products_option
+		$option_sort_order = $_POST['option_sort_order'];
         $option_id = tep_db_prepare_input($HTTP_POST_VARS['option_id']);
 
         for ($i=0, $n=sizeof($languages); $i<$n; $i ++) {
           $option_name = tep_db_prepare_input($option_name_array[$languages[$i]['id']]);	
 		  $option_comment = $HTTP_POST_VARS['option_comment'];	//clr 030714 update to add option comment to products_option
 
-          tep_db_query("update " . TABLE_PRODUCTS_OPTIONS . " set products_options_name = '" . tep_db_input($option_name) . "', products_options_type = '" . $option_type . "', products_options_length = '" . $option_length . "', products_options_comment = '" . $option_comment[$languages[$i]['id']] . "' where products_options_id = '" . (int)$option_id . "' and language_id = '" . (int)$languages[$i]['id'] . "'");
+          tep_db_query("update " . TABLE_PRODUCTS_OPTIONS . " set products_options_name = '" . tep_db_input($option_name) . "', products_options_type = '" . $option_type . "', products_options_length = '" . $option_length . "', products_options_sort_order = '" . $option_sort_order . "', products_options_comment = '" . $option_comment[$languages[$i]['id']] . "' where products_options_id = '" . (int)$option_id . "' and language_id = '" . (int)$languages[$i]['id'] . "'");
         }
 
         tep_redirect(tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, $page_info));
@@ -343,7 +345,7 @@ function go_option() {
                 </td>
               </tr>
               <tr>
-                <td colspan="6"><?php echo tep_black_line(); ?></td>
+                <td colspan="7"><?php echo tep_black_line(); ?></td>
               </tr>
               <tr class="dataTableHeadingRow">
                 <td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_ID; ?>&nbsp;</td>
@@ -351,10 +353,11 @@ function go_option() {
 				<td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_OPT_TYPE; ?>&nbsp;</td>	<!-- CLR 030212 - Add column for option type //-->
     			<td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_OPT_LENGTH; ?>&nbsp;</td>	<!-- CLR 030212 - Add column for option length //-->
                 <td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_OPT_COMMENT; ?>&nbsp;</td>	<!-- CLR 030212 - Add column for option comment //-->
+                <td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_SORT_ORDER; ?>&nbsp;</td>
                 <td class="dataTableHeadingContent" align="center">&nbsp;<?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
               <tr>
-                <td colspan="6"><?php echo tep_black_line(); ?></td>
+                <td colspan="7"><?php echo tep_black_line(); ?></td>
               </tr>
 <?php
     $next_id = 1;
@@ -369,16 +372,17 @@ function go_option() {
         echo '<form name="option" action="' . tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, 'action=update_option_name', 'NONSSL') . '" method="post">';
         $inputs = '';
         for ($i = 0, $n = sizeof($languages); $i < $n; $i ++) {
-          $option_name = tep_db_query("select products_options_name, products_options_length, products_options_comment from " . TABLE_PRODUCTS_OPTIONS . " where products_options_id = '" . $options_values['products_options_id'] . "' and language_id = '" . $languages[$i]['id'] . "'");
+          $option_name = tep_db_query("select products_options_name, products_options_length, products_options_comment, products_options_sort_order from " . TABLE_PRODUCTS_OPTIONS . " where products_options_id = '" . $options_values['products_options_id'] . "' and language_id = '" . $languages[$i]['id'] . "'");
           $option_name = tep_db_fetch_array($option_name);
- 		  $inputs .= $languages[$i]['code'] . ':&nbsp;<input type="text" name="option_name[' . $languages[$i]['id'] . ']" size="32" value="' . $option_name['products_options_name'] . '">&nbsp; ' . TABLE_HEADING_OPT_COMMENT . ' <input type="text" name="option_comment[' . $languages[$i]['id'] . ']" size="32" value="' . $option_name['products_options_comment'] . '"><br>';
+ 		  $inputs .= $languages[$i]['code'] . ':&nbsp;<input type="text" name="option_name[' . $languages[$i]['id'] . ']" size="32" value="' . $option_name['products_options_name'] . '">&nbsp; <br>' . TABLE_HEADING_OPT_COMMENT . ' <input type="text" name="option_comment[' . $languages[$i]['id'] . ']" size="32" value="' . $option_name['products_options_comment'] . '"><br><br>';
         }
 //CLR 030212 - Add column for option type
 ?>
                 <td align="center" class="smallText">&nbsp;<?php echo $options_values['products_options_id']; ?><input type="hidden" name="option_id" value="<?php echo $options_values['products_options_id']; ?>">&nbsp;</td>
-				<td class="smallText" colspan="3"><?php echo $inputs; ?></td>
+                <td class="smallText" colspan="3"><?php echo $inputs; ?></td>
 				<td class="smallText"><?php echo TABLE_HEADING_OPT_LENGTH . ' <input type="text" name="option_length" size="4" value="' . $option_name['products_options_length'] . '">'; ?></td>	<!-- CLR 030212 - Add column for option length //-->
 				<td class="smallText"><?php echo draw_optiontype_pulldown('option_type', $options_values['products_options_type']); ?></td>	<!-- CLR 030212 - Add column for option type //-->
+                <td align="center" class="smallText"><?php echo TABLE_HEADING_SORT_ORDER . '<br><input type="text" name="option_sort_order" size="2" value="' . $option_name['products_options_sort_order'] . '">'; ?></td>
                 <td align="center" class="smallText">&nbsp;<?php echo tep_image_submit('button_update.gif', IMAGE_UPDATE); ?>&nbsp;<?php echo '<a href="' . tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, '', 'NONSSL') . '">'; ?><?php echo tep_image_button('button_cancel.gif', IMAGE_CANCEL); ?></a>&nbsp;</td>
 <?php
         echo '</form>' . "\n";
@@ -390,6 +394,7 @@ function go_option() {
                 <td class="smallText">&nbsp;<?php echo translate_type_to_name($options_values["products_options_type"]); ?>&nbsp;</td> <!-- CLR 030212 - Add column for option type //-->
 				<td class="smallText">&nbsp;<?php echo $options_values["products_options_length"]; ?>&nbsp;</td>	<!-- CLR 030212 - Add column for option length //-->
 				<td class="smallText">&nbsp;<?php echo $options_values["products_options_comment"]; ?>&nbsp;</td>	<!-- CLR 030212 - Add column for option comment //-->
+                <td align="center" class="smallText">&nbsp;<?php echo $options_values['products_options_sort_order']; ?>&nbsp;</td>
                 <td align="center" class="smallText">&nbsp;<?php echo '<a href="' . tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, 'action=update_option&option_id=' . $options_values['products_options_id'] . '&option_order_by=' . $option_order_by . '&option_page=' . $option_page, 'NONSSL') . '">'; ?><?php echo tep_image_button('button_edit.gif', IMAGE_UPDATE); ?></a>&nbsp;&nbsp;<?php echo '<a href="' . tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, 'action=delete_product_option&option_id=' . $options_values['products_options_id'], 'NONSSL') , '">'; ?><?php echo tep_image_button('button_delete.gif', IMAGE_DELETE); ?></a>&nbsp;</td>
 <?php
       }
@@ -402,7 +407,7 @@ function go_option() {
     }
 ?>
               <tr>
-                <td colspan="6"><?php echo tep_black_line(); ?></td>
+                <td colspan="7"><?php echo tep_black_line(); ?></td>
               </tr>
 <?php
     if ($action != 'update_option') {
@@ -426,7 +431,7 @@ function go_option() {
 ?>
               </tr>
               <tr>
-                <td colspan="6"><?php echo tep_black_line(); ?></td>
+                <td colspan="7"><?php echo tep_black_line(); ?></td>
               </tr>
 <?php
     }
