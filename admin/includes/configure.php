@@ -15,11 +15,11 @@
   define('HTTP_CATALOG_SERVER', 'http://localhost');
   define('HTTPS_CATALOG_SERVER', '');
   define('ENABLE_SSL_CATALOG', 'false'); // secure webserver for catalog module
-  define('DIR_FS_DOCUMENT_ROOT', 'C:/Programme/xampp/htdocs/swisscart/trunk/'); // where the pages are located on the server
+  define('DIR_FS_DOCUMENT_ROOT', 'C:/xampp/htdocs/swisscart/trunk/'); // where the pages are located on the server
   define('DIR_WS_ADMIN', '/swisscart/trunk/admin/'); // absolute path required
-  define('DIR_FS_ADMIN', 'C:/Programme/xampp/htdocs/swisscart/trunk/admin/'); // absolute pate required
+  define('DIR_FS_ADMIN', 'C:/xampp/htdocs/swisscart/trunk/admin/'); // absolute pate required
   define('DIR_WS_CATALOG', '/swisscart/trunk/'); // absolute path required
-  define('DIR_FS_CATALOG', 'C:/Programme/xampp/htdocs/swisscart/trunk/'); // absolute path required
+  define('DIR_FS_CATALOG', 'C:/xampp/htdocs/swisscart/trunk/'); // absolute path required
   define('DIR_WS_IMAGES', 'images/');
   define('DIR_WS_ICONS', DIR_WS_IMAGES . 'icons/');
   define('DIR_WS_CATALOG_IMAGES', DIR_WS_CATALOG . 'images/');

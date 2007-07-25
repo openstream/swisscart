@@ -917,6 +917,12 @@ function go_option() {
           <tr>
             <td colspan="7"><?php echo tep_black_line(); ?></td>
           </tr>
+          <tr>
+            <td colspan="7" class="main">&nbsp;</td>
+          </tr> 
+          <tr>
+            <td colspan="7" class="main"><?php echo TEXT_NEW_ATTRIBUTES_MANAGER; ?></td>
+          </tr>          
         </table></form></td>
       </tr>
     </table></td>

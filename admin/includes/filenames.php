@@ -40,6 +40,7 @@
   define('FILENAME_ORDERS_STATUS', 'orders_status.php');
   define('FILENAME_POPUP_IMAGE', 'popup_image.php');
   define('FILENAME_PRODUCTS_ATTRIBUTES', 'products_attributes.php');
+  define('FILENAME_PRODUCTS_ATTRIBUTES_ADVANCED', 'new_attributes.php');  
   define('FILENAME_PRODUCTS_EXPECTED', 'products_expected.php');
   define('FILENAME_REVIEWS', 'reviews.php');
   define('FILENAME_SERVER_INFO', 'server_info.php');

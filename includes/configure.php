@@ -30,7 +30,7 @@
   define('DIR_WS_LANGUAGES', DIR_WS_INCLUDES . 'languages/');
 
   define('DIR_WS_DOWNLOAD_PUBLIC', 'pub/');
-  define('DIR_FS_CATALOG', 'C:/Programme/xampp/htdocs/swisscart/trunk/');
+  define('DIR_FS_CATALOG', 'C:/xampp/htdocs/swisscart/trunk/');
   define('DIR_FS_DOWNLOAD', DIR_FS_CATALOG . 'download/');
   define('DIR_FS_DOWNLOAD_PUBLIC', DIR_FS_CATALOG . 'pub/');
 

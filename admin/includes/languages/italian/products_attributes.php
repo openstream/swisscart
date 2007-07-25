@@ -35,4 +35,6 @@ define('TEXT_WARNING_OF_DELETE', 'Questa opzione ha prodotti e valori collegati 
 define('TEXT_OK_TO_DELETE', 'Questa opzione ha prodotti e valori collegati a - non è consigliabile cancellarla.');
 define('TEXT_OPTION_ID', 'ID Opzione');
 define('TEXT_OPTION_NAME', 'Nome Opzione');
+
+define('TEXT_NEW_ATTRIBUTES_MANAGER', '<strong>Note:</strong> Please also try our <a href="' . FILENAME_PRODUCTS_ATTRIBUTES_ADVANCED . '">Advanced Attribute Manager</a>!');
 ?>

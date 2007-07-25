@@ -35,4 +35,6 @@ define('TEXT_WARNING_OF_DELETE', 'Mit dieser Option sind Artikel, sowie Optionsm
 define('TEXT_OK_TO_DELETE', 'Mit dieser Option sind keine Artikel, sowie Optionsmerkmale verbunden - Sie kann gel&ouml;scht werden.');
 define('TEXT_OPTION_ID', 'Options ID');
 define('TEXT_OPTION_NAME', 'Optionsname');
+
+define('TEXT_NEW_ATTRIBUTES_MANAGER', '<strong>Hinweis:</strong> Sie k&ouml;nnen auch den  <a href="' . FILENAME_PRODUCTS_ATTRIBUTES_ADVANCED . '">Advanced Attribute Manager</a> zum komfortableren Zuweisen von Artikelmerkmalen verwenden!');
 ?>
