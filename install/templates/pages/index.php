@@ -14,7 +14,7 @@
 */
 ?>
 
-<p class="pageTitle">Welcome to osCommerce!</p>
+<p class="pageTitle">Welcome to osCommerce powered by swisscart&reg;!</p>
 
 <table width="95%" class="formPage" cellpadding="2">
   <tr>

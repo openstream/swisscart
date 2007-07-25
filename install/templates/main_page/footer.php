@@ -31,7 +31,7 @@
     </table></td>
   </tr>
   <tr>
-    <td align="center" class="smallText">Copyright &copy; 2003 <a href="http://www.oscommerce.com">osCommerce</a></td>
+    <td align="center" class="smallText">Copyright &copy; 2003-<?php echo date("Y") ?> <a href="http://www.oscommerce.com">osCommerce</a> | powered by <a href="http://www.swisscart.com">swisscart&reg;</a></td>
   </tr>
 </table>
 <!-- footer_eof //-->

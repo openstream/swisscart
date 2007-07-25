@@ -102,7 +102,7 @@
       <p>Please continue the installation process to execute the database import procedure.</p>
       <p>It is important this procedure is not interrupted, otherwise the database may end up corrupt.</p>
       <p>The file to import must be located and named at:</p>
-      <p><?php echo $dir_fs_www_root . 'install/oscommerce.sql'; ?></p>
+      <p><?php echo $dir_fs_www_root . 'install/swisscart.sql'; ?></p>
     </td>
   </tr>
 </table>
@@ -176,7 +176,7 @@
       <?php echo osc_draw_input_field('DB_DATABASE'); ?>
       <img src="images/layout/help_icon.gif" onClick="toggleBox('dbName');"><br>
       <div id="dbNameSD">Database Name</div>
-      <div id="dbName" class="longDescription">The database used to hold the data. An example database name is 'osCommerce'.</div>
+      <div id="dbName" class="longDescription">The database used to hold the data. An example database name is 'swisscart'.</div>
     </td>
   </tr>
   <tr>
