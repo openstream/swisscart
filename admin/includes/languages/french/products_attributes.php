@@ -15,6 +15,7 @@ define('HEADING_TITLE_VAL', 'Valeurs d\'options');
 define('HEADING_TITLE_ATRIB', 'Options de produits');
 
 define('TABLE_HEADING_ID', 'ID');
+define('TABLE_HEADING_SORT_ORDER', 'Ordre de tri');
 define('TABLE_HEADING_PRODUCT', 'Nom du produit');
 define('TABLE_HEADING_OPT_NAME', 'Nom de l\'option');
 define('TABLE_HEADING_OPT_TYPE', 'Option Type'); //CLR 031203 add option type column
