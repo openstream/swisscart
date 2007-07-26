@@ -382,6 +382,34 @@
 <title><?php echo TITLE; ?></title>
 <link rel="stylesheet" type="text/css" href="includes/stylesheet.css">
 <script language="javascript" src="includes/general.js"></script>
+<?php
+// Tiny MCE WYISIWYG detection and include
+if (file_exists("tiny_mce/tiny_mce.js")) { $tiny_mce = "tiny_mce/tiny_mce.js"; }
+elseif (file_exists("includes/javascript/tiny_mce/tiny_mce.js")) { $tiny_mce = "includes/javascript/tiny_mce/tiny_mce.js"; }
+else $tiny_mce = '';
+if($tiny_mce) {
+echo '<script language="javascript" type="text/javascript" src="' . $tiny_mce . '"></script>
+<script language="javascript" type="text/javascript">
+tinyMCE.init({
+mode : "textareas",
+theme : "simple",
+plugins : "table,advhr,advimage,advlink,emotions,preview,flash,print,contextmenu",
+theme_advanced_buttons1_add : "fontselect,fontsizeselect",
+theme_advanced_buttons2_add : "separator,preview,separator,forecolor,backcolor",
+theme_advanced_buttons2_add_before: "cut,copy,paste,separator",
+theme_advanced_buttons3_add_before : "tablecontrols,separator",
+theme_advanced_buttons3_add : "emotions,flash,advhr,separator,print",
+theme_advanced_toolbar_location : "top",
+theme_advanced_toolbar_align : "left",
+theme_advanced_path_location : "bottom",
+extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
+external_link_list_url : "example_data/example_link_list.js",
+external_image_list_url : "example_data/example_image_list.js",
+flash_external_list_url : "example_data/example_flash_list.js"
+});
+</script>';
+}
+?>
 </head>
 <body marginwidth="0" marginheight="0" topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0" bgcolor="#FFFFFF" onLoad="SetFocus();">
 <div id="spiffycalendar" class="text"></div>
@@ -729,7 +757,14 @@ updateGross();
         <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
       </tr>
       <tr>
-        <td class="main"><?php echo tep_image(DIR_WS_CATALOG_IMAGES . $products_image_name, $pInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'align="right" hspace="5" vspace="5"') . tep_image(DIR_WS_CATALOG_IMAGES . $products_image2_name, $pInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'align="right" hspace="5" vspace="5"') . tep_image(DIR_WS_CATALOG_IMAGES . $products_image3_name, $pInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'align="right" hspace="5" vspace="5"') . tep_image(DIR_WS_CATALOG_IMAGES . $products_image4_name, $pInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'align="right" hspace="5" vspace="5"') . $pInfo->products_description; ?></td>
+        <td class="main">
+		<?php 
+			if ($products_image_name) echo tep_image(DIR_WS_CATALOG_IMAGES . $products_image_name, $pInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'align="right" hspace="5" vspace="5"'); 
+			if ($products_image2_name) echo tep_image(DIR_WS_CATALOG_IMAGES . $products_image2_name, $pInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'align="right" hspace="5" vspace="5"');
+			if ($products_image3_name) echo tep_image(DIR_WS_CATALOG_IMAGES . $products_image3_name, $pInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'align="right" hspace="5" vspace="5"');
+			if ($products_image4_name) echo tep_image(DIR_WS_CATALOG_IMAGES . $products_image4_name, $pInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'align="right" hspace="5" vspace="5"'); 
+			echo $pInfo->products_description; 
+		?></td>
       </tr>
 <?php
       if ($pInfo->products_url) {
