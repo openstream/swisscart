@@ -30,4 +30,10 @@ define('HEADING_PAYMENT_INFORMATION', 'Zahlungsinformationen');
 define('HEADING_ORDER_COMMENTS', 'Anmerkung zu Ihrer Bestellung');
 
 define('TEXT_EDIT', 'Bearbeiten');
+
+define('CONDITIONS',"Allgemeine Gesch&auml;ftsbedingungen");
+define('CONDITION_AGREEMENT', "Ich habe die <a style=\"text-decoration: underline; color: #CF2F31; \" href=\"javascript:void(0);\" onclick=\"NewWindow('" . tep_href_link('popup_conditions.php') . "','tech','800','600','yes');return false\">Allgemeinen Gesch&auml;ftsbedingungen</a> gelesen und akzeptiert ");
+// Special chars are escaped to use this message text in Javascript-Function alert(unescape("this text"));
+// can be found at http://www.salesianer.de/util/alert-umlaute.html
+define('CONDITION_AGREEMENT_ERROR', 'Bitte lesen Sie die allgemeinen Gesch\%E4ftsbedingungen. Nur wenn Sie sie akzeptieren\%2C k\%F6nnen wir Ihre Bestellung entgegen nehmen.')
 ?>

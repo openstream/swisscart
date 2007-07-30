@@ -27,4 +27,10 @@ define('HEADING_PAYMENT_INFORMATION', 'Informazioni pagamento');
 define('HEADING_ORDER_COMMENTS', 'Commenti riguardo il tuo ordine');
 
 define('TEXT_EDIT', 'Modifica');
+
+define('CONDITIONS',"Condizioni per l'uso");
+define('CONDITION_AGREEMENT', "Ho letto gli <a style=\"text-decoration: underline; color: #CF2F31; \" href=\"javascript:void(0);\" onclick=\"NewWindow('" . tep_href_link('popup_conditions.php') . "','tech','800','600','yes');return false\">condizioni per l'uso</a> e accosento a loro ");
+// Special chars are escaped to use this message text in Javascript-Function alert(unescape("this text"));
+// can be found at http://www.salesianer.de/util/alert-umlaute.html
+define('CONDITION_AGREEMENT_ERROR', 'Leggere prego i nostri condizioni per l%27uso e accosentiree a loro. Se non fate cos%EC%2C il vostro ordine non sar%E0 proceduto.')
 ?>

@@ -14,4 +14,5 @@ define('NAVBAR_TITLE', 'Allgemeine Gesch&auml;ftsbedingungen');
 define('HEADING_TITLE', 'Allgemeine Gesch&auml;ftsbedingungen');
 
 define('TEXT_INFORMATION', 'F&uuml;gen Sie hier Ihre allgemeinen Gesch&auml;ftsbedingungen ein.');
+define('TEXT_CLOSE_WINDOW', 'Fenster schliessen');
 ?>

@@ -30,4 +30,8 @@ define('HEADING_PAYMENT_INFORMATION', 'Datos del Pago');
 define('HEADING_ORDER_COMMENTS', 'Comentarios Sobre Su Orden');
 
 define('TEXT_EDIT', 'Cambio');
+
+define('CONDITION_AGREEMENT', "He leído las <a style=\"text-decoration: underline; color: #CF2F31; \" href=\"javascript:void(0);\" onclick=\"NewWindow('" . tep_href_link('popup_conditions.php') . "','tech','800','600','yes');return false\">condiciones de uso</a> y las acepto íntegramente.");
+define('CONDITIONS', 'Condiciones y términos de uso.');
+define('CONDITION_AGREEMENT_ERROR', "Lea detenidamente nuestras condiciones de uso, sí no las acepta, su pedido no será cursado.");
 ?>
