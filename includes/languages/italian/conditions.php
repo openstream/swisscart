@@ -14,4 +14,5 @@ define('NAVBAR_TITLE', 'Condizioni per l\'uso');
 define('HEADING_TITLE', 'Condizioni per l\'uso');
 
 define('TEXT_INFORMATION', 'Inserisci qui le condizioni di informazione sull\' uso.');
+define('TEXT_CLOSE_WINDOW', 'Finestra vicina');
 ?>
