@@ -70,7 +70,7 @@
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
           <tr>
-            <td class="pageHeading"><?php echo HEADING_TITLE; ?></td>
+            <td class="pageHeading"><?php echo $category['categories_name'] ?></td>
             <td class="pageHeading" align="right"><?php echo tep_image(DIR_WS_IMAGES . $category['categories_image'], $category['categories_name'], HEADING_IMAGE_WIDTH, HEADING_IMAGE_HEIGHT); ?></td>
           </tr>
         </table></td>
@@ -236,7 +236,17 @@
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
           <tr>
-            <td class="pageHeading"><?php echo HEADING_TITLE; ?></td>
+            <td class="pageHeading"><h1><?php 
+			  if (isset($HTTP_GET_VARS['manufacturers_id'])) {  
+				$category_query = tep_db_query("select manufacturers_name from " . TABLE_MANUFACTURERS . " where manufacturers_id = '" . (int)$HTTP_GET_VARS['manufacturers_id'] . "'");
+				$category = tep_db_fetch_array($category_query);
+				if ($category['manufacturers_name'] != "") {echo $category['manufacturers_name'];} else { echo HEADING_TITLE;}
+			  } else { 
+				$category_query = tep_db_query("select cd.categories_name from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.categories_id = '" . (int)$current_category_id . "' and cd.categories_id = '" . (int)$current_category_id . "' and cd.language_id = '" . (int)$languages_id . "'");
+				$category = tep_db_fetch_array($category_query);
+				if ($category['categories_name'] != "") {echo $category['categories_name'];} else { echo HEADING_TITLE;}
+			  }
+?></h1></td>
 <?php
 // optional Product List Filter
     if (PRODUCT_LIST_FILTER > 0) {
