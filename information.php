@@ -77,15 +77,7 @@ else
 <!-- body_text //-->
     <td width="100%" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="0">
       <tr>
-        <td width="100%"><table border="0" width="100%" cellspacing="0" cellpadding="0">
-          <tr>
-            <td class="pageHeading"><?php echo $title; ?></td>
-            <td align="right"></td>
-          </tr>
-        </table></td>
-      </tr>
-      <tr>
-        <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
+        <td width="100%" class="pageHeading"><h1><?php echo $title; ?></h1></td>
       </tr>
       <tr>
         <td class="main"><BR><?php echo $description; ?></td>

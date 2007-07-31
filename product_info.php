@@ -115,7 +115,7 @@ function setcolor(obj,percentage,prop){
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
           <tr>
-            <td class="pageHeading" valign="top"><?php echo $products_name; ?></td>
+            <td class="pageHeading" valign="top"><h1><?php echo $products_name; ?></h1></td>
             <td class="pageHeading" align="right" valign="top"><?php echo $products_price; ?></td>
           </tr>
         </table></td>
