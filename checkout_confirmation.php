@@ -348,20 +348,16 @@ win = window.open(mypage,myname,settings)
                 <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
               </tr>
               <tr>
-                <td><table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBox">
-                    <tr class="infoBoxContents">
-                      <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
-                          <tr>
-                            <td class="main"><table border="0" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse">
-                                <tr class="infoBoxContents">
-                                  <td align="right" class="main"><?php echo CONDITION_AGREEMENT; ?></td>
-                                  <td onClick="window.document.checkout_confirmation.agree.checked = !window.document.checkout_confirmation.agree.checked;"><?php echo tep_draw_checkbox_field('agree','true', false, 'onclick="window.document.checkout_confirmation.agree.checked = !window.document.checkout_confirmation.agree.checked;"'); ?></td>
-                                </tr>
-                              </table></td>
-                          </tr>
-                        </table></td>
-                    </tr>
-                  </table></td>
+                <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
+				  <tr>
+					<td class="main"><table border="0" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse">
+						<tr class="infoBoxContents">
+						  <td align="right" class="main"><?php echo CONDITION_AGREEMENT; ?></td>
+						  <td onClick="window.document.checkout_confirmation.agree.checked = !window.document.checkout_confirmation.agree.checked;"><?php echo tep_draw_checkbox_field('agree','true', false, 'onclick="window.document.checkout_confirmation.agree.checked = !window.document.checkout_confirmation.agree.checked;"'); ?></td>
+						</tr>
+					  </table></td>
+				  </tr>
+				</table></td>
               </tr>
               <tr>
                 <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
