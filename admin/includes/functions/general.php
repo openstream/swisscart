@@ -1421,4 +1421,53 @@ function tep_reset_cache_data_seo_urls($action){
 
     return $manufacturer['manufacturers_htc_description'];
   }   
+  
+
+  function tep_cfg_readonly($value){
+      $single[]= array('id' => $value,
+                        'text' => $value);
+      return tep_draw_pull_down_menu('configuration_value', $single, $value);
+  }
+  
+  function tep_cfg_pull_down_installed_fonts($font_name) {
+      if ($root=@opendir(DIR_FS_DOCUMENT_ROOT.'includes/imagemagic/fonts')){
+            while ($file=readdir($root)){
+                  if($file=="." || $file==".." || is_dir($dir."/".$file)) continue;
+                  $files[]= array('id' => $file,
+                                 'text' => $file);
+            }
+      }
+      return tep_draw_pull_down_menu('configuration_value', $files, $font_name);
+}
+  
+  function tep_cfg_pull_down_installed_watermarks($watermark_name) {
+      if ($root=@opendir(DIR_FS_DOCUMENT_ROOT.'includes/imagemagic/watermarks')){
+            while ($file=readdir($root)){
+                  if($file=="." || $file==".." || is_dir($dir."/".$file)) continue;
+                  $files[]= array('id' => $file,
+                                 'text' => $file);
+            }
+      }
+      return tep_draw_pull_down_menu('configuration_value', $files, $watermark_name);
+}
+
+  function tep_cfg_pull_down_watermark_alignment($watermark_alignment) {
+      $align[]= array('id' => 'Tiled',
+                        'text' => 'Tiled');
+      $align[]= array('id' => 'Top',
+                        'text' => 'Top');
+      $align[]= array('id' => 'Top Left',
+                        'text' => 'Top Left');
+      $align[]= array('id' => 'Top Right',
+                        'text' => 'Top Right');
+      $align[]= array('id' => 'Center',
+                        'text' => 'Center');
+      $align[]= array('id' => 'Bottom',
+                        'text' => 'Bottom');
+      $align[]= array('id' => 'Bottom Left',
+                        'text' => 'Bottom Left');     
+      $align[]= array('id' => 'Bottom Right',
+                        'text' => 'Bottom Right');                                                                                                                                                                     
+      return tep_draw_pull_down_menu('configuration_value', $align, $watermark_alignment);
+}  
 ?>

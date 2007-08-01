@@ -92,50 +92,127 @@ if (SEO_ENABLED == 'true') {
 
 ////
 // The HTML image wrapper function
-  function tep_image($src, $alt = '', $width = '', $height = '', $parameters = '') {
-	// START STS v4.4:
-	global $sts; 
-	$sts->image($src); // Take image from template folder if exists.
-	// END STS v4.4  
-    if ( (empty($src) || ($src == DIR_WS_IMAGES)) && (IMAGE_REQUIRED == 'false') ) {
-      return false;
-    }
-
-// alt is added to the img tag even if it is null to prevent browsers from outputting
-// the image filename as default
-    $image = '<img src="' . tep_output_string($src) . '" border="0" alt="' . tep_output_string($alt) . '"';
-
-    if (tep_not_null($alt)) {
-      $image .= ' title=" ' . tep_output_string($alt) . ' "';
-    }
-
-    if ( (CONFIG_CALCULATE_IMAGE_SIZE == 'true') && (empty($width) || empty($height)) ) {
-      if ($image_size = @getimagesize($src)) {
-        if (empty($width) && tep_not_null($height)) {
-          $ratio = $height / $image_size[1];
-          $width = intval($image_size[0] * $ratio);
-        } elseif (tep_not_null($width) && empty($height)) {
-          $ratio = $width / $image_size[0];
-          $height = intval($image_size[1] * $ratio);
-        } elseif (empty($width) && empty($height)) {
-          $width = $image_size[0];
-          $height = $image_size[1];
+// modified for STS and Image Magic
+function tep_image($src, $alt = '', $width = '', $height = '', $params = '') {  
+  global $product_info;
+  global $sts; 
+  $sts->image($src); // Take image from template folder if exists.  
+  
+  //Allow for a new intermediate sized thumbnail size to be set 
+  //without any changes having to be made to the product_info page itself. 
+  //(see the lengths I go to to make your life easier :-)
+  if (strstr($_SERVER['PHP_SELF'],"product_info.php")) {
+           
+        if (isset($product_info['products_image']) 
+                   && $src == DIR_WS_IMAGES . $product_info['products_image']
+                   && $product_info[products_id]==$_GET['products_id'])  {   //final check just to make sure that we don't interfere with other contribs
+            $width = PRODUCT_INFO_IMAGE_WIDTH == 0?'':PRODUCT_INFO_IMAGE_WIDTH;
+            $height = PRODUCT_INFO_IMAGE_HEIGHT == 0?'':PRODUCT_INFO_IMAGE_HEIGHT;
+            $product_info_image=true;
+            $page="prod_info"; 
         }
-      } elseif (IMAGE_REQUIRED == 'false') {
-        return false;
-      }
-    }
-
-    if (tep_not_null($width) && tep_not_null($height)) {
-      $image .= ' width="' . tep_output_string($width) . '" height="' . tep_output_string($height) . '"';
-    }
-
-    if (tep_not_null($parameters)) $image .= ' ' . $parameters;
-
-    $image .= '>';
-
-    return $image;
   }
+  
+  //Detect whether this is a pop-up image
+  if (strstr($_SERVER['PHP_SELF'],"popup_image.php")) $page="popup";
+         
+  //do we apply the IE PNG alpha transparency fix?
+  if  (strstr(strtolower($src),".png") && CFG_PNG_BUG=="True") $fix_png = true;
+        
+  //send the image for processing unless told otherwise
+  $image = '<img src="' . $src . '"'; //set up the image tag just in case we don't want to process
+  if (CFG_MASTER_SWITCH=="On") $calculate = true;
+  else $calculate=false;
+  
+  // Don't calculate if the image is set to a "%" width
+  if (strstr($width,'%') == true || strstr($height,'%') == true) $calculate = false; 
+
+  // Dont calculate if a pixel image is being passed (hope you dont have pixels for sale)
+  if (strstr($image, 'pixel')) $calculate = false;
+  
+  
+  $image_size = @getimagesize($src);
+
+  
+  // Decide whether or not we want to process this image
+  if (($width == '' && $height == '' && $page != 'popup' ) || ($width == $image_size[0] && $height == $image_size[0] && $page != 'popup')) {  
+        if (CFG_PROCESS_GRAPHICS=="False") $calculate = false; //looks like this is a store graphic rather than product image
+  }    
+
+  // Is this image good to go?
+  if (CONFIG_CALCULATE_IMAGE_SIZE && $calculate) { 
+          
+  if ($image_size) { 
+      
+      $ratio = $image_size[1] / $image_size[0];
+      
+      // Set the width and height to the proper ratio
+      if (!$width && $height) { 
+        $ratio = $height / $image_size[1]; 
+        $width = intval($image_size[0] * $ratio); 
+      } elseif ($width && !$height) { 
+        $ratio = $width / $image_size[0]; 
+        $height = intval($image_size[1] * $ratio); 
+      } elseif (!$width && !$height && !$over_ride) { 
+        $width = $image_size[0]; 
+        $height = $image_size[1]; 
+      } 
+
+      //Encrypt the image filename if switched on
+        if (CFG_ENCRYPT_FILENAMES == "True" && CFG_ENCRYPTION_KEY !="") {
+              $result = '';
+              $key=CFG_ENCRYPTION_KEY;
+              for($i=0; $i<strlen($src); $i++) {
+                  $char = substr($src, $i, 1);
+                  $keychar = substr($key, ($i % strlen($key))-1, 1);
+                  $char = chr(ord($char)+ord($keychar));
+                  $result.=$char;
+              }
+              $src=urlencode(base64_encode($result));
+        }
+            
+       //Return the html
+        $image = '<img src="imagemagic.php?img='.$src.'&w='.
+        tep_output_string($width).'&h='.tep_output_string($height).'&page='.$page.'"';
+      
+    } elseif (IMAGE_REQUIRED == 'false') { 
+      return false; 
+    } 
+  }  
+  
+    //If the size asked for is greater than the image itself, we check the configs to see if this is allowed and if not over-ride
+  if ($width > $image_size[0] || $height > $image_size[1]) {
+        if (CFG_ALLOW_LARGER  != 'True'){
+              $width=$image_size[0];
+              $height=$image_size[1];
+              $over_ride = true;
+        }
+  }
+  // Add remaining image parameters if they exist
+  if ($width) { 
+    $image .= ' width="' . tep_output_string($width) . '"'; 
+  } 
+  
+  if ($height) { 
+    $image .= ' height="' . tep_output_string($height) . '"'; 
+  }     
+  
+  if (tep_not_null($params)) $image .= ' ' . $params;
+  
+  $image .= ' border="0" alt="' . tep_output_string($alt) . '"';
+  
+  if (tep_not_null($alt)) {
+    $image .= ' title="' . tep_output_string($alt) . '"';
+  }
+  
+  if ($fix_png && CFG_MASTER_SWITCH=="On") {
+        $image .= ' onload="fixPNG(this)"'; 
+  }
+  
+  $image .= '>';   
+  return $image; 
+}
+
 
 ////
 // The HTML form submit button wrapper function
