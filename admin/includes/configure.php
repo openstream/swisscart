@@ -8,18 +8,18 @@
   Released under the GNU General Public License
 */
 
-// Define the webserver and path parameters
-// * DIR_FS_* = Filesystem directories (local/physical)
-// * DIR_WS_* = Webserver directories (virtual/URL)
-  define('HTTP_SERVER', 'http://localhost'); // eg, http://localhost - should not be empty for productive servers
-  define('HTTP_CATALOG_SERVER', 'http://localhost');
+// define our webserver variables
+// FS = Filesystem (physical)
+// WS = Webserver (virtual)
+  define('HTTP_SERVER', ''); // eg, http://localhost or - https://localhost should not be NULL for productive servers
+  define('HTTP_CATALOG_SERVER', '');
   define('HTTPS_CATALOG_SERVER', '');
   define('ENABLE_SSL_CATALOG', 'false'); // secure webserver for catalog module
-  define('DIR_FS_DOCUMENT_ROOT', 'C:/xampp/htdocs/swisscart/trunk/'); // where the pages are located on the server
-  define('DIR_WS_ADMIN', '/swisscart/trunk/admin/'); // absolute path required
-  define('DIR_FS_ADMIN', 'C:/xampp/htdocs/swisscart/trunk/admin/'); // absolute pate required
-  define('DIR_WS_CATALOG', '/swisscart/trunk/'); // absolute path required
-  define('DIR_FS_CATALOG', 'C:/xampp/htdocs/swisscart/trunk/'); // absolute path required
+  define('DIR_FS_DOCUMENT_ROOT', $DOCUMENT_ROOT); // where your pages are located on the server. if $DOCUMENT_ROOT doesnt suit you, replace with your local path. (eg, /usr/local/apache/htdocs)
+  define('DIR_WS_ADMIN', '/admin/');
+  define('DIR_FS_ADMIN', DIR_FS_DOCUMENT_ROOT . DIR_WS_ADMIN);
+  define('DIR_WS_CATALOG', '/catalog/');
+  define('DIR_FS_CATALOG', DIR_FS_DOCUMENT_ROOT . DIR_WS_CATALOG);
   define('DIR_WS_IMAGES', 'images/');
   define('DIR_WS_ICONS', DIR_WS_IMAGES . 'icons/');
   define('DIR_WS_CATALOG_IMAGES', DIR_WS_CATALOG . 'images/');
@@ -36,10 +36,10 @@
   define('DIR_FS_BACKUP', DIR_FS_ADMIN . 'backups/');
 
 // define our database connection
-  define('DB_SERVER', 'localhost'); // eg, localhost - should not be empty for productive servers
-  define('DB_SERVER_USERNAME', 'root');
+  define('DB_SERVER', '');
+  define('DB_SERVER_USERNAME', 'mysql');
   define('DB_SERVER_PASSWORD', '');
-  define('DB_DATABASE', 'swisscart_development');
-  define('USE_PCONNECT', 'false'); // use persisstent connections?
-  define('STORE_SESSIONS', ''); // leave empty '' for default handler or set to 'mysql'
+  define('DB_DATABASE', 'swisscart');
+  define('USE_PCONNECT', 'false');
+  define('STORE_SESSIONS', '');
 ?>
