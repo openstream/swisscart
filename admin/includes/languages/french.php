@@ -307,6 +307,12 @@ define('ICON_TICK', 'Vrai');
 define('ICON_UNLOCKED', 'D&eacute;v&eacute;rouill&eacute;');
 define('ICON_WARNING', 'Avertissement');
 
+// header_tags_controller text in includes/boxes/header_tags_controller.php
+define('BOX_HEADING_HEADER_TAGS_CONTROLLER', 'Header Tags');
+define('BOX_HEADER_TAGS_ADD_A_PAGE', 'Page Control');
+define('BOX_HEADER_TAGS_ENGLISH', 'Text Control');
+define('BOX_HEADER_TAGS_FILL_TAGS', 'Fill Tags');
+
 // constants for use in tep_prev_next_display function
 define('TEXT_RESULT_PAGE', 'Page %s sur %d');
 define('TEXT_DISPLAY_NUMBER_OF_BANNERS', 'Voir de <b>%d</b> &agrave; <b>%d</b> (sur <b>%d</b> banni&egrave;res)');

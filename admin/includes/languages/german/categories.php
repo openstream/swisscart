@@ -45,6 +45,11 @@ define('TEXT_EDIT_SORT_ORDER', 'Sortierreihenfolge:');
 define('TEXT_INFO_COPY_TO_INTRO', 'Bitte w&auml;hlen Sie eine neue Kategorie aus, in die Sie den Artikel kopieren m&ouml;chten:');
 define('TEXT_INFO_CURRENT_CATEGORIES', 'aktuelle Kategorien:');
 
+define('TEXT_PRODUCT_METTA_INFO', '<b>Meta Tag Information</b><br><small>(optional)</small>');
+define('TEXT_PRODUCTS_PAGE_TITLE', 'Produkt Title Tag:');
+define('TEXT_PRODUCTS_HEADER_DESCRIPTION', 'Produkt Description Tag:');
+define('TEXT_PRODUCTS_KEYWORDS', 'Produkt Keywords Tag:');
+
 define('TEXT_INFO_HEADING_NEW_CATEGORY', 'Neue Kategorie');
 define('TEXT_INFO_HEADING_EDIT_CATEGORY', 'Kategorie bearbeiten');
 define('TEXT_INFO_HEADING_DELETE_CATEGORY', 'Kategorie l&ouml;schen');

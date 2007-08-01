@@ -255,6 +255,12 @@ define('ICON_TICK', 'Verdadero');
 define('ICON_UNLOCKED', 'Desbloqueado');
 define('ICON_WARNING', 'Advertencia');
 
+// header_tags_controller text in includes/boxes/header_tags_controller.php
+define('BOX_HEADING_HEADER_TAGS_CONTROLLER', 'Header Tags');
+define('BOX_HEADER_TAGS_ADD_A_PAGE', 'Page Control');
+define('BOX_HEADER_TAGS_ENGLISH', 'Text Control');
+define('BOX_HEADER_TAGS_FILL_TAGS', 'Fill Tags');
+
 // constants for use in tep_prev_next_display function
 define('TEXT_RESULT_PAGE', 'P&aacute;gina %s de %d');
 define('TEXT_DISPLAY_NUMBER_OF_BANNERS', 'Viendo del <b>%d</b> al <b>%d</b> (de <b>%d</b> banners)');

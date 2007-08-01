@@ -48,6 +48,11 @@ define('TEXT_EDIT_SORT_ORDER', 'Orden:');
 define('TEXT_INFO_COPY_TO_INTRO', 'Elija la categoria hacia donde quiera copiar este producto');
 define('TEXT_INFO_CURRENT_CATEGORIES', 'Categorias:');
 
+define('TEXT_PRODUCT_METTA_INFO', '<b>Meta Tag Information</b>');
+define('TEXT_PRODUCTS_PAGE_TITLE', 'Product Title Tag:');
+define('TEXT_PRODUCTS_HEADER_DESCRIPTION', 'Product Description Tag:');
+define('TEXT_PRODUCTS_KEYWORDS', 'Product Keywords Tag:');
+
 define('TEXT_INFO_HEADING_NEW_CATEGORY', 'Nueva Categoria');
 define('TEXT_INFO_HEADING_EDIT_CATEGORY', 'Editar Categoria');
 define('TEXT_INFO_HEADING_DELETE_CATEGORY', 'Eliminar Categoria');

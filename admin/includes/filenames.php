@@ -53,4 +53,7 @@
   define('FILENAME_TAX_RATES', 'tax_rates.php');
   define('FILENAME_WHOS_ONLINE', 'whos_online.php');
   define('FILENAME_ZONES', 'zones.php');
+  define('FILENAME_HEADER_TAGS_CONTROLLER', 'header_tags_controller.php');
+  define('FILENAME_HEADER_TAGS_ENGLISH', 'header_tags_english.php');
+  define('FILENAME_HEADER_TAGS_FILL_TAGS', 'header_tags_fill_tags.php');  
 ?>
