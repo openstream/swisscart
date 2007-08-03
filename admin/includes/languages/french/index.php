@@ -47,23 +47,23 @@ define('TOOLS_FILES', 'Fichiers');
 
 define('TEXT_ADMIN_FRONTPAGE','<p class="pageHeading">Aperçu de fonctions</p>
 <ul class="introduction">
-    <li><h1>Clients</h1><br>
+    <li><h2>Clients</h2><br>
       Administration des clients et des ordres</li>
-    <li><h1>Catalogue</h1><br>
+    <li><h2>Catalogue</h2><br>
       Adminstration des catégories et des articles, ainsi que des promotions et ventes croisée</li>
-    <li><h1>Info Manager</h1><br>
+    <li><h2>Info Manager</h2><br>
       Changez le text sur votre page démarrage et créez des pages d\'information supplémentaires qui se montrent dans le box d\'information</li>
-    <li><h1>Rapports</h1><br>
+    <li><h2>Rapports</h2><br>
       Produits consultés, produits achetés, meilleures commandes, rapports de vente détaillés</li>
-    <li><h1>Outils</h1><br>
+    <li><h2>Outils</h2><br>
       Import/export d\'articles, moteurs de recherche de prix, gestion bannières, gestion newsletter, <em>Qui est en ligne?</em>, etc.</li>	  
-    <li><h1>Modules</h1><br>
+    <li><h2>Modules</h2><br>
       Paiements, Livraisons, STS (Simple Template System), Total commandes</li>	  
-    <li><h1>Localisation</h1><br>
+    <li><h2>Localisation</h2><br>
       Definition des devises et langues, ainsi que les differents <em>états de commande</em>.</li>
-    <li><h1>Lieux/Taxes</h1><br>
+    <li><h2>Lieux/Taxes</h2><br>
       Pays, Régions, Zones de taxation, Classes de taxation, Taux de taxation</li>
-    <li><h1>Configuration</h1><br>
+    <li><h2>Configuration</h2><br>
       Parametres de configuration généraux.</li>
     <li><h2>Header Tags</h2><br>
       Page Control, Text Control, Fill Tags</li>
