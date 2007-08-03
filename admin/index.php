@@ -12,49 +12,6 @@
 
   require('includes/application_top.php');
 
-  $cat = array(array('title' => BOX_HEADING_CONFIGURATION,
-                     'image' => 'configuration.gif',
-                     'href' => tep_href_link(FILENAME_CONFIGURATION, 'selected_box=configuration&gID=1'),
-                     'children' => array(array('title' => BOX_CONFIGURATION_MYSTORE, 'link' => tep_href_link(FILENAME_CONFIGURATION, 'selected_box=configuration&gID=1')),
-                                         array('title' => BOX_CONFIGURATION_LOGGING, 'link' => tep_href_link(FILENAME_CONFIGURATION, 'selected_box=configuration&gID=10')),
-                                         array('title' => BOX_CONFIGURATION_CACHE, 'link' => tep_href_link(FILENAME_CONFIGURATION, 'selected_box=configuration&gID=11')))),
-               array('title' => BOX_HEADING_MODULES,
-                     'image' => 'modules.gif',
-                     'href' => tep_href_link(FILENAME_MODULES, 'selected_box=modules&set=payment'),
-                     'children' => array(array('title' => BOX_MODULES_PAYMENT, 'link' => tep_href_link(FILENAME_MODULES, 'selected_box=modules&set=payment')),
-                                         array('title' => BOX_MODULES_SHIPPING, 'link' => tep_href_link(FILENAME_MODULES, 'selected_box=modules&set=shipping')))),
-               array('title' => BOX_HEADING_CATALOG,
-                     'image' => 'catalog.gif',
-                     'href' => tep_href_link(FILENAME_CATEGORIES, 'selected_box=catalog'),
-                     'children' => array(array('title' => CATALOG_CONTENTS, 'link' => tep_href_link(FILENAME_CATEGORIES, 'selected_box=catalog')),
-                                         array('title' => BOX_CATALOG_MANUFACTURERS, 'link' => tep_href_link(FILENAME_MANUFACTURERS, 'selected_box=catalog')))),
-               array('title' => BOX_HEADING_LOCATION_AND_TAXES,
-                     'image' => 'location.gif',
-                     'href' => tep_href_link(FILENAME_COUNTRIES, 'selected_box=taxes'),
-                     'children' => array(array('title' => BOX_TAXES_COUNTRIES, 'link' => tep_href_link(FILENAME_COUNTRIES, 'selected_box=taxes')),
-                                         array('title' => BOX_TAXES_GEO_ZONES, 'link' => tep_href_link(FILENAME_GEO_ZONES, 'selected_box=taxes')))),
-               array('title' => BOX_HEADING_CUSTOMERS,
-                     'image' => 'customers.gif',
-                     'href' => tep_href_link(FILENAME_CUSTOMERS, 'selected_box=customers'),
-                     'children' => array(array('title' => BOX_CUSTOMERS_CUSTOMERS, 'link' => tep_href_link(FILENAME_CUSTOMERS, 'selected_box=customers')),
-                                         array('title' => BOX_CUSTOMERS_ORDERS, 'link' => tep_href_link(FILENAME_ORDERS, 'selected_box=customers')))),
-               array('title' => BOX_HEADING_LOCALIZATION,
-                     'image' => 'localization.gif',
-                     'href' => tep_href_link(FILENAME_CURRENCIES, 'selected_box=localization'),
-                     'children' => array(array('title' => BOX_LOCALIZATION_CURRENCIES, 'link' => tep_href_link(FILENAME_CURRENCIES, 'selected_box=localization')),
-                                         array('title' => BOX_LOCALIZATION_LANGUAGES, 'link' => tep_href_link(FILENAME_LANGUAGES, 'selected_box=localization')))),
-               array('title' => BOX_HEADING_REPORTS,
-                     'image' => 'reports.gif',
-                     'href' => tep_href_link(FILENAME_STATS_PRODUCTS_PURCHASED, 'selected_box=reports'),
-                     'children' => array(array('title' => REPORTS_PRODUCTS, 'link' => tep_href_link(FILENAME_STATS_PRODUCTS_PURCHASED, 'selected_box=reports')),
-                                         array('title' => REPORTS_ORDERS, 'link' => tep_href_link(FILENAME_STATS_CUSTOMERS, 'selected_box=reports')))),
-               array('title' => BOX_HEADING_TOOLS,
-                     'image' => 'tools.gif',
-                     'href' => tep_href_link(FILENAME_BACKUP, 'selected_box=tools'),
-                     'children' => array(array('title' => TOOLS_BACKUP, 'link' => tep_href_link(FILENAME_BACKUP, 'selected_box=tools')),
-                                         array('title' => TOOLS_BANNERS, 'link' => tep_href_link(FILENAME_BANNER_MANAGER, 'selected_box=tools')),
-                                         array('title' => TOOLS_FILES, 'link' => tep_href_link(FILENAME_FILE_MANAGER, 'selected_box=tools')))));
-
   $languages = tep_get_languages();
   $languages_array = array();
   $languages_selected = DEFAULT_LANGUAGE;
@@ -71,52 +28,78 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo CHARSET; ?>">
 <title><?php echo TITLE; ?></title>
-<style type="text/css"><!--
-a { color:#080381; text-decoration:none; }
-a:hover { color:#aabbdd; text-decoration:underline; }
-a.text:link, a.text:visited { color: #000000; text-decoration: none; }
-a:text:hover { color: #000000; text-decoration: underline; }
-a.main:link, a.main:visited { color: #ffffff; text-decoration: none; }
-A.main:hover { color: #ffffff; text-decoration: underline; }
-a.sub:link, a.sub:visited { color: #dddddd; text-decoration: none; }
-A.sub:hover { color: #dddddd; text-decoration: underline; }
-.heading { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 20px; font-weight: bold; line-height: 1.5; color: #D3DBFF; }
-.main { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 17px; font-weight: bold; line-height: 1.5; color: #ffffff; }
-.sub { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold; line-height: 1.5; color: #dddddd; }
-.text { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; font-weight: bold; line-height: 1.5; color: #000000; }
-.menuBoxHeading { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; color: #ffffff; font-weight: bold; background-color: #7187bb; border-color: #7187bb; border-style: solid; border-width: 1px; }
-.infoBox { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; color: #080381; background-color: #f2f4ff; border-color: #7187bb; border-style: solid; border-width: 1px; }
-.smallText { font-family: Verdana, Arial, sans-serif; font-size: 10px; }
-//--></style>
+<style type="text/css">
+<!--
+.infoBox {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #080381;
+	background-color: #f2f4ff;
+	border-color: #7187bb;
+	border-style: solid;
+	border-width: 1px;
+}
+.smallText {
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 10px;
+}
+//
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="includes/stylesheet.css">
+<script language="javascript" src="includes/general.js"></script>
 </head>
 <body marginwidth="0" marginheight="0" topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0" bgcolor="#FFFFFF">
-
-<table border="0" width="600" height="100%" cellspacing="0" cellpadding="0" align="center" valign="middle">
+<!-- header //-->
+<?php require(DIR_WS_INCLUDES . 'header.php'); ?>
+<!-- header_eof //-->
+<!-- body //-->
+<table border="0" width="100%" cellspacing="2" cellpadding="2">
   <tr>
-    <td><table border="0" width="600" height="440" cellspacing="0" cellpadding="1" align="center" valign="middle">
-      <tr bgcolor="#000000">
-        <td><table border="0" width="600" height="440" cellspacing="0" cellpadding="0">
-          <tr bgcolor="#ffffff" height="50">
-            <td height="50"><?php echo tep_image(DIR_WS_IMAGES . 'swisscart.gif', 'swisscart&reg;', '126', '29'); ?></td>
-            <td align="right" class="text" nowrap><?php echo '<a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . HEADER_TITLE_ADMINISTRATION . '</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="' . tep_catalog_href_link() . '">' . HEADER_TITLE_ONLINE_CATALOG . '</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://www.oscommerce.com" target="_blank">' . HEADER_TITLE_SUPPORT_SITE . '</a>'; ?>&nbsp;&nbsp;</td>
-          </tr>
-          <tr bgcolor="#080381">
-            <td colspan="2"><table border="0" width="460" height="390" cellspacing="0" cellpadding="2">
-              <tr valign="top">
-                <td width="140" valign="top"><table border="0" width="140" height="390" cellspacing="0" cellpadding="2">
-                  <tr>
-                    <td valign="top"><br>
-<?php
+    <td width="<?php echo BOX_WIDTH; ?>" valign="top"><table border="0" width="<?php echo BOX_WIDTH; ?>" cellspacing="1" cellpadding="1" class="columnLeft">
+        <!-- left_navigation //-->
+        <?php require(DIR_WS_INCLUDES . 'column_left.php'); ?>
+        <!-- left_navigation_eof //-->
+      </table></td>
+    <!-- body_text //-->
+    <td valign="top" class="main"><?php echo TEXT_ADMIN_FRONTPAGE ?></td>
+    <!-- body_text_eof //-->
+    <!-- column_right //-->
+    <td width="200" valign="top" style="padding-right: 50px; "><br />
+      <?php
+  if(BOX_NEWS_RSS_SOURCE) {  
+	  require(DIR_WS_CLASSES . 'rss_reader.php');
+	  $rss = new RSSReader(BOX_NEWS_RSS_SOURCE);
+	  $rss_content = '<ul class="rssfeed">';
+	  for ($i=0;$i<3;$i++) $rss_content .= '<li>' . $rss->getItemTitle("rsslink",$i) . '</li>';
+	  $rss_content .= '</ul>';
+		  
+	  $heading = array();
+	  $contents = array();
+	
+	  $heading[] = array('params' => 'class="menuBoxHeading"',
+						 'text'  => $rss->getChannelTitle());
+	
+	  $contents[] = array('params' => 'class="infoBox"',
+						  'text'  => $rss_content);
+	
+	  $box = new box;
+	  echo $box->menuBox($heading, $contents);
+	
+	  echo '<br>';
+  }
+
   $heading = array();
   $contents = array();
 
   $heading[] = array('params' => 'class="menuBoxHeading"',
-                     'text'  => 'osCommerce');
+                     'text'  => 'Support');
 
   $contents[] = array('params' => 'class="infoBox"',
-                      'text'  => '<a href="http://www.oscommerce.com" target="_blank">' . BOX_ENTRY_SUPPORT_SITE . '</a><br>' .
+                      'text'  => '<a href="http://www.swisscart.com" target="_blank">' . BOX_ENTRY_SUPPORT_SITE . '</a><br>' .
                                  '<a href="http://forums.oscommerce.com" target="_blank">' . BOX_ENTRY_SUPPORT_FORUMS . '</a><br>' .
-                                 '<a href="http://www.oscommerce.com/community/contributions" target="_blank">' . BOX_ENTRY_CONTRIBUTIONS . '</a>');
+                                 '<a href="http://www.oscommerce.info/" target="_blank">' . BOX_ENTRY_KNOWLEDGE_BASE . '</a><br>' . 		
+								 '<a href="http://www.oscommerce.com/community/contributions" target="_blank">' . BOX_ENTRY_CONTRIBUTIONS . '</a>');								 						 
 
   $box = new box;
   echo $box->menuBox($heading, $contents);
@@ -183,68 +166,9 @@ A.sub:hover { color: #dddddd; text-decoration: underline; }
   $box = new box;
   echo $box->tableBlock($contents);
 ?>
-                    </td>
-                  </tr>
-                </table></td>
-                <td width="460"><table border="0" width="460" height="390" cellspacing="0" cellpadding="2">
-                  <tr>
-                    <td colspan="2"><table border="0" width="100%" cellspacing="0" cellpadding="2">
-                      <tr><?php echo tep_draw_form('languages', 'index.php', '', 'get'); ?>
-                        <td class="heading"><?php echo HEADING_TITLE; ?></td>
-                        <td align="right"><?php echo tep_draw_pull_down_menu('language', $languages_array, $languages_selected, 'onChange="this.form.submit();"'); ?></td>
-                      </form></tr>
-                    </table></td>
-                  </tr>
-<?php
-  $col = 2;
-  $counter = 0;
-  for ($i = 0, $n = sizeof($cat); $i < $n; $i++) {
-    $counter++;
-    if ($counter < $col) {
-      echo '                  <tr>' . "\n";
-    }
-
-    echo '                    <td><table border="0" cellspacing="0" cellpadding="2">' . "\n" .
-         '                      <tr>' . "\n" .
-         '                        <td><a href="' . $cat[$i]['href'] . '">' . tep_image(DIR_WS_IMAGES . 'categories/' . $cat[$i]['image'], $cat[$i]['title'], '32', '32') . '</a></td>' . "\n" .
-         '                        <td><table border="0" cellspacing="0" cellpadding="2">' . "\n" .
-         '                          <tr>' . "\n" .
-         '                            <td class="main"><a href="' . $cat[$i]['href'] . '" class="main">' . $cat[$i]['title'] . '</a></td>' . "\n" .
-         '                          </tr>' . "\n" .
-         '                          <tr>' . "\n" .
-         '                            <td class="sub">';
-
-    $children = '';
-    for ($j = 0, $k = sizeof($cat[$i]['children']); $j < $k; $j++) {
-      $children .= '<a href="' . $cat[$i]['children'][$j]['link'] . '" class="sub">' . $cat[$i]['children'][$j]['title'] . '</a>, ';
-    }
-    echo substr($children, 0, -2);
-
-    echo '</td> ' . "\n" .
-         '                          </tr>' . "\n" .
-         '                        </table></td>' . "\n" .
-         '                      </tr>' . "\n" .
-         '                    </table></td>' . "\n";
-
-    if ($counter >= $col) {
-      echo '                  </tr>' . "\n";
-      $counter = 0;
-    }
-  }
-?>
-                </table></td>
-              </tr>
-            </table></td>
-          </tr>
-        </table></td>
-      </tr>
-      <tr>
-        <td><?php require(DIR_WS_INCLUDES . 'footer.php'); ?></td>
-      </tr>
-    </table></td>
+    </td>
   </tr>
 </table>
-
+<?php require(DIR_WS_INCLUDES . 'footer.php'); ?>
 </body>
-
 </html>

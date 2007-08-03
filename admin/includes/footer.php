@@ -41,6 +41,6 @@ osCommerce provides no warranty and is redistributable under the <a href="http:/
     <td><?php echo tep_image(DIR_WS_IMAGES . 'pixel_trans.gif', '', '1', '5'); ?></td>
   </tr>
   <tr>
-    <td align="center" class="smallText">Powered by <a href="http://www.swisscart.com" target="_blank">swisscart&reg;</a></td>
+    <td align="center" class="smallText">Powered by <a href="http://www.swisscart.com" target="_blank">swisscart&reg;</a> <?php echo SWISSCART_VERSION ?></td>
   </tr>
 </table>

@@ -9,46 +9,57 @@
   Released under the GNU General Public License
 */
 
+body, td, th, textarea {
+  font-family: Verdana, Arial, sans-serif; 
+}
+
 /* links */
-a:link { color: #000000; font-weight: normal; }
-a:visited { color: #000000; font-weight: normal; }
-a:active { color: #000000; font-weight: normal; }
-a:hover { color: #000000; font-weight: normal; }
+a:link { font-size: 10px; color: #000000; font-weight: normal; text-decoration: none; }
+a:visited { font-size: 10px; color: #000000; font-weight: normal; text-decoration: none; }
+a:active { font-size: 10px; color: #000000; font-weight: normal; text-decoration: none; }
+a:hover { font-size: 10px; color: #000000; font-weight: normal; text-decoration: underline; }
 
-a.headerLink:link { font-size: 10px; color: #ffffff; font-weight: bold; text-decoration: none; }
-a.headerLink:visited { font-size: 10px; color: #ffffff; font-weight: bold; text-decoration: none; }
-a.headerLink:active { font-size: 10px; color: #ffffff; font-weight: bold; text-decoration: none; }
-a.headerLink:hover { font-size: 10px; color: #ffffff; font-weight: bold; text-decoration: underline; }
+a.headerLink:link { font-size: 10px; color: #ffffff; font-weight: normal; text-decoration: none; }
+a.headerLink:visited { font-size: 10px; color: #ffffff; font-weight: normal; text-decoration: none; }
+a.headerLink:active { font-size: 10px; color: #ffffff; font-weight: normal; text-decoration: none; }
+a.headerLink:hover { font-size: 10px; color: #ffffff; font-weight: normal; text-decoration: underline; }
 
-a.menuBoxHeadingLink:link { font-size: 10px; color: #616060; font-weight: bold; text-decoration: none; }
-a.menuBoxHeadingLink:visited { font-size: 10px; color: #616060; font-weight: bold; text-decoration: none; }
-a.menuBoxHeadingLink:active { font-size: 10px; color: #616060; font-weight: bold; text-decoration: none; }
-a.menuBoxHeadingLink:hover { font-size: 10px; color: #616060; font-weight: bold; text-decoration: none; }
+a.menuBoxHeadingLink:link { font-size: 12px; color: #727272; font-weight: bold; text-decoration: none; }
+a.menuBoxHeadingLink:visited { font-size: 12px; color: #727272; font-weight: bold; text-decoration: none; }
+a.menuBoxHeadingLink:active { font-size: 12px; color: #727272; font-weight: bold; text-decoration: none; }
+a.menuBoxHeadingLink:hover { font-size: 12px; color: #727272; font-weight: bold; text-decoration: none; }
 
-a.menuBoxContentLink:link { font-size: 10px; color: #616060; font-weight: normal; text-decoration: none; }
-a.menuBoxContentLink:visited { font-size: 10px; color: #616060; font-weight: normal; text-decoration: none; }
-a.menuBoxContentLink:active { font-size: 10px; color: #616060; font-weight: normal; text-decoration: none; }
-a.menuBoxContentLink:hover { font-size: 10px; color: #616060; font-weight: normal; text-decoration: underline; }
+a.menuBoxContentLink:link { font-size: 11px; color: #616060; font-weight: normal; text-decoration: none; margin-left: 10px; }
+a.menuBoxContentLink:visited { font-size: 11px; color: #616060; font-weight: normal; text-decoration: none; margin-left: 10px; }
+a.menuBoxContentLink:active { font-size: 11px; color: #616060; font-weight: normal; text-decoration: none; margin-left: 10px; }
+a.menuBoxContentLink:hover { font-size: 11px; color: #616060; font-weight: normal; text-decoration: underline; margin-left: 10px; }
 
 a.splitPageLink:link { font-size: 10px; color: #0000FF; font-weight: normal; text-decoration: none; }
 a.splitPageLink:visited { font-size: 10px; color: #0000FF; font-weight: normal; text-decoration: none; }
 a.splitPageLink:active { font-size: 10px; color: #0000FF; font-weight: normal; text-decoration: none; }
 a.splitPageLink:hover { font-size: 10px; color: #0000FF; font-weight: normal; text-decoration: underline; background-color: #FFFF33; }
+a.normalLink { font-size: 12px; text-decoration: underline; }
 
 /* menu box */
 .menuBoxHeading { font-size: 10px; color: #616060; background-color: #ffffff; }
 .menuBoxContent { font-size: 10px; color: #616060; }
 
 /* page */
-body, td, textarea { font-family: Verdana, Arial, sans-serif; }
 body { background-color: #ffffff; color: #000000; margin: 0px; }
-.headerBar { background-color: #B3BAC5; }
-.headerBarContent { font-size: 10px; color: #ffffff; font-weight: bold; padding: 2px; }
-.columnLeft { background-color: #F0F1F1; border-color: #999999; border-width: 1px; border-style: solid; padding: 2px; }
-.pageHeading { font-size: 18px; color: #727272; font-weight: bold; }
+.headerBar { background-color: #7187BB; }
+.headerBarWhiteFont { background-color: #7187BB; color: white; fontmain-weight: bold; padding: 2px; }
+.headerBarContent { font-size: 10px; color: #ffffff; font-weight: normal; padding: 1px; }
+.columnLeft { background-color: #F0F1F1; border-color: #F0F1F1; border-width: 5px; border-style: solid; padding: 2px; }
+.pageHeading, h1 { font-size: 18px; color: #727272; font-weight: bold; }
+p.pageHeading { margin-bottom: 0; padding-bottom: 0; }
+h2, ol li { font-size: 14px; color: #727272; font-weight: bold; }
+h2 { padding-bottom: 0; margin-bottom: 0; }
+ol { width: 70%; }
+ol li p { padding-top: 0; margin-top: 0; font-weight: normal; font-size: 12px; color: #000; }
+
 
 /* data table */
-.dataTableHeadingRow { background-color: #C9C9C9; }
+.dataTableHeadingRow { background-color: #7187BB; }
 .dataTableHeadingContent { font-size: 10px; color: #ffffff; font-weight: bold; }
 .dataTableRow { background-color: #F0F1F1; }
 .dataTableRowSelected { background-color: #DEE4E8; }
@@ -62,8 +73,8 @@ body { background-color: #ffffff; color: #000000; margin: 0px; }
 /* message box */
 
 .messageBox { font-size: 10px; }
-.messageStackError, .messageStackWarning { font-size: 10px; background-color: #ffb3b5; }
-.messageStackSuccess { font-size: 10px; background-color: #99ff00; }
+.messageStackError, .messageStackWarning { font-size: 10px; background-color: #cc0000; color: white; }
+.messageStackSuccess { font-size: 10px; background-color: #7187bb; color: white; }
 
 /* forms */
 CHECKBOX, INPUT, RADIO, SELECT, TEXTAREA, FILE { font-size: 11px; }
@@ -85,3 +96,72 @@ FORM { display: inline; }
 .main { font-size: 12px; }
 .errorText { font-size: 10px; color: #ff0000; }
 
+a.bigLink:link { font-size: 12px; color: #000000; font-weight: normal; text-decoration: none; }
+a.bigLink:visited { font-size: 12px; color: #000000; font-weight: normal; text-decoration: none; }
+a.bigLink:active { font-size: 12px; color: #000000; font-weight: normal; text-decoration: none; }
+a.bigLink:hover { font-size: 12px; color: #000000; font-weight: normal; text-decoration: underline; }
+
+.line { line-height: 1.5; }
+a.mediumlink:link, a.mediumlink:visited, a.mediumlink:active, a.mediumlink:hover{ font-size: 12px; text-decoration: underline; color: #7187bb; }
+a.mediumlink:hover { font-size: 12px; text-decoration: underline; color: #cc0000; }
+li {
+	font-size: 12px;
+}
+ul.introduction {
+	margin-left: 0;
+	padding-left: 0;
+	width: 80%;
+}
+ul.introduction li {
+	font-size: 11px;
+	list-style: none;
+	padding-left: 2px;
+	margin-left: 0;
+	padding-bottom: 10px;
+}
+td ul.introduction li a {
+	font-size: 12px;
+	text-decoration: underline;
+}
+li h2	{
+	display: inline;
+	color: #727272;
+	font-weight: bold;
+	font-size: 12px;
+	padding: 0;
+	margin: 0;
+}
+li.nodisc { 
+	line-height: 18px;	
+	list-style-type: none; 
+}
+.desc_header {
+	color: #cc0000;
+	font-weight: bold;
+}
+table.tableborder {
+	border-collapse: collapse;
+}
+table.tableborder td {
+	border: 1px dotted silver;
+}
+table.tableborder a {
+	font-size: 12px;
+	text-decoration: underline;
+}
+p.warning { border: 1px dotted red; padding: 3px; width: 75%; }
+
+table.stockview td {
+	font-size: 11px;
+}
+
+ul.rssfeed {
+	padding: 0;
+	margin: 0;
+}
+ul.rssfeed li {
+	list-style-type: none;
+	padding-left: 14px;
+	background: url(../images/icons/bullet_star.png) -3px -1px no-repeat;
+	padding-bottom: 3px;
+}
