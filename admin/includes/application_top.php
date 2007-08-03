@@ -33,6 +33,7 @@
 
 // Define the project version
   define('PROJECT_VERSION', 'osCommerce 2.2-MS2');
+  define('SWISSCART_VERSION', 'v4.0');
 
 // set php_self in the local scope
   $PHP_SELF = (isset($HTTP_SERVER_VARS['PHP_SELF']) ? $HTTP_SERVER_VARS['PHP_SELF'] : $HTTP_SERVER_VARS['SCRIPT_NAME']);
@@ -50,7 +51,7 @@
   require(DIR_WS_INCLUDES . 'database_tables.php');
 
 // customization for the design layout
-  define('BOX_WIDTH', 125); // how wide the boxes should be in pixels (default: 125)
+  define('BOX_WIDTH', 170); // how wide the boxes should be in pixels (default: 125)
 
 // Define how do we update currency exchange rates
 // Possible values are 'oanda' 'xe' or ''
@@ -136,6 +137,9 @@
     include(DIR_WS_LANGUAGES . $language . '/' . $current_page);
   }
 
+// include authentication user/password of administration
+  include(DIR_WS_INCLUDES . 'authentication.php');
+
 // define our localization functions
   require(DIR_WS_FUNCTIONS . 'localization.php');
 
@@ -181,7 +185,7 @@
 // default open navigation box
   if (!tep_session_is_registered('selected_box')) {
     tep_session_register('selected_box');
-    $selected_box = 'configuration';
+    $selected_box = 'customers';
   }
 
   if (isset($HTTP_GET_VARS['selected_box'])) {
