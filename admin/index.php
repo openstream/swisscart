@@ -78,7 +78,7 @@
 	  $contents = array();
 	
 	  $heading[] = array('params' => 'class="menuBoxHeading"',
-						 'text'  => $rss->getChannelTitle());
+						 'text'  => $rss->getChannelTitle() . '&nbsp;<img src="images/icons/feed.png" alt="RSS Feed" />');
 	
 	  $contents[] = array('params' => 'class="infoBox"',
 						  'text'  => $rss_content);

@@ -1,5 +1,4 @@
 <?php
-
 if(!isset($PHP_AUTH_USER)) 
 {	header('WWW-Authenticate: Basic realm="' . html_entity_decode(TITLE) . '"');
 	header('HTTP/1.0 401 Unauthorized');
@@ -14,6 +13,4 @@ else
 		exit;
 	}
 }
-
 ?>
-

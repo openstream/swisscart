@@ -18,7 +18,7 @@
   <tr>
     <td><?php echo tep_image(DIR_WS_IMAGES . 'swisscart.gif', 'swisscart&reg;', '126', '29'); ?></td>
     <td align="right">
-	<?php if (strstr($_SERVER['PHP_SELF'], FILENAME_DEFINE_NEWS) || strstr($_SERVER['PHP_SELF'], FILENAME_DEFINE_MAINPAGE) || strstr($_SERVER['PHP_SELF'], FILENAME_DEFINE_TERMS) ) { } else {
+	<?php if (strstr($_SERVER['PHP_SELF'], FILENAME_FILE_MANAGER) || strstr($_SERVER['PHP_SELF'], FILENAME_DEFINE_LANGUAGE) || strstr($_SERVER['PHP_SELF'], FILENAME_DEFINE_TERMS) ) { } else {
 		$languages = tep_get_languages();
 		$languages_array = array();
 		$languages_selected = DEFAULT_LANGUAGE;
