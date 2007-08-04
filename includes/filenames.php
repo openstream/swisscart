@@ -59,6 +59,7 @@
   define('FILENAME_REVIEWS', 'reviews.php');
   define('FILENAME_SHIPPING', 'shipping.php');
   define('FILENAME_SHOPPING_CART', 'shopping_cart.php');
+  define('FILENAME_SITEMAP', 'sitemap.php');
   define('FILENAME_SPECIALS', 'specials.php');
   define('FILENAME_SSL_CHECK', 'ssl_check.php');
   define('FILENAME_TELL_A_FRIEND', 'tell_a_friend.php');

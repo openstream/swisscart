@@ -128,6 +128,7 @@ define('BOX_INFORMATION_PRIVACY', 'Privatsph&auml;re<br>&nbsp;und Datenschutz');
 define('BOX_INFORMATION_CONDITIONS', 'Unsere AGB\'s');
 define('BOX_INFORMATION_SHIPPING', 'Liefer- und<br>&nbsp;Versandkosten');
 define('BOX_INFORMATION_CONTACT', 'Kontakt');
+define('BOX_INFORMATION_SITEMAP', 'Sitemap');
 
 // tell a friend box text in includes/boxes/tell_a_friend.php
 define('BOX_HEADING_TELL_A_FRIEND', 'Weiterempfehlen');
