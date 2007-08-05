@@ -73,7 +73,7 @@
       $image .= ' title=" ' . tep_output_string($alt) . ' "';
     }
 
-    if (tep_not_null($width) && tep_not_null($height)) {
+    if (tep_not_null($width) || tep_not_null($height)) {
       $image .= ' width="' . tep_output_string($width) . '" height="' . tep_output_string($height) . '"';
     }
 

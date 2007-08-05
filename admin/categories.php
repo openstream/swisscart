@@ -326,7 +326,7 @@
 
             $description_query = tep_db_query("select language_id, products_name, products_seo_url, products_description, products_head_title_tag, products_head_desc_tag, products_head_keywords_tag, products_url from " . TABLE_PRODUCTS_DESCRIPTION . " where products_id = '" . (int)$products_id . "'");
             while ($description = tep_db_fetch_array($description_query)) {
-              tep_db_query("insert into " . TABLE_PRODUCTS_DESCRIPTION . " (products_id, language_id, products_name, products_seo_url, products_description, products_head_title_tag, products_head_desc_tag, products_head_keywords_tag, products_url, products_viewed) values ('" . (int)$dup_products_id . "', '" . (int)$description['language_id'] . "', '" . tep_db_input($description['products_name']) . "', '" . tep_db_input($description['products_seo_url']) . "','" . tep_db_input($description['products_description']) . "', '" . tep_db_input($description['products_url']) . "', '0')");
+              tep_db_query("insert into " . TABLE_PRODUCTS_DESCRIPTION . " (products_id, language_id, products_name, products_seo_url, products_description, products_head_title_tag, products_head_desc_tag, products_head_keywords_tag, products_url, products_viewed) values ('" . (int)$dup_products_id . "', '" . (int)$description['language_id'] . "', '" . tep_db_input($description['products_name']) . "', '" . tep_db_input($description['products_seo_url']) . "','" . tep_db_input($description['products_description']) . "', '" . tep_db_input($description['products_head_title_tag']) . "', '" . tep_db_input($description['products_head_desc_tag']) . "', '" . tep_db_input($description['products_head_keywords_tag']) . "', '" . tep_db_input($description['products_url']) . "', '0')");
             }
 
             tep_db_query("insert into " . TABLE_PRODUCTS_TO_CATEGORIES . " (products_id, categories_id) values ('" . (int)$dup_products_id . "', '" . (int)$categories_id . "')");
@@ -395,34 +395,36 @@
 <script language="javascript" src="includes/general.js"></script>
 <?php
 // Tiny MCE WYISIWYG detection and include
-if (file_exists("tiny_mce/tiny_mce.js")) { $tiny_mce = "tiny_mce/tiny_mce.js"; }
-elseif (file_exists("includes/javascript/tiny_mce/tiny_mce.js")) { $tiny_mce = "includes/javascript/tiny_mce/tiny_mce.js"; }
-else $tiny_mce = '';
-if($tiny_mce) {
-echo '<script language="javascript" type="text/javascript" src="' . $tiny_mce . '"></script>
-<script language="javascript" type="text/javascript">
-tinyMCE.init({
-mode : "exact",
-elements : "';
-$languages = tep_get_languages();
-for ($i=0, $n=sizeof($languages); $i<$n; $i++) echo 'products_description[' . $i . '],';
-echo '",
-theme : "simple",
-plugins : "table,advhr,advimage,advlink,emotions,preview,flash,print,contextmenu",
-theme_advanced_buttons1_add : "fontselect,fontsizeselect",
-theme_advanced_buttons2_add : "separator,preview,separator,forecolor,backcolor",
-theme_advanced_buttons2_add_before: "cut,copy,paste,separator",
-theme_advanced_buttons3_add_before : "tablecontrols,separator",
-theme_advanced_buttons3_add : "emotions,flash,advhr,separator,print",
-theme_advanced_toolbar_location : "top",
-theme_advanced_toolbar_align : "left",
-theme_advanced_path_location : "bottom",
-extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
-external_link_list_url : "example_data/example_link_list.js",
-external_image_list_url : "example_data/example_image_list.js",
-flash_external_list_url : "example_data/example_flash_list.js"
-});
-</script>';
+if($_GET['action'] != 'new_product_preview') { // prevent hidden fields to be rendered by TinyMCE in preview
+	if (file_exists("tiny_mce/tiny_mce.js")) { $tiny_mce = "tiny_mce/tiny_mce.js"; }
+	elseif (file_exists("includes/javascript/tiny_mce/tiny_mce.js")) { $tiny_mce = "includes/javascript/tiny_mce/tiny_mce.js"; }
+	else $tiny_mce = '';
+	if($tiny_mce) {
+	echo '<script language="javascript" type="text/javascript" src="' . $tiny_mce . '"></script>
+	<script language="javascript" type="text/javascript">
+	tinyMCE.init({
+	mode : "exact",
+	elements : "';
+	$languages = tep_get_languages();
+	for ($i=0, $n=sizeof($languages); $i<$n; $i++) echo 'products_description[' . $i . '],';
+	echo '",
+	theme : "simple",
+	plugins : "table,advhr,advimage,advlink,emotions,preview,flash,print,contextmenu",
+	theme_advanced_buttons1_add : "fontselect,fontsizeselect",
+	theme_advanced_buttons2_add : "separator,preview,separator,forecolor,backcolor",
+	theme_advanced_buttons2_add_before: "cut,copy,paste,separator",
+	theme_advanced_buttons3_add_before : "tablecontrols,separator",
+	theme_advanced_buttons3_add : "emotions,flash,advhr,separator,print",
+	theme_advanced_toolbar_location : "top",
+	theme_advanced_toolbar_align : "left",
+	theme_advanced_path_location : "bottom",
+	extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
+	external_link_list_url : "example_data/example_link_list.js",
+	external_image_list_url : "example_data/example_image_list.js",
+	flash_external_list_url : "example_data/example_flash_list.js"
+	});
+	</script>';
+	}
 }
 ?>
 </head>
@@ -738,21 +740,21 @@ updateGross();
           </tr>
           <tr>
             <td class="main"><?php echo TEXT_PRODUCTS_IMAGE2; ?></td>
-            <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_file_field('products_image2') . '<br>' . tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . $pInfo->products_image . tep_draw_hidden_field('products_previous_image2', $pInfo->products_image2); ?></td>
+            <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_file_field('products_image2') . '<br>' . tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . $pInfo->products_image2 . tep_draw_hidden_field('products_previous_image2', $pInfo->products_image2); ?></td>
           </tr>
           <tr>
             <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
           </tr>
           <tr>
             <td class="main"><?php echo TEXT_PRODUCTS_IMAGE3; ?></td>
-            <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_file_field('products_image3') . '<br>' . tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . $pInfo->products_image . tep_draw_hidden_field('products_previous_image3', $pInfo->products_image3); ?></td>
+            <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_file_field('products_image3') . '<br>' . tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . $pInfo->products_image3 . tep_draw_hidden_field('products_previous_image3', $pInfo->products_image3); ?></td>
           </tr>
           <tr>
             <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
           </tr>
           <tr>
             <td class="main"><?php echo TEXT_PRODUCTS_IMAGE4; ?></td>
-            <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_file_field('products_image4') . '<br>' . tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . $pInfo->products_image . tep_draw_hidden_field('products_previous_image4', $pInfo->products_image4); ?></td>
+            <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_file_field('products_image4') . '<br>' . tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . $pInfo->products_image4 . tep_draw_hidden_field('products_previous_image4', $pInfo->products_image4); ?></td>
           </tr>
           <tr>
             <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
