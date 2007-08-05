@@ -406,7 +406,7 @@ if($_GET['action'] != 'new_product_preview') { // prevent hidden fields to be re
 	mode : "exact",
 	elements : "';
 	$languages = tep_get_languages();
-	for ($i=0, $n=sizeof($languages); $i<$n; $i++) echo 'products_description[' . $i . '],';
+	for ($i=1; $i<sizeof($languages)+1; $i++) echo 'products_description[' . $i . '],';
 	echo '",
 	theme : "simple",
 	plugins : "table,advhr,advimage,advlink,emotions,preview,flash,print,contextmenu",
