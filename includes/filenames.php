@@ -46,6 +46,7 @@
   define('FILENAME_LOGOFF', 'logoff.php');
   define('FILENAME_NEW_PRODUCTS', 'new_products.php');
   define('FILENAME_PASSWORD_FORGOTTEN', 'password_forgotten.php');
+  define('FILENAME_PDF_DATASHEET', 'pdf_datasheet.php');
   define('FILENAME_POPUP_IMAGE', 'popup_image.php');
   define('FILENAME_POPUP_SEARCH_HELP', 'popup_search_help.php');
   define('FILENAME_PRIVACY', 'privacy.php');

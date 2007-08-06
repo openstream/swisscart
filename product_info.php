@@ -115,7 +115,7 @@ function setcolor(obj,percentage,prop){
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
           <tr>
-            <td class="pageHeading" valign="top"><h1><?php echo $products_name; ?></h1></td>
+            <td class="pageHeading" valign="top"><h1><?php echo $products_name; ?>&nbsp;<a href="<?php echo tep_href_link('pdf_datasheet.php', 'products_id=' . $product_info['products_id']) ?>"><img src="images/icons/pdf.png" alt="PDF" border="0" /></a></h1></td>
             <td class="pageHeading" align="right" valign="top"><?php echo $products_price; ?></td>
           </tr>
         </table></td>
