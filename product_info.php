@@ -75,13 +75,13 @@ function setcolor(obj,percentage,prop){
   if ($product_check['total'] < 1) {
 ?>
       <tr>
-        <td><?php new infoBox(array(array('text' => TEXT_PRODUCT_NOT_FOUND))); ?></td>
+        <td colspan="2"><?php new infoBox(array(array('text' => TEXT_PRODUCT_NOT_FOUND))); ?></td>
       </tr>
       <tr>
-        <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
+        <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
       </tr>
       <tr>
-        <td><table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBox">
+        <td colspan="2"><table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBox">
           <tr class="infoBoxContents">
             <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
               <tr>
@@ -107,35 +107,21 @@ function setcolor(obj,percentage,prop){
     }
 
     if (tep_not_null($product_info['products_model'])) {
-      $products_name = $product_info['products_name'] . '<br><span class="smallText">[' . $product_info['products_model'] . ']</span>';
+      $products_name = '<h1 class="productsName">' . $product_info['products_name'] . '</h1><span class="smallText">[' . $product_info['products_model'] . ']</span>';
     } else {
-      $products_name = $product_info['products_name'];
+      $products_name = '<h1 class="productsName">' . $product_info['products_name'] . '</h1>';
     }
 ?>
       <tr>
-        <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
-          <tr>
-            <td class="pageHeading" valign="top"><h1><?php echo $products_name; ?>&nbsp;<a href="<?php echo tep_href_link('pdf_datasheet.php', 'products_id=' . $product_info['products_id']) ?>"><img src="images/icons/pdf.png" alt="PDF" border="0" /></a></h1></td>
-            <td class="pageHeading" align="right" valign="top"><?php echo $products_price; ?></td>
-          </tr>
-        </table></td>
-      </tr>
-      <tr>
-        <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
-      </tr>
-      <tr>
-        <td class="main">
+        <td>     
 <?php
     if (tep_not_null($product_info['products_image'])) {
 ?>
-          <table border="0" cellspacing="0" cellpadding="2" align="right">
+          <table border="0" cellspacing="0" cellpadding="2">
             <tr>
               <td align="center" class="smallText">
 			  <?php if (LIGHTBOX_ENABLE == 'true') { 
-				echo '<a rel="lightbox[roadtrip]" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image']) . '" title="'. $product_info['products_name'] .' - '. $manufacturer['manufacturers_name'] .'">'. tep_image(DIR_WS_IMAGES . $product_info['products_image'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '<br>' . TEXT_CLICK_TO_ENLARGE .'</a>'; 
-				if ($product_info['products_image2']) echo '<br><a rel="lightbox[roadtrip]" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image2']) . '" title="'. $product_info['products_name'] .' Image 2 - '. $manufacturer['manufacturers_name'] .'">'. tep_image(DIR_WS_IMAGES . $product_info['products_image2'], addslashes($product_info['products_name']) . ' (Image 2)', SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '<br>' . TEXT_CLICK_TO_ENLARGE .'</a>'; 
-				if ($product_info['products_image3']) echo '<br><a rel="lightbox[roadtrip]" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image3']) . '" title="'. $product_info['products_name'] .' Image 3 - '. $manufacturer['manufacturers_name'] .'">'. tep_image(DIR_WS_IMAGES . $product_info['products_image3'], addslashes($product_info['products_name']) . ' (Image 3)', SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '<br>' . TEXT_CLICK_TO_ENLARGE .'</a>'; 
-				if ($product_info['products_image4']) echo '<br><a rel="lightbox[roadtrip]" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image4']) . '" title="'. $product_info['products_name'] .' Image 4 - '. $manufacturer['manufacturers_name'] .'">'. tep_image(DIR_WS_IMAGES . $product_info['products_image4'], addslashes($product_info['products_name']) . ' (Image 4)', SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '<br>' . TEXT_CLICK_TO_ENLARGE .'</a>'; 
+				echo '<a rel="lightbox[roadtrip]" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image']) . '" title="'. $product_info['products_name'] .' - '. $manufacturer['manufacturers_name'] .'">'. tep_image(DIR_WS_IMAGES . $product_info['products_image'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '<br>' . tep_image_button('button_image_enlarge.gif', IMAGE_BUTTON_IMAGE_ENLARGE) . '</a>'; 
 				} else { ?>
 					<script language="javascript"><!--
                     document.write('<?php echo '<a href="javascript:popupWindow(\\\'' . tep_href_link(FILENAME_POPUP_IMAGE, 'pID=' . $product_info['products_id']) . '\\\')">' . tep_image(DIR_WS_IMAGES . $product_info['products_image'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '<br>' . TEXT_CLICK_TO_ENLARGE . '</a>'; ?>');
@@ -143,13 +129,54 @@ function setcolor(obj,percentage,prop){
                     <noscript>
                     <?php echo '<a href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image']) . '" target="_blank">' . tep_image(DIR_WS_IMAGES . $product_info['products_image'], $product_info['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '<br>' . TEXT_CLICK_TO_ENLARGE . '</a>'; ?>
                     </noscript>
-			  <?php } // endif lightbox ?>
-              </td>
+			  <?php } // endif lightbox ?>              </td>
             </tr>
           </table>
 <?php
     }
 ?>
+		</td>
+        <td valign="bottom"><table border="0" width="100%" cellspacing="0" cellpadding="2">
+          <tr>
+            <td><?php echo $products_name; ?></td>
+          </tr>
+          <tr>
+            <td><span class="pageHeading productsPrice"><?php echo $products_price; ?></span><br>                </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td><?php echo tep_draw_hidden_field('products_id', $product_info['products_id']) . tep_image_submit('button_in_cart.gif', IMAGE_BUTTON_IN_CART) . '&nbsp;<a href="' . tep_href_link('pdf_datasheet.php', 'products_id=' . $product_info['products_id']) . '">' . tep_image_button('button_pdf.gif', IMAGE_BUTTON_PDF) . '</a>'; ?></td>
+          </tr>
+        </table></td>
+      </tr> 
+      
+      <tr>
+        <td colspan="2" class="main">
+<?php
+    if (tep_not_null($product_info['products_image'])) {
+?>
+          <table border="0" cellspacing="0" cellpadding="2" align="right">
+            <tr>
+              <td align="center" class="smallText">
+			  <?php if (LIGHTBOX_ENABLE == 'true') { 
+				if ($product_info['products_image2']) echo '<br><a rel="lightbox[roadtrip]" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image2']) . '" title="'. $product_info['products_name'] .' Image 2 - '. $manufacturer['manufacturers_name'] .'">'. tep_image(DIR_WS_IMAGES . $product_info['products_image2'], addslashes($product_info['products_name']) . ' (Image 2)', SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '<br>' . tep_image_button('button_image_enlarge.gif', IMAGE_BUTTON_IMAGE_ENLARGE) .'</a>'; 
+				if ($product_info['products_image3']) echo '<br><a rel="lightbox[roadtrip]" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image3']) . '" title="'. $product_info['products_name'] .' Image 3 - '. $manufacturer['manufacturers_name'] .'">'. tep_image(DIR_WS_IMAGES . $product_info['products_image3'], addslashes($product_info['products_name']) . ' (Image 3)', SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '<br>' . tep_image_button('button_image_enlarge.gif', IMAGE_BUTTON_IMAGE_ENLARGE) .'</a>'; 
+				if ($product_info['products_image4']) echo '<br><a rel="lightbox[roadtrip]" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image4']) . '" title="'. $product_info['products_name'] .' Image 4 - '. $manufacturer['manufacturers_name'] .'">'. tep_image(DIR_WS_IMAGES . $product_info['products_image4'], addslashes($product_info['products_name']) . ' (Image 4)', SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '<br>' . tep_image_button('button_image_enlarge.gif', IMAGE_BUTTON_IMAGE_ENLARGE) .'</a>'; 
+				} else { ?>
+					<script language="javascript"><!--
+                    document.write('<?php echo '<a href="javascript:popupWindow(\\\'' . tep_href_link(FILENAME_POPUP_IMAGE, 'pID=' . $product_info['products_id']) . '\\\')">' . tep_image(DIR_WS_IMAGES . $product_info['products_image'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '<br>' . TEXT_CLICK_TO_ENLARGE . '</a>'; ?>');
+                    //--></script>
+                    <noscript>
+                    <?php echo '<a href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image']) . '" target="_blank">' . tep_image(DIR_WS_IMAGES . $product_info['products_image'], $product_info['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '<br>' . TEXT_CLICK_TO_ENLARGE . '</a>'; ?>
+                    </noscript>
+			  <?php } // endif lightbox ?>              </td>
+            </tr>
+          </table>
+<?php
+    }
+?>        
           <p><?php echo stripslashes($product_info['products_description']); ?></p>
 <?php
     $products_attributes_query = tep_db_query("select count(*) as total from " . TABLE_PRODUCTS_OPTIONS . " popt, " . TABLE_PRODUCTS_ATTRIBUTES . " patrib where patrib.products_id='" . (int)$HTTP_GET_VARS['products_id'] . "' and patrib.options_id = popt.products_options_id and popt.language_id = '" . (int)$languages_id . "'");
@@ -277,11 +304,10 @@ function setcolor(obj,percentage,prop){
           </table>
 <?php
     } //clr 030714 end if
-?>
-        </td>
+?>        </td>
       </tr>
       <tr>
-        <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
+        <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
       </tr>
 <?php
     $reviews_query = tep_db_query("select count(*) as count from " . TABLE_REVIEWS . " where products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "'");
@@ -289,10 +315,10 @@ function setcolor(obj,percentage,prop){
     if ($reviews['count'] > 0) {
 ?>
       <tr>
-        <td class="main"><?php echo TEXT_CURRENT_REVIEWS . ' ' . $reviews['count']; ?></td>
+        <td colspan="2" class="main"><?php echo TEXT_CURRENT_REVIEWS . ' ' . $reviews['count']; ?></td>
       </tr>
       <tr>
-        <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
+        <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
       </tr>
 <?php
     }
@@ -300,10 +326,10 @@ function setcolor(obj,percentage,prop){
     if (tep_not_null($product_info['products_url'])) {
 ?>
       <tr>
-        <td class="main"><?php echo sprintf(TEXT_MORE_INFORMATION, tep_href_link(FILENAME_REDIRECT, 'action=url&goto=' . urlencode($product_info['products_url']), 'NONSSL', true, false)); ?></td>
+        <td colspan="2" class="main"><?php echo sprintf(TEXT_MORE_INFORMATION, tep_href_link(FILENAME_REDIRECT, 'action=url&goto=' . urlencode($product_info['products_url']), 'NONSSL', true, false)); ?></td>
       </tr>
       <tr>
-        <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
+        <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
       </tr>
 <?php
     }
@@ -311,39 +337,22 @@ function setcolor(obj,percentage,prop){
     if ($product_info['products_date_available'] > date('Y-m-d H:i:s')) {
 ?>
       <tr>
-        <td align="center" class="smallText"><?php echo sprintf(TEXT_DATE_AVAILABLE, tep_date_long($product_info['products_date_available'])); ?></td>
+        <td colspan="2" class="smallText"><?php echo sprintf(TEXT_DATE_AVAILABLE, tep_date_long($product_info['products_date_available'])); ?></td>
       </tr>
 <?php
     } else {
 ?>
       <tr>
-        <td align="center" class="smallText"><?php echo sprintf(TEXT_DATE_ADDED, tep_date_long($product_info['products_date_added'])); ?></td>
+        <td colspan="2" class="smallText"><?php echo sprintf(TEXT_DATE_ADDED, tep_date_long($product_info['products_date_added'])); ?></td>
       </tr>
 <?php
     }
 ?>
       <tr>
-        <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
+        <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
       </tr>
       <tr>
-        <td><table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBox">
-          <tr class="infoBoxContents">
-            <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
-              <tr>
-                <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
-                <td class="main"><?php echo '<a href="' . tep_href_link(FILENAME_PRODUCT_REVIEWS, tep_get_all_get_params()) . '">' . tep_image_button('button_reviews.gif', IMAGE_BUTTON_REVIEWS) . '</a>'; ?></td>
-                <td class="main" align="right"><?php echo tep_draw_hidden_field('products_id', $product_info['products_id']) . tep_image_submit('button_in_cart.gif', IMAGE_BUTTON_IN_CART); ?></td>
-                <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
-              </tr>
-            </table></td>
-          </tr>
-        </table></td>
-      </tr>
-      <tr>
-        <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
-      </tr>
-      <tr>
-        <td>
+        <td colspan="2">
 <?php
     if ((USE_CACHE == 'true') && empty($SID)) {
       echo tep_cache_also_purchased(3600);
@@ -351,10 +360,10 @@ function setcolor(obj,percentage,prop){
       include(DIR_WS_MODULES . FILENAME_ALSO_PURCHASED_PRODUCTS);
     }
   }
-?>
-        </td>
+?>        </td>
       </tr>
-    </table></form></td>
+    </table>
+    </form></td>
 <!-- body_text_eof //-->
     <td width="<?php echo BOX_WIDTH; ?>" valign="top"><table border="0" width="<?php echo BOX_WIDTH; ?>" cellspacing="0" cellpadding="2">
 <!-- right_navigation //-->
