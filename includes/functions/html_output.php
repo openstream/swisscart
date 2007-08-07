@@ -248,7 +248,7 @@ function tep_image($src, $alt = '', $width = '', $height = '', $params = '') {
 	global $sts;
 	$src = $sts->image_button($image, $language, true); // 3rd parameter to tell tep_image that file check has been already done
 	if ($src!='') { // Take image from template folder if exists.
-	  return tep_image ($src);
+	  return tep_image ($src, $alt);
 	}
 	// END STS v4.4
 
