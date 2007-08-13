@@ -41,7 +41,7 @@
       $categories_string .= '</b>';
     }
 
-    if (tep_has_category_subcategories($counter)) {
+    if (tep_has_category_subcategories($counter) && SHOW_COUNTS == 'true') {
       $categories_string .= '-&gt;';
     }
 
