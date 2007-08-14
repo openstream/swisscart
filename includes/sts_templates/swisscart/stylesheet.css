@@ -102,11 +102,11 @@ td.footer {
 }
 
 .infoBox {
-  background: #b6b7cb;
+  background-color: #E7EAF1;
 }
 
 .infoBoxContents {
-  background: #f8f8f9;
+  background-color: #fff;
 }
 .infoBoxNotice {
   background: #FF8E90;
@@ -143,7 +143,7 @@ TD.infoBox, SPAN.infoBox {
 }
 
 TR.accountHistory-odd, TR.addressBook-odd, TR.alsoPurchased-odd, TR.payment-odd, TR.productListing-odd, TR.productReviews-odd, TR.upcomingProducts-odd, TR.shippingOptions-odd {
-  background: #f8f8f9;
+  background: #fff;
 }
 
 TR.accountHistory-even, TR.addressBook-even, TR.alsoPurchased-even, TR.payment-even, TR.productListing-even, TR.productReviews-even, TR.upcomingProducts-even, TR.shippingOptions-even {
@@ -153,13 +153,13 @@ TR.accountHistory-even, TR.addressBook-even, TR.alsoPurchased-even, TR.payment-e
 TABLE.productListing {
   border: 1px;
   border-style: solid;
-  border-color: #b6b7cb;
+  border-color: #E7EAF1;
   border-spacing: 1px;
 }
 
 .productListing-heading {
-  background: #b6b7cb;
-  color: #FFFFFF;
+  background: #E7EAF1;
+  color: #6C6C6C;
   font-weight: bold;
 }
 
@@ -181,7 +181,9 @@ TD.pageHeading, DIV.pageHeading, h1 {
   font-weight: bold;
   color: #9a9a9a;
 }
-
+TD.pageHeading, DIV.pageHeading {
+  padding-top: 3px;
+}
 TR.subBar {
   background: #f4f7fd;
 }
