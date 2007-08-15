@@ -13,6 +13,19 @@
   Released under the GNU General Public License
 */
 
+// Enable FirePHP API for debugging (http://www.firephp.org/)
+// only works if the PEAR module and the Firefox extension are installed on your server!
+if (is_file('FirePHP_Build/Init.inc.php')) {
+	/* Initialize the FirePHP API */
+	require_once('FirePHP_Build/Init.inc.php');
+	/* Set the FirePHP-AccessKey which will be compared to the cookie */
+	FirePHP::SetAccessKey('aa7accf6c1843f4404a1932cc5f2ece7');
+	/* Initialize the default FirePHP Wrapper */
+	FirePHP::Init();
+	/* Add new variables to the debug output */
+	FirePHP::SetVariable(true, GLOBALS, $GLOBALS);
+}
+
 // start the timer for the page parse time log
   define('PAGE_PARSE_START_TIME', microtime());
 

@@ -16,14 +16,15 @@
 define('NAVBAR_TITLE_1', 'Kasse');
 define('NAVBAR_TITLE_2', 'Best&auml;tigung');
 
-define('HEADING_TITLE', 'Bestellung aufgeben:');
+define('HEADING_TITLE', 'Bestellung abschicken:');
 
 define('HEADING_DELIVERY_ADDRESS', 'Versandadresse');
 define('HEADING_SHIPPING_METHOD', 'Versandart');
-define('HEADING_PRODUCTS', 'Produkte');
+define('HEADING_PRODUCTS', 'Ihre Bestellung');
 define('HEADING_TAX', 'MwSt.');
 define('HEADING_TOTAL', 'Summe');
-define('HEADING_BILLING_INFORMATION', 'Rechnungsinformationen');
+define('HEADING_SHIPPING_INFORMATION', 'Versandinformationen');
+define('HEADING_BILLING_INFORMATION', 'Rechnungs- und Zahlungsinformationen');
 define('HEADING_BILLING_ADDRESS', 'Rechnungsadresse');
 define('HEADING_PAYMENT_METHOD', 'Zahlungsweise');
 define('HEADING_PAYMENT_INFORMATION', 'Zahlungsinformationen');

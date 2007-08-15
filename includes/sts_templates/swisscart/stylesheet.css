@@ -270,7 +270,7 @@ SPAN.errorText {
 .boxText { }
 .errorBox { background: #ffb3b5; font-weight: bold; }
 .stockWarning { color: #cc0033; }
-.productsNotifications { background: #f2fff7; }
+.productsNotifications { background: #F3F4F8; }
 .orderEdit { color: #70d250; text-decoration: underline; }
 
 /* OTF contrib begins */
@@ -292,4 +292,7 @@ SPAN.errorText {
 .productsPrice {
   font-size: 20px;
   font-weight: bold;
+}
+.horizontalRule {
+  border-bottom: 1px solid #E7EAF1;
 }

@@ -20,6 +20,7 @@ define('HEADING_SHIPPING_METHOD', 'Metodo di spedizione');
 define('HEADING_PRODUCTS', 'Prodotti');
 define('HEADING_TAX', 'Tasse');
 define('HEADING_TOTAL', 'Totale');
+define('HEADING_SHIPPING_INFORMATION', 'Informazioni di spedizione');
 define('HEADING_BILLING_INFORMATION', 'Informazioni sulla fattura');
 define('HEADING_BILLING_ADDRESS', 'Indirizzo per la fattura');
 define('HEADING_PAYMENT_METHOD', 'Metodo di pagamento');

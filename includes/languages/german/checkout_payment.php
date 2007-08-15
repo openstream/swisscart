@@ -27,7 +27,7 @@ define('TEXT_SELECT_PAYMENT_METHOD', 'Bitte w&auml;hlen Sie die gew&uuml;nschte 
 define('TITLE_PLEASE_SELECT', 'Bitte w&auml;hlen Sie');
 define('TEXT_ENTER_PAYMENT_INFORMATION', 'Zur Zeit bieten wir Ihnen nur eine Zahlungsweise an.');
 
-define('TABLE_HEADING_COMMENTS', 'F&uuml;gen Sie hier Ihre Anmerkungen zu dieser Bestellung ein');
+define('TABLE_HEADING_COMMENTS', 'Anmerkungen zur Bestellung');
 
 define('TITLE_CONTINUE_CHECKOUT_PROCEDURE', 'Fortsetzung des Bestellvorganges');
 define('TEXT_CONTINUE_CHECKOUT_PROCEDURE', 'zur Best&auml;tigung Ihrer Bestellung.');

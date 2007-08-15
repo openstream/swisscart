@@ -16,7 +16,7 @@
 define('NAVBAR_TITLE_1', 'Kasse');
 define('NAVBAR_TITLE_2', 'Erfolg');
 
-define('HEADING_TITLE', 'Ihr Bestellung ist ausgef&uuml;hrt worden.');
+define('HEADING_TITLE', 'Ihre Bestellung ist ausgef&uuml;hrt worden.');
 
 define('TEXT_SUCCESS', 'Ihre Bestellung ist eingegangen und wird bearbeitet! Die Lieferung erfolgt innerhalb von ca. 2-5 Werktagen.');
 define('TEXT_NOTIFY_PRODUCTS', 'Bitte benachrichtigen Sie mich &uuml;ber Aktuelles zu folgenden Produkten:');

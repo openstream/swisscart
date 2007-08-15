@@ -144,32 +144,6 @@ win = window.open(mypage,myname,settings)
         <tr>
           <td><table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBox">
               <tr class="infoBoxContents">
-                <?php
-  if ($sendto != false) {
-?>
-                <td width="30%" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
-                    <tr>
-                      <td class="main"><?php echo '<b>' . HEADING_DELIVERY_ADDRESS . '</b> <a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING_ADDRESS, '', 'SSL') . '"><span class="orderEdit">(' . TEXT_EDIT . ')</span></a>'; ?></td>
-                    </tr>
-                    <tr>
-                      <td class="main"><?php echo tep_address_format($order->delivery['format_id'], $order->delivery, 1, ' ', '<br>'); ?></td>
-                    </tr>
-                    <?php
-    if ($order->info['shipping_method']) {
-?>
-                    <tr>
-                      <td class="main"><?php echo '<b>' . HEADING_SHIPPING_METHOD . '</b> <a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL') . '"><span class="orderEdit">(' . TEXT_EDIT . ')</span></a>'; ?></td>
-                    </tr>
-                    <tr>
-                      <td class="main"><?php echo $order->info['shipping_method']; ?></td>
-                    </tr>
-                    <?php
-    }
-?>
-                  </table></td>
-                <?php
-  }
-?>
                 <td width="<?php echo (($sendto != false) ? '70%' : '100%'); ?>" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="0">
                     <tr>
                       <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
@@ -213,12 +187,57 @@ win = window.open(mypage,myname,settings)
          '          </tr>' . "\n";
   }
 ?>
+						  <tr><td colspan="3" class="horizontalRule">&nbsp;</td></tr>
+						  <tr><td colspan="3"><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td></tr>						  
+                                <?php
+								  if (MODULE_ORDER_TOTAL_INSTALLED) {
+									$order_total_modules->process();
+									echo $order_total_modules->output();
+								  }
+								?>
                         </table></td>
                     </tr>
                   </table></td>
               </tr>
             </table></td>
         </tr>
+        <?php if ($sendto != false) { ?>
+        <tr>
+          <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
+        </tr>
+        <tr>
+          <td class="main"><b><?php echo HEADING_SHIPPING_INFORMATION; ?></b></td>
+        </tr>
+        <tr>
+          <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
+        </tr>
+        <tr>
+          <td><table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBox">
+              <tr class="infoBoxContents">
+                <td width="50%" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
+                    <tr>
+                      <td class="main"><?php echo '<b>' . HEADING_DELIVERY_ADDRESS . '</b> <a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING_ADDRESS, '', 'SSL') . '"><span class="orderEdit">(' . TEXT_EDIT . ')</span></a>'; ?></td>
+                    </tr>
+                    <tr>
+                      <td class="main"><?php echo tep_address_format($order->delivery['format_id'], $order->delivery, 1, ' ', '<br>'); ?></td>
+                    </tr>
+                  </table></td>
+                <td width="50%" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
+                    <?php
+			if ($order->info['shipping_method']) {
+			?>
+                    <tr>
+                      <td class="main"><?php echo '<b>' . HEADING_SHIPPING_METHOD . '</b> <a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL') . '"><span class="orderEdit">(' . TEXT_EDIT . ')</span></a>'; ?></td>
+                    </tr>
+                    <tr>
+                      <td class="main"><?php echo $order->info['shipping_method']; ?></td>
+                    </tr>
+                    <?php }	?>
+                  </table></td>
+              </tr>
+            </table></td>
+        </tr>
+        <?php } ?>
         <tr>
           <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
         </tr>
@@ -231,27 +250,21 @@ win = window.open(mypage,myname,settings)
         <tr>
           <td><table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBox">
               <tr class="infoBoxContents">
-                <td width="30%" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
+                <td width="50%" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
                     <tr>
                       <td class="main"><?php echo '<b>' . HEADING_BILLING_ADDRESS . '</b> <a href="' . tep_href_link(FILENAME_CHECKOUT_PAYMENT_ADDRESS, '', 'SSL') . '"><span class="orderEdit">(' . TEXT_EDIT . ')</span></a>'; ?></td>
                     </tr>
                     <tr>
                       <td class="main"><?php echo tep_address_format($order->billing['format_id'], $order->billing, 1, ' ', '<br>'); ?></td>
                     </tr>
+                  </table></td>
+                <td width="50%" valign="top" align="left"><table border="0" cellspacing="0" cellpadding="2">
                     <tr>
                       <td class="main"><?php echo '<b>' . HEADING_PAYMENT_METHOD . '</b> <a href="' . tep_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL') . '"><span class="orderEdit">(' . TEXT_EDIT . ')</span></a>'; ?></td>
                     </tr>
                     <tr>
                       <td class="main"><?php echo $order->info['payment_method']; ?></td>
                     </tr>
-                  </table></td>
-                <td width="70%" valign="top" align="right"><table border="0" cellspacing="0" cellpadding="2">
-                    <?php
-  if (MODULE_ORDER_TOTAL_INSTALLED) {
-    $order_total_modules->process();
-    echo $order_total_modules->output();
-  }
-?>
                   </table></td>
               </tr>
             </table></td>
@@ -349,15 +362,15 @@ win = window.open(mypage,myname,settings)
               </tr>
               <tr>
                 <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
-				  <tr>
-					<td class="main"><table border="0" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse">
-						<tr class="infoBoxContents">
-						  <td align="right" class="main"><?php echo CONDITION_AGREEMENT; ?></td>
-						  <td onClick="window.document.checkout_confirmation.agree.checked = !window.document.checkout_confirmation.agree.checked;"><?php echo tep_draw_checkbox_field('agree','true', false, 'onclick="window.document.checkout_confirmation.agree.checked = !window.document.checkout_confirmation.agree.checked;"'); ?></td>
-						</tr>
-					  </table></td>
-				  </tr>
-				</table></td>
+                    <tr>
+                      <td class="main"><table border="0" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse">
+                          <tr class="infoBoxContents">
+                            <td align="right" class="main"><?php echo CONDITION_AGREEMENT; ?></td>
+                            <td onClick="window.document.checkout_confirmation.agree.checked = !window.document.checkout_confirmation.agree.checked;"><?php echo tep_draw_checkbox_field('agree','true', false, 'onclick="window.document.checkout_confirmation.agree.checked = !window.document.checkout_confirmation.agree.checked;"'); ?></td>
+                          </tr>
+                        </table></td>
+                    </tr>
+                  </table></td>
               </tr>
               <tr>
                 <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>

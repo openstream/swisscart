@@ -23,6 +23,7 @@ define('HEADING_SHIPPING_METHOD', 'Mode de livraison');
 define('HEADING_PRODUCTS', 'Produits');
 define('HEADING_TAX', 'Taxe');
 define('HEADING_TOTAL', 'Total');
+define('HEADING_SHIPPING_INFORMATION', 'Information de livraison');
 define('HEADING_BILLING_INFORMATION', 'Information de facturation');
 define('HEADING_BILLING_ADDRESS', 'Adresse de facturation');
 define('HEADING_PAYMENT_METHOD', 'Moyen de paiement');
