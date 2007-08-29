@@ -103,6 +103,7 @@ define('BOX_TOOLS_BACKUP', 'Salva Database');
 define('BOX_TOOLS_BANNER_MANAGER', 'Gestione Banner');
 define('BOX_TOOLS_CACHE', 'Controllo Cache');
 define('BOX_TOOLS_DEFINE_LANGUAGE', 'Definizione lingua');
+define('BOX_TOOLS_EASY_POPULATE', 'Import/Export');
 define('BOX_TOOLS_FILE_MANAGER', 'Gestione File');
 define('BOX_TOOLS_MAIL', 'Invio Email');
 define('BOX_TOOLS_NEWSLETTER_MANAGER', 'Gestione Newsletter');
