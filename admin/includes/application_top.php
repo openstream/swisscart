@@ -137,9 +137,6 @@
     include(DIR_WS_LANGUAGES . $language . '/' . $current_page);
   }
 
-// include authentication user/password of administration
-  include(DIR_WS_INCLUDES . 'authentication.php');
-
 // define our localization functions
   require(DIR_WS_FUNCTIONS . 'localization.php');
 
