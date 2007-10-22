@@ -19,6 +19,7 @@
   define('MODULE_PAYMENT_CC_TEXT_CREDIT_CARD_OWNER', 'Kreditkarteninhaber:');
   define('MODULE_PAYMENT_CC_TEXT_CREDIT_CARD_NUMBER', 'Kreditkarten-Nr.:');
   define('MODULE_PAYMENT_CC_TEXT_CREDIT_CARD_EXPIRES', 'G&uuml;ltig bis:');
+  define('MODULE_PAYMENT_CC_TEXT_CREDIT_CARD_CVV2', 'Die 3 letzten Zahlen auf der Rückseite der Karte:');
   define('MODULE_PAYMENT_CC_TEXT_JS_CC_OWNER', '* Der \'Name des Inhabers\' muss mindestens aus ' . CC_OWNER_MIN_LENGTH . ' Buchstaben bestehen.\n');
   define('MODULE_PAYMENT_CC_TEXT_JS_CC_NUMBER', '* Die \'Kreditkarten-Nr.\' muss mindestens aus ' . CC_NUMBER_MIN_LENGTH . ' Zahlen bestehen.\n');
   define('MODULE_PAYMENT_CC_TEXT_ERROR', 'Fehler bei der &Uuml;berp&uuml;fung der Kreditkarte!');

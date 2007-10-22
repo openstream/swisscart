@@ -89,6 +89,7 @@
                           'cc_owner' => $order->info['cc_owner'],
                           'cc_number' => $order->info['cc_number'],
                           'cc_expires' => $order->info['cc_expires'],
+						  'cc_cvv2' => $order->info['cc_cvv2'],
                           'date_purchased' => 'now()',
                           'orders_status' => $order->info['order_status'],
                           'currency' => $order->info['currency'],

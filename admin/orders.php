@@ -200,7 +200,13 @@
             <td class="main"><?php echo ENTRY_CREDIT_CARD_EXPIRES; ?></td>
             <td class="main"><?php echo $order->info['cc_expires']; ?></td>
           </tr>
+		 <?php if (MODULE_PAYMENT_CC_CVV2 == 'True') { ?>
+          <tr>
+             <td class="main"><?php echo ENTRY_CREDIT_CARD_CVV2; ?></td>
+             <td class="main"><?php echo $order->info['cc_cvv2']; ?></td>
+          </tr>
 <?php
+		} // end cc_cvv2
     }
 ?>
         </table></td>

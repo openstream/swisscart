@@ -5,10 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Customized by swisscart®, Swiss Webshop Solutions
-  http://www.swisscart.com
-
-  Copyright (c) 2003-2007 osCommerce
+  Copyright (c) 2003 osCommerce
 
   Released under the GNU General Public License
 */
@@ -57,7 +54,8 @@
     }
 
     function javascript_validation() {
-      $js = '  if (payment_value == "' . $this->code . '") {' . "\n" .
+      if (MODULE_PAYMENT_CC_CVV2 == 'True') {
+			$js = '  if (payment_value == "' . $this->code . '") {' . "\n" .
             '    var cc_owner = document.checkout_payment.cc_owner.value;' . "\n" .
             '    var cc_number = document.checkout_payment.cc_number.value;' . "\n" .
             '    if (cc_owner == "" || cc_owner.length < ' . CC_OWNER_MIN_LENGTH . ') {' . "\n" .
@@ -69,7 +67,20 @@
             '      error = 1;' . "\n" .
             '    }' . "\n" .
             '  }' . "\n";
-
+			}else{
+			$js = '  if (payment_value == "' . $this->code . '") {' . "\n" .
+            '    var cc_owner = document.checkout_payment.cc_owner.value;' . "\n" .
+            '    var cc_number = document.checkout_payment.cc_number.value;' . "\n" .
+            '    if (cc_owner == "" || cc_owner.length < ' . CC_OWNER_MIN_LENGTH . ') {' . "\n" .
+            '      error_message = error_message + "' . MODULE_PAYMENT_CC_TEXT_JS_CC_OWNER . '";' . "\n" .
+            '      error = 1;' . "\n" .
+            '    }' . "\n" .
+            '    if (cc_number == "" || cc_number.length < ' . CC_NUMBER_MIN_LENGTH . ') {' . "\n" .
+            '      error_message = error_message + "' . MODULE_PAYMENT_CC_TEXT_JS_CC_NUMBER . '";' . "\n" .
+            '      error = 1;' . "\n" .
+            '    }' . "\n" .
+            '  }' . "\n";
+			}
       return $js;
     }
 
@@ -84,7 +95,18 @@
       for ($i=$today['year']; $i < $today['year']+10; $i++) {
         $expires_year[] = array('id' => strftime('%y',mktime(0,0,0,1,1,$i)), 'text' => strftime('%Y',mktime(0,0,0,1,1,$i)));
       }
-
+			if (MODULE_PAYMENT_CC_CVV2 == 'True') {
+      $selection = array('id' => $this->code,
+                         'module' => $this->title,
+                         'fields' => array(array('title' => MODULE_PAYMENT_CC_TEXT_CREDIT_CARD_OWNER,
+                                                 'field' => tep_draw_input_field('cc_owner', $order->billing['firstname'] . ' ' . $order->billing['lastname'])),
+                                           array('title' => MODULE_PAYMENT_CC_TEXT_CREDIT_CARD_NUMBER,
+                                                 'field' => tep_draw_input_field('cc_number')),
+                                           array('title' => MODULE_PAYMENT_CC_TEXT_CREDIT_CARD_CVV2,
+                                                 'field' => tep_draw_input_field('cc_cvv2')),
+                                           array('title' => MODULE_PAYMENT_CC_TEXT_CREDIT_CARD_EXPIRES,
+                                                 'field' => tep_draw_pull_down_menu('cc_expires_month', $expires_month) . '&nbsp;' . tep_draw_pull_down_menu('cc_expires_year', $expires_year))));
+			}else{
       $selection = array('id' => $this->code,
                          'module' => $this->title,
                          'fields' => array(array('title' => MODULE_PAYMENT_CC_TEXT_CREDIT_CARD_OWNER,
@@ -93,7 +115,7 @@
                                                  'field' => tep_draw_input_field('cc_number')),
                                            array('title' => MODULE_PAYMENT_CC_TEXT_CREDIT_CARD_EXPIRES,
                                                  'field' => tep_draw_pull_down_menu('cc_expires_month', $expires_month) . '&nbsp;' . tep_draw_pull_down_menu('cc_expires_year', $expires_year))));
-
+			}
       return $selection;
     }
 
@@ -103,7 +125,8 @@
       include(DIR_WS_CLASSES . 'cc_validation.php');
 
       $cc_validation = new cc_validation();
-      $result = $cc_validation->validate($HTTP_POST_VARS['cc_number'], $HTTP_POST_VARS['cc_expires_month'], $HTTP_POST_VARS['cc_expires_year']);
+      $result = $cc_validation->validate($HTTP_POST_VARS['cc_number'], $HTTP_POST_VARS['cc_expires_month'], $HTTP_POST_VARS['cc_expires_year'],
+$HTTP_POST_VARS['cc_cvv2']);
 
       $error = '';
       switch ($result) {
@@ -114,6 +137,9 @@
         case -3:
         case -4:
           $error = TEXT_CCVAL_ERROR_INVALID_DATE;
+          break;
+        case -5:
+          $error = 'CVV code is 3 or 4 digits';
           break;
         case false:
           $error = TEXT_CCVAL_ERROR_INVALID_NUMBER;
@@ -132,7 +158,17 @@
 
     function confirmation() {
       global $HTTP_POST_VARS;
-
+			if (MODULE_PAYMENT_CC_CVV2 == 'True') {
+      $confirmation = array('title' => $this->title . ': ' . $this->cc_card_type,
+                            'fields' => array(array('title' => MODULE_PAYMENT_CC_TEXT_CREDIT_CARD_OWNER,
+                                                    'field' => $HTTP_POST_VARS['cc_owner']),
+                                              array('title' => MODULE_PAYMENT_CC_TEXT_CREDIT_CARD_NUMBER,
+                                                    'field' => substr($this->cc_card_number, 0, 4) . str_repeat('X', (strlen($this->cc_card_number) - 8)) . substr($this->cc_card_number, -4)),
+                                              array('title' => MODULE_PAYMENT_CC_TEXT_CREDIT_CARD_CVV2,
+                                                    'field' => $_POST['cc_cvv2']),
+                                              array('title' => MODULE_PAYMENT_CC_TEXT_CREDIT_CARD_EXPIRES,
+                                                    'field' => strftime('%B, %Y', mktime(0,0,0,$HTTP_POST_VARS['cc_expires_month'], 1, '20' . $HTTP_POST_VARS['cc_expires_year'])))));
+		}else{
       $confirmation = array('title' => $this->title . ': ' . $this->cc_card_type,
                             'fields' => array(array('title' => MODULE_PAYMENT_CC_TEXT_CREDIT_CARD_OWNER,
                                                     'field' => $HTTP_POST_VARS['cc_owner']),
@@ -140,7 +176,7 @@
                                                     'field' => substr($this->cc_card_number, 0, 4) . str_repeat('X', (strlen($this->cc_card_number) - 8)) . substr($this->cc_card_number, -4)),
                                               array('title' => MODULE_PAYMENT_CC_TEXT_CREDIT_CARD_EXPIRES,
                                                     'field' => strftime('%B, %Y', mktime(0,0,0,$HTTP_POST_VARS['cc_expires_month'], 1, '20' . $HTTP_POST_VARS['cc_expires_year'])))));
-
+		}
       return $confirmation;
     }
 
@@ -150,6 +186,7 @@
       $process_button_string = tep_draw_hidden_field('cc_owner', $HTTP_POST_VARS['cc_owner']) .
                                tep_draw_hidden_field('cc_expires', $HTTP_POST_VARS['cc_expires_month'] . $HTTP_POST_VARS['cc_expires_year']) .
                                tep_draw_hidden_field('cc_type', $this->cc_card_type) .
+                               tep_draw_hidden_field('cc_cvv2', $_POST['cc_cvv2']) .
                                tep_draw_hidden_field('cc_number', $this->cc_card_number);
 
       return $process_button_string;
@@ -199,6 +236,7 @@
       tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort order of display.', 'MODULE_PAYMENT_CC_SORT_ORDER', '0', 'Sort order of display. Lowest is displayed first.', '6', '0' , now())");
       tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, use_function, set_function, date_added) values ('Payment Zone', 'MODULE_PAYMENT_CC_ZONE', '0', 'If a zone is selected, only enable this payment method for that zone.', '6', '2', 'tep_get_zone_class_title', 'tep_cfg_pull_down_zone_classes(', now())");
       tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, use_function, date_added) values ('Set Order Status', 'MODULE_PAYMENT_CC_ORDER_STATUS_ID', '0', 'Set the status of orders made with this payment module to this value', '6', '0', 'tep_cfg_pull_down_order_statuses(', 'tep_get_order_status_name', now())");
+      tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Require CCV2', 'MODULE_PAYMENT_CC_CVV2', 'True', 'Require cvv2 numbers', '6', '0', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
     }
 
     function remove() {
@@ -206,7 +244,7 @@
     }
 
     function keys() {
-      return array('MODULE_PAYMENT_CC_STATUS', 'MODULE_PAYMENT_CC_EMAIL', 'MODULE_PAYMENT_CC_ZONE', 'MODULE_PAYMENT_CC_ORDER_STATUS_ID', 'MODULE_PAYMENT_CC_SORT_ORDER');
+      return array('MODULE_PAYMENT_CC_STATUS', 'MODULE_PAYMENT_CC_EMAIL', 'MODULE_PAYMENT_CC_ZONE', 'MODULE_PAYMENT_CC_ORDER_STATUS_ID', 'MODULE_PAYMENT_CC_SORT_ORDER', 'MODULE_PAYMENT_CC_CVV2' );
     }
   }
 ?>

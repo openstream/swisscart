@@ -5,18 +5,15 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Customized by swisscart®, Swiss Webshop Solutions
-  http://www.swisscart.com
-
-  Copyright (c) 2003-2007 osCommerce
+  Copyright (c) 2003 osCommerce
 
   Released under the GNU General Public License
 */
 
   class cc_validation {
-    var $cc_type, $cc_number, $cc_expiry_month, $cc_expiry_year;
+    var $cc_type, $cc_number, $cc_expiry_month, $cc_expiry_year, $cc_cvv2;
 
-    function validate($number, $expiry_m, $expiry_y) {
+    function validate($number, $expiry_m, $expiry_y, $cvv2) {
       $this->cc_number = ereg_replace('[^0-9]', '', $number);
 
       if (ereg('^4[0-9]{12}([0-9]{3})?$', $this->cc_number)) {
@@ -56,6 +53,10 @@
           return -4;
         }
       }
+
+      if ((MODULE_PAYMENT_CC_CVV2 == 'True') &&  ((strlen($cvv2) < 3) || (strlen($cvv2) > 4))) {
+          return -5;
+        }
 
       return $this->is_valid();
     }

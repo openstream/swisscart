@@ -16,6 +16,7 @@
   define('MODULE_PAYMENT_CC_TEXT_CREDIT_CARD_OWNER', 'Titular de la Tarjeta:');
   define('MODULE_PAYMENT_CC_TEXT_CREDIT_CARD_NUMBER', 'N&uacute;mero de la Tarjeta:');
   define('MODULE_PAYMENT_CC_TEXT_CREDIT_CARD_EXPIRES', 'Fecha de Caducidad:');
+  define('MODULE_PAYMENT_CC_TEXT_CREDIT_CARD_CVV2', 'Las 3 últimas cifras al reverso de la tarjeta:');
   define('MODULE_PAYMENT_CC_TEXT_JS_CC_OWNER', '* El titular de la tarjeta de cr&eacute;dito debe de tener al menos ' . CC_OWNER_MIN_LENGTH . ' letras.\n');
   define('MODULE_PAYMENT_CC_TEXT_JS_CC_NUMBER', '* El n&uacute;mero de la tarjeta de cr&eacute;dito debe de tener al menos ' . CC_NUMBER_MIN_LENGTH . ' numeros.\n');
   define('MODULE_PAYMENT_CC_TEXT_ERROR', 'Error en Tarjeta de Cr&eacute;dito!');

@@ -44,6 +44,7 @@ define('ENTRY_CREDIT_CARD_TYPE', 'Type de carte de cr&eacute;dit&nbsp;:');
 define('ENTRY_CREDIT_CARD_OWNER', 'Titulaire de la carte de cr&eacute;dit&nbsp;:');
 define('ENTRY_CREDIT_CARD_NUMBER', 'Num&eacute;ro de la carte de cr&eacute;dit&nbsp;:');
 define('ENTRY_CREDIT_CARD_EXPIRES', 'Date d\'expiration de la carte de cr&eacute;dit&nbsp;:');
+define('ENTRY_CREDIT_CARD_CVV2', 'CVV2:');
 define('ENTRY_SUB_TOTAL', 'Sous-total&nbsp;:');
 define('ENTRY_TAX', 'Taxe&nbsp;:');
 define('ENTRY_SHIPPING', 'Port&nbsp;:');

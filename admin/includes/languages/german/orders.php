@@ -47,6 +47,7 @@ define('ENTRY_CREDIT_CARD_TYPE', 'Kreditkartentyp:');
 define('ENTRY_CREDIT_CARD_OWNER', 'Kreditkarteninhaber:');
 define('ENTRY_CREDIT_CARD_NUMBER', 'Kerditkartennnummer:');
 define('ENTRY_CREDIT_CARD_EXPIRES', 'Kreditkarte l&auml;uft ab am:');
+define('ENTRY_CREDIT_CARD_CVV2', 'CVV2:');
 define('ENTRY_SUB_TOTAL', 'Zwischensumme:');
 define('ENTRY_TAX', 'MwSt.:');
 define('ENTRY_SHIPPING', 'Versandkosten:');

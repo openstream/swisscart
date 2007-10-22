@@ -16,6 +16,7 @@
   define('MODULE_PAYMENT_CC_TEXT_CREDIT_CARD_OWNER', 'Proprietario Carta di Credito:');
   define('MODULE_PAYMENT_CC_TEXT_CREDIT_CARD_NUMBER', 'Numero Carta di Credito:');
   define('MODULE_PAYMENT_CC_TEXT_CREDIT_CARD_EXPIRES', 'Data di Scadenza Carta di Credito:');
+  define('MODULE_PAYMENT_CC_TEXT_CREDIT_CARD_CVV2', 'Le ultime 3 cifre sul retro della carta:');
   define('MODULE_PAYMENT_CC_TEXT_JS_CC_OWNER', '* Il nome del proprietario della Carta di Credito deve contenere almeno ' . CC_OWNER_MIN_LENGTH . ' caratteri.\n');
   define('MODULE_PAYMENT_CC_TEXT_JS_CC_NUMBER', '* Il Numero della Carta di Credito deve contenere almeno ' . CC_NUMBER_MIN_LENGTH . ' caratteri.\n');
   define('MODULE_PAYMENT_CC_TEXT_ERROR', 'Errore Carta di Credito!');
