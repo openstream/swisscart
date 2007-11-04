@@ -529,7 +529,7 @@ if (is_file('FirePHP_Build/Init.inc.php')) {
   $messageStack = new messageStack;
 
 // set which precautions should be checked
-  define('WARN_INSTALL_EXISTENCE', 'true');
+  define('WARN_INSTALL_EXISTENCE', 'false');
   define('WARN_CONFIG_WRITEABLE', 'true');
   define('WARN_SESSION_DIRECTORY_NOT_WRITEABLE', 'true');
   define('WARN_SESSION_AUTO_START', 'true');
