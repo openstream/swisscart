@@ -143,7 +143,9 @@ td.infoBoxHeading td.infoBoxHeading {
 }
 TD.infoBox, SPAN.infoBox {
 }
-
+div.content {
+  padding: 0 20px;
+}
 TR.accountHistory-odd, TR.addressBook-odd, TR.alsoPurchased-odd, TR.payment-odd, TR.productListing-odd, TR.productReviews-odd, TR.upcomingProducts-odd, TR.shippingOptions-odd {
   background: #fff;
 }
@@ -292,6 +294,12 @@ a.productDetail img {
 }
 a:hover.productDetail img {
   border: 1px solid #74aac4;
+}
+div.extraImage {
+  padding-bottom: 18px;
+}
+td.imagesPadding {
+  padding-top: 3px;
 }
 .productsName {
   font-family: Helvetica, Verdana, Arial, sans-serif;
