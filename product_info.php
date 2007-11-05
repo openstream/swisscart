@@ -106,14 +106,14 @@ function setcolor(obj,percentage,prop){
       $products_price = $currencies->display_price($product_info['products_price'], tep_get_tax_rate($product_info['products_tax_class_id']));
     }
 
-    if (tep_not_null($product_info['products_model'])) {
+    if (tep_not_null($product_info['products_model']) && DISPLAY_PRODUCTS_MODEL == 'true') {
       $products_name = '<h1 class="productsName">' . $product_info['products_name'] . '</h1><span class="smallText">[' . $product_info['products_model'] . ']</span>';
     } else {
       $products_name = '<h1 class="productsName">' . $product_info['products_name'] . '</h1>';
     }
 ?>
       <tr>
-        <td width="<?php echo PRODUCT_INFO_IMAGE_WIDTH + 10 ?>">
+        <td width="<?php echo PRODUCT_INFO_IMAGE_WIDTH + 20 ?>" class="imagesPadding">
 <?php
     if (tep_not_null($product_info['products_image'])) {
 ?>
@@ -131,11 +131,11 @@ function setcolor(obj,percentage,prop){
     }
 ?>
 		</td>        
-        <td>
+        <td class="imagesPadding">
 			  <?php if (LIGHTBOX_ENABLE == 'true') { 
-				if ($product_info['products_image2']) echo '<a rel="lightbox[roadtrip]" class="productDetail" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image2']) . '" title="'. $product_info['products_name'] .' Image 2 - '. $manufacturer['manufacturers_name'] .'">'. tep_image(DIR_WS_IMAGES . $product_info['products_image2'], addslashes($product_info['products_name']) . ' (Image 2)', SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="0" vspace="0"') . '</a>'; 
-				if ($product_info['products_image3']) echo '<br><br><a rel="lightbox[roadtrip]" class="productDetail" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image3']) . '" title="'. $product_info['products_name'] .' Image 3 - '. $manufacturer['manufacturers_name'] .'">'. tep_image(DIR_WS_IMAGES . $product_info['products_image3'], addslashes($product_info['products_name']) . ' (Image 3)', SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="0" vspace="0"') . '</a>'; 
-				if ($product_info['products_image4']) echo '<br><br><a rel="lightbox[roadtrip]" class="productDetail" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image4']) . '" title="'. $product_info['products_name'] .' Image 4 - '. $manufacturer['manufacturers_name'] .'">'. tep_image(DIR_WS_IMAGES . $product_info['products_image4'], addslashes($product_info['products_name']) . ' (Image 4)', SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="0" vspace="0"') . '</a>'; 
+				if ($product_info['products_image2']) echo '<div class="extraImage"><a rel="lightbox[roadtrip]" class="productDetail" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image2']) . '" title="'. $product_info['products_name'] .' Image 2 - '. $manufacturer['manufacturers_name'] .'">'. tep_image(DIR_WS_IMAGES . $product_info['products_image2'], addslashes($product_info['products_name']) . ' (Image 2)', SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="0" vspace="0"') . '</a></div>'; 
+				if ($product_info['products_image3']) echo '<div class="extraImage"><a rel="lightbox[roadtrip]" class="productDetail" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image3']) . '" title="'. $product_info['products_name'] .' Image 3 - '. $manufacturer['manufacturers_name'] .'">'. tep_image(DIR_WS_IMAGES . $product_info['products_image3'], addslashes($product_info['products_name']) . ' (Image 3)', SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="0" vspace="0"') . '</a></div>'; 
+				if ($product_info['products_image4']) echo '<div class="extraImage"><a rel="lightbox[roadtrip]" class="productDetail" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image4']) . '" title="'. $product_info['products_name'] .' Image 4 - '. $manufacturer['manufacturers_name'] .'">'. tep_image(DIR_WS_IMAGES . $product_info['products_image4'], addslashes($product_info['products_name']) . ' (Image 4)', SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="0" vspace="0"') . '</a><div>'; 
 				} else { ?>
 					<script language="javascript"><!--
                     document.write('<?php echo '<a href="javascript:popupWindow(\\\'' . tep_href_link(FILENAME_POPUP_IMAGE, 'pID=' . $product_info['products_id']) . '\\\')">' . tep_image(DIR_WS_IMAGES . $product_info['products_image'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '<br>' . TEXT_CLICK_TO_ENLARGE . '</a>'; ?>');
@@ -148,22 +148,19 @@ function setcolor(obj,percentage,prop){
       </tr> 
       
       <tr>
-        <td class="main">      
-          <div><?php echo $products_name; ?></div>
+        <td colspan="2" class="main">      
+          <?php echo $products_name; ?>
           <div class="productsPrice"><?php echo $products_price; ?></div>
-          <div style="padding-top: 10px; "><?php echo tep_draw_hidden_field('products_id', $product_info['products_id']) . tep_image_submit('button_in_cart.gif', IMAGE_BUTTON_IN_CART) . '&nbsp;<a href="' . tep_href_link('pdf_datasheet.php', 'products_id=' . $product_info['products_id']) . '">' . tep_image_button('button_pdf.gif', IMAGE_BUTTON_PDF) . '</a>'; ?></div>
-       </td>
-       <td>
-       
+          
 <?php
     $products_attributes_query = tep_db_query("select count(*) as total from " . TABLE_PRODUCTS_OPTIONS . " popt, " . TABLE_PRODUCTS_ATTRIBUTES . " patrib where patrib.products_id='" . (int)$HTTP_GET_VARS['products_id'] . "' and patrib.options_id = popt.products_options_id and popt.language_id = '" . (int)$languages_id . "'");
     $products_attributes = tep_db_fetch_array($products_attributes_query);
     if ($products_attributes['total'] > 0) {
 ?>
           <table style="padding-top: 10px; " border="0" cellspacing="0" cellpadding="2">
-            <tr>
+            <!--<tr>
               <td class="main" colspan="2"><?php echo TEXT_PRODUCT_OPTIONS; ?></td>
-            </tr>
+            </tr>-->
 <?php
 			//clr 030714 update query to pull option_type
       $products_options_name_query = tep_db_query("select distinct popt.products_options_id, popt.products_options_name, popt.products_options_type, popt.products_options_length, popt.products_options_comment from " . TABLE_PRODUCTS_OPTIONS . " popt, " . TABLE_PRODUCTS_ATTRIBUTES . " patrib where patrib.products_id='" . (int)$HTTP_GET_VARS['products_id'] . "' and patrib.options_id = popt.products_options_id and popt.language_id = '" . (int)$languages_id . "' order by popt.products_options_sort_order, popt.products_options_name");
@@ -281,9 +278,11 @@ function setcolor(obj,percentage,prop){
           </table>
 <?php
     } //clr 030714 end if
-?>        
-       
+?>           
+          
+          <div style="padding: 30px 0 20px 0; "><?php echo tep_draw_hidden_field('products_id', $product_info['products_id']) . tep_image_submit('button_in_cart.gif', IMAGE_BUTTON_IN_CART) . '&nbsp;<a href="' . tep_href_link('pdf_datasheet.php', 'products_id=' . $product_info['products_id']) . '">' . tep_image_button('button_pdf.gif', IMAGE_BUTTON_PDF) . '</a>'; ?></div>
        </td>
+       <td>&nbsp;</td>
       </tr>
 	  <tr>
         <td colspan="2" class="main">
