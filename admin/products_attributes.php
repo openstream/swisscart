@@ -39,8 +39,7 @@
           $option_name = tep_db_prepare_input($option_name_array[$languages[$i]['id']]);
 		  $option_comment = $HTTP_POST_VARS['option_comment'];	//clr 030714 update to add option comment to products_option
 
-          tep_db_query("insert into " . TABLE_PRODUCTS_OPTIONS . " (products_options_id, products_options_name, language_id, products_options_type, products_options_length, products_options_sort_order, products_options_comment) values ('" . (int)$products_options_id . "', '" . tep_db_input($option_name) . "', '" . (int)$languages[$i]['id'] . "', '" . $option_type . "', '" . $option_length . "', '" . $option_sort_order . "', '" . $option_comment[$languages[$i]['id']]  . "')");
-        }
+          tep_db_query("insert into " . TABLE_PRODUCTS_OPTIONS . " (products_options_id, products_options_name, language_id, products_options_type, products_options_length, products_options_sort_order, products_options_comment) values ('" . (int)$products_options_id . "', '" . tep_db_input($option_name) . "', '" . (int)$languages[$i]['id'] . "', '" . $option_type . "', '" . $option_length . "', '" . $option_sort_order . "', '" . $option_comment[$languages[$i]['id']]  . "')");       }
         tep_redirect(tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, $page_info));
         break;
       case 'add_product_option_values':
@@ -65,7 +64,7 @@
         $value_price = tep_db_prepare_input($HTTP_POST_VARS['value_price']);
         $price_prefix = tep_db_prepare_input($HTTP_POST_VARS['price_prefix']);
 
-        tep_db_query("insert into " . TABLE_PRODUCTS_ATTRIBUTES . " values ('', '" . (int)$products_id . "', '" . (int)$options_id . "', '" . (int)$values_id . "', '" . tep_db_input($value_price) . "', '" . tep_db_input($price_prefix) . "')");
+        tep_db_query("insert into " . TABLE_PRODUCTS_ATTRIBUTES . " (products_attributes_id, products_id, options_id, options_values_id, options_values_price, price_prefix) values ('', '" . (int)$products_id . "', '" . (int)$options_id . "', '" . (int)$values_id . "', '" . tep_db_input($value_price) . "', '" . tep_db_input($price_prefix) . "')");
 
         if (DOWNLOAD_ENABLED == 'true') {
           $products_attributes_id = tep_db_insert_id();
