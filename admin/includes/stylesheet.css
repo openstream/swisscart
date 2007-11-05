@@ -14,10 +14,10 @@ body, td, th, textarea {
 }
 
 /* links */
-a:link { font-size: 10px; color: #000000; font-weight: normal; text-decoration: none; }
-a:visited { font-size: 10px; color: #000000; font-weight: normal; text-decoration: none; }
-a:active { font-size: 10px; color: #000000; font-weight: normal; text-decoration: none; }
-a:hover { font-size: 10px; color: #000000; font-weight: normal; text-decoration: underline; }
+a:link { font-size: 12px; color: #000000; font-weight: normal;  }
+a:visited { font-size: 12px; color: #000000; font-weight: normal; }
+a:active { font-size: 12px; color: #000000; font-weight: normal; }
+a:hover { font-size: 12px; color: #7187BB; font-weight: normal; }
 
 a.headerLink:link { font-size: 10px; color: #ffffff; font-weight: normal; text-decoration: none; }
 a.headerLink:visited { font-size: 10px; color: #ffffff; font-weight: normal; text-decoration: none; }
