@@ -282,7 +282,6 @@ function setcolor(obj,percentage,prop){
           
           <div style="padding: 30px 0 20px 0; "><?php echo tep_draw_hidden_field('products_id', $product_info['products_id']) . tep_image_submit('button_in_cart.gif', IMAGE_BUTTON_IN_CART) . '&nbsp;<a href="' . tep_href_link('pdf_datasheet.php', 'products_id=' . $product_info['products_id']) . '">' . tep_image_button('button_pdf.gif', IMAGE_BUTTON_PDF) . '</a>'; ?></div>
        </td>
-       <td>&nbsp;</td>
       </tr>
 	  <tr>
         <td colspan="2" class="main">
