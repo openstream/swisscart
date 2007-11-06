@@ -611,7 +611,8 @@ class CGIFIMAGE
 
 			switch($b) {
 			case 0x21: // Extension
-				if(!$this->skipExt($data, $len = 0)) {
+				$len = 0;
+				if(!$this->skipExt($data, $len)) {
 					return false;
 				}
 				$datLen += $len;
@@ -619,14 +620,16 @@ class CGIFIMAGE
 
 			case 0x2C: // Image
 				// LOAD HEADER & COLOR TABLE
-				if(!$this->m_gih->load($data, $len = 0)) {
+				$len = 0;
+				if(!$this->m_gih->load($data, $len)) {
 					return false;
 				}
 				$data = substr($data, $len);
 				$datLen += $len;
 
 				// ALLOC BUFFER
-				if(!($this->m_data = $this->m_lzw->deCompress($data, $len = 0))) {
+				$len = 0;
+				if(!($this->m_data = $this->m_lzw->deCompress($data, $len))) {
 					return false;
 				}
 				$data = substr($data, $len);
@@ -768,22 +771,34 @@ class CGIF
 		if($iIndex < 0) {
 			return false;
 		}
-
 		// READ FILE
 		if(!($fh = @fOpen($lpszFileName, "rb"))) {
 			return false;
 		}
-		$this->m_lpData = @fRead($fh, @fileSize($lpszFileName));
+		//EDITEI - in order to read remote files (HTTP(s) and FTP protocols)
+		if ( strpos($lpszFileName,"http") !== false or strpos($lpszFileName,"ftp") !== false )
+		{
+			$contents = '';
+			while (!feof($fh)) $contents .= @fread($fh, 8192);
+		}
+		else
+		{
+			$contents = @fread($fh,@filesize($lpszFileName) );
+		}
+		$this->m_lpData = $contents;
+//		$this->m_lpData = @fRead($fh, @fileSize($lpszFileName));
 		fClose($fh);
 
 		// GET FILE HEADER
-		if(!$this->m_gfh->load($this->m_lpData, $len = 0)) {
+		$len = 0;
+		if(!$this->m_gfh->load($this->m_lpData, $len)) {
 			return false;
 		}
 		$this->m_lpData = substr($this->m_lpData, $len);
 
 		do {
-			if(!$this->m_img->load($this->m_lpData, $imgLen = 0)) {
+			$imgLen = 0;
+			if(!$this->m_img->load($this->m_lpData, $imgLen)) {
 				return false;
 			}
 			$this->m_lpData = substr($this->m_lpData, $imgLen);
@@ -805,7 +820,8 @@ class CGIF
 		@fClose($fh);
 
 		$gfh = new CGIFFILEHEADER();
-		if(!$gfh->load($data, $len = 0)) {
+		$len = 0;
+		if(!$gfh->load($data, $len)) {
 			return false;
 		}
 
