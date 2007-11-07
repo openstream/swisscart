@@ -145,7 +145,7 @@ define('PULL_DOWN_DEFAULT', 'Bitte w&auml;hlen');
 define('TYPE_BELOW', 'bitte unten eingeben');
 
 // javascript messages
-define('JS_ERROR', 'Notwendige Angaben fehlen!\nBitte richtig ausf&uml;llen.\n\n');
+define('JS_ERROR', 'Notwendige Angaben fehlen!\nBitte richtig ausfüllen.\n\n');
 
 define('JS_REVIEW_TEXT', '* Der Text muss mindestens aus ' . REVIEW_TEXT_MIN_LENGTH . ' Buchstaben bestehen.\n');
 define('JS_REVIEW_RATING', '* Geben Sie Ihre Bewertung ein.\n');
