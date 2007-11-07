@@ -10,6 +10,10 @@
   Released under the GNU General Public License 
 */
 
+define('TEXT_GREETING_PERSONAL', 'Bentornato <span class="greetUser">%s!</span> Vuoi vedere i <a href="%s"><u>nouvi prodotti</u></a> che sono disponibili?');
+define('TEXT_GREETING_PERSONAL_RELOGON', '<small>Se tu non sei %s, <a href="%s"><u>effettua il log-in</u></a> con i dati del tuo accout.</small>');
+define('TEXT_GREETING_GUEST', 'Benvenuto <span class="greetUser">!</span> Puoi effettuare qui <a href="%s"><u>il log-in</u></a>? Oppure puoi creare qui <a href="%s"><u>un account</u></a>?');
+
 define('TEXT_MAIN', 'Questa è una dimostrazione di negozio on-line, <b>i prodotti visualizzati non sono veramnete in vendita, non verranno ne spedidi ne fatturati</b>. Tutte le informazioni sui prodotti sono esposte col solo intento dimostrativo.<br><br>Se vuoi scaricare questo progetto di negozio on-line, o contribuire al progetto, visita <a href="http://oscommerce.com"><u>il sito di supporto</u></a>. Questo negozio è basato su <font color="#f0000"><b>' . PROJECT_VERSION . '</b></font>. Questa versione è stata tradotta da <a href="http://www.oscommerceitalia.com">osCommerceITalia</a>, comunità italiana di utenti e sviluppatori osCommerce.');
 define('TABLE_HEADING_NEW_PRODUCTS', 'Nuovi prodotti per %s');
 define('TABLE_HEADING_UPCOMING_PRODUCTS', 'Prodotti in arrivo');
