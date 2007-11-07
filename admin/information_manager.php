@@ -140,10 +140,10 @@ echo '<script language="javascript" type="text/javascript" src="' . $tiny_mce . 
 <script language="javascript" type="text/javascript">
 tinyMCE.init({
 mode : "textareas",
-theme : "simple",
-plugins : "table,advhr,advimage,advlink,emotions,preview,flash,print,contextmenu",
-theme_advanced_buttons1_add : "fontselect,fontsizeselect",
-theme_advanced_buttons2_add : "separator,preview,separator,forecolor,backcolor",
+theme : "' . TINYMCE_THEME . '",
+plugins : "table,advhr,advimage,advlink,emotions,preview,flash,print,contextmenu",';
+// theme_advanced_buttons1_add : "fontselect,fontsizeselect",
+echo 'theme_advanced_buttons2_add : "separator,preview,separator,forecolor,backcolor",
 theme_advanced_buttons2_add_before: "cut,copy,paste,separator",
 theme_advanced_buttons3_add_before : "tablecontrols,separator",
 theme_advanced_buttons3_add : "emotions,flash,advhr,separator,print",
