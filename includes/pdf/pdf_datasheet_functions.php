@@ -513,17 +513,17 @@ var $y0;
             $price_tax = $price_with_tax['configuration_value'];
          if(SHOW_PRICES_INC_EX_TAX != 0 && DISPLAY_PRICE_WITH_TAX == 'true'){
              if ($new_price = tep_get_products_special_price($print_catalog['products_id'])) {
-             $specials_price =  TEXT_PRODUCTS_SPECIALS_PRICE . $currencies->display_price($print_catalog['products_id'], $new_price, tep_get_tax_rate($print_catalog['products_tax_class_id'])) . TEXT_PRICE_VAT_INCLUDED . '  (' . $currencies->display_price($print_catalog['products_id'], $new_price, tep_get_tax_rate('')) . TEXT_PRICE_EX_VAT . ')';
-             $products_price = TEXT_PRODUCTS_PRICE . $currencies->display_price($print_catalog['products_id'], $print_catalog['products_price'], tep_get_tax_rate($print_catalog['products_tax_class_id'])) . TEXT_PRICE_VAT_INCLUDED . '  (' . $currencies->display_price($print_catalog['products_id'], $print_catalog['products_price'], '') . TEXT_PRICE_EX_VAT . ')';
+             $specials_price =  TEXT_PRODUCTS_SPECIALS_PRICE . $currencies->display_price($new_price, tep_get_tax_rate($print_catalog['products_tax_class_id'])) . TEXT_PRICE_VAT_INCLUDED . '  (' . $currencies->display_price($new_price, tep_get_tax_rate('')) . TEXT_PRICE_EX_VAT . ')';
+             $products_price = TEXT_PRODUCTS_PRICE . $currencies->display_price($print_catalog['products_price'], tep_get_tax_rate($print_catalog['products_tax_class_id'])) . TEXT_PRICE_VAT_INCLUDED . '  (' . $currencies->display_price($print_catalog['products_price'], '') . TEXT_PRICE_EX_VAT . ')';
              } else {
-                     $products_price = TEXT_PRODUCTS_PRICE . $currencies->display_price($print_catalog['products_id'], $print_catalog['products_price'], tep_get_tax_rate($print_catalog['products_tax_class_id'])) . TEXT_PRICE_VAT_INCLUDED . '  (' . $currencies->display_price($print_catalog['products_id'], $print_catalog['products_price'], '') . TEXT_PRICE_EX_VAT . ')';
+                     $products_price = TEXT_PRODUCTS_PRICE . $currencies->display_price($print_catalog['products_price'], tep_get_tax_rate($print_catalog['products_tax_class_id'])) . TEXT_PRICE_VAT_INCLUDED . '  (' . $currencies->display_price($print_catalog['products_price'], '') . TEXT_PRICE_EX_VAT . ')';
              }
          } else {
               if ($new_price = tep_get_products_special_price($print_catalog['products_id'])) {
-             $specials_price =  TEXT_PRODUCTS_SPECIALS_PRICE . $currencies->display_price($print_catalog['products_id'], $new_price,  tep_get_tax_rate($print_catalog['products_tax_class_id']));
-             $products_price = TEXT_PRODUCTS_PRICE . $currencies->display_price($print_catalog['products_id'], $print_catalog['products_price'], tep_get_tax_rate($print_catalog['products_tax_class_id']));
+             $specials_price =  TEXT_PRODUCTS_SPECIALS_PRICE . $currencies->display_price($new_price,  tep_get_tax_rate($print_catalog['products_tax_class_id']));
+             $products_price = TEXT_PRODUCTS_PRICE . $currencies->display_price($print_catalog['products_price'], tep_get_tax_rate($print_catalog['products_tax_class_id']));
              } else {
-                     $products_price = TEXT_PRODUCTS_PRICE . $currencies->display_price($print_catalog['products_id'], $print_catalog['products_price'], tep_get_tax_rate($print_catalog['products_tax_class_id']));
+                     $products_price = TEXT_PRODUCTS_PRICE . $currencies->display_price($print_catalog['products_price'], tep_get_tax_rate($print_catalog['products_tax_class_id']));
              }
          }
          
@@ -623,7 +623,7 @@ var $y0;
                         if ($products_options_values['options_values_price'] != ' 0.0000' && SHOW_OPTIONS_PRICE == '1') {
                             $count_options++;
                             $add_to = ($count_options_values != $count_options ? ',' : '.');
-                            $this->Write(5, $option_string . ' (' . $products_options_values['price_prefix'] . $currencies->display_price($print_catalog['products_id'], $products_options_values['options_values_price'], tep_get_tax_rate($print_catalog['products_tax_class_id'])) . ')' . $add_to);
+                            $this->Write(5, $option_string . ' (' . $products_options_values['price_prefix'] . $currencies->display_price($products_options_values['options_values_price'], tep_get_tax_rate($print_catalog['products_tax_class_id'])) . ')' . $add_to);
                         } else {
                             $count_options++;
                             $add_to = ($count_options_values != $count_options ? ',' : '.');
@@ -677,7 +677,7 @@ var $y0;
                         $option_string = $products_options_values['products_options_values_name'];
                         if ($products_options_values['options_values_price'] != ' 0.0000' && SHOW_OPTIONS_PRICE == '1') 
 						{
-                            $this->Write(5, $option_string . ' (' . $products_options_values['price_prefix'] . $currencies->display_price($print_catalog['products_id'], $products_options_values['options_values_price'], tep_get_tax_rate($print_catalog['products_tax_class_id'])) . ')' . $add_to);
+                            $this->Write(5, $option_string . ' (' . $products_options_values['price_prefix'] . $currencies->display_price($products_options_values['options_values_price'], tep_get_tax_rate($print_catalog['products_tax_class_id'])) . ')' . $add_to);
                         } else {
                             $this->Write(5, $option_string);
                         }
@@ -726,7 +726,7 @@ var $y0;
         $option_string = $products_options_values['products_options_values_name'] . $option_value;
           if ( $products_options_values['options_values_price'] != ' 0.0000' && SHOW_OPTIONS_PRICE == '1') {
          $count_options++; $add_to = ($count_options_values != $count_options ? ',' : '.' );
-         $this->Write(5,$products_options_values['products_options_values_name']. ' (' . $products_options_values['price_prefix'] . $currencies->display_price($print_catalog['products_id'], $products_options_values['options_values_price'], tep_get_tax_rate($print_catalog['products_tax_class_id'])) . ')' . $add_to);
+         $this->Write(5,$products_options_values['products_options_values_name']. ' (' . $products_options_values['price_prefix'] . $currencies->display_price($products_options_values['options_values_price'], tep_get_tax_rate($print_catalog['products_tax_class_id'])) . ')' . $add_to);
           } else {
          $count_options++; $add_to = ($count_options_values != $count_options ? ',' : '.' );
          $this->Write(5,$products_options_values['products_options_values_name'] . $add_to);
