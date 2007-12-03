@@ -121,10 +121,10 @@ function setcolor(obj,percentage,prop){
 				echo '<a rel="lightbox[roadtrip]" class="productDetail" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image']) . '" title="'. $product_info['products_name'] .' - '. $manufacturer['manufacturers_name'] .'">'. tep_image(DIR_WS_IMAGES . $product_info['products_image'], addslashes($product_info['products_name']), PRODUCT_INFO_IMAGE_WIDTH, PRODUCT_INFO_IMAGE_HEIGHT, 'hspace="0" vspace="0"') . '</a><br>' . tep_image_button('button_image_enlarge.gif', IMAGE_BUTTON_IMAGE_ENLARGE); 
 				} else { ?>
 					<script language="javascript"><!--
-                    document.write('<?php echo '<a href="javascript:popupWindow(\\\'' . tep_href_link(FILENAME_POPUP_IMAGE, 'pID=' . $product_info['products_id']) . '\\\')">' . tep_image(DIR_WS_IMAGES . $product_info['products_image'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '<br>' . TEXT_CLICK_TO_ENLARGE . '</a>'; ?>');
+                    document.write('<?php echo '<a class="productDetail" href="javascript:popupWindow(\\\'' . tep_href_link(FILENAME_POPUP_IMAGE, 'pID=' . $product_info['products_id']) . '\\\')">' . tep_image(DIR_WS_IMAGES . $product_info['products_image'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a><br>' . tep_image_button('button_image_enlarge.gif', IMAGE_BUTTON_IMAGE_ENLARGE); ?>');
                     //--></script>
                     <noscript>
-                    <?php echo '<a href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image']) . '" target="_blank">' . tep_image(DIR_WS_IMAGES . $product_info['products_image'], $product_info['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '<br>' . TEXT_CLICK_TO_ENLARGE . '</a>'; ?>
+                    <?php echo '<a class="productDetail" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image']) . '" target="_blank">' . tep_image(DIR_WS_IMAGES . $product_info['products_image'], $product_info['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a><br>' . tep_image_button('button_image_enlarge.gif', IMAGE_BUTTON_IMAGE_ENLARGE); ?>
                     </noscript>
 			  <?php } // endif lightbox ?>
 <?php
@@ -136,14 +136,42 @@ function setcolor(obj,percentage,prop){
 				if ($product_info['products_image2']) echo '<div class="extraImage"><a rel="lightbox[roadtrip]" class="productDetail" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image2']) . '" title="'. $product_info['products_name'] .' Image 2 - '. $manufacturer['manufacturers_name'] .'">'. tep_image(DIR_WS_IMAGES . $product_info['products_image2'], addslashes($product_info['products_name']) . ' (Image 2)', SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="0" vspace="0"') . '</a></div>'; 
 				if ($product_info['products_image3']) echo '<div class="extraImage"><a rel="lightbox[roadtrip]" class="productDetail" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image3']) . '" title="'. $product_info['products_name'] .' Image 3 - '. $manufacturer['manufacturers_name'] .'">'. tep_image(DIR_WS_IMAGES . $product_info['products_image3'], addslashes($product_info['products_name']) . ' (Image 3)', SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="0" vspace="0"') . '</a></div>'; 
 				if ($product_info['products_image4']) echo '<div class="extraImage"><a rel="lightbox[roadtrip]" class="productDetail" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image4']) . '" title="'. $product_info['products_name'] .' Image 4 - '. $manufacturer['manufacturers_name'] .'">'. tep_image(DIR_WS_IMAGES . $product_info['products_image4'], addslashes($product_info['products_name']) . ' (Image 4)', SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="0" vspace="0"') . '</a><div>'; 
-				} else { ?>
+				} else { 
+				
+					if ($product_info['products_image2']) {
+					?>
 					<script language="javascript"><!--
-                    document.write('<?php echo '<a href="javascript:popupWindow(\\\'' . tep_href_link(FILENAME_POPUP_IMAGE, 'pID=' . $product_info['products_id']) . '\\\')">' . tep_image(DIR_WS_IMAGES . $product_info['products_image'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '<br>' . TEXT_CLICK_TO_ENLARGE . '</a>'; ?>');
+                    document.write('<?php echo '<div class="extraImage"><a class="productDetail" href="javascript:popupWindow(\\\'' . tep_href_link(FILENAME_POPUP_IMAGE, 'pID=' . $product_info['products_id']) . '\\\')">' . tep_image(DIR_WS_IMAGES . $product_info['products_image2'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a></div>'; ?>');
                     //--></script>
                     <noscript>
-                    <?php echo '<a href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image']) . '" target="_blank">' . tep_image(DIR_WS_IMAGES . $product_info['products_image'], $product_info['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '<br>' . TEXT_CLICK_TO_ENLARGE . '</a>'; ?>
+                    <?php echo '<div class="extraImage"><a class="productDetail" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image2']) . '" target="_blank">' . tep_image(DIR_WS_IMAGES . $product_info['products_image2'], $product_info['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a></div>'; ?>
                     </noscript>
-			  <?php } // endif lightbox ?>            
+                 
+	                 <?php } // end image2    
+
+					if ($product_info['products_image3']) {
+					?>
+					<script language="javascript"><!--
+                    document.write('<?php echo '<div class="extraImage"><a class="productDetail" href="javascript:popupWindow(\\\'' . tep_href_link(FILENAME_POPUP_IMAGE, 'pID=' . $product_info['products_id']) . '\\\')">' . tep_image(DIR_WS_IMAGES . $product_info['products_image3'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a></div>'; ?>');
+                    //--></script>
+                    <noscript>
+                    <?php echo '<div class="extraImage"><a class="productDetail" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image3']) . '" target="_blank">' . tep_image(DIR_WS_IMAGES . $product_info['products_image3'], $product_info['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a></div>'; ?>
+                    </noscript>
+                 
+	                 <?php } // end image3    
+
+					if ($product_info['products_image4']) {
+					?>
+					<script language="javascript"><!--
+                    document.write('<?php echo '<div class="extraImage"><a class="productDetail" href="javascript:popupWindow(\\\'' . tep_href_link(FILENAME_POPUP_IMAGE, 'pID=' . $product_info['products_id']) . '\\\')">' . tep_image(DIR_WS_IMAGES . $product_info['products_image4'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a></div>'; ?>');
+                    //--></script>
+                    <noscript>
+                    <?php echo '<div class="extraImage"><a class="productDetail" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image4']) . '" target="_blank">' . tep_image(DIR_WS_IMAGES . $product_info['products_image4'], $product_info['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a></div>'; ?>
+                    </noscript>
+                 
+	                 <?php } // end image4    
+				 
+				} // endif lightbox ?>            
 		</td>
       </tr> 
       
