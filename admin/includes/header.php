@@ -18,21 +18,11 @@
   <tr>
     <td><?php echo tep_image(DIR_WS_IMAGES . 'swisscart.gif', 'swisscart&reg;', '126', '29'); ?></td>
     <td align="right">
-	<?php if (strstr($_SERVER['PHP_SELF'], FILENAME_FILE_MANAGER) || strstr($_SERVER['PHP_SELF'], FILENAME_DEFINE_LANGUAGE) || strstr($_SERVER['PHP_SELF'], FILENAME_DEFINE_TERMS) ) { } else {
-		$languages = tep_get_languages();
-		$languages_array = array();
-		$languages_selected = DEFAULT_LANGUAGE;
-		for ($i = 0, $n = sizeof($languages); $i < $n; $i++) {
-		$languages_array[] = array('id' => $languages[$i]['code'],
-		'text' => $languages[$i]['name']);
-		if ($languages[$i]['directory'] == $language) {
-		$languages_selected = $languages[$i]['code'];
-		  }
-		}
-	?>
-    <form name="languages" action="<?php echo 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['PHP_SELF'] . '?' . $_SERVER['QUERY_STRING']; ?>" method="get">
+	<?php if (strstr($_SERVER['PHP_SELF'], FILENAME_FILE_MANAGER) || strstr($_SERVER['PHP_SELF'], FILENAME_DEFINE_LANGUAGE) || strstr($_SERVER['PHP_SELF'], FILENAME_DEFINE_TERMS) ) { } else { ?>
+    <form name="languages" action="<?php echo $_SERVER['PHP_SELF'] . '?' . $_SERVER['QUERY_STRING']; ?>" method="get">
     <?php echo tep_draw_pull_down_menu('language', $languages_array, $languages_selected, 'onChange="this.form.submit();"'); ?>
-    </form><?php } ?></td>
+    </form><?php } ?>
+    </td>
   </tr>
   <tr class="headerBar">
     <td class="headerBarContent">&nbsp;&nbsp;<?php echo '<a href="' . tep_href_link(FILENAME_DEFAULT, '', 'NONSSL') . '" class="headerLink">' . HEADER_TITLE_TOP . '</a>'; ?></td>
