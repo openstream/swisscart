@@ -408,6 +408,7 @@ if($_GET['action'] != 'new_product_preview') { // prevent hidden fields to be re
 	$languages = tep_get_languages();
 	for ($i=0, $n=sizeof($languages); $i<$n; $i++) echo 'products_description[' . $languages[$i]['id'] . '],';
 	echo '",
+	language : "' . $languages_selected . '",
 	theme : "' . TINYMCE_THEME . '",
 	plugins : "table,advhr,advimage,advlink,emotions,preview,flash,print,contextmenu",';
 	// theme_advanced_buttons1_add : "fontselect,fontsizeselect",
