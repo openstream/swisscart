@@ -30,7 +30,8 @@
                                    '<a href="' . tep_href_link(FILENAME_NEWSLETTERS) . '" class="menuBoxContentLink">' . BOX_TOOLS_NEWSLETTER_MANAGER . '</a><br>' .
                                    '<a href="' . tep_href_link(FILENAME_EASY_POPULATE) . '" class="menuBoxContentLink">' . BOX_TOOLS_EASY_POPULATE . '</a><br>' .
                                    '<a href="' . tep_href_link(FILENAME_SERVER_INFO) . '" class="menuBoxContentLink">' . BOX_TOOLS_SERVER_INFO . '</a><br>' .
-                                   '<a href="' . tep_href_link(FILENAME_WHOS_ONLINE) . '" class="menuBoxContentLink">' . BOX_TOOLS_WHOS_ONLINE . '</a>');
+                                   '<a href="' . tep_href_link(FILENAME_WHOS_ONLINE) . '" class="menuBoxContentLink">' . BOX_TOOLS_WHOS_ONLINE . '</a><br>' .
+								   '<a href="' . tep_href_link('saferpay.php') . '" class="menuBoxContentLink">Saferpay</a>');
   }
 
   $box = new box;
