@@ -67,7 +67,14 @@ function resize() {
 //--></script>
 </head>
 <body onload="resize();">
-<?php echo tep_image(DIR_WS_IMAGES . $products['products_image'], $products['products_name']); ?>
+<?php 
+	// check for large images
+	$image_size = getimagesize(DIR_WS_IMAGES . $products['products_image']);
+	$image_width = ($image_size[0] < POPUP_IMAGE_WIDTH) ? '':POPUP_IMAGE_WIDTH;
+	$image_height = ($image_size[1] < POPUP_IMAGE_HEIGHT) ? '':POPUP_IMAGE_HEIGHT;
+	
+	echo tep_image(DIR_WS_IMAGES . $products['products_image'], $products['products_name'], POPUP_IMAGE_WIDTH, POPUP_IMAGE_HEIGHT); 
+?>
 </body>
 </html>
 <?php require('includes/application_bottom.php'); ?>
