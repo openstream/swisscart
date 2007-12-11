@@ -213,6 +213,25 @@ function tep_image($src, $alt = '', $width = '', $height = '', $params = '') {
   return $image; 
 }
 
+////
+// Image link for lightbox extension
+function tep_image_link($src, $width = POPUP_IMAGE_WIDTH, $height = POPUP_IMAGE_HEIGHT) {  
+	if ($width != '' || $height != '') {
+		$image_size = getimagesize($src);
+		$image_ratio = $image_size[0]/$image_size[1];
+
+		if ($width != '') {
+			$height = round(POPUP_IMAGE_WIDTH / $image_ratio);
+		} elseif ($height != '') {
+			$width = round(POPUP_IMAGE_HEIGHT * $image_ratio);
+		}
+		
+		return FILENAME_IMAGEMAGIC . "?img=$src&w=$width&h=$height&page=popup";	
+	} else {
+		return $src;
+}
+
+}
 
 ////
 // The HTML form submit button wrapper function
