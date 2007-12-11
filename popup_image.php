@@ -26,12 +26,43 @@
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo CHARSET; ?>">
 <title><?php echo $products['products_name']; ?></title>
 <base href="<?php echo (($request_type == 'SSL') ? HTTPS_SERVER : HTTP_SERVER) . DIR_WS_CATALOG; ?>">
-<script language="javascript"><!--
+<script language="javascript" type="text/javascript"><!--
 var i=0;
+
 function resize() {
-  if (navigator.appName == 'Netscape') i=40;
-  if (document.images[0]) window.resizeTo(document.images[0].width +30, document.images[0].height+60-i);
+	
+        if (window.navigator.userAgent.indexOf('MSIE 6.0') != -1 && window.navigator.userAgent.indexOf('SV1') != -1) { 
+		               i=23; //IE 6.x on Windows XP SP2
+        } else if (window.navigator.userAgent.indexOf('MSIE 6.0') != -1) { 
+		               i=50; //IE 6.x somewhere else
+	  } else if (window.navigator.userAgent.indexOf('MSIE 7.0') != -1) { 
+		               i=0;  //IE 7.x 
+        } else if (window.navigator.userAgent.indexOf('Firefox') != -1 && window.navigator.userAgent.indexOf("Windows") != -1) { 
+		               i=38; //Firefox on Windows
+        } else if (window.navigator.userAgent.indexOf('Mozilla') != -1 && window.navigator.userAgent.indexOf("Windows") != -1 && window.navigator.userAgent.indexOf("MSIE") == -1) { 
+		               i=45; //Mozilla on Windows, but not IE7		
+	  } else if (window.opera && document.childNodes) {
+		               i=50; //Opera 7+
+        } else if (navigator.vendor == 'KDE' && window.navigator.userAgent.indexOf("Konqueror") != -1) {
+                           i=-4; //Konqueror- this works ok with small images but not so great with large ones
+				         //if you tweak it make sure i remains negative
+        } else { 
+		               i=70; //All other browsers
+        }
+          
+	if (document.images[0]) {
+        imgHeight = document.images[0].height+110-i;
+        imgWidth = document.images[0].width+30;
+        var height = screen.height;
+        var width = screen.width;
+        var leftpos = width / 2 - imgWidth / 2;
+        var toppos = height / 2 - imgHeight / 2;
+        window.moveTo(leftpos, toppos);
+        window.resizeTo(imgWidth, imgHeight);
+       }
+   
   self.focus();
+   
 }
 //--></script>
 </head>
