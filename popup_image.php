@@ -17,7 +17,7 @@
 
   $navigation->remove_current_page();
 
-  $products_query = tep_db_query("select pd.products_name, p.products_image from " . TABLE_PRODUCTS . " p left join " . TABLE_PRODUCTS_DESCRIPTION . " pd on p.products_id = pd.products_id where p.products_status = '1' and p.products_id = '" . (int)$HTTP_GET_VARS['pID'] . "' and pd.language_id = '" . (int)$languages_id . "'");
+  $products_query = tep_db_query("select pd.products_name, p.products_image, p.products_image2, p.products_image3, p.products_image4 from " . TABLE_PRODUCTS . " p left join " . TABLE_PRODUCTS_DESCRIPTION . " pd on p.products_id = pd.products_id where p.products_status = '1' and p.products_id = '" . (int)$HTTP_GET_VARS['pID'] . "' and pd.language_id = '" . (int)$languages_id . "'");
   $products = tep_db_fetch_array($products_query);
 ?>
 <!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -73,7 +73,23 @@ function resize() {
 	$image_width = ($image_size[0] < POPUP_IMAGE_WIDTH) ? '':POPUP_IMAGE_WIDTH;
 	$image_height = ($image_size[1] < POPUP_IMAGE_HEIGHT) ? '':POPUP_IMAGE_HEIGHT;
 	
-	echo tep_image(DIR_WS_IMAGES . $products['products_image'], $products['products_name'], POPUP_IMAGE_WIDTH, POPUP_IMAGE_HEIGHT); 
+	// support for additional images
+	switch ($_GET['iID']) {
+	case 2:
+		$products_image = $products['products_image2'];
+		break;
+	case 3:
+		$products_image = $products['products_image3'];
+		break;
+	case 4:
+		$products_image = $products['products_image4'];
+		break;
+	default:
+		$products_image = $products['products_image'];
+		break;
+}	
+		
+	echo tep_image(DIR_WS_IMAGES . $products_image, $products['products_name'], POPUP_IMAGE_WIDTH, POPUP_IMAGE_HEIGHT); 
 ?>
 </body>
 </html>

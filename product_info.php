@@ -141,7 +141,7 @@ function setcolor(obj,percentage,prop){
 					if ($product_info['products_image2']) {
 					?>
 					<script language="javascript"><!--
-                    document.write('<?php echo '<div class="extraImage"><a class="productDetail" href="javascript:popupWindow(\\\'' . tep_href_link(FILENAME_POPUP_IMAGE, 'pID=' . $product_info['products_id']) . '\\\')">' . tep_image(DIR_WS_IMAGES . $product_info['products_image2'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a></div>'; ?>');
+                    document.write('<?php echo '<div class="extraImage"><a class="productDetail" href="javascript:popupWindow(\\\'' . tep_href_link(FILENAME_POPUP_IMAGE, 'pID=' . $product_info['products_id']) . '&iID=2' . '\\\')">' . tep_image(DIR_WS_IMAGES . $product_info['products_image2'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a></div>'; ?>');
                     //--></script>
                     <noscript>
                     <?php echo '<div class="extraImage"><a class="productDetail" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image2']) . '" target="_blank">' . tep_image(DIR_WS_IMAGES . $product_info['products_image2'], $product_info['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a></div>'; ?>
@@ -152,7 +152,7 @@ function setcolor(obj,percentage,prop){
 					if ($product_info['products_image3']) {
 					?>
 					<script language="javascript"><!--
-                    document.write('<?php echo '<div class="extraImage"><a class="productDetail" href="javascript:popupWindow(\\\'' . tep_href_link(FILENAME_POPUP_IMAGE, 'pID=' . $product_info['products_id']) . '\\\')">' . tep_image(DIR_WS_IMAGES . $product_info['products_image3'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a></div>'; ?>');
+                    document.write('<?php echo '<div class="extraImage"><a class="productDetail" href="javascript:popupWindow(\\\'' . tep_href_link(FILENAME_POPUP_IMAGE, 'pID=' . $product_info['products_id']) . '&iID=3' .'\\\')">' . tep_image(DIR_WS_IMAGES . $product_info['products_image3'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a></div>'; ?>');
                     //--></script>
                     <noscript>
                     <?php echo '<div class="extraImage"><a class="productDetail" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image3']) . '" target="_blank">' . tep_image(DIR_WS_IMAGES . $product_info['products_image3'], $product_info['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a></div>'; ?>
@@ -163,7 +163,7 @@ function setcolor(obj,percentage,prop){
 					if ($product_info['products_image4']) {
 					?>
 					<script language="javascript"><!--
-                    document.write('<?php echo '<div class="extraImage"><a class="productDetail" href="javascript:popupWindow(\\\'' . tep_href_link(FILENAME_POPUP_IMAGE, 'pID=' . $product_info['products_id']) . '\\\')">' . tep_image(DIR_WS_IMAGES . $product_info['products_image4'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a></div>'; ?>');
+                    document.write('<?php echo '<div class="extraImage"><a class="productDetail" href="javascript:popupWindow(\\\'' . tep_href_link(FILENAME_POPUP_IMAGE, 'pID=' . $product_info['products_id']) .  '&iID=4' . '\\\')">' . tep_image(DIR_WS_IMAGES . $product_info['products_image4'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a></div>'; ?>');
                     //--></script>
                     <noscript>
                     <?php echo '<div class="extraImage"><a class="productDetail" href="' . tep_href_link(DIR_WS_IMAGES . $product_info['products_image4']) . '" target="_blank">' . tep_image(DIR_WS_IMAGES . $product_info['products_image4'], $product_info['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a></div>'; ?>
