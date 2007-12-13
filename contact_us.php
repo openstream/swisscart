@@ -111,6 +111,12 @@
           <tr class="infoBoxContents">
             <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
               <tr>
+                <td class="main"><?php echo nl2br(STORE_NAME_ADDRESS); ?></td>
+              </tr>
+              <tr>
+                <td><p>&nbsp;</p></td>
+              </tr>            
+              <tr>
                 <td class="main"><?php echo ENTRY_NAME; ?></td>
               </tr>
               <tr>

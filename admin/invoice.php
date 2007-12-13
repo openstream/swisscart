@@ -38,8 +38,8 @@
   <tr>
     <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
       <tr>
-        <td class="pageHeading"><?php echo nl2br(STORE_NAME_ADDRESS); ?></td>
-        <td class="pageHeading" align="right"><?php echo tep_image(DIR_WS_IMAGES . 'oscommerce.gif', 'osCommerce', '204', '50'); ?></td>
+        <td class="main"><?php echo nl2br(STORE_NAME_ADDRESS); ?></td>
+        <td class="pageHeading" align="right"><?php echo tep_image(DIR_WS_CATALOG_IMAGES . STORE_LOGO, STORE_NAME); ?></td>
       </tr>
     </table></td>
   </tr>
