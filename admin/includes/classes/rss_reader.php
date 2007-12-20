@@ -48,7 +48,8 @@ function parseFeed(){ //função parse do xml
 	xml_set_element_handler($this->feedReader,"openTag","closeTag");
 	xml_set_character_data_handler($this->feedReader,"dataHandling");
 	if(!($fp=@fopen($this->feedUrl,"r"))){
-		$errorDefinition="Não foi possível encontrar o ficheiro pretendido.";
+		//$errorDefinition="Não foi possível encontrar o ficheiro pretendido.";
+		$errorDefinition="RSS-Verbindungsfehler!";
 		echo $errorDefinition;
 	}
 	while($data=@fread($fp,4096)){
