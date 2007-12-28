@@ -410,7 +410,7 @@ if($_GET['action'] != 'new_product_preview') { // prevent hidden fields to be re
 	echo '",
 	language : "' . $languages_selected . '",
 	theme : "' . TINYMCE_THEME . '",
-	plugins : "table,advhr,advimage,advlink,emotions,flash,contextmenu",';
+	plugins : "table,advhr,advimage,advlink,emotions,flash,contextmenu,imagemanager",';
 	// theme_advanced_buttons1_add : "fontselect,fontsizeselect",
 	echo 'theme_advanced_buttons2_add : "separator,forecolor",
 	theme_advanced_buttons2_add_before: "cut,copy,paste,separator",
@@ -556,6 +556,11 @@ function updateNet() {
 
   document.forms["new_product"].products_price.value = doRound(netValue, 4);
 }
+
+function toggle(obj) {
+	var el = document.getElementById(obj);
+	el.style.display = (el.style.display != 'block' ? 'block' : 'none' );
+}
 //--></script>
     <?php echo tep_draw_form('new_product', FILENAME_CATEGORIES, 'cPath=' . $cPath . (isset($HTTP_GET_VARS['pID']) ? '&pID=' . $HTTP_GET_VARS['pID'] : '') . '&action=new_product_preview', 'post', 'enctype="multipart/form-data"'); ?>
     <table border="0" width="100%" cellspacing="0" cellpadding="2">
@@ -639,7 +644,6 @@ function updateNet() {
 <script language="javascript"><!--
 updateGross();
 //--></script>
-<!-- HTC BOC //-->
 <?php
     for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
 ?>
@@ -657,12 +661,22 @@ updateGross();
 <?php
     }
 ?>
+<!-- HTC BOC //-->
           <tr>
-            <td colspan="2" class="main"><hr><?php echo TEXT_PRODUCT_METTA_INFO; ?></td>
+            <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+          </tr> 
+          <tr>
+            <td colspan="2" class="main"><a href="#htcFields" onClick="toggle('htcFields')" class="bigLink"><?php echo TEXT_PRODUCT_META_INFO; ?></a></td>
+          </tr>	
+        </table>
+	<div id="htcFields">
+        <table>
+          <tr>
+            <td colspan="2" class="smallText"><?php echo TEXT_PRODUCTS_META_INFO2; ?></td>
           </tr>
           <tr>
             <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
-          </tr>          
+          </tr>                  
 <?php         
     for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
 ?>
@@ -714,9 +728,9 @@ updateGross();
           <tr>
             <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
           </tr>
-          <tr>
-            <td colspan="2" class="main"><hr></td>
-          </tr>
+		</table>
+	</div>   
+    	<table>
 <!-- HTC EOC //-->
           <tr>
             <td class="main"><?php echo TEXT_PRODUCTS_QUANTITY; ?></td>

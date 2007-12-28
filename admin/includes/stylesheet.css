@@ -12,7 +12,9 @@
 body, td, th, textarea {
   font-family: Verdana, Arial, sans-serif; 
 }
-
+a img {
+  border: none;
+}
 /* links */
 a:link { font-size: 10px; color: #000; font-weight: normal; text-decoration: none; }
 a:visited { font-size: 10px; color: #000; font-weight: normal; text-decoration: none; }
@@ -99,7 +101,12 @@ FORM { display: inline; }
 a.bigLink:link { font-size: 12px; color: #000000; font-weight: normal; text-decoration: none; }
 a.bigLink:visited { font-size: 12px; color: #000000; font-weight: normal; text-decoration: none; }
 a.bigLink:active { font-size: 12px; color: #000000; font-weight: normal; text-decoration: none; }
-a.bigLink:hover { font-size: 12px; color: #000000; font-weight: normal; text-decoration: underline; }
+a.bigLink:hover { font-size: 12px; color: #000000; font-weight: normal; text-decoration: none; }
+
+a.smallLink:link { font-size: 10px; color: #000000; font-weight: normal; text-decoration: underline; }
+a.smallLink:visited { font-size: 10px; color: #000000; font-weight: normal; text-decoration: underline; }
+a.smallLink:active { font-size: 10px; color: #000000; font-weight: normal; text-decoration: underline; }
+a.smallLink:hover { font-size: 10px; color: #000000; font-weight: normal; text-decoration: underline; }
 
 .line { line-height: 1.5; }
 a.mediumlink:link, a.mediumlink:visited, a.mediumlink:active, a.mediumlink:hover{ font-size: 12px; text-decoration: underline; color: #7187bb; }
@@ -164,4 +171,9 @@ ul.rssfeed li {
 	padding-left: 14px;
 	background: url(../images/icons/bullet_star.png) -3px -1px no-repeat;
 	padding-bottom: 3px;
+}
+#htcFields {
+	display: none;
+	width: 670px;
+	background-color: #EBEBFF;
 }

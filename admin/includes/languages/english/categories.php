@@ -45,7 +45,9 @@ define('TEXT_EDIT_SORT_ORDER', 'Sort Order:');
 define('TEXT_INFO_COPY_TO_INTRO', 'Please choose a new category you wish to copy this product to');
 define('TEXT_INFO_CURRENT_CATEGORIES', 'Current Categories:');
 
-define('TEXT_PRODUCT_METTA_INFO', '<b>Meta Tag Information</b>');
+define('TEXT_PRODUCT_META_INFO', 'Meta Tag Information <img src="' . DIR_WS_ICONS . 'help.png' . '" alt="Please click here to toggle the meta tag fields" title="Please click here to toggle the meta tag fields"><br><small>(optional)</small>');
+define('TEXT_PRODUCTS_META_INFO2', '<a href="http://en.wikipedia.org/wiki/Meta_element" target="_blank" class="smallLink">Meta Tags</a> are elements used to provide structured metadata about a web page for search engines. If you don\'t fill in the fields this will be done automatically to a certain extent.');
+
 define('TEXT_PRODUCTS_PAGE_TITLE', 'Product Title Tag:');
 define('TEXT_PRODUCTS_HEADER_DESCRIPTION', 'Product Description Tag:');
 define('TEXT_PRODUCTS_KEYWORDS', 'Product Keywords Tag:');
@@ -83,9 +85,9 @@ define('TEXT_PRODUCTS_DESCRIPTION', 'Products Description:');
 define('TEXT_PRODUCTS_QUANTITY', 'Products Quantity:');
 define('TEXT_PRODUCTS_MODEL', 'Products Model:');
 define('TEXT_PRODUCTS_IMAGE', 'Products Image 1:');
-define('TEXT_PRODUCTS_IMAGE', 'Products Image 2:');
-define('TEXT_PRODUCTS_IMAGE', 'Products Image 3:');
-define('TEXT_PRODUCTS_IMAGE', 'Products Image 4:');
+define('TEXT_PRODUCTS_IMAGE2', 'Products Image 2:');
+define('TEXT_PRODUCTS_IMAGE3', 'Products Image 3:');
+define('TEXT_PRODUCTS_IMAGE4', 'Products Image 4:');
 define('TEXT_PRODUCTS_URL', 'Products URL:');
 define('TEXT_PRODUCTS_URL_WITHOUT_HTTP', '<small>(without http://)</small>');
 define('TEXT_PRODUCTS_PRICE_NET', 'Products Price (Net):');

@@ -45,7 +45,8 @@ define('TEXT_EDIT_SORT_ORDER', 'Sortierreihenfolge:');
 define('TEXT_INFO_COPY_TO_INTRO', 'Bitte w&auml;hlen Sie eine neue Kategorie aus, in die Sie den Artikel kopieren m&ouml;chten:');
 define('TEXT_INFO_CURRENT_CATEGORIES', 'aktuelle Kategorien:');
 
-define('TEXT_PRODUCT_METTA_INFO', '<b>Meta Tag Information</b><br><small>(optional)</small>');
+define('TEXT_PRODUCT_META_INFO', 'Meta Tag Informationen <img src="' . DIR_WS_ICONS . 'help.png' . '" alt="Bitte hier klicken, um die Meta Tag Felder anzuzeigen" title="Bitte hier klicken, um die Meta Tag Felder anzuzeigen"><br><small>(optional)</small>');
+define('TEXT_PRODUCTS_META_INFO2', '<a href="http://de.wikipedia.org/wiki/Meta-Tag" target="_blank" class="smallLink">Meta-Tags</a> sind (versteckte) für Suchmaschinen bestimmte Elemente auf einer Webseite, die Metadaten über das betreffende Dokument enthalten. Das Ausf&uuml;llen ist optional und wird automatisiert erledigt, wenn Sie hier nicht selbst Meta-Informationen erfassen.');
 define('TEXT_PRODUCTS_PAGE_TITLE', 'Produkt Title Tag:');
 define('TEXT_PRODUCTS_HEADER_DESCRIPTION', 'Produkt Description Tag:');
 define('TEXT_PRODUCTS_KEYWORDS', 'Produkt Keywords Tag:');
