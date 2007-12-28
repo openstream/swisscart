@@ -733,6 +733,9 @@ updateGross();
     	<table>
 <!-- HTC EOC //-->
           <tr>
+            <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+          </tr> 
+          <tr>
             <td class="main"><?php echo TEXT_PRODUCTS_QUANTITY; ?></td>
             <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_input_field('products_quantity', $pInfo->products_quantity); ?></td>
           </tr>
