@@ -421,6 +421,7 @@
 <script language="javascript" src="includes/general.js"></script>
 <?php
 // Tiny MCE WYISIWYG detection and include
+$tinymce_imagemanager = (TINYMCE_IMAGEMANAGER_ENABLED == 'true') ? ',imagemanager':'';
 if($_GET['action'] != 'new_product_preview') { // prevent hidden fields to be rendered by TinyMCE in preview
 	if (file_exists("tiny_mce/tiny_mce.js")) { $tiny_mce = "tiny_mce/tiny_mce.js"; }
 	elseif (file_exists("includes/javascript/tiny_mce/tiny_mce.js")) { $tiny_mce = "includes/javascript/tiny_mce/tiny_mce.js"; }
@@ -439,7 +440,7 @@ if($_GET['action'] != 'new_product_preview') { // prevent hidden fields to be re
 	echo '",
 	language : "' . $languages_selected . '",
 	theme : "' . TINYMCE_THEME . '",
-	plugins : "table,advhr,advimage,advlink,emotions,flash,contextmenu,imagemanager",';
+	plugins : "table,advhr,advimage,advlink,emotions,flash,contextmenu' . $tinymce_imagemanager . '",';
 	// theme_advanced_buttons1_add : "fontselect,fontsizeselect",
 	echo 'theme_advanced_buttons2_add : "separator,forecolor",
 	theme_advanced_buttons2_add_before: "cut,copy,paste,separator",

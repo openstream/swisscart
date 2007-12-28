@@ -180,3 +180,6 @@ ul.rssfeed li {
 .deleteImageBox {
 	padding: 5px 0 0 23px;
 }
+a.underline {
+	text-decoration: underline;
+}

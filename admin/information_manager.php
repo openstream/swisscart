@@ -132,6 +132,7 @@ function error_message($error) {
 
 <?PHP
 // Tiny MCE WYISIWYG detection and include
+$tinymce_imagemanager = (TINYMCE_IMAGEMANAGER_ENABLED == 'true') ? ',imagemanager':'';
 if (file_exists("tiny_mce/tiny_mce.js")) { $tiny_mce = "tiny_mce/tiny_mce.js"; }
 elseif (file_exists("includes/javascript/tiny_mce/tiny_mce.js")) { $tiny_mce = "includes/javascript/tiny_mce/tiny_mce.js"; }
 else $tiny_mce = '';
@@ -149,7 +150,7 @@ for ($i=0, $n=sizeof($languages); $i<$n; $i++) echo 'products_description[' . $l
 echo '",
 language : "' . $languages_selected . '",
 theme : "' . TINYMCE_THEME . '",
-plugins : "table,advhr,advimage,advlink,emotions,preview,flash,print,contextmenu,imagemanager",';
+plugins : "table,advhr,advimage,advlink,emotions,preview,flash,print,contextmenu' . $tinymce_imagemanager . '",';
 // theme_advanced_buttons1_add : "fontselect,fontsizeselect",
 echo 'theme_advanced_buttons2_add : "separator,preview,separator,forecolor,backcolor",
 theme_advanced_buttons2_add_before: "cut,copy,paste,separator",
