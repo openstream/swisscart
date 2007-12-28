@@ -139,9 +139,17 @@ if($tiny_mce) {
 echo '<script language="javascript" type="text/javascript" src="' . $tiny_mce . '"></script>
 <script language="javascript" type="text/javascript">
 tinyMCE.init({
+relative_urls : false,
+remove_script_host : true,
+document_base_url : "' . HTTP_CATALOG_SERVER . '/' . DIR_WS_IMAGES . '",
 mode : "textareas",
+elements : "';
+$languages = tep_get_languages();
+for ($i=0, $n=sizeof($languages); $i<$n; $i++) echo 'products_description[' . $languages[$i]['id'] . '],';
+echo '",
+language : "' . $languages_selected . '",
 theme : "' . TINYMCE_THEME . '",
-plugins : "table,advhr,advimage,advlink,emotions,preview,flash,print,contextmenu",';
+plugins : "table,advhr,advimage,advlink,emotions,preview,flash,print,contextmenu,imagemanager",';
 // theme_advanced_buttons1_add : "fontselect,fontsizeselect",
 echo 'theme_advanced_buttons2_add : "separator,preview,separator,forecolor,backcolor",
 theme_advanced_buttons2_add_before: "cut,copy,paste,separator",
