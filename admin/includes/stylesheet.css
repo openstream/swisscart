@@ -177,3 +177,6 @@ ul.rssfeed li {
 	width: 670px;
 	background-color: #EBEBFF;
 }
+.deleteImageBox {
+	padding: 5px 0 0 23px;
+}

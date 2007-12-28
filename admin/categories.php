@@ -223,6 +223,14 @@
         if (isset($HTTP_POST_VARS['edit_x']) || isset($HTTP_POST_VARS['edit_y'])) {
           $action = 'new_product';
         } else {
+		// Modified For Image Delete
+            $image_count_query = tep_db_query("select count(*) as total from " . TABLE_PRODUCTS . " where products_image='" . $HTTP_POST_VARS['products_previous_image'] . "'");
+            $image_count = tep_db_fetch_array($image_count_query);
+
+            if (($HTTP_POST_VARS['delete_image'] == 'yes') && ($image_count['total']<= '1')) {
+                unlink(DIR_FS_CATALOG_IMAGES . $HTTP_POST_VARS['products_previous_image']);
+            }
+		// Modified For Image Delete		
           if (isset($HTTP_GET_VARS['pID'])) $products_id = tep_db_prepare_input($HTTP_GET_VARS['pID']);
           $products_date_available = tep_db_prepare_input($HTTP_POST_VARS['products_date_available']);
 
@@ -237,20 +245,33 @@
                                   'products_tax_class_id' => tep_db_prepare_input($HTTP_POST_VARS['products_tax_class_id']),
                                   'manufacturers_id' => tep_db_prepare_input($HTTP_POST_VARS['manufacturers_id']));
 
-          if (isset($HTTP_POST_VARS['products_image']) && tep_not_null($HTTP_POST_VARS['products_image']) && ($HTTP_POST_VARS['products_image'] != 'none')) {
-            $sql_data_array['products_image'] = tep_db_prepare_input($HTTP_POST_VARS['products_image']);
+          // Unlink Images
+		  if (($HTTP_POST_VARS['unlink_image'] == 'yes') or ($HTTP_POST_VARS['delete_image'] == 'yes')) {
+			$sql_data_array['products_image'] = '';
+		  } else {
+		  	if (isset($HTTP_POST_VARS['products_image']) && tep_not_null($HTTP_POST_VARS['products_image']) && ($HTTP_POST_VARS['products_image'] != 'none'))
+				$sql_data_array['products_image'] = tep_db_prepare_input($HTTP_POST_VARS['products_image']);
+          }
+
+		  if (($HTTP_POST_VARS['unlink_image2'] == 'yes') or ($HTTP_POST_VARS['delete_image2'] == 'yes')) {
+			$sql_data_array['products_image2'] = '';
+		  } else {
+            if (isset($HTTP_POST_VARS['products_image2']) && tep_not_null($HTTP_POST_VARS['products_image2']) && ($HTTP_POST_VARS['products_image2'] != 'none'))
+            	$sql_data_array['products_image2'] = tep_db_prepare_input($HTTP_POST_VARS['products_image2']);
+          }
+
+		  if (($HTTP_POST_VARS['unlink_image3'] == 'yes') or ($HTTP_POST_VARS['delete_image3'] == 'yes')) {
+			$sql_data_array['products_image3'] = '';
+		  } else {		  
+            if (isset($HTTP_POST_VARS['products_image3']) && tep_not_null($HTTP_POST_VARS['products_image3']) && ($HTTP_POST_VARS['products_image3'] != 'none'))
+            	$sql_data_array['products_image3'] = tep_db_prepare_input($HTTP_POST_VARS['products_image3']);
           }
 		  
-          if (isset($HTTP_POST_VARS['products_image2']) && tep_not_null($HTTP_POST_VARS['products_image2']) && ($HTTP_POST_VARS['products_image2'] != 'none')) {
-            $sql_data_array['products_image2'] = tep_db_prepare_input($HTTP_POST_VARS['products_image2']);
-          }
-		  
-          if (isset($HTTP_POST_VARS['products_image3']) && tep_not_null($HTTP_POST_VARS['products_image3']) && ($HTTP_POST_VARS['products_image3'] != 'none')) {
-            $sql_data_array['products_image3'] = tep_db_prepare_input($HTTP_POST_VARS['products_image3']);
-          }
-		  
-          if (isset($HTTP_POST_VARS['products_image4']) && tep_not_null($HTTP_POST_VARS['products_image4']) && ($HTTP_POST_VARS['products_image4'] != 'none')) {
-            $sql_data_array['products_image4'] = tep_db_prepare_input($HTTP_POST_VARS['products_image4']);
+		  if (($HTTP_POST_VARS['unlink_image4'] == 'yes') or ($HTTP_POST_VARS['delete_image4'] == 'yes')) {
+			$sql_data_array['products_image4'] = '';
+		  } else {
+            if (isset($HTTP_POST_VARS['products_image4']) && tep_not_null($HTTP_POST_VARS['products_image4']) && ($HTTP_POST_VARS['products_image4'] != 'none'))
+            	$sql_data_array['products_image4'] = tep_db_prepare_input($HTTP_POST_VARS['products_image4']);
           }		  		  		  
 
           if ($action == 'insert_product') {
@@ -343,6 +364,10 @@
         break;
       case 'new_product_preview':
 // copy image only if modified
+   if (($HTTP_POST_VARS['unlink_image'] == 'yes') or ($HTTP_POST_VARS['delete_image'] == 'yes')) {
+        $products_image = '';
+        $products_image_name = '';
+        } else {
         $products_image = new upload('products_image');
         $products_image->set_destination(DIR_FS_CATALOG_IMAGES);
         if ($products_image->parse() && $products_image->save()) {
@@ -350,7 +375,8 @@
         } else {
           $products_image_name = (isset($HTTP_POST_VARS['products_previous_image']) ? $HTTP_POST_VARS['products_previous_image'] : '');
         }
-
+        }
+		
         $products_image2 = new upload('products_image2');
         $products_image2->set_destination(DIR_FS_CATALOG_IMAGES);
         if ($products_image2->parse() && $products_image2->save()) {
@@ -730,8 +756,8 @@ updateGross();
           </tr>
 		</table>
 	</div>   
-    	<table>
 <!-- HTC EOC //-->
+    	<table>
           <tr>
             <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
           </tr> 
@@ -749,30 +775,58 @@ updateGross();
           <tr>
             <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
           </tr>
+<?php
+            $image_count_query = tep_db_query("select count(*) as total from " . TABLE_PRODUCTS . " where products_image='" . $pInfo->products_image . "'");
+            $image_count = tep_db_fetch_array($image_count_query);
+?>
           <tr>
-            <td class="main"><?php echo TEXT_PRODUCTS_IMAGE; ?></td>
-            <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_file_field('products_image') . '<br>' . tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . $pInfo->products_image . tep_draw_hidden_field('products_previous_image', $pInfo->products_image); ?></td>
+           <td class="main" valign="top"><?php echo TEXT_PRODUCTS_IMAGE; ?></td>
+           <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_file_field('products_image') . '<br>';
+           if (($HTTP_GET_VARS['pID']) && ($pInfo->products_image) != '')
+               echo '<div class="smallText deleteImageBox">' . tep_image(DIR_WS_CATALOG_IMAGES . $pInfo->products_image, $pInfo->products_image, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'align="left" hspace="5" vspace="5"') .
+                    '<br><input type="checkbox" name="unlink_image" value="yes">' . TEXT_PRODUCTS_IMAGE_REMOVE .
+                    '<br><input type="checkbox" name="delete_image" value="yes">' . TEXT_PRODUCTS_IMAGE_DELETE .
+                    tep_draw_hidden_field('products_previous_image', $pInfo->products_image) . '</div>';?>
+             </td>
           </tr>
           <tr>
             <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
           </tr>
           <tr>
-            <td class="main"><?php echo TEXT_PRODUCTS_IMAGE2; ?></td>
-            <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_file_field('products_image2') . '<br>' . tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . $pInfo->products_image2 . tep_draw_hidden_field('products_previous_image2', $pInfo->products_image2); ?></td>
+            <td class="main" valign="top"><?php echo TEXT_PRODUCTS_IMAGE2; ?></td>
+            <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_file_field('products_image2') . '<br>';
+           if (($HTTP_GET_VARS['pID']) && ($pInfo->products_image2) != '')
+               echo '<div class="smallText deleteImageBox">' . tep_image(DIR_WS_CATALOG_IMAGES . $pInfo->products_image2, $pInfo->products_image2, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'align="left" hspace="5" vspace="5"') .
+                    '<br><input type="checkbox" name="unlink_image2" value="yes">' . TEXT_PRODUCTS_IMAGE_REMOVE .
+                    '<br><input type="checkbox" name="delete_image2" value="yes">' . TEXT_PRODUCTS_IMAGE_DELETE .
+					tep_draw_hidden_field('products_previous_image2', $pInfo->products_image2); ?>
+            </td>
           </tr>
           <tr>
             <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
           </tr>
           <tr>
-            <td class="main"><?php echo TEXT_PRODUCTS_IMAGE3; ?></td>
-            <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_file_field('products_image3') . '<br>' . tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . $pInfo->products_image3 . tep_draw_hidden_field('products_previous_image3', $pInfo->products_image3); ?></td>
+            <td class="main" valign="top"><?php echo TEXT_PRODUCTS_IMAGE3; ?></td>
+            <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_file_field('products_image3') . '<br>';
+           if (($HTTP_GET_VARS['pID']) && ($pInfo->products_image3) != '')
+               echo '<div class="smallText deleteImageBox">' . tep_image(DIR_WS_CATALOG_IMAGES . $pInfo->products_image3, $pInfo->products_image3, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'align="left" hspace="5" vspace="5"') .
+                    '<br><input type="checkbox" name="unlink_image3" value="yes">' . TEXT_PRODUCTS_IMAGE_REMOVE .
+                    '<br><input type="checkbox" name="delete_image3" value="yes">' . TEXT_PRODUCTS_IMAGE_DELETE .
+					tep_draw_hidden_field('products_previous_image3', $pInfo->products_image3); ?>
+            </td>
           </tr>
           <tr>
             <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
           </tr>
           <tr>
-            <td class="main"><?php echo TEXT_PRODUCTS_IMAGE4; ?></td>
-            <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_file_field('products_image4') . '<br>' . tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . $pInfo->products_image4 . tep_draw_hidden_field('products_previous_image4', $pInfo->products_image4); ?></td>
+            <td class="main" valign="top"><?php echo TEXT_PRODUCTS_IMAGE4; ?></td>
+            <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_file_field('products_image4') . '<br>';
+           if (($HTTP_GET_VARS['pID']) && ($pInfo->products_image4) != '')
+               echo '<div class="smallText deleteImageBox">' . tep_image(DIR_WS_CATALOG_IMAGES . $pInfo->products_image4, $pInfo->products_image4, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'align="left" hspace="5" vspace="5"') .
+                    '<br><input type="checkbox" name="unlink_image4" value="yes">' . TEXT_PRODUCTS_IMAGE_REMOVE .
+                    '<br><input type="checkbox" name="delete_image4" value="yes">' . TEXT_PRODUCTS_IMAGE_DELETE .
+					tep_draw_hidden_field('products_previous_image4', $pInfo->products_image4); ?>
+            </td>
           </tr>
           <tr>
             <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>

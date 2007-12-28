@@ -87,6 +87,8 @@ define('TEXT_PRODUCTS_IMAGE', 'Immagine prodotto:');
 define('TEXT_PRODUCTS_IMAGE2', 'Immagine 2:');
 define('TEXT_PRODUCTS_IMAGE3', 'Immagine 3:');
 define('TEXT_PRODUCTS_IMAGE4', 'Immagine 4:');
+define('TEXT_PRODUCTS_IMAGE_REMOVE', 'Remove this Image from this Product?');
+define('TEXT_PRODUCTS_IMAGE_DELETE', 'Delete this Image from the Server permanently?');
 define('TEXT_PRODUCTS_URL', 'URL prodotto:');
 define('TEXT_PRODUCTS_URL_WITHOUT_HTTP', '<small>(senza http://)</small>');
 define('TEXT_PRODUCTS_PRICE_NET', 'Prezzo prodotto (Netto):');
