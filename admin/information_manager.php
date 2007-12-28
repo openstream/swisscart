@@ -142,7 +142,6 @@ echo '<script language="javascript" type="text/javascript" src="' . $tiny_mce . 
 tinyMCE.init({
 relative_urls : false,
 remove_script_host : true,
-document_base_url : "' . HTTP_CATALOG_SERVER . '/' . DIR_WS_IMAGES . '",
 mode : "textareas",
 elements : "';
 $languages = tep_get_languages();

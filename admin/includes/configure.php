@@ -8,10 +8,6 @@
   Released under the GNU General Public License
 */
 
-// define admin user/password
-  define('ADMIN_USERNAME', 'admin');
-  define('ADMIN_PASSWORD', 'password');
-
 // define our webserver variables
 // FS = Filesystem (physical)
 // WS = Webserver (virtual)
