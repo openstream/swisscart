@@ -429,6 +429,9 @@ if($_GET['action'] != 'new_product_preview') { // prevent hidden fields to be re
 	echo '<script language="javascript" type="text/javascript" src="' . $tiny_mce . '"></script>
 	<script language="javascript" type="text/javascript">
 	tinyMCE.init({
+	relative_urls : false,
+	remove_script_host : true,
+	document_base_url : "' . HTTP_CATALOG_SERVER . '/' . DIR_WS_IMAGES . '",
 	mode : "exact",
 	elements : "';
 	$languages = tep_get_languages();
