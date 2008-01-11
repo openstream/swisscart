@@ -277,11 +277,11 @@ define('FORM_REQUIRED_INFORMATION', '* Information obligatoire');
 
 // constants for use in tep_prev_next_display function
 define('TEXT_RESULT_PAGE', 'Page&nbsp;:');
-define('TEXT_DISPLAY_NUMBER_OF_PRODUCTS', 'Voir de <b>%d</b> &agrave; <b>%d</b> (sur <b>%d</b> produits)');
-define('TEXT_DISPLAY_NUMBER_OF_ORDERS', 'Voir de <b>%d</b> &agrave; <b>%d</b> (sur <b>%d</b> commandes)');
-define('TEXT_DISPLAY_NUMBER_OF_REVIEWS', 'Voir de <b>%d</b> &agrave; <b>%d</b> (sur <b>%d</b> critiques)');
-define('TEXT_DISPLAY_NUMBER_OF_PRODUCTS_NEW', 'Voir de <b>%d</b> &agrave; <b>%d</b> (sur <b>%d</b> nouveaux produits)');
-define('TEXT_DISPLAY_NUMBER_OF_SPECIALS', 'Voir de <b>%d</b> &agrave; <b>%d</b> (sur <b>%d</b> promotions)');
+define('TEXT_DISPLAY_NUMBER_OF_PRODUCTS', 'Produits <b>%d</b> &agrave; <b>%d</b> (sur <b>%d</b>)');
+define('TEXT_DISPLAY_NUMBER_OF_ORDERS', 'Commandes <b>%d</b> &agrave; <b>%d</b> (sur <b>%d</b>)');
+define('TEXT_DISPLAY_NUMBER_OF_REVIEWS', 'Critiques <b>%d</b> &agrave; <b>%d</b> (sur <b>%d</b>)');
+define('TEXT_DISPLAY_NUMBER_OF_PRODUCTS_NEW', 'Nouveaux produits <b>%d</b> &agrave; <b>%d</b> (sur <b>%d</b>)');
+define('TEXT_DISPLAY_NUMBER_OF_SPECIALS', 'Promotions <b>%d</b> &agrave; <b>%d</b> (sur <b>%d</b>)');
 
 define('PREVNEXT_TITLE_FIRST_PAGE', 'Premi&egrave;re Page');
 define('PREVNEXT_TITLE_PREVIOUS_PAGE', 'Page Pr&eacute;c&eacute;dente');
