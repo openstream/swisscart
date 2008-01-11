@@ -168,7 +168,7 @@ define('BOX_HEADING_LANGUAGES', 'Langues');
 define('BOX_HEADING_CURRENCIES', 'Devises');
 
 // information box text in includes/boxes/information.php
-define('BOX_HEADING_INFORMATION', 'Information');
+define('BOX_HEADING_INFORMATION', 'Informations');
 define('BOX_INFORMATION_PRIVACY', 'Confidentialit&eacute;');
 define('BOX_INFORMATION_CONDITIONS', 'Conditions d\'utilisation');
 define('BOX_INFORMATION_SHIPPING', 'Livraison & retour');
