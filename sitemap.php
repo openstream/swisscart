@@ -4,15 +4,18 @@
 
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
+  
+  Customized by swisscart®, Swiss Webshop Solutions
+  http://www.swisscart.com
 
-  Copyright (c) 2003 osCommerce
+  Copyright (c) 2003-2007 osCommerce
 
   Released under the GNU General Public License
 
   Compatibility with Extra Pages-InfoBox CROSSOVER
 
-	Use if you have installed the contribution Extra pages-info box w/ admin 
-	http://www.oscommerce.com/community/contributions,2021
+  Use if you have installed the contribution Extra pages-info box w/ admin 
+  http://www.oscommerce.com/community/contributions,2021
 
 */
 
@@ -49,7 +52,7 @@
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
           <tr>
-            <td><h1 class="pageHeading"><?php echo HEADING_TITLE; ?></h1></td>
+            <td class="pageHeading"><h1><?php echo HEADING_TITLE; ?></h1></td>
             <td class="pageHeading" align="right"><?php //if (HEADING_IMAGE_ENABLED == 'true') echo tep_image(DIR_WS_IMAGES . 'table_background_specials.gif', HEADING_TITLE, HEADING_IMAGE_WIDTH, HEADING_IMAGE_HEIGHT); ?></td>
           </tr>
         </table></td>
