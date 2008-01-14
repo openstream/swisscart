@@ -259,7 +259,7 @@ SPAN.errorText {
 .moduleRowSelected { background-color: #E9F4FC; }
 
 .checkoutBarFrom, .checkoutBarTo { color: #8c8c8c; }
-.checkoutBarCurrent { color: #000000; }
+.checkoutBarCurrent { color: #000000; padding-bottom: 20px; }
 
 /* message box */
 
