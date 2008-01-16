@@ -1,9 +1,14 @@
 <?php
 /*
+  $Id: configure.php,v 1.14 2003/02/21 16:55:24 dgw_ Exp $
+
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
+  
+  Customized by swisscart®, Swiss Webshop Solutions
+  http://www.swisscart.com  
 
-  Copyright (c) 2003 osCommerce
+  Copyright (c) 2002 osCommerce
 
   Released under the GNU General Public License
 */
@@ -39,7 +44,7 @@
   define('DB_SERVER', '');
   define('DB_SERVER_USERNAME', 'mysql');
   define('DB_SERVER_PASSWORD', '');
-  define('DB_DATABASE', 'swisscart');
+  define('DB_DATABASE', 'osCommerce');
   define('USE_PCONNECT', 'false');
   define('STORE_SESSIONS', '');
 ?>
