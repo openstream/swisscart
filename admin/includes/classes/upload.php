@@ -77,9 +77,9 @@
         return $this->check_destination();
       } else {
         if ($this->message_location == 'direct') {
-          $messageStack->add(WARNING_NO_FILE_UPLOADED, 'warning');
+          //$messageStack->add(WARNING_NO_FILE_UPLOADED, 'warning');
         } else {
-          $messageStack->add_session(WARNING_NO_FILE_UPLOADED, 'warning');
+          //$messageStack->add_session(WARNING_NO_FILE_UPLOADED, 'warning');
         }
 
         return false;
