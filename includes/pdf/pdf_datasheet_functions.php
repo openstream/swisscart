@@ -401,7 +401,9 @@ var $y0;
 					$desc_row= str_replace('&Auml;','Ä',$desc_row);															
 					$desc_row= str_replace('&Ouml;','Ö',$desc_row);															
 					$desc_row= str_replace('&Uuml;','Ü',$desc_row);															
-					$desc_row= str_replace('&szlig;','ß',$desc_row);					
+					$desc_row= str_replace('&szlig;','ß',$desc_row);
+					$desc_row= str_replace('&bdquo;','"',$desc_row);
+					$desc_row= str_replace('&ldquo;','"',$desc_row);					
 					$desc_row= html_entity_decode($desc_row);
 					$desc_row = strip_tags($desc_row);
 					
