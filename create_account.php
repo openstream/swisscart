@@ -245,7 +245,7 @@
         $email_text = sprintf(EMAIL_GREET_NONE, $firstname);
       }
 
-      $email_text .= EMAIL_WELCOME . EMAIL_TEXT . EMAIL_CONTACT . EMAIL_WARNING;
+      $email_text .= EMAIL_WELCOME . EMAIL_TEXT . EMAIL_CONTACT . EMAIL_WARNING . "\n\n" . EMAIL_SIGNATURE;
       tep_mail($name, $email_address, EMAIL_SUBJECT, $email_text, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
 
 	  if ($cart->count_contents() == 0) {
