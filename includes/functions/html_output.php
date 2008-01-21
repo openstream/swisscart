@@ -423,8 +423,11 @@ function tep_image_link($src, $width = POPUP_IMAGE_WIDTH, $height = POPUP_IMAGE_
 ////
 // Creates a pull-down list of countries
   function tep_get_country_list($name, $selected = '', $parameters = '') {
-    $countries_array = array(array('id' => '', 'text' => PULL_DOWN_DEFAULT));
-    $countries = tep_get_countries();
+	$pd_default_id = (STORE_COUNTRY != '') ? STORE_COUNTRY : '';
+	$pd_default_text = (STORE_COUNTRY != '') ? tep_get_country_name(STORE_COUNTRY) : PULL_DOWN_DEFAULT;
+    $countries_array = array(array('id' => $pd_default_id, 'text' => $pd_default_text));	
+
+    $countries = tep_get_countries();	
 
     for ($i=0, $n=sizeof($countries); $i<$n; $i++) {
       $countries_array[] = array('id' => $countries[$i]['countries_id'], 'text' => $countries[$i]['countries_name']);
