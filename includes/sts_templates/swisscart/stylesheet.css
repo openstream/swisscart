@@ -322,3 +322,7 @@ div.productsPrice {
 .horizontalRule {
   border-bottom: 1px solid #E7EAF1;
 }
+ul.xsell {
+  margin: 5px 0 10px 18px;
+  padding: 0;
+}

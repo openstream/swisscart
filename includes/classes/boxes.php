@@ -14,7 +14,7 @@
     var $table_border = '0';
     var $table_width = '100%';
     var $table_cellspacing = '0';
-    var $table_cellpadding = '2';
+    var $table_cellpadding = '0';
     var $table_parameters = '';
     var $table_row_parameters = '';
     var $table_data_parameters = '';
