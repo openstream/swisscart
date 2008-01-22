@@ -77,6 +77,7 @@ define('BOX_CATALOG_CATEGORIES_PRODUCTS_ATTRIBUTES', 'Produktmerkmale');
 define('BOX_CATALOG_MANUFACTURERS', 'Hersteller');
 define('BOX_CATALOG_REVIEWS', 'Produktbewertungen');
 define('BOX_CATALOG_SPECIALS', 'Sonderangebote');
+define('BOX_CATALOG_XSELL', 'Cross-Selling');
 define('BOX_CATALOG_PRODUCTS_EXPECTED', 'erwartete Artikel');
 
 define('BOX_HEADING_INFORMATION', 'Info-Manager');

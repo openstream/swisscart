@@ -124,6 +124,7 @@ define('BOX_CATALOG_CATEGORIES_PRODUCTS_ATTRIBUTES', 'Options de produits');
 define('BOX_CATALOG_MANUFACTURERS', 'Fabricants');
 define('BOX_CATALOG_REVIEWS', 'Critiques');
 define('BOX_CATALOG_SPECIALS', 'Promotions');
+define('BOX_CATALOG_XSELL', 'Cross Selling');
 define('BOX_CATALOG_PRODUCTS_EXPECTED', 'Produits &agrave; venir');
 
 // customers box text in includes/boxes/customers.php

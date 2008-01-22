@@ -77,6 +77,7 @@ define('BOX_CATALOG_CATEGORIES_PRODUCTS_ATTRIBUTES', 'Atributos');
 define('BOX_CATALOG_MANUFACTURERS', 'Fabricantes');
 define('BOX_CATALOG_REVIEWS', 'Comentarios');
 define('BOX_CATALOG_SPECIALS', 'Ofertas');
+define('BOX_CATALOG_XSELL', 'Cross Selling');
 define('BOX_CATALOG_PRODUCTS_EXPECTED', 'Pr&oacute;ximamente');
 
 // customers box text in includes/boxes/customers.php
