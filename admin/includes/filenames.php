@@ -56,5 +56,6 @@
   define('FILENAME_ZONES', 'zones.php');
   define('FILENAME_HEADER_TAGS_CONTROLLER', 'header_tags_controller.php');
   define('FILENAME_HEADER_TAGS_ENGLISH', 'header_tags_english.php');
-  define('FILENAME_HEADER_TAGS_FILL_TAGS', 'header_tags_fill_tags.php');  
+  define('FILENAME_HEADER_TAGS_FILL_TAGS', 'header_tags_fill_tags.php'); 
+  define('FILENAME_XSELL_PRODUCTS', 'xsell.php');
 ?>

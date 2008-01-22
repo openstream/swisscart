@@ -11,10 +11,10 @@
 // Define the webserver and path parameters
 // * DIR_FS_* = Filesystem directories (local/physical)
 // * DIR_WS_* = Webserver directories (virtual/URL)
-  define('HTTP_SERVER', 'http://localhost:108'); // eg, http://localhost - should not be empty for productive servers
+  define('HTTP_SERVER', 'http://localhost'); // eg, http://localhost - should not be empty for productive servers
   define('HTTPS_SERVER', ''); // eg, https://localhost - should not be empty for productive servers
   define('ENABLE_SSL', false); // secure webserver for checkout procedure?
-  define('HTTP_COOKIE_DOMAIN', 'localhost:108');
+  define('HTTP_COOKIE_DOMAIN', 'localhost');
   define('HTTPS_COOKIE_DOMAIN', '');
   define('HTTP_COOKIE_PATH', '/swisscart/trunk/');
   define('HTTPS_COOKIE_PATH', '');
@@ -41,14 +41,4 @@
   define('DB_DATABASE', 'swisscart_development');
   define('USE_PCONNECT', 'false'); // use persistent connections?
   define('STORE_SESSIONS', ''); // leave empty '' for default handler or set to 'mysql'
-  
-// OTF contrib begins
-  define('PRODUCTS_OPTIONS_TYPE_SELECT', 0);
-  define('PRODUCTS_OPTIONS_TYPE_TEXT', 1);
-  define('PRODUCTS_OPTIONS_TYPE_RADIO', 2);
-  define('PRODUCTS_OPTIONS_TYPE_CHECKBOX', 3);
-  define('PRODUCTS_OPTIONS_TYPE_TEXTAREA', 4);
-  define('TEXT_PREFIX', 'txt_');
-
-  define('PRODUCTS_OPTIONS_VALUE_TEXT_ID', 0);  //Must match id for user defined "TEXT" value in db table TABLE_PRODUCTS_OPTIONS_VALUES  
 ?>

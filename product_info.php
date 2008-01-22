@@ -365,14 +365,18 @@ function setcolor(obj,percentage,prop){
       </tr>
       <tr>
         <td colspan="2">
-<?php
-    if ((USE_CACHE == 'true') && empty($SID)) {
-      echo tep_cache_also_purchased(3600);
-    } else {
-      include(DIR_WS_MODULES . FILENAME_ALSO_PURCHASED_PRODUCTS);
-    }
-  }
-?>        </td>
+		<?php
+		// modified for cross-sell module
+		   if ( (USE_CACHE == 'true') && !SID) { 
+			echo tep_cache_also_purchased(3600); 
+			 include(DIR_WS_MODULES . FILENAME_XSELL_PRODUCTS); 
+		   } else { 
+			 include(DIR_WS_MODULES . FILENAME_XSELL_PRODUCTS); 
+			  include(DIR_WS_MODULES . FILENAME_ALSO_PURCHASED_PRODUCTS);
+			}
+		   }
+		?>
+        </td>
       </tr>
     </table>
     </form></td>

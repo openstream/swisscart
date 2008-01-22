@@ -126,14 +126,16 @@ td.infoBoxHeading {
   padding-left: 5px;
   height: 13px;
 }
-.infoBoxModule td.infoBoxHeading {
+.infoBoxModule td.infoBoxHeading, h2.infoBoxHeading {
   background-color: #fff;
   color: #9a9a9a;
   font-weight: bold;
   font-size: 11px;
   padding-top: 10px;
 }
-
+h2.infoBoxHeading {
+  padding-top: 20px;
+}
 td.infoBoxArrow {
   width: 16px;
   background: url(images/bg-infoboxHeading.gif) no-repeat 0 1px;

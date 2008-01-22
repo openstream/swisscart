@@ -330,4 +330,6 @@ define('TEXT_CCVAL_ERROR_UNKNOWN_CARD', 'I primi quattro numeri digitati sono: %
   following copyright announcement.
 */
 define('FOOTER_TEXT_BODY', 'Copyright &copy; 2003 <a href="http://www.oscommerce.com" target="_blank">osCommerce</a>&nbsp;|&nbsp;powered by <a href="http://www.swisscart.com" target="_blank">swisscart&reg;</a>');
+
+define('TEXT_XSELL_PRODUCTS', 'Prodotti correlati');
 ?>

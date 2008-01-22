@@ -378,4 +378,6 @@ define('TEXT_CCVAL_ERROR_UNKNOWN_CARD', 'Les quatre premiers chiffres saisis son
   following copyright announcement.
 */
 define('FOOTER_TEXT_BODY', 'Copyright &copy; 2003 <a href="http://www.oscommerce.com" target="_blank">osCommerce</a>&nbsp;|&nbsp;powered by <a href="http://www.swisscart.com" target="_blank">swisscart&reg;</a>');
+
+define('TEXT_XSELL_PRODUCTS', 'Autres Produits');
 ?>
