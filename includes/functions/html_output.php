@@ -180,8 +180,11 @@ function tep_image($src, $alt = '', $width = '', $height = '', $params = '') {
     } 
   }  
   
-    //If the size asked for is greater than the image itself, we check the configs to see if this is allowed and if not over-ride
-  if ($width > $image_size[0] || $height > $image_size[1]) {
+    // If the size asked for is greater than the image itself, we check the configs to 
+	// see if this is allowed and if not over-ride
+	// As this should not apply for pixel_trans.gif and pixel_silver.gif some conditions
+	// need to be added to the if statement otherwise all pixel_*-widths will be set to 1
+  if ( ($width > $image_size[0] || $height > $image_size[1]) && (strstr($width,'%') != true || strstr($height,'%') != true)  && ((!strstr($image, 'pixel'))) ) {
         if (CFG_ALLOW_LARGER  != 'True'){
               $width=$image_size[0];
               $height=$image_size[1];
