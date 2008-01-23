@@ -25,4 +25,6 @@ define('EMAIL_TEXT_PAYMENT_METHOD', 'Metodo di pagamento');
 
 define('EMAIL_SEPARATOR', '------------------------------------------------------');
 define('TEXT_EMAIL_VIA', 'via');
+
+define('EMAIL_WARNING', '<b>Note:</b> Questo indirizzo email è stato utilizzato da un nostro cliente. Se non hai scelto tu di iscriverti, per piacere contattaci all\'indirizzo ' . STORE_OWNER_EMAIL_ADDRESS . '.' . "\n");
 ?>

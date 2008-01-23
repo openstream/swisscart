@@ -178,13 +178,13 @@
       if (STOCK_ALLOW_CHECKOUT == 'true') {
 ?>
       <tr>
-        <td class="stockWarning" align="center"><br><?php echo OUT_OF_STOCK_CAN_CHECKOUT; ?></td>
+        <td class="stockWarning" align="center"><?php echo OUT_OF_STOCK_CAN_CHECKOUT; ?></td>
       </tr>
 <?php
       } else {
 ?>
       <tr>
-        <td class="stockWarning" align="center"><br><?php echo OUT_OF_STOCK_CANT_CHECKOUT; ?></td>
+        <td class="stockWarning" align="center"><?php echo OUT_OF_STOCK_CANT_CHECKOUT; ?></td>
       </tr>
 <?php
       }

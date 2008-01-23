@@ -275,7 +275,7 @@ SPAN.errorText {
 
 .boxText { }
 .errorBox { background: #ffb3b5; font-weight: bold; }
-.stockWarning { color: #cc0033; }
+.stockWarning { background-color: #F2DC48; padding: 3px; border: 1px dotted #CF2F31; font-size: 10px; }
 .productsNotifications { background: #F3F4F8; }
 .orderEdit { color: #70d250; text-decoration: underline; }
 

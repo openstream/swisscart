@@ -19,6 +19,14 @@
 
   $breadcrumb->add(NAVBAR_TITLE);
 
+// PWA BOF
+  if ($customer_id == 0) {
+    tep_session_unregister('pwa_array_customer');
+    tep_session_unregister('pwa_array_address');
+    tep_session_unregister('pwa_array_shipping');
+  }
+// PWA EOF
+
   tep_session_unregister('customer_id');
   tep_session_unregister('customer_default_address_id');
   tep_session_unregister('customer_first_name');

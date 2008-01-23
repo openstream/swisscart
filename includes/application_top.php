@@ -535,5 +535,7 @@ if (is_file('FirePHP_Build/Init.inc.php')) {
   define('WARN_SESSION_AUTO_START', 'true');
   define('WARN_DOWNLOAD_DIRECTORY_NOT_READABLE', 'true');
   
-
+// PWA BOF
+  if (tep_session_is_registered('customer_id') && $customer_id == 0 && substr(basename($PHP_SELF),0,7)=='account') tep_redirect(tep_href_link(FILENAME_SHOPPING_CART));
+// PWA EOF
 ?>

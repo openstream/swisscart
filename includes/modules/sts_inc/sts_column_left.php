@@ -45,8 +45,8 @@ Based on: Simple Template System (STS) - Copyright (c) 2004 Brian Gallagher - br
   if (isset($HTTP_GET_VARS['products_id'])) include(DIR_WS_BOXES . 'manufacturer_info.php');
   $sts->restart_capture ('maninfobox', 'box'); // Get manufacturer info box (empty if no product selected)
 
-  if (tep_session_is_registered('customer_id')) include(DIR_WS_BOXES . 'order_history.php');
-  $sts->restart_capture ('orderhistorybox', 'box'); // Get customer's order history box (empty if visitor not logged)
+  if (tep_session_is_registered('customer_id') && $customer_id > 0) include(DIR_WS_BOXES . 'order_history.php');
+  $sts->restart_capture ('orderhistorybox', 'box'); // Get customer's order history box (empty if visitor not logged or guest account)
   
   include(DIR_WS_BOXES . 'best_sellers.php');
   $sts->restart_capture ('bestsellersbox_only', 'box'); // Get bestseller box only, new since v4.0.5

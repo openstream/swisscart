@@ -77,4 +77,6 @@ define('EMAIL_TEXT_COMMENTS_UPDATE', 'Voici les commentaires relatifs &agrave; v
 define('ERROR_ORDER_DOES_NOT_EXIST', 'Erreur&nbsp;: La commande n\'existe pas.');
 define('SUCCESS_ORDER_UPDATED', 'Succ&egrave;s&nbsp;: La commande a &eacute;t&eacute; actualis&eacute;e avec succ&egrave;s.');
 define('WARNING_ORDER_NOT_UPDATED', 'Attention&nbsp;: Rien &agrave; changer. La commande n\'a pas &eacute;t&eacute; actualis&eacute;e.');
+
+define('TEXT_CUSTOMER_NO_ACCOUNT', ' (son compte!)');
 ?>

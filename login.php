@@ -54,6 +54,7 @@
         tep_session_register('customer_first_name');
         tep_session_register('customer_country_id');
         tep_session_register('customer_zone_id');
+		tep_session_unregister('noaccount');
 
         tep_db_query("update " . TABLE_CUSTOMERS_INFO . " set customers_info_date_of_last_logon = now(), customers_info_number_of_logons = customers_info_number_of_logons+1 where customers_info_id = '" . (int)$customer_id . "'");
 
@@ -212,18 +213,50 @@ function session_win() {
               </tr>
             </table></td>
           </tr>
+<?php
+  // PWA BOF
+  if (defined('PURCHASE_WITHOUT_ACCOUNT') && (PURCHASE_WITHOUT_ACCOUNT == 'ja' || PURCHASE_WITHOUT_ACCOUNT == 'yes')) {
+?>
+          <tr>
+		  <tr>
+			<td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
+		  </tr>
+		  <tr>
+			<td class="main"><b><?php echo HEADING_GUEST_CUSTOMER; ?></b></td>
+		  </tr>
+            <td colspan="2" width="100%"><table border="0" width="100%" height="100%" cellspacing="1" cellpadding="2" class="infoBox">
+              <tr class="infoBoxContents">
+                <td><table border="0" width="100%" height="100%" cellspacing="0" cellpadding="2">
+                  <tr>
+                    <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
+                  </tr>
+                  <tr>
+                    <td class="main"><?php echo TEXT_GUEST_INTRODUCTION; ?></td>
+                  </tr>
+                  <tr>
+                    <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
+                  </tr>
+                  <tr>
+                    <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
+                      <tr>
+                        <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
+                        <td align="right"><?php echo '<a href="' . tep_href_link(FILENAME_CREATE_ACCOUNT, 'guest=guest', 'SSL') . '">' . tep_image_button('button_checkout.gif', IMAGE_BUTTON_CONTINUE) . '</a>'; ?></td>
+                        <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
+                      </tr>
+                    </table></td>
+                  </tr>
+                </table></td>
+              </tr>
+            </table></td>
+          </tr>
+<?php
+  }
+  // PWA EOF
+?>
         </table></td>
       </tr>
     </table></form></td>
 <!-- body_text_eof //-->
-    <td width="<?php echo BOX_WIDTH; ?>" valign="top"><table border="0" width="<?php echo BOX_WIDTH; ?>" cellspacing="0" cellpadding="2">
-<!-- right_navigation //-->
-<?php require(DIR_WS_INCLUDES . 'column_right.php'); ?>
-<!-- right_navigation_eof //-->
-    </table></td>
-  </tr>
-</table>
-<!-- body_eof //-->
 
 <!-- footer //-->
 <?php require(DIR_WS_INCLUDES . 'footer.php'); ?>

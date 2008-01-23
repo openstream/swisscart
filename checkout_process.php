@@ -230,6 +230,11 @@
                  EMAIL_TEXT_ORDER_NUMBER . ' ' . $insert_id . "\n" .
                  html_entity_decode(EMAIL_TEXT_INVOICE_URL) . ' ' . tep_href_link(FILENAME_ACCOUNT_HISTORY_INFO, 'order_id=' . $insert_id, 'SSL', false) . "\n" .
                  EMAIL_TEXT_DATE_ORDERED . ' ' . strftime(DATE_FORMAT_LONG) . "\n\n";
+				 
+// PWA BOF
+  if ($customer_id == 0) $email_order .= EMAIL_WARNING . "\n\n";
+// PWA EOF
+				 
   if ($order->info['comments']) {
     $email_order .= tep_db_output($order->info['comments']) . "\n\n";
   }

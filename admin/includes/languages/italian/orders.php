@@ -77,4 +77,6 @@ define('EMAIL_TEXT_COMMENTS_UPDATE', 'I commenti per il tuo ordine sono' . "\n\n
 define('ERROR_ORDER_DOES_NOT_EXIST', 'Errore: Ordine inesistente.');
 define('SUCCESS_ORDER_UPDATED', 'Operazione Riuscita: Ordine aggiornato con successo.');
 define('WARNING_ORDER_NOT_UPDATED', 'Attenzione: Nessun cambiamento. L\'ordine on è stato aggiornato.');
+
+define('TEXT_CUSTOMER_NO_ACCOUNT', ' (no customer account!)');
 ?>

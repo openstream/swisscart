@@ -27,4 +27,7 @@ define('TEXT_PASSWORD_FORGOTTEN', 'Sie haben Ihr Passwort vergessen? Dann klicke
 
 define('TEXT_LOGIN_ERROR', 'Fehler: Keine &Uuml;bereinstimmung der eingebenen eMail-Adresse und/oder dem Passwort.');
 define('TEXT_VISITORS_CART', '<font color="#ff0000"><b>Achtung:</b></font> Ihre Besuchereingaben werden automatisch mit Ihrem Kundenkonto verbunden. <a href="javascript:session_win();">[Mehr Information]</a>');
+
+define('HEADING_GUEST_CUSTOMER', 'Direkt bestellen');
+define('TEXT_GUEST_INTRODUCTION', '<p>Ich möchte kein Kundenkonto erstellen.</p><p>Ihre Daten werden nur für diese eine Bestellung gespeichert. Sie können allerdings Ihren Bestellstatus nicht online abfragen, werden aber per E-Mail über den Stand Ihrer Bestellung informiert.</p>');
 ?>

@@ -15,6 +15,10 @@
 
   require('includes/application_top.php');
 
+// PWA EOF
+  if (isset($HTTP_GET_VARS['guest']) && $cart->count_contents() < 1) tep_redirect(tep_href_link(FILENAME_SHOPPING_CART));
+// PWA BOF
+
 // needs to be included earlier to set the success message in the messageStack
   require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_CREATE_ACCOUNT);
 
@@ -159,16 +163,23 @@
       $messageStack->add('create_account', ENTRY_TELEPHONE_NUMBER_ERROR);
     }
 
+// PWA BOF
+    if (!isset($HTTP_GET_VARS['guest']) && !isset($HTTP_POST_VARS['guest'])) {
+// PWA EOF
 
-    if (strlen($password) < ENTRY_PASSWORD_MIN_LENGTH) {
-      $error = true;
+		if (strlen($password) < ENTRY_PASSWORD_MIN_LENGTH) {
+		  $error = true;
+	
+		  $messageStack->add('create_account', ENTRY_PASSWORD_ERROR);
+		} elseif ($password != $confirmation) {
+		  $error = true;
+	
+		  $messageStack->add('create_account', ENTRY_PASSWORD_ERROR_NOT_MATCHING);
+		}
 
-      $messageStack->add('create_account', ENTRY_PASSWORD_ERROR);
-    } elseif ($password != $confirmation) {
-      $error = true;
-
-      $messageStack->add('create_account', ENTRY_PASSWORD_ERROR_NOT_MATCHING);
-    }
+// PWA BOF
+} 
+// PWA EOF
 
     if ($error == false) {
       $sql_data_array = array('customers_firstname' => $firstname,
@@ -181,10 +192,22 @@
 
       if (ACCOUNT_GENDER == 'true') $sql_data_array['customers_gender'] = $gender;
       if (ACCOUNT_DOB == 'true') $sql_data_array['customers_dob'] = tep_date_raw($dob);
+	  
+// PWA BOF
+      if ((isset($HTTP_GET_VARS['guest'])) or (isset($HTTP_POST_VARS['guest'])) && (defined('PURCHASE_WITHOUT_ACCOUNT') && (PURCHASE_WITHOUT_ACCOUNT == 'ja' || PURCHASE_WITHOUT_ACCOUNT == 'yes'))) {
+        $pwa_array_customer = $sql_data_array;
+        $customer_id = 0;
+        tep_session_register('pwa_array_customer');
+      } else {
+// PWA EOF	  
 
       tep_db_perform(TABLE_CUSTOMERS, $sql_data_array);
 
       $customer_id = tep_db_insert_id();
+	  
+// PWA BOF
+	} 
+// PWA EOF	  
 
       $sql_data_array = array('customers_id' => $customer_id,
                               'entry_firstname' => $firstname,
@@ -207,6 +230,14 @@
         }
       }
 
+// PWA BOF
+     if (isset($HTTP_GET_VARS['guest']) or isset($HTTP_POST_VARS['guest'])) {
+       $pwa_array_address = $sql_data_array;
+       tep_session_register('pwa_array_address');
+       $address_id = 0;
+     } else {
+// PWA EOF
+
       tep_db_perform(TABLE_ADDRESS_BOOK, $sql_data_array);
 
       $address_id = tep_db_insert_id();
@@ -219,6 +250,10 @@
         tep_session_recreate();
       }
 
+// PWA BOF
+} 
+// PWA EOF
+
       $customer_first_name = $firstname;
       $customer_default_address_id = $address_id;
       $customer_country_id = $country;
@@ -228,6 +263,10 @@
       tep_session_register('customer_default_address_id');
       tep_session_register('customer_country_id');
       tep_session_register('customer_zone_id');
+
+// PWA BOF
+      if (isset($HTTP_GET_VARS['guest']) or isset($HTTP_POST_VARS['guest'])) tep_redirect(tep_href_link(FILENAME_CHECKOUT_SHIPPING));
+// PWA EOF
 
 // restore cart contents
       $cart->restore_contents();
@@ -258,6 +297,25 @@
     }
   }
 
+// PWA BOF
+  if (tep_session_is_registered('pwa_array_customer') && tep_session_is_registered('pwa_array_address')) {
+    $gender = isset($pwa_array_customer['customers_gender'])?$pwa_array_customer['customers_gender']:'';
+    $company = isset($pwa_array_address['entry_company'])? $pwa_array_address['entry_company']:'';
+    $firstname = isset($pwa_array_customer['customers_firstname'])? $pwa_array_customer['customers_firstname']:'';
+    $lastname = isset($pwa_array_customer['customers_lastname'])? $pwa_array_customer['customers_lastname']:'';
+    $dob = isset($pwa_array_customer['customers_dob'])? substr($pwa_array_customer['customers_dob'],-2).'.'.substr($pwa_array_customer['customers_dob'],4,2).'.'.substr($pwa_array_customer['customers_dob'],0,4):'';
+    $email_address = isset($pwa_array_customer['customers_email_address'])? $pwa_array_customer['customers_email_address']:'';
+    $street_address = isset($pwa_array_address['entry_street_address'])? $pwa_array_address['entry_street_address']:'';
+    $suburb = isset($pwa_array_address['entry_suburb'])? $pwa_array_address['entry_suburb']:'';
+    $postcode = isset($pwa_array_address['entry_postcode'])? $pwa_array_address['entry_postcode']:'';
+    $city = isset($pwa_array_address['entry_city'])? $pwa_array_address['entry_city']:'';
+    $state = isset($pwa_array_address['entry_state'])? $pwa_array_address['entry_state']:'0';
+    $country = isset($pwa_array_address['entry_country_id'])? $pwa_array_address['entry_country_id']:'';
+    $telephone = isset($pwa_array_customer['customers_telephone'])? $pwa_array_customer['customers_telephone']:'';
+    $fax = isset($pwa_array_customer['customers_fax'])? $pwa_array_customer['customers_fax']:'';
+  }
+// PWA EOF
+
   $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_CREATE_ACCOUNT, '', 'SSL'));
 ?>
 <!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -283,7 +341,9 @@
 <!-- left_navigation_eof //-->
     </table></td>
 <!-- body_text //-->
-    <td width="100%" valign="top"><?php echo tep_draw_form('create_account', tep_href_link(FILENAME_CREATE_ACCOUNT, '', 'SSL'), 'post', 'onSubmit="return check_form(create_account);"') . tep_draw_hidden_field('action', 'process'); ?><table border="0" width="100%" cellspacing="0" cellpadding="0">
+    <!-- PWA BOF -->
+    <td width="100%" valign="top"><?php echo tep_draw_form('create_account', tep_href_link(FILENAME_CREATE_ACCOUNT, (isset($HTTP_GET_VARS['guest'])? 'guest=guest':''), 'SSL'), 'post', 'onSubmit="return check_form(create_account);"') . tep_draw_hidden_field('action', 'process'); ?><table border="0" width="100%" cellspacing="0" cellpadding="0">
+    <!-- PWA EOF -->
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
           <tr>
@@ -479,6 +539,11 @@
       <tr>
         <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
       </tr>
+<?php
+// PWA BOF
+  if (!isset($HTTP_GET_VARS['guest']) && !isset($HTTP_POST_VARS['guest'])) {
+// PWA EOF
+?>	  
       <tr>
         <td class="main"><b><?php echo CATEGORY_OPTIONS; ?></b></td>
       </tr>
@@ -516,6 +581,18 @@
           </tr>
         </table></td>
       </tr>
+<?php
+  // PWA BOF
+  }
+  else
+  {
+?>
+ <tr>
+   <td><?php echo tep_draw_hidden_field('guest', 'guest'); ?></td>
+ </tr>
+<?php } 
+// PWA EOF
+?>	  
       <tr>
         <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
       </tr>

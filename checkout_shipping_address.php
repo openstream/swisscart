@@ -159,6 +159,16 @@
 
         if (!tep_session_is_registered('sendto')) tep_session_register('sendto');
 
+// PWA BOF
+        if ($customer_id==0) {
+          $sendto = 1;
+          $pwa_array_shipping = $sql_data_array;
+          tep_session_register('pwa_array_shipping');
+          if (tep_session_is_registered('shipping')) tep_session_unregister('shipping');
+          tep_redirect(tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL'));
+        }
+// PWA EOF
+
         tep_db_perform(TABLE_ADDRESS_BOOK, $sql_data_array);
 
         $sendto = tep_db_insert_id();
@@ -203,6 +213,21 @@
   if (!tep_session_is_registered('sendto')) {
     $sendto = $customer_default_address_id;
   }
+
+// PWA BOF
+  if (tep_session_is_registered('pwa_array_shipping') && is_array($pwa_array_shipping) && count($pwa_array_shipping)) {
+    if (isset($pwa_array_shipping['entry_gender'])) $gender = $pwa_array_shipping['entry_gender'];
+    $firstname = $pwa_array_shipping['entry_firstname'];
+    $lastname = $pwa_array_shipping['entry_lastname'];
+    if (isset($pwa_array_shipping['entry_company'])) $company = $pwa_array_shipping['entry_company'];
+    $street_address = $pwa_array_shipping['entry_street_address'];
+    if (isset($pwa_array_shipping['entry_suburb'])) $suburb = $pwa_array_shipping['entry_suburb'];
+    $postcode = $pwa_array_shipping['entry_postcode'];
+    $city = $pwa_array_shipping['entry_city'];
+    if (isset($pwa_array_shipping['entry_state'])) $state = $pwa_array_shipping['entry_state'];
+    $country = $pwa_array_shipping['entry_country_id'];
+  }
+// PWA EOF
 
   $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL'));
   $breadcrumb->add(NAVBAR_TITLE_2, tep_href_link(FILENAME_CHECKOUT_SHIPPING_ADDRESS, '', 'SSL'));

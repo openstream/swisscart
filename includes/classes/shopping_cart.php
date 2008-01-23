@@ -99,37 +99,15 @@
       } else {
         $this->contents[] = array($products_id);
         $this->contents[$products_id] = array('qty' => $qty);
-// insert into database
-        if (tep_session_is_registered('customer_id')) tep_db_query("insert into " . TABLE_CUSTOMERS_BASKET . " (customers_id, products_id, customers_basket_quantity, customers_basket_date_added) values ('" . (int)$customer_id . "', '" . tep_db_input($products_id) . "', '" . $qty . "', '" . date('Ymd') . "')");
+ // insert into database
+        if (tep_session_is_registered('customer_id') && $customer_id>0) tep_db_query("insert into " . TABLE_CUSTOMERS_BASKET . " (customers_id, products_id, customers_basket_quantity, customers_basket_date_added) values ('" . (int)$customer_id . "', '" . tep_db_input($products_id_string) . "', '" . (int)$qty . "', '" . date('Ymd') . "')");
 
         if (is_array($attributes)) {
           reset($attributes);
           while (list($option, $value) = each($attributes)) {
-            //CLR 020606 check if input was from text box.  If so, store additional attribute information
-            //CLR 020708 check if text input is blank, if so do not add to attribute lists
-            //CLR 030228 add htmlspecialchars processing.  This handles quotes and other special chars in the user input.
-            $attr_value = NULL;
-            $blank_value = FALSE;
-            if (strstr($option, TEXT_PREFIX)) {
-              if (trim($value) == NULL)
-              {
-                $blank_value = TRUE;
-              } else {
-                $option = substr($option, strlen(TEXT_PREFIX));
-                $attr_value = htmlspecialchars(stripslashes($value), ENT_QUOTES);
-                $value = PRODUCTS_OPTIONS_VALUE_TEXT_ID;
-                $this->contents[$products_id]['attributes_values'][$option] = $attr_value;
-              }
-            }
-
-            if (!$blank_value)
-            {
-              $this->contents[$products_id]['attributes'][$option] = $value;
-// insert into database
-            //CLR 020606 update db insert to include attribute value_text. This is needed for text attributes.
-            //CLR 030228 add tep_db_input() processing
-              if (tep_session_is_registered('customer_id')) tep_db_query("insert into " . TABLE_CUSTOMERS_BASKET_ATTRIBUTES . " (customers_id, products_id, products_options_id, products_options_value_id, products_options_value_text) values ('" . (int)$customer_id . "', '" . tep_db_input($products_id) . "', '" . (int)$option . "', '" . (int)$value . "', '" . tep_db_input($attr_value) . "')");
-            }
+            $this->contents[$products_id]['attributes'][$option] = $value;
+  // insert into database
+            if (tep_session_is_registered('customer_id') && $customer_id>0) tep_db_query("insert into " . TABLE_CUSTOMERS_BASKET_ATTRIBUTES . " (customers_id, products_id, products_options_id, products_options_value_id) values ('" . (int)$customer_id . "', '" . tep_db_input($products_id_string) . "', '" . (int)$option . "', '" . (int)$value . "')");
           }
         }
       }
@@ -146,37 +124,15 @@
 
       $this->contents[$products_id] = array('qty' => $quantity);
 // update database
-      if (tep_session_is_registered('customer_id')) tep_db_query("update " . TABLE_CUSTOMERS_BASKET . " set customers_basket_quantity = '" . $quantity . "' where customers_id = '" . (int)$customer_id . "' and products_id = '" . tep_db_input($products_id) . "'");
+        if (tep_session_is_registered('customer_id') && $customer_id>0) tep_db_query("update " . TABLE_CUSTOMERS_BASKET . " set customers_basket_quantity = '" . (int)$quantity . "' where customers_id = '" . (int)$customer_id . "' and products_id = '" . tep_db_input($products_id_string) . "'");
 
       if (is_array($attributes)) {
         reset($attributes);
         while (list($option, $value) = each($attributes)) {
-          //CLR 020606 check if input was from text box.  If so, store additional attribute information
-          //CLR 030108 check if text input is blank, if so do not update attribute lists
-          //CLR 030228 add htmlspecialchars processing.  This handles quotes and other special chars in the user input.
-          $attr_value = NULL;
-          $blank_value = FALSE;
-          if (strstr($option, TEXT_PREFIX)) {
-            if (trim($value) == NULL)
-            {
-              $blank_value = TRUE;
-            } else {
-              $option = substr($option, strlen(TEXT_PREFIX));
-              $attr_value = htmlspecialchars(stripslashes($value), ENT_QUOTES);
-              $value = PRODUCTS_OPTIONS_VALUE_TEXT_ID;
-              $this->contents[$products_id]['attributes_values'][$option] = $attr_value;
-            }
-          }
-
-          if (!$blank_value)
-          {
-            $this->contents[$products_id]['attributes'][$option] = $value;
-// update database
-            //CLR 020606 update db insert to include attribute value_text. This is needed for text attributes.
-            //CLR 030228 add tep_db_input() processing
-            if (tep_session_is_registered('customer_id')) tep_db_query("update " . TABLE_CUSTOMERS_BASKET_ATTRIBUTES . " set products_options_value_id = '" . (int)$value . "', products_options_value_text = '" . tep_db_input($attr_value) . "' where customers_id = '" . (int)$customer_id . "' and products_id = '" . tep_db_input($products_id) . "' and products_options_id = '" . (int)$option . "'");
-          }
-        }
+          $this->contents[$products_id]['attributes'][$option] = $value;
+ // update database
+            if (tep_session_is_registered('customer_id') && $customer_id>0) tep_db_query("update " . TABLE_CUSTOMERS_BASKET_ATTRIBUTES . " set products_options_value_id = '" . (int)$value . "' where customers_id = '" . (int)$customer_id . "' and products_id = '" . tep_db_input($products_id_string) . "' and products_options_id = '" . (int)$option . "'");
+       }
       }
     }
 

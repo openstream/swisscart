@@ -80,4 +80,6 @@ define('EMAIL_TEXT_COMMENTS_UPDATE', 'Los comentarios sobre su pedido son' . "\n
 define('ERROR_ORDER_DOES_NOT_EXIST', 'Error: No existe pedido.');
 define('SUCCESS_ORDER_UPDATED', 'Exito: Pedido actualizado correctamente.');
 define('WARNING_ORDER_NOT_UPDATED', 'Advertencia: No se ha actualizado el pedido, no habia nada que actualizar.');
+
+define('TEXT_CUSTOMER_NO_ACCOUNT', ' (sin cuenta)!');
 ?>

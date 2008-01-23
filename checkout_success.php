@@ -20,6 +20,31 @@
     tep_redirect(tep_href_link(FILENAME_SHOPPING_CART));
   }
 
+    if (isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'update')) {
+      $notify_string = 'action=notify&';
+      $notify = $HTTP_POST_VARS['notify'];
+      if (!is_array($notify)) $notify = array($notify);
+      for ($i=0, $n=sizeof($notify); $i<$n; $i++) {
+        $notify_string .= 'notify[]=' . $notify[$i] . '&';
+      }
+      if (strlen($notify_string) > 0) $notify_string = substr($notify_string, 0, -1);
+
+       // PWA BOF
+       if($customer_id != 0)
+       {
+         tep_redirect(tep_href_link(FILENAME_DEFAULT, $notify_string));
+       }
+       else
+       {
+         tep_session_unregister('pwa_array_customer');
+         tep_session_unregister('pwa_array_address');
+         tep_session_unregister('pwa_array_shipping');
+         tep_session_unregister('customer_id');                 
+         tep_redirect(tep_href_link(FILENAME_DEFAULT));
+       }
+      // PWA EOF        
+    }
+
   if (isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'update')) {
     $notify_string = 'action=notify&';
     $notify = $HTTP_POST_VARS['notify'];

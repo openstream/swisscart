@@ -22,7 +22,9 @@
 
   if (isset($HTTP_GET_VARS['products_id'])) include(DIR_WS_BOXES . 'manufacturer_info.php');
 
-  if (tep_session_is_registered('customer_id')) include(DIR_WS_BOXES . 'order_history.php');
+// PWA EOF
+  if (tep_session_is_registered('customer_id') && $customer_id > 0 ) include(DIR_WS_BOXES . 'order_history.php');
+// PWA BOF
 
   if (isset($HTTP_GET_VARS['products_id'])) {
     if (tep_session_is_registered('customer_id')) {

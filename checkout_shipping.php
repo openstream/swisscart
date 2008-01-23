@@ -33,14 +33,20 @@
     $sendto = $customer_default_address_id;
   } else {
 // verify the selected shipping address
-    $check_address_query = tep_db_query("select count(*) as total from " . TABLE_ADDRESS_BOOK . " where customers_id = '" . (int)$customer_id . "' and address_book_id = '" . (int)$sendto . "'");
-    $check_address = tep_db_fetch_array($check_address_query);
+    // PWA BOF
+    if ($customer_id == 0) {
+      $sendto = 1;
+    } else {
+      $check_address_query = tep_db_query("select count(*) as total from " . TABLE_ADDRESS_BOOK . " where customers_id = '" . (int)$customer_id . "' and address_book_id = '" . (int)$sendto . "'");
+      $check_address = tep_db_fetch_array($check_address_query);
 
-    if ($check_address['total'] != '1') {
-      $sendto = $customer_default_address_id;
-      if (tep_session_is_registered('shipping')) tep_session_unregister('shipping');
+      if ($check_address['total'] != '1') {
+        $sendto = $customer_default_address_id;
+        if (tep_session_is_registered('shipping')) tep_session_unregister('shipping');
+      }
     }
   }
+  // PWA EOF
 
   require(DIR_WS_CLASSES . 'order.php');
   $order = new order;
@@ -265,7 +271,9 @@ function rowOutEffect(object) {
 ?>
               <tr>
                 <td><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
-                <td class="main" width="50%" valign="top"><?php echo TEXT_CHOOSE_SHIPPING_METHOD; ?></td>
+                <!-- PWA BOF -->
+                <td class="main" width="50%" valign="top"><?php echo (($customer_id>0 || (defined('PURCHASE_WITHOUT_ACCOUNT_SEPARATE_SHIPPING') && PURCHASE_WITHOUT_ACCOUNT_SEPARATE_SHIPPING=='yes') )? TEXT_CHOOSE_SHIPPING_DESTINATION . '<br><br><a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING_ADDRESS, '', 'SSL') . '">' . tep_image_button('button_change_address.gif', IMAGE_BUTTON_CHANGE_ADDRESS) . '</a>':'&nbsp;'); ?></td>
+                <!-- PWA EOF -->
                 <td class="main" width="50%" valign="top" align="right"><?php echo '<b>' . TITLE_PLEASE_SELECT . '</b><br>' . tep_image(DIR_WS_IMAGES . 'arrow_east_south.gif'); ?></td>
                 <td><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
               </tr>

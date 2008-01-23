@@ -25,4 +25,6 @@ define('EMAIL_TEXT_PAYMENT_METHOD', 'Moyen de paiement');
 
 define('EMAIL_SEPARATOR', '------------------------------------------------------');
 define('TEXT_EMAIL_VIA', 'via');
+
+define('EMAIL_WARNING', '<b>Note&nbsp;:</b> Cette adresse email nous a &eacute;t&eacute; communiqu&eacute;e par un de nos clients. Si vous ne vous &ecirc;tes pas inscrit comme membre du site, veuillez envoyer un email &agrave; ' . STORE_OWNER_EMAIL_ADDRESS . '.' . "\n");
 ?>

@@ -138,6 +138,85 @@
       global $customer_id, $sendto, $billto, $cart, $languages_id, $currency, $currencies, $shipping, $payment;
 
       $this->content_type = $cart->get_content_type();
+	  
+// PWA BOF
+if ($customer_id == 0) {
+      global $pwa_array_customer, $pwa_array_address, $pwa_array_shipping;
+
+      // customers address
+      $country_query = tep_db_query("select c.countries_name, c.countries_iso_code_2, c.countries_iso_code_3, c.address_format_id, z.zone_name from " . TABLE_COUNTRIES . " c left join " . TABLE_ZONES . " z on z.zone_id = '" . intval($pwa_array_address['entry_zone_id']) . "' where countries_id = '" . intval($pwa_array_address['entry_country_id']) . "'");
+      $country = tep_db_fetch_array($country_query);
+      $address = array_merge($country,
+                 array('customers_firstname' => $pwa_array_customer['customers_firstname'],
+                       'customers_lastname'  => $pwa_array_customer['customers_lastname'],
+                           'entry_firstname' => $pwa_array_customer['customers_firstname'],
+                           'entry_lastname'  => $pwa_array_customer['customers_lastname'],
+                       'customers_telephone' => $pwa_array_customer['customers_telephone'],
+                   'customers_email_address' => $pwa_array_customer['customers_email_address'],
+                             'entry_company' => (isset($pwa_array_address['entry_company'])? $pwa_array_address['entry_company']:''),
+                      'entry_street_address' => $pwa_array_address['entry_street_address'],
+                              'entry_suburb' => $pwa_array_address['entry_suburb'],
+                            'entry_postcode' => $pwa_array_address['entry_postcode'],
+                                'entry_city' => $pwa_array_address['entry_city'],
+                             'entry_zone_id' => $pwa_array_address['entry_zone_id'],
+                              'countries_id' => $pwa_array_address['entry_country_id'],
+                          'entry_country_id' => $pwa_array_address['entry_country_id'],
+                               'entry_state' => $pwa_array_address['entry_state']));
+
+      $customer_address = $billing_address = $address;
+
+      if (isset($pwa_array_shipping) && is_array($pwa_array_shipping) && count($pwa_array_shipping)) {
+        // separately shipping address
+        $country_query = tep_db_query("select c.countries_name, c.countries_iso_code_2, c.countries_iso_code_3, c.address_format_id, z.zone_name from " . TABLE_COUNTRIES . " c left join " . TABLE_ZONES . " z on z.zone_id = '" . intval($pwa_array_shipping['entry_zone_id']) . "' where countries_id = '" . intval($pwa_array_shipping['entry_country_id']) . "'");
+        $country = tep_db_fetch_array($country_query);
+        $shipping_address = array_merge($country,
+                 array('customers_firstname' => $pwa_array_shipping['entry_firstname'],
+                       'customers_lastname'  => $pwa_array_shipping['entry_lastname'],
+                           'entry_firstname' => $pwa_array_shipping['entry_firstname'],
+                           'entry_lastname'  => $pwa_array_shipping['entry_lastname'],
+                       'customers_telephone' => $pwa_array_customer['customers_telephone'],
+                   'customers_email_address' => $pwa_array_customer['customers_email_address'],
+                             'entry_company' => (isset($pwa_array_shipping['entry_company'])? $pwa_array_shipping['entry_company']:''),
+                      'entry_street_address' => $pwa_array_shipping['entry_street_address'],
+                              'entry_suburb' => $pwa_array_shipping['entry_suburb'],
+                            'entry_postcode' => $pwa_array_shipping['entry_postcode'],
+                                'entry_city' => $pwa_array_shipping['entry_city'],
+                             'entry_zone_id' => $pwa_array_shipping['entry_zone_id'],
+                              'countries_id' => $pwa_array_shipping['entry_country_id'],
+                          'entry_country_id' => $pwa_array_shipping['entry_country_id'],
+                               'entry_state' => $pwa_array_shipping['entry_state']));
+
+      } else {
+        // non separately shipping address
+        $shipping_address = $address;
+      }
+      $tax_address = array('entry_country_id' => $pwa_array_address['entry_country_id'], 'entry_zone_id' => $shipping_address['entry_zone_id']);
+      // address label #0
+      $this->pwa_label_customer =
+                         array('firstname' => $customer_address['customers_firstname'],
+                               'lastname'  => $customer_address['customers_lastname'],
+                                 'company' => $customer_address['entry_company'],
+                          'street_address' => $customer_address['entry_street_address'],
+                                  'suburb' => $customer_address['entry_suburb'],
+                                    'city' => $customer_address['entry_city'],
+                                'postcode' => $customer_address['entry_postcode'],
+                                   'state' => $customer_address['entry_state'],
+                                 'zone_id' => $customer_address['entry_zone_id'],
+                              'country_id' => $customer_address['entry_country_id']);
+      // address label #1
+      $this->pwa_label_shipping =
+                         array('firstname' => $shipping_address['customers_firstname'],
+                               'lastname'  => $shipping_address['customers_lastname'],
+                                 'company' => $shipping_address['entry_company'],
+                          'street_address' => $shipping_address['entry_street_address'],
+                                  'suburb' => $shipping_address['entry_suburb'],
+                                    'city' => $shipping_address['entry_city'],
+                                'postcode' => $shipping_address['entry_postcode'],
+                                   'state' => $shipping_address['entry_state'],
+                                 'zone_id' => $shipping_address['entry_zone_id'],
+                              'country_id' => $shipping_address['entry_country_id']);
+} else {
+// PWA EOF	  
 
       $customer_address_query = tep_db_query("select c.customers_firstname, c.customers_lastname, c.customers_telephone, c.customers_email_address, ab.entry_company, ab.entry_street_address, ab.entry_suburb, ab.entry_postcode, ab.entry_city, ab.entry_zone_id, z.zone_name, co.countries_id, co.countries_name, co.countries_iso_code_2, co.countries_iso_code_3, co.address_format_id, ab.entry_state from " . TABLE_CUSTOMERS . " c, " . TABLE_ADDRESS_BOOK . " ab left join " . TABLE_ZONES . " z on (ab.entry_zone_id = z.zone_id) left join " . TABLE_COUNTRIES . " co on (ab.entry_country_id = co.countries_id) where c.customers_id = '" . (int)$customer_id . "' and ab.customers_id = '" . (int)$customer_id . "' and c.customers_default_address_id = ab.address_book_id");
       $customer_address = tep_db_fetch_array($customer_address_query);
@@ -150,6 +229,10 @@
 
       $tax_address_query = tep_db_query("select ab.entry_country_id, ab.entry_zone_id from " . TABLE_ADDRESS_BOOK . " ab left join " . TABLE_ZONES . " z on (ab.entry_zone_id = z.zone_id) where ab.customers_id = '" . (int)$customer_id . "' and ab.address_book_id = '" . (int)($this->content_type == 'virtual' ? $billto : $sendto) . "'");
       $tax_address = tep_db_fetch_array($tax_address_query);
+	  
+// PWA BOF
+}  
+// PWA EOF	  
 
       $this->info = array('order_status' => DEFAULT_ORDERS_STATUS_ID,
                           'currency' => $currency,
