@@ -266,7 +266,7 @@ SPAN.errorText {
 /* message box */
 
 .messageBox { }
-.messageStackError, .messageStackWarning { background-color: #ffb3b5; }
+.messageStackError, .messageStackWarning { background-color: #F2DC48; padding: 3px; border: 1px dotted #CF2F31; font-size: 10px; }
 .messageStackSuccess { background-color: #99ff00; }
 
 /* input requirement */
