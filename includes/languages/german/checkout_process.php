@@ -29,5 +29,5 @@ define('EMAIL_TEXT_PAYMENT_METHOD', 'Zahlungsweise');
 define('EMAIL_SEPARATOR', '------------------------------------------------------');
 define('TEXT_EMAIL_VIA', 'durch');
 
-define('EMAIL_WARNING', '<b>Achtung:</b> Diese E-Mail-Adresse wurde uns von einem Kunden bekannt gegeben. Falls Sie sich nicht angemeldet haben, senden Sie bitte eine E-Mail an ' . STORE_OWNER_EMAIL_ADDRESS . '.' . "\n");
+define('EMAIL_WARNING', '<b>Achtung:</b> Falls Sie keine Bestellung bei uns aufgegeben haben, hat jemand fälschlicherweise oder absichtlich Ihre E-Mail-Adresse verwendet. Senden Sie in diesem fall bitte eine E-Mail an ' . STORE_OWNER_EMAIL_ADDRESS . '.' . "\n");
 ?>
