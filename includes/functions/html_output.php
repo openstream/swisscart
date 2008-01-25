@@ -97,6 +97,12 @@ function tep_image($src, $alt = '', $width = '', $height = '', $params = '') {
   global $product_info;
   global $sts; 
   $sts->image($src); // Take image from template folder if exists.  
+
+  // add place holder image if no image available
+  if (MODULE_STS_DEFAULT_STATUS=="true") {
+    $no_image = STS_TEMPLATE_DIR . DIR_WS_IMAGES;
+	if ($src == $no_image) $src .= 'no-image-available.jpg';
+  }
   
   //Allow for a new intermediate sized thumbnail size to be set 
   //without any changes having to be made to the product_info page itself. 
