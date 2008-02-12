@@ -253,7 +253,7 @@ define('PREVNEXT_BUTTON_LAST', 'LETZTE&gt;&gt;');
 define('IMAGE_BUTTON_ADD_ADDRESS', 'Neue Adresse');
 define('IMAGE_BUTTON_ADDRESS_BOOK', 'Adressbuch');
 define('IMAGE_BUTTON_BACK', 'Zurück');
-define('IMAGE_BUTTON_BUY_NOW', 'Buy Now');
+define('IMAGE_BUTTON_BUY_NOW', 'Jetzt kaufen');
 define('IMAGE_BUTTON_CHANGE_ADDRESS', 'Adresse ändern');
 define('IMAGE_BUTTON_CHECKOUT', 'Kasse');
 define('IMAGE_BUTTON_CONFIRM_ORDER', 'Bestellung bestätigen');
