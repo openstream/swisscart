@@ -146,7 +146,8 @@ td.infoBoxHeading td.infoBoxHeading {
 TD.infoBox, SPAN.infoBox {
 }
 div.content {
-  padding: 0 20px;
+  padding-left: 20px;
+  width: 480px;
 }
 TR.accountHistory-odd, TR.addressBook-odd, TR.alsoPurchased-odd, TR.payment-odd, TR.productListing-odd, TR.productReviews-odd, TR.upcomingProducts-odd, TR.shippingOptions-odd {
   background: #fff;
