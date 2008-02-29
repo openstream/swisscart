@@ -47,6 +47,10 @@ if ($append_hash != LAST_HASH){
       $cache_update=true;
 }
 
+// Add some basic input sanitizing
+$_GET['w'] = is_numeric($_GET['w'])?$_GET['w']:0;
+$_GET['h'] = is_numeric($_GET['h'])?$_GET['h']:0;
+
 // Get the type of thumbnail we are dealing with
 if ( $_GET['w']== SMALL_IMAGE_WIDTH || $_GET['h'] == SMALL_IMAGE_HEIGHT) $thumbnail_size=1;
 elseif ($_GET['w'] == HEADING_IMAGE_WIDTH || $_GET['h'] == HEADING_IMAGE_HEIGHT) $thumbnail_size=2;
