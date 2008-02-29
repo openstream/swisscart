@@ -238,12 +238,14 @@ if ($customer_id == 0) {
                           'currency' => $currency,
                           'currency_value' => $currencies->currencies[$currency]['value'],
                           'payment_method' => $payment,
+						  'payment_class' => $payment,
                           'cc_type' => (isset($GLOBALS['cc_type']) ? $GLOBALS['cc_type'] : ''),
                           'cc_owner' => (isset($GLOBALS['cc_owner']) ? $GLOBALS['cc_owner'] : ''),
                           'cc_number' => (isset($GLOBALS['cc_number']) ? $GLOBALS['cc_number'] : ''),
                           'cc_expires' => (isset($GLOBALS['cc_expires']) ? $GLOBALS['cc_expires'] : ''),
 						  'cc_cvv2' => (isset($GLOBALS['cc_cvv2']) ? $GLOBALS['cc_cvv2'] : ''),
                           'shipping_method' => $shipping['title'],
+						  'shipping_class' =>  ( (strpos($shipping['id'],'_') > 0) ?  substr( strrev( strchr(strrev($shipping['id']),'_') ),0,-1) : $shipping['id'] ),
                           'shipping_cost' => $shipping['cost'],
                           'subtotal' => 0,
                           'tax' => 0,
@@ -252,6 +254,7 @@ if ($customer_id == 0) {
 
       if (isset($GLOBALS[$payment]) && is_object($GLOBALS[$payment])) {
         $this->info['payment_method'] = $GLOBALS[$payment]->title;
+		$this->info['payment_class'] = $GLOBALS[$payment]->code;
 
         if ( isset($GLOBALS[$payment]->order_status) && is_numeric($GLOBALS[$payment]->order_status) && ($GLOBALS[$payment]->order_status > 0) ) {
           $this->info['order_status'] = $GLOBALS[$payment]->order_status;
