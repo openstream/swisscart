@@ -19,7 +19,7 @@ define('NAVBAR_TITLE_2', 'Adressbuch');
 define('HEADING_TITLE', 'Mein Pers&ouml;nliches Adressbuch');
 
 define('PRIMARY_ADDRESS_TITLE', 'Standardadresse');
-define('PRIMARY_ADDRESS_DESCRIPTION', 'Diese Adresse wird automatisch als Liefer- und Rechnungsadresse gew&auml;hlt wenn Sie eine Bestellung aufgeben.<br><br>Diese Adresse wird auch als Basis f&uuml;r die Berechnung eventueller Steuern udn Versandkosten verwendet.');
+define('PRIMARY_ADDRESS_DESCRIPTION', 'Diese Adresse wird automatisch als Liefer- und Rechnungsadresse gew&auml;hlt wenn Sie eine Bestellung aufgeben.<br><br>Diese Adresse wird auch als Basis f&uuml;r die Berechnung eventueller Steuern und Versandkosten verwendet.');
 
 define('ADDRESS_BOOK_TITLE', 'Adressbucheintr&auml;ge');
 
