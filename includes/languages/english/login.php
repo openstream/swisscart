@@ -29,5 +29,5 @@ define('TEXT_LOGIN_ERROR', 'Error: No match for E-Mail Address and/or Password.'
 define('TEXT_VISITORS_CART', '<font color="#ff0000"><b>Note:</b></font> Your &quot;Visitors Cart&quot; contents will be merged with your &quot;Members Cart&quot; contents once you have logged on. <a href="javascript:session_win();">[More Info]</a>');
 
 define('HEADING_GUEST_CUSTOMER', 'Purchase without Account');
-define('TEXT_GUEST_INTRODUCTION', 'Choose this option if you just want to checkout. You will still need to give us your Billing Address on the following page but we will not create a Password Account for you. <br><br>Please choose <STRONG><font color="#000000">Returning Customer</font></STRONG> if you have already registered your E-Mail address with ' . STORE_NAME . '.');
+define('TEXT_GUEST_INTRODUCTION', 'Choose this option if you just want to checkout. You will still need to give us your Billing Address on the following page but we will not create a Password Account for you. <br><br>Please choose <STRONG>Returning Customer</STRONG> if you have already registered your E-Mail address with ' . STORE_NAME . '.');
 ?>
