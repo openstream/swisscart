@@ -27,4 +27,7 @@ define('TEXT_PASSWORD_FORGOTTEN', 'Mot de passe oubli&eacute;&nbsp;? Cliquez ici
 
 define('TEXT_LOGIN_ERROR', 'Erreur&nbsp;: Aucune correspondance pour l\'adresse email et/ou le mot de passe.');
 define('TEXT_VISITORS_CART', '<font color="#ff0000"><b>Note&nbsp;:</b></font> Le contenu de votre &quot;Panier visiteur&quot; sera ajout&eacute; au contenu de votre &quot;Panier membre&quot; une fois que vous vous serez identifi&eacute;. <a href="javascript:session_win();">[Plus d\'information]</a>');
+
+define('HEADING_GUEST_CUSTOMER', 'Je ne veux pas créer un compte.');
+define('TEXT_GUEST_INTRODUCTION', 'Vos cordonné sont seulement enregistrées pour cette commande. Vous ne pouvez pas verifier l\'état de votre commande online, mais vous en serez informé par e-mail.');
 ?>

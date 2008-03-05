@@ -24,4 +24,7 @@ define('TEXT_PASSWORD_FORGOTTEN', 'Dimenticato la password? Clicca qui.');
 
 define('TEXT_LOGIN_ERROR', 'Errore: Nessun indirizzo E-Mail e/o password corrispondenti a quelli inseriti.');
 define('TEXT_VISITORS_CART', '<font color="#ff0000"><b>Note:</b></font> Il contenuto del suo &quot;Carrello ospiti&quot; sarà inserito nel suo &quot;Carrello membri&quot; appena accederà tramite il suo account. <a href="javascript:session_win();">[Ulteriorio Informazioni Qui]</a>');
+
+define('HEADING_GUEST_CUSTOMER', 'Purchase without Account');
+define('TEXT_GUEST_INTRODUCTION', 'Choose this option if you just want to checkout. You will still need to give us your Billing Address on the following page but we will not create a Password Account for you. <br><br>Please choose <STRONG><font color="#000000">Returning Customer</font></STRONG> if you have already registered your E-Mail address with ' . STORE_NAME . '.');
 ?>
