@@ -134,6 +134,10 @@ define('BOX_SEARCH_ADVANCED_SEARCH', 'Recherche avanc&eacute;e');
 // specials box text in includes/boxes/specials.php
 define('BOX_HEADING_SPECIALS', 'Promotions');
 
+// featured box text in includes/boxes/featured.php
+define('BOX_CATALOG_FEATURED_PRODUCTS', 'Produits recommandés');
+define('BOX_HEADING_FEATURED', 'Recommandé');
+
 // reviews box text in includes/boxes/reviews.php
 define('BOX_HEADING_REVIEWS', 'Critiques');
 define('BOX_REVIEWS_WRITE_REVIEW', 'Ecrire une critique sur ce produit');

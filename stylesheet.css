@@ -170,7 +170,7 @@ A.pageResults:hover {
   background: #FFFF33;
 }
 
-TD.pageHeading, DIV.pageHeading {
+TD.pageHeading, DIV.pageHeading, TD.pageHeading h1 {
   font-family: Verdana, Arial, sans-serif;
   font-size: 20px;
   font-weight: bold;

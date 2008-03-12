@@ -40,6 +40,9 @@
   define('FILENAME_CREATE_ACCOUNT_SUCCESS', 'create_account_success.php');
   define('FILENAME_DEFAULT', 'index.php');
   define('FILENAME_DOWNLOAD', 'download.php');
+  define('FILENAME_FEATURED', 'featured.php');
+  define('FILENAME_FEATURED_BOX', 'featured.php');
+  define('FILENAME_FEATURED_PRODUCTS', 'featured_products.php');  
   define('FILENAME_IMAGEMAGIC', 'imagemagic.php');
   define('FILENAME_INFORMATION', 'information.php');
   define('FILENAME_INFO_SHOPPING_CART', 'info_shopping_cart.php');

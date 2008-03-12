@@ -89,6 +89,10 @@ define('BOX_SEARCH_ADVANCED_SEARCH', 'erweiterte Suche');
 // specials box text in includes/boxes/specials.php
 define('BOX_HEADING_SPECIALS', 'Aktionen');
 
+// featured box text in includes/boxes/featured.php
+define('BOX_CATALOG_FEATURED_PRODUCTS', 'Empfohlene Produkte');
+define('BOX_HEADING_FEATURED', 'Empfehlungen');
+
 // reviews box text in includes/boxes/reviews.php
 define('BOX_HEADING_REVIEWS', 'Bewertungen');
 define('BOX_REVIEWS_WRITE_REVIEW', 'Bewerten Sie dieses Produkt!');

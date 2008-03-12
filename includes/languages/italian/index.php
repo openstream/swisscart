@@ -17,6 +17,8 @@ define('TEXT_GREETING_GUEST', 'Benvenuto <span class="greetUser">!</span> Puoi e
 define('TEXT_MAIN', 'Questa è una dimostrazione di negozio on-line, <b>i prodotti visualizzati non sono veramnete in vendita, non verranno ne spedidi ne fatturati</b>. Tutte le informazioni sui prodotti sono esposte col solo intento dimostrativo.<br><br>Se vuoi scaricare questo progetto di negozio on-line, o contribuire al progetto, visita <a href="http://oscommerce.com"><u>il sito di supporto</u></a>. Questo negozio è basato su <font color="#f0000"><b>' . PROJECT_VERSION . '</b></font>. Questa versione è stata tradotta da <a href="http://www.oscommerceitalia.com">osCommerceITalia</a>, comunità italiana di utenti e sviluppatori osCommerce.');
 define('TABLE_HEADING_NEW_PRODUCTS', 'Nuovi prodotti per %s');
 define('TABLE_HEADING_UPCOMING_PRODUCTS', 'Prodotti in arrivo');
+define('TABLE_HEADING_FEATURED_PRODUCTS', 'Featured Products');
+define('TABLE_HEADING_FEATURED_PRODUCTS_CATEGORY', 'Featured Products in %s');
 define('TABLE_HEADING_DATE_EXPECTED', 'Data di arrivo');
 
 if ( ($category_depth == 'products') || (isset($HTTP_GET_VARS['manufacturers_id'])) ) {

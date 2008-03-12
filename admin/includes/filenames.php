@@ -28,6 +28,8 @@
   define('FILENAME_DEFINE_LANGUAGE', 'define_language.php');
   define('FILENAME_FILE_MANAGER', 'file_manager.php');
   define('FILENAME_EASY_POPULATE', 'easypopulate.php');
+  define('FILENAME_FEATURED', 'featured.php');
+  define('FILENAME_FEATURED_PRODUCTS', 'featured_products.php');
   define('FILENAME_GEO_ZONES', 'geo_zones.php');
   define('FILENAME_INFORMATION_MANAGER', 'information_manager.php');  
   define('FILENAME_LANGUAGES', 'languages.php');

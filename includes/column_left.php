@@ -33,7 +33,8 @@
   require(DIR_WS_BOXES . 'whats_new.php');
   require(DIR_WS_BOXES . 'search.php');
   require(DIR_WS_BOXES . 'information.php');
-
+  require(DIR_WS_BOXES . 'featured.php');
+  
 // STS
 }
 ?>

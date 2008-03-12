@@ -74,6 +74,7 @@ define('BOX_CATALOG_CATEGORIES_PRODUCTS_ATTRIBUTES', 'Attributi Prodotti');
 define('BOX_CATALOG_MANUFACTURERS', 'Produttori');
 define('BOX_CATALOG_REVIEWS', 'Recensioni');
 define('BOX_CATALOG_SPECIALS', 'Offerte');
+define('BOX_CATALOG_FEATURED_PRODUCTS', 'Featured Products');
 define('BOX_CATALOG_XSELL', 'Cross Selling');
 define('BOX_CATALOG_PRODUCTS_EXPECTED', 'Prodotti in arrivo');
 

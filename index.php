@@ -125,6 +125,12 @@
             <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
           </tr>
           <tr>
+            <td><?php include(DIR_WS_MODULES . FILENAME_FEATURED_PRODUCTS); ?></td>
+          </tr>
+          <tr>
+            <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
+          </tr>
+          <tr>
             <td><?php include(DIR_WS_MODULES . FILENAME_NEW_PRODUCTS); ?></td>
           </tr>
         </table></td>
@@ -322,6 +328,12 @@
           </tr>
           <tr>
             <td class="main"><?php echo TEXT_MAIN; ?></td>
+          </tr>
+          <tr>
+            <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
+          </tr>
+          <tr>
+            <td><?php include(DIR_WS_MODULES . FILENAME_FEATURED_PRODUCTS); ?></td>
           </tr>
           <tr>
             <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>

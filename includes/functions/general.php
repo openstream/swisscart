@@ -1302,4 +1302,18 @@
     return '<br>' . strip_tags(substr($product_description['products_description'], 0, PRODUCT_LIST_TEASER_LENGTH)) . '...';
   }
 
+
+////
+// Featured Products
+function tep_array_values_to_string($array, $separator = ',') {
+	$get_string = '';
+	if (sizeof($array) > 0) {
+		while (list($key, $value) = each($array)) {
+				$get_string .= $value . $separator;
+		}
+		$remove_chars = strlen($separator);
+		$get_string = substr($get_string, 0, -$remove_chars);
+	}
+	return $get_string;
+}  
 ?>

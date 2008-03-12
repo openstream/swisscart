@@ -467,6 +467,10 @@ if (is_file('FirePHP_Build/Init.inc.php')) {
   require(DIR_WS_FUNCTIONS . 'specials.php');
   tep_expire_specials();
 
+// auto expire featured products
+  require(DIR_WS_FUNCTIONS . 'featured.php');
+  tep_expire_featured();
+
 // calculate category path
   if (isset($HTTP_GET_VARS['cPath'])) {
     $cPath = $HTTP_GET_VARS['cPath'];

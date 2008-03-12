@@ -76,6 +76,10 @@ Based on: Simple Template System (STS) - Copyright (c) 2004 Brian Gallagher - br
   include(DIR_WS_BOXES . 'specials.php');
   $sts->restart_capture ('specialbox', 'box'); // Get special box
   $sts->template['specialfriendbox']=$sts->template['specialbox']; // Shows specials or tell a friend
+
+  include(DIR_WS_BOXES . 'featured.php');
+  $sts->restart_capture ('featuredbox', 'box'); // Get featured box
+  $sts->template['featuredbox']=$sts->template['featuredbox']; // Show featured products
   
   if (isset($HTTP_GET_VARS['products_id']) && basename($PHP_SELF) != FILENAME_TELL_A_FRIEND) {
     include(DIR_WS_BOXES . 'tell_a_friend.php');
