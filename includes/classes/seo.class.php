@@ -650,7 +650,7 @@ class SEO_URL{
 				if (!isset($_SESSION['customer_id']) && defined('ENABLE_PAGE_CACHE') && ENABLE_PAGE_CACHE == 'true' && class_exists('page_cache')){
 					return $link;
 				} else {
-	 				return htmlspecialchars(utf8_encode($link));
+	 				return utf8_encode($link);
 				}
 				break;
 			case ('false'):
@@ -724,7 +724,7 @@ class SEO_URL{
 	$this->performance['TOTAL_TIME'] += $time;
 	switch(true){
 		case ($this->attributes['SEO_URLS_USE_W3C_VALID'] == 'true' && !$page_cache):
-			return htmlspecialchars(utf8_encode($return));
+			return utf8_encode($return);
 			break;
 		default:
 			return $return;
