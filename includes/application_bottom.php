@@ -44,4 +44,13 @@
           $_SESSION['profile'] = isset($_REQUEST['profile']) ? $_REQUEST['profile'] : 'on';
         $seo_urls->profile();
   }
+  
+// general debugging
+  if(DEBUGGING_ENABLED == 'true') {
+	echo '<div style="padding-top: 50px; height: 500px; padding: 25px; margin: 25px; overflow: auto; border: 1px solid black; ">';
+	echo '<h1 style="font-size: 24px; color: red; ">This is the $GLOBALS array</h1>';
+	echo '<pre style="text-align: left; background: #fff; color: #000; >';
+	print_r($GLOBALS);
+	echo '</pre></div>';
+  }   
 ?>
