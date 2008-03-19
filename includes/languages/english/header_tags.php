@@ -12,9 +12,9 @@ define('HEAD_REPLY_TAG_ALL',STORE_OWNER_EMAIL_ADDRESS);
 // The HEAD_TITLE_TAG_ALL is included AFTER the specific one for the page
 // The HEAD_DESC_TAG_ALL is included AFTER the specific one for the page
 // The HEAD_KEY_TAG_ALL is included AFTER the specific one for the page
-define('HEAD_TITLE_TAG_ALL','osCommerce :');
-define('HEAD_DESC_TAG_ALL','osCommerce : What\'s New Here? - Hardware Software DVD Movies');
-define('HEAD_KEY_TAG_ALL','Hardware Software DVD Movies What\'s New Here?');
+define('HEAD_TITLE_TAG_ALL','swisscart®');
+define('HEAD_DESC_TAG_ALL','Swiss Web Shop Solutions');
+define('HEAD_KEY_TAG_ALL','webshop, ecommerce, e-commerce');
 
 // DEFINE TAGS FOR INDIVIDUAL PAGES
 
@@ -31,9 +31,9 @@ define('HTTA_DEFAULT_ON','1'); // Include HEAD_TITLE_TAG_ALL in Title
 define('HTKA_DEFAULT_ON','1'); // Include HEAD_KEY_TAG_ALL in Keywords
 define('HTDA_DEFAULT_ON','1'); // Include HEAD_DESC_TAG_ALL in Description
 define('HTTA_CAT_DEFAULT_ON', '0'); //Include HEADER_TITLE_DEFAULT in CATEGORY DISPLAY
-define('HEAD_TITLE_TAG_DEFAULT', 'Home Page');
-define('HEAD_DESC_TAG_DEFAULT','- osCommerce : What\'s New Here? - Hardware Software DVD Movies');
-define('HEAD_KEY_TAG_DEFAULT','- Hardware Software DVD Movies What\'s New Here?');
+define('HEAD_TITLE_TAG_DEFAULT', 'Home');
+define('HEAD_DESC_TAG_DEFAULT','Swiss Web Shop Solutions');
+define('HEAD_KEY_TAG_DEFAULT','webshop, ecommerce, e-commerce');
 
 // product_info.php - if left blank in products_description table these values will be used
 define('HTTA_PRODUCT_INFO_ON','0');
