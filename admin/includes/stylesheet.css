@@ -96,6 +96,8 @@ FORM { display: inline; }
 .fieldRequired { font-size: 10px; color: #ff0000; }
 .smallText { font-size: 10px; }
 .main { font-size: 12px; }
+.main a:link, .main a:visited { font-size: 12px; color: #7187BB; text-decoration: underline; }
+.main a:active, .main a:hover { color: #D02F30; }
 .errorText { font-size: 10px; color: #ff0000; }
 
 a.bigLink:link { font-size: 12px; color: #000000; font-weight: normal; text-decoration: none; }
@@ -117,7 +119,7 @@ li {
 ul.introduction {
 	margin-left: 0;
 	padding-left: 0;
-	width: 80%;
+	width: 90%;
 }
 ul.introduction li {
 	font-size: 11px;

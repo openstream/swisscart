@@ -73,7 +73,7 @@ define('BOX_MODULES_ORDER_TOTAL', 'Zusammenfassung');
 // categories box text in includes/boxes/catalog.php
 define('BOX_HEADING_CATALOG', 'Katalog');
 define('BOX_CATALOG_CATEGORIES_PRODUCTS', 'Kategorien / Artikel');
-define('BOX_CATALOG_CATEGORIES_PRODUCTS_ATTRIBUTES', 'Produktmerkmale');
+define('BOX_CATALOG_CATEGORIES_PRODUCTS_ATTRIBUTES', 'Produktoptionen');
 define('BOX_CATALOG_MANUFACTURERS', 'Hersteller');
 define('BOX_CATALOG_REVIEWS', 'Produktbewertungen');
 define('BOX_CATALOG_SPECIALS', 'Sonderangebote');
