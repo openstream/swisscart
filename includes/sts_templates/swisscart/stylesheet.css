@@ -104,11 +104,9 @@ td.footer {
 }
 
 .infoBox {
-  background-color: #E7EAF1;
 }
 
 .infoBoxContents {
-  background-color: #fff;
 }
 .infoBoxNotice {
   background: #FF8E90;
@@ -187,6 +185,15 @@ TD.pageHeading, DIV.pageHeading, h1 {
   text-transform: uppercase;
   font-weight: bold;
   color: #9a9a9a;
+}
+h2 {
+  font-size: 11px;
+  font-weight: bold;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+p {
+  margin-top: 0;
 }
 TD.pageHeading, DIV.pageHeading {
   padding-top: 3px;
@@ -306,14 +313,14 @@ td.imagesPadding {
 }
 .productsName {
   font-family: Helvetica, Verdana, Arial, sans-serif;
-  font-size: 24px;
+  font-size: 20px;
   color: #6A6A6A;
   font-weight: bold;
 }
 h1.productsName {
   padding: 20px 0 0 0;
   margin: 0;
-  line-height: 12px;
+  line-height: 18px;
 }
 div.productsPrice {
   font-size: 30px;
