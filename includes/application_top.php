@@ -332,115 +332,7 @@ if (is_file('FirePHP_Build/Init.inc.php')) {
     $navigation = new navigationHistory;
   }
   $navigation->add_current_page();
-
-// Shopping cart actions
-  if (isset($HTTP_GET_VARS['action'])) {
-// redirect the customer to a friendly cookie-must-be-enabled page if cookies are disabled
-    if ($session_started == false) {
-      tep_redirect(tep_href_link(FILENAME_COOKIE_USAGE));
-    }
-
-    if (DISPLAY_CART == 'true') {
-      $goto =  FILENAME_SHOPPING_CART;
-      $parameters = array('action', 'cPath', 'products_id', 'pid');
-    } else {
-      $goto = basename($PHP_SELF);
-      if ($HTTP_GET_VARS['action'] == 'buy_now') {
-        $parameters = array('action', 'pid', 'products_id');
-      } else {
-        $parameters = array('action', 'pid');
-      }
-    }
-    switch ($HTTP_GET_VARS['action']) {
-      // customer wants to update the product quantity in their shopping cart
-      case 'update_product' : for ($i=0, $n=sizeof($HTTP_POST_VARS['products_id']); $i<$n; $i++) {
-                                if (in_array($HTTP_POST_VARS['products_id'][$i], (is_array($HTTP_POST_VARS['cart_delete']) ? $HTTP_POST_VARS['cart_delete'] : array()))) {
-                                  $cart->remove($HTTP_POST_VARS['products_id'][$i]);
-                                } else {
-                                  if (PHP_VERSION < 4) {
-                                    // if PHP3, make correction for lack of multidimensional array.
-                                    reset($HTTP_POST_VARS);
-                                    while (list($key, $value) = each($HTTP_POST_VARS)) {
-                                      if (is_array($value)) {
-                                        while (list($key2, $value2) = each($value)) {
-                                          if (ereg ("(.*)\]\[(.*)", $key2, $var)) {
-                                            $id2[$var[1]][$var[2]] = $value2;
-                                          }
-                                        }
-                                      }
-                                    }
-                                    $attributes = ($id2[$HTTP_POST_VARS['products_id'][$i]]) ? $id2[$HTTP_POST_VARS['products_id'][$i]] : '';
-                                  } else {
-                                    $attributes = ($HTTP_POST_VARS['id'][$HTTP_POST_VARS['products_id'][$i]]) ? $HTTP_POST_VARS['id'][$HTTP_POST_VARS['products_id'][$i]] : '';
-                                  }
-                                  $cart->add_cart($HTTP_POST_VARS['products_id'][$i], $HTTP_POST_VARS['cart_quantity'][$i], $attributes, false);
-                                }
-                              }
-                              tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
-                              break;
-      // customer adds a product from the products page
-      case 'add_product' :    if (isset($HTTP_POST_VARS['products_id']) && is_numeric($HTTP_POST_VARS['products_id'])) {
-                                $cart->add_cart($HTTP_POST_VARS['products_id'], $cart->get_quantity(tep_get_uprid($HTTP_POST_VARS['products_id'], $HTTP_POST_VARS['id']))+1, $HTTP_POST_VARS['id']);
-                              }
-                              tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
-                              break;
-      // performed by the 'buy now' button in product listings and review page
-      case 'buy_now' :        if (isset($HTTP_GET_VARS['products_id'])) {
-                                if (tep_has_product_attributes($HTTP_GET_VARS['products_id'])) {
-                                  tep_redirect(tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $HTTP_GET_VARS['products_id']));
-                                } else {
-                                  $cart->add_cart($HTTP_GET_VARS['products_id'], $cart->get_quantity($HTTP_GET_VARS['products_id'])+1);
-                                }
-                              }
-                              tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
-                              break;
-      case 'notify' :         if (tep_session_is_registered('customer_id')) {
-                                if (isset($HTTP_GET_VARS['products_id'])) {
-                                  $notify = $HTTP_GET_VARS['products_id'];
-                                } elseif (isset($HTTP_GET_VARS['notify'])) {
-                                  $notify = $HTTP_GET_VARS['notify'];
-                                } elseif (isset($HTTP_POST_VARS['notify'])) {
-                                  $notify = $HTTP_POST_VARS['notify'];
-                                } else {
-                                  tep_redirect(tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action', 'notify'))));
-                                }
-                                if (!is_array($notify)) $notify = array($notify);
-                                for ($i=0, $n=sizeof($notify); $i<$n; $i++) {
-                                  $check_query = tep_db_query("select count(*) as count from " . TABLE_PRODUCTS_NOTIFICATIONS . " where products_id = '" . $notify[$i] . "' and customers_id = '" . $customer_id . "'");
-                                  $check = tep_db_fetch_array($check_query);
-                                  if ($check['count'] < 1) {
-                                    tep_db_query("insert into " . TABLE_PRODUCTS_NOTIFICATIONS . " (products_id, customers_id, date_added) values ('" . $notify[$i] . "', '" . $customer_id . "', now())");
-                                  }
-                                }
-                                tep_redirect(tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action', 'notify'))));
-                              } else {
-                                $navigation->set_snapshot();
-                                tep_redirect(tep_href_link(FILENAME_LOGIN, '', 'SSL'));
-                              }
-                              break;
-      case 'notify_remove' :  if (tep_session_is_registered('customer_id') && isset($HTTP_GET_VARS['products_id'])) {
-                                $check_query = tep_db_query("select count(*) as count from " . TABLE_PRODUCTS_NOTIFICATIONS . " where products_id = '" . $HTTP_GET_VARS['products_id'] . "' and customers_id = '" . $customer_id . "'");
-                                $check = tep_db_fetch_array($check_query);
-                                if ($check['count'] > 0) {
-                                  tep_db_query("delete from " . TABLE_PRODUCTS_NOTIFICATIONS . " where products_id = '" . $HTTP_GET_VARS['products_id'] . "' and customers_id = '" . $customer_id . "'");
-                                }
-                                tep_redirect(tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action'))));
-                              } else {
-                                $navigation->set_snapshot();
-                                tep_redirect(tep_href_link(FILENAME_LOGIN, '', 'SSL'));
-                              }
-                              break;
-      case 'cust_order' :     if (tep_session_is_registered('customer_id') && isset($HTTP_GET_VARS['pid'])) {
-                                if (tep_has_product_attributes($HTTP_GET_VARS['pid'])) {
-                                  tep_redirect(tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $HTTP_GET_VARS['pid']));
-                                } else {
-                                  $cart->add_cart($HTTP_GET_VARS['pid'], $cart->get_quantity($HTTP_GET_VARS['pid'])+1);
-                                }
-                              }
-                              tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
-                              break;
-    }
-  }
+  
 
 // include the who's online functions
   require(DIR_WS_FUNCTIONS . 'whos_online.php');
@@ -531,6 +423,147 @@ if (is_file('FirePHP_Build/Init.inc.php')) {
 // initialize the message stack for output messages
   require(DIR_WS_CLASSES . 'message_stack.php');
   $messageStack = new messageStack;
+
+// Shopping cart actions
+// moved further down because of file upload option type feature (message stack)
+  if (isset($HTTP_GET_VARS['action'])) {
+// redirect the customer to a friendly cookie-must-be-enabled page if cookies are disabled
+    if ($session_started == false) {
+      tep_redirect(tep_href_link(FILENAME_COOKIE_USAGE));
+    }
+
+    if (DISPLAY_CART == 'true') {
+      $goto =  FILENAME_SHOPPING_CART;
+      $parameters = array('action', 'cPath', 'products_id', 'pid');
+    } else {
+      $goto = basename($PHP_SELF);
+      if ($HTTP_GET_VARS['action'] == 'buy_now') {
+        $parameters = array('action', 'pid', 'products_id');
+      } else {
+        $parameters = array('action', 'pid');
+      }
+    }
+    switch ($HTTP_GET_VARS['action']) {
+      // customer wants to update the product quantity in their shopping cart
+      case 'update_product' : for ($i=0, $n=sizeof($HTTP_POST_VARS['products_id']); $i<$n; $i++) {
+                                if (in_array($HTTP_POST_VARS['products_id'][$i], (is_array($HTTP_POST_VARS['cart_delete']) ? $HTTP_POST_VARS['cart_delete'] : array()))) {
+                                  $cart->remove($HTTP_POST_VARS['products_id'][$i]);
+                                } else {
+                                  if (PHP_VERSION < 4) {
+                                    // if PHP3, make correction for lack of multidimensional array.
+                                    reset($HTTP_POST_VARS);
+                                    while (list($key, $value) = each($HTTP_POST_VARS)) {
+                                      if (is_array($value)) {
+                                        while (list($key2, $value2) = each($value)) {
+                                          if (ereg ("(.*)\]\[(.*)", $key2, $var)) {
+                                            $id2[$var[1]][$var[2]] = $value2;
+                                          }
+                                        }
+                                      }
+                                    }
+                                    $attributes = ($id2[$HTTP_POST_VARS['products_id'][$i]]) ? $id2[$HTTP_POST_VARS['products_id'][$i]] : '';
+                                  } else {
+                                    $attributes = ($HTTP_POST_VARS['id'][$HTTP_POST_VARS['products_id'][$i]]) ? $HTTP_POST_VARS['id'][$HTTP_POST_VARS['products_id'][$i]] : '';
+                                  }
+                                  $cart->add_cart($HTTP_POST_VARS['products_id'][$i], $HTTP_POST_VARS['cart_quantity'][$i], $attributes, false);
+                                }
+                              }
+                              tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
+                              break;
+      // customer adds a product from the products page
+      case 'add_product' :    
+        if (isset($HTTP_POST_VARS['products_id']) && is_numeric($HTTP_POST_VARS['products_id'])) {
+// iii 030813 added: File uploading: save uploaded files with unique file names
+          $real_ids = $HTTP_POST_VARS['id'];
+          if ($HTTP_POST_VARS['number_of_uploads'] > 0) {
+            require(DIR_WS_CLASSES . 'upload.php');
+            for ($i = 1; $i <= $HTTP_POST_VARS['number_of_uploads']; $i++) {
+              if (tep_not_null($_FILES['id']['tmp_name'][TEXT_PREFIX . $HTTP_POST_VARS[UPLOAD_PREFIX . $i]]) and ($_FILES['id']['tmp_name'][TEXT_PREFIX . $HTTP_POST_VARS[UPLOAD_PREFIX . $i]] != 'none')) {
+                $products_options_file = new upload('id');
+                $products_options_file->set_destination(DIR_FS_UPLOADS);
+                if ($products_options_file->parse(TEXT_PREFIX . $HTTP_POST_VARS[UPLOAD_PREFIX . $i])) {
+                  if (tep_session_is_registered('customer_id')) {
+                    tep_db_query("insert into " . TABLE_FILES_UPLOADED . " (sesskey, customers_id, files_uploaded_name) values('" . tep_session_id() . "', '" . $customer_id . "', '" . tep_db_input($products_options_file->filename) . "')");
+                  } else {
+                    tep_db_query("insert into " . TABLE_FILES_UPLOADED . " (sesskey, files_uploaded_name) values('" . tep_session_id() . "', '" . tep_db_input($products_options_file->filename) . "')");
+                  }
+                  $insert_id = tep_db_insert_id();
+				  // the dot and space after the insert_id were causing problems
+                  //$real_ids[TEXT_PREFIX . $HTTP_POST_VARS[UPLOAD_PREFIX . $i]] = $insert_id . ". " . $products_options_file->filename;
+				  $real_ids[TEXT_PREFIX . $HTTP_POST_VARS[UPLOAD_PREFIX . $i]] = $insert_id . $products_options_file->filename;
+                  $products_options_file->set_filename("$insert_id" . $products_options_file->filename);
+                  if (!($products_options_file->save())) {
+                    break 2;
+                  }
+                } else {
+                  break 2;
+                }
+              } else { // No file uploaded -- use previous value
+                $real_ids[TEXT_PREFIX . $HTTP_POST_VARS[UPLOAD_PREFIX . $i]] = $HTTP_POST_VARS[TEXT_PREFIX . UPLOAD_PREFIX . $i];
+              }
+            }
+          }
+          $cart->add_cart($HTTP_POST_VARS['products_id'], $cart->get_quantity(tep_get_uprid($HTTP_POST_VARS['products_id'], $real_ids))+1, $real_ids);
+// iii 030813 end of changes.
+        }
+        tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
+        break;      // performed by the 'buy now' button in product listings and review page
+      case 'buy_now' :        if (isset($HTTP_GET_VARS['products_id'])) {
+                                if (tep_has_product_attributes($HTTP_GET_VARS['products_id'])) {
+                                  tep_redirect(tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $HTTP_GET_VARS['products_id']));
+                                } else {
+                                  $cart->add_cart($HTTP_GET_VARS['products_id'], $cart->get_quantity($HTTP_GET_VARS['products_id'])+1);
+                                }
+                              }
+                              tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
+                              break;
+      case 'notify' :         if (tep_session_is_registered('customer_id')) {
+                                if (isset($HTTP_GET_VARS['products_id'])) {
+                                  $notify = $HTTP_GET_VARS['products_id'];
+                                } elseif (isset($HTTP_GET_VARS['notify'])) {
+                                  $notify = $HTTP_GET_VARS['notify'];
+                                } elseif (isset($HTTP_POST_VARS['notify'])) {
+                                  $notify = $HTTP_POST_VARS['notify'];
+                                } else {
+                                  tep_redirect(tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action', 'notify'))));
+                                }
+                                if (!is_array($notify)) $notify = array($notify);
+                                for ($i=0, $n=sizeof($notify); $i<$n; $i++) {
+                                  $check_query = tep_db_query("select count(*) as count from " . TABLE_PRODUCTS_NOTIFICATIONS . " where products_id = '" . $notify[$i] . "' and customers_id = '" . $customer_id . "'");
+                                  $check = tep_db_fetch_array($check_query);
+                                  if ($check['count'] < 1) {
+                                    tep_db_query("insert into " . TABLE_PRODUCTS_NOTIFICATIONS . " (products_id, customers_id, date_added) values ('" . $notify[$i] . "', '" . $customer_id . "', now())");
+                                  }
+                                }
+                                tep_redirect(tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action', 'notify'))));
+                              } else {
+                                $navigation->set_snapshot();
+                                tep_redirect(tep_href_link(FILENAME_LOGIN, '', 'SSL'));
+                              }
+                              break;
+      case 'notify_remove' :  if (tep_session_is_registered('customer_id') && isset($HTTP_GET_VARS['products_id'])) {
+                                $check_query = tep_db_query("select count(*) as count from " . TABLE_PRODUCTS_NOTIFICATIONS . " where products_id = '" . $HTTP_GET_VARS['products_id'] . "' and customers_id = '" . $customer_id . "'");
+                                $check = tep_db_fetch_array($check_query);
+                                if ($check['count'] > 0) {
+                                  tep_db_query("delete from " . TABLE_PRODUCTS_NOTIFICATIONS . " where products_id = '" . $HTTP_GET_VARS['products_id'] . "' and customers_id = '" . $customer_id . "'");
+                                }
+                                tep_redirect(tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action'))));
+                              } else {
+                                $navigation->set_snapshot();
+                                tep_redirect(tep_href_link(FILENAME_LOGIN, '', 'SSL'));
+                              }
+                              break;
+      case 'cust_order' :     if (tep_session_is_registered('customer_id') && isset($HTTP_GET_VARS['pid'])) {
+                                if (tep_has_product_attributes($HTTP_GET_VARS['pid'])) {
+                                  tep_redirect(tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $HTTP_GET_VARS['pid']));
+                                } else {
+                                  $cart->add_cart($HTTP_GET_VARS['pid'], $cart->get_quantity($HTTP_GET_VARS['pid'])+1);
+                                }
+                              }
+                              tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
+                              break;
+    }
+  }
 
 // set which precautions should be checked
   define('WARN_INSTALL_EXISTENCE', 'false');

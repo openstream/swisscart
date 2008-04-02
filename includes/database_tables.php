@@ -31,6 +31,7 @@
   define('TABLE_CUSTOMERS_BASKET_ATTRIBUTES', 'customers_basket_attributes');
   define('TABLE_CUSTOMERS_INFO', 'customers_info');
   define('TABLE_FEATURED', 'featured');
+  define('TABLE_FILES_UPLOADED', 'files_uploaded');
   define('TABLE_INFORMATION', 'information');  
   define('TABLE_LANGUAGES', 'languages');
   define('TABLE_MANUFACTURERS', 'manufacturers');

@@ -33,6 +33,8 @@
   define('DIR_FS_CATALOG', 'C:/xampp/htdocs/swisscart/trunk/');
   define('DIR_FS_DOWNLOAD', DIR_FS_CATALOG . 'download/');
   define('DIR_FS_DOWNLOAD_PUBLIC', DIR_FS_CATALOG . 'pub/');
+  define('DIR_WS_UPLOADS', DIR_WS_IMAGES . 'uploads/');
+  define('DIR_FS_UPLOADS', DIR_FS_CATALOG . DIR_WS_UPLOADS);  
 
 // define our database connection
   define('DB_SERVER', 'localhost'); // eg, localhost - should not be empty for productive servers

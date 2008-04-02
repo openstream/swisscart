@@ -39,7 +39,9 @@
   define('DIR_FS_CATALOG_IMAGES', DIR_FS_CATALOG . 'images/');
   define('DIR_FS_CATALOG_MODULES', DIR_FS_CATALOG . 'includes/modules/');
   define('DIR_FS_BACKUP', DIR_FS_ADMIN . 'backups/');
-
+  define('DIR_WS_CATALOG_IMAGES_UPLOADS', DIR_WS_CATALOG_IMAGES . 'uploads/');
+  define('DIR_FS_CATALOG_IMAGES_UPLOADS', DIR_FS_CATALOG_IMAGES . 'uploads/');
+   
 // define our database connection
   define('DB_SERVER', '');
   define('DB_SERVER_USERNAME', 'mysql');

@@ -70,7 +70,10 @@ function setcolor(obj,percentage,prop){
 <!-- left_navigation_eof //-->
     </table></td>
 <!-- body_text //-->
-    <td width="100%" valign="top"><?php echo tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO, tep_get_all_get_params(array('action')) . 'action=add_product')); ?><table border="0" width="100%" cellspacing="0" cellpadding="0">
+    <td width="100%" valign="top"><?php echo tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO, tep_get_all_get_params(array('action')) . 'action=add_product'), 'post', 'enctype="multipart/form-data"'); ?><table border="0" width="100%" cellspacing="0" cellpadding="0">
+      <tr>
+        <td><?php echo $messageStack->output('upload'); ?></td>
+      </tr>
 <?php
   if ($product_check['total'] < 1) {
 ?>
@@ -181,6 +184,8 @@ function setcolor(obj,percentage,prop){
           <div class="productsPrice"><?php echo $products_price; ?></div>
           
 <?php
+	// initialize $number_of_uploads
+    $number_of_uploads = 0;
     $products_attributes_query = tep_db_query("select count(*) as total from " . TABLE_PRODUCTS_OPTIONS . " popt, " . TABLE_PRODUCTS_ATTRIBUTES . " patrib where patrib.products_id='" . (int)$HTTP_GET_VARS['products_id'] . "' and patrib.options_id = popt.products_options_id and popt.language_id = '" . (int)$languages_id . "'");
     $products_attributes = tep_db_fetch_array($products_attributes_query);
     if ($products_attributes['total'] > 0) {
@@ -276,6 +281,25 @@ function setcolor(obj,percentage,prop){
             }
             echo '</td></tr>';
             break;
+          case PRODUCTS_OPTIONS_TYPE_FILE:
+		  // iii 030813 added: support for file fields
+            $number_of_uploads++;
+            $products_attribs_query = tep_db_query("select distinct patrib.options_values_price, patrib.price_prefix from " . TABLE_PRODUCTS_ATTRIBUTES . " patrib where patrib.products_id='" . (int)tep_db_input($HTTP_GET_VARS['products_id']) . "' and patrib.options_id = '" . $products_options_name['products_options_id'] . "'");
+            $products_attribs_array = tep_db_fetch_array($products_attribs_query);
+?>
+      <tr>
+        <td class="main">
+
+<?php echo '' . $products_options_name['products_options_name'] . ': ';
+if ($products_attribs_array['options_values_price'] != '0') {
+              echo '(' . $products_attribs_array['price_prefix'] . $currencies->display_price($products_attribs_array['options_values_price'], tep_get_tax_rate($product_info['products_tax_class_id'])) .') ';
+			  }
+			   ?>
+		</td>
+        <td class="main"><input type="file" name="id[<?php echo TEXT_PREFIX . $products_options_name['products_options_id']; ?>]"><br><?php echo $cart->contents[$HTTP_GET_VARS['products_id']]['attributes_values'][$products_options_name['products_options_id']] . tep_draw_hidden_field(UPLOAD_PREFIX . $number_of_uploads, $products_options_name['products_options_id']) . tep_draw_hidden_field(TEXT_PREFIX . UPLOAD_PREFIX . $number_of_uploads, $cart->contents[$HTTP_GET_VARS['products_id']]['attributes_values'][$products_options_name['products_options_id']]); ?></td>
+      </tr>
+<?php
+            break;			
           default:
             //clr 030714 default is select list
             //clr 030714 reset selected_attribute variable
@@ -375,11 +399,14 @@ function setcolor(obj,percentage,prop){
 			  include(DIR_WS_MODULES . FILENAME_ALSO_PURCHASED_PRODUCTS);
 			}
 		   }
-		?>
+// iii 030813 added: File Uploading: hidden field carrying number of upload info to next file
+?>
         </td>
       </tr>
-    </table>
-    </form></td>
+      <tr>
+        <td><?php echo tep_draw_hidden_field('number_of_uploads', $number_of_uploads); ?></td>
+      </tr>
+    </table></form></td>
 <!-- body_text_eof //-->
     <td width="<?php echo BOX_WIDTH; ?>" valign="top"><table border="0" width="<?php echo BOX_WIDTH; ?>" cellspacing="0" cellpadding="2">
 <!-- right_navigation //-->

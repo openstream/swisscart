@@ -98,7 +98,7 @@
 
           //clr 030714 determine if attribute is a text attribute and assign to $attr_value temporarily
           if ($value == PRODUCTS_OPTIONS_VALUE_TEXT_ID) {
-            echo tep_draw_hidden_field('id[' . $products[$i]['id'] . '][' . TEXT_PREFIX . $option . ']',  $products[$i]['attributes_values'][$option]);
+			echo tep_draw_hidden_field('id[' . $products[$i]['id'] . '][' . TEXT_PREFIX . $option . ']',  $products[$i]['attributes_values'][$option]);
             $attr_value = $products[$i]['attributes_values'][$option];
           } else {
             echo tep_draw_hidden_field('id[' . $products[$i]['id'] . '][' . $option . ']', $value);

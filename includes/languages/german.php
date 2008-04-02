@@ -323,4 +323,11 @@ define('TEXT_CCVAL_ERROR_UNKNOWN_CARD', 'Die ersten 4 Ziffern Ihrer Kreditkarte 
 define('FOOTER_TEXT_BODY', 'Copyright &copy; ' . date('Y') . ' <a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . STORE_NAME . '</a>&nbsp;|&nbsp;powered by <a href="http://www.swisscart.com" target="_blank">swisscart&reg;</a>');
 
 define('TEXT_XSELL_PRODUCTS', 'Verwandte Produkte');
+
+define('ERROR_FILETYPE_NOT_ALLOWED', 'Fehler:  Unerlaubter Datei-Typ.');
+define('WARNING_NO_FILE_UPLOADED', 'Warnung:  Es wurde keine Datei hochgeladen.');
+define('SUCCESS_FILE_SAVED_SUCCESSFULLY', 'Erfolg:  Datei wurde erfolgreich gespeichert.');
+define('ERROR_FILE_NOT_SAVED', 'Fehler: Datei wurde nicht gespeichert.');
+define('ERROR_DESTINATION_NOT_WRITEABLE', 'Fehler: Ziel nicht schreibbar');
+define('ERROR_DESTINATION_DOES_NOT_EXIST', 'Fehler: Ziel existiert nicht.');
 ?>

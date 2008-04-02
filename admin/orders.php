@@ -233,13 +233,29 @@
            '            <td class="dataTableContent" valign="top" align="right">' . $order->products[$i]['qty'] . '&nbsp;x</td>' . "\n" .
            '            <td class="dataTableContent" valign="top">' . $order->products[$i]['name'];
 
-      if (isset($order->products[$i]['attributes']) && (sizeof($order->products[$i]['attributes']) > 0)) {
-        for ($j = 0, $k = sizeof($order->products[$i]['attributes']); $j < $k; $j++) {
-          echo '<br><nobr><small>&nbsp;<i> - ' . $order->products[$i]['attributes'][$j]['option'] . ': ' . $order->products[$i]['attributes'][$j]['value'];
-          if ($order->products[$i]['attributes'][$j]['price'] != '0') echo ' (' . $order->products[$i]['attributes'][$j]['prefix'] . $currencies->format($order->products[$i]['attributes'][$j]['price'] * $order->products[$i]['qty'], true, $order->info['currency'], $order->info['currency_value']) . ')';
-          echo '</i></small></nobr>';
-        }
+ if (isset($order->products[$i]['attributes']) && (sizeof($order->products[$i]['attributes']) > 0)) {
+    for ($j = 0, $k = sizeof($order->products[$i]['attributes']); $j < $k; $j++) {
+
+      // Customization #31101 for file_upload view begin
+      $option = $order->products[$i]['attributes'][$j]['option'];
+      ## Build a query to check if this option is of 'File' Type
+      $file_check_sql = " select * from ".TABLE_PRODUCTS_OPTIONS ." o, ".TABLE_PRODUCTS_OPTIONS_TYPES." ot WHERE o.products_options_type = ot.products_options_types_id AND products_options_types_name='File' AND o.products_options_name='".$option."' and ot.language_id = '" . (int)$languages_id . "' ";
+
+      $file_check_sql_query = tep_db_query($file_check_sql);
+      $isFile = tep_db_num_rows($file_check_sql_query);
+      if($isFile == 1 && @file_exists(DIR_FS_CATALOG_IMAGES_UPLOADS.$order->products[$i]['attributes'][$j]['value'])){
+        $link = "(<a href=". DIR_WS_CATALOG_IMAGES_UPLOADS.$order->products[$i]['attributes'][$j]['value']." target='_blank'><u>view</u></a>)";
+      } else {
+         $link = "";
       }
+
+      echo '<br><nobr><small>&nbsp;<i> - ' . $order->products[$i]['attributes'][$j]['option'] . ': ' . $order->products[$i]['attributes'][$j]['value'];
+
+      if ($order->products[$i]['attributes'][$j]['price'] != '0') echo ' (' . $order->products[$i]['attributes'][$j]['prefix'] . $currencies->format($order->products[$i]['attributes'][$j]['price'] * $order->products[$i]['qty'], true, $order->info['currency'], $order->info['currency_value']) . ')';
+      echo '&nbsp;'. $link.' </i></small></nobr>';
+       // Customization #31101 end
+      }
+}
 
       echo '            </td>' . "\n" .
            '            <td class="dataTableContent" valign="top">' . $order->products[$i]['model'] . '</td>' . "\n" .

@@ -40,6 +40,15 @@
 		  $option_comment = $HTTP_POST_VARS['option_comment'];	//clr 030714 update to add option comment to products_option
 
           tep_db_query("insert into " . TABLE_PRODUCTS_OPTIONS . " (products_options_id, products_options_name, language_id, products_options_type, products_options_length, products_options_sort_order, products_options_comment) values ('" . (int)$products_options_id . "', '" . tep_db_input($option_name) . "', '" . (int)$languages[$i]['id'] . "', '" . $option_type . "', '" . $option_length . "', '" . $option_sort_order . "', '" . $option_comment[$languages[$i]['id']]  . "')");       }
+// iii 030811 added:  For TEXT and FILE option types, automatically add 
+// PRODUCTS_OPTIONS_VALUE_TEXT to the TABLE_PRODUCTS_OPTIONS_VALUES_TO_PRODUCTS_OPTIONS
+        switch ($option_type) {
+          case PRODUCTS_OPTIONS_TYPE_TEXT:
+          case PRODUCTS_OPTIONS_TYPE_FILE:
+            tep_db_query("insert into " . TABLE_PRODUCTS_OPTIONS_VALUES_TO_PRODUCTS_OPTIONS . " (products_options_values_id, products_options_id) values ('" . PRODUCTS_OPTIONS_VALUES_TEXT_ID .  "', '" .  (int)$products_options_id .  "')");
+            break;
+        }
+// iii 030811 added:  END
         tep_redirect(tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, $page_info));
         break;
       case 'add_product_option_values':
@@ -58,9 +67,15 @@
         tep_redirect(tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, $page_info));
         break;
       case 'add_product_attributes':
+// iii 030811 added:  For TEXT and FILE option types, ignore option value 
+// entered by administrator and use PRODUCTS_OPTIONS_VALUES_TEXT instead.
+        $products_options_query = tep_db_query("select products_options_type from " . TABLE_PRODUCTS_OPTIONS . " where products_options_id = '" . $HTTP_POST_VARS['options_id'] . "'");
+        $products_options_array = tep_db_fetch_array($products_options_query);
+        $values_id = tep_db_prepare_input((($products_options_array['products_options_type'] == PRODUCTS_OPTIONS_TYPE_TEXT) or ($products_options_array['products_options_type'] == PRODUCTS_OPTIONS_TYPE_FILE)) ? PRODUCTS_OPTIONS_VALUE_TEXT_ID : $HTTP_POST_VARS['values_id']);
+// iii 030811 added:  END
         $products_id = tep_db_prepare_input($HTTP_POST_VARS['products_id']);
         $options_id = tep_db_prepare_input($HTTP_POST_VARS['options_id']);
-        $values_id = tep_db_prepare_input($HTTP_POST_VARS['values_id']);
+//        $values_id = tep_db_prepare_input($HTTP_POST_VARS['values_id']);
         $value_price = tep_db_prepare_input($HTTP_POST_VARS['value_price']);
         $price_prefix = tep_db_prepare_input($HTTP_POST_VARS['price_prefix']);
 
@@ -88,11 +103,22 @@
         $option_id = tep_db_prepare_input($HTTP_POST_VARS['option_id']);
 
         for ($i=0, $n=sizeof($languages); $i<$n; $i ++) {
-          $option_name = tep_db_prepare_input($option_name_array[$languages[$i]['id']]);	
-		  $option_comment = $HTTP_POST_VARS['option_comment'];	//clr 030714 update to add option comment to products_option
+          $option_name = tep_db_prepare_input($option_name_array[$languages[$i]['id']]);
 
-          tep_db_query("update " . TABLE_PRODUCTS_OPTIONS . " set products_options_name = '" . tep_db_input($option_name) . "', products_options_type = '" . $option_type . "', products_options_length = '" . $option_length . "', products_options_sort_order = '" . $option_sort_order . "', products_options_comment = '" . $option_comment[$languages[$i]['id']] . "' where products_options_id = '" . (int)$option_id . "' and language_id = '" . (int)$languages[$i]['id'] . "'");
+          tep_db_query("update " . TABLE_PRODUCTS_OPTIONS . " set products_options_name = '" . tep_db_input($option_name) . "', products_options_type = '" . $option_type . "' where products_options_id = '" . (int)$option_id . "' and language_id = '" . (int)$languages[$i]['id'] . "'");
         }
+
+// iii added 030811:  automate insertion or deletion of text option values
+        switch ($option_type) {
+          case PRODUCTS_OPTIONS_TYPE_TEXT:
+          case PRODUCTS_OPTIONS_TYPE_FILE:
+//            tep_db_query("delete from " . TABLE_PRODUCTS_OPTIONS_VALUES_TO_PRODUCTS_OPTIONS . " where products_options_id = '" . $HTTP_POST_VARS['option_id'] . "'"); // disabled because this could cause trouble if someone changed types unintentionally and deleted all their option values.  Shops with small numbers of values per option should consider uncommenting this.
+            tep_db_query("insert into " . TABLE_PRODUCTS_OPTIONS_VALUES_TO_PRODUCTS_OPTIONS . " values (NULL, '" . $HTTP_POST_VARS['option_id'] . "', '" . PRODUCTS_OPTIONS_VALUES_TEXT_ID . "')");
+            break;
+          default:
+            tep_db_query("delete from " . TABLE_PRODUCTS_OPTIONS_VALUES_TO_PRODUCTS_OPTIONS . " where products_options_values_id = '" . PRODUCTS_OPTIONS_VALUES_TEXT_ID . "'");
+        }
+// iii added 030811:  END
 
         tep_redirect(tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, $page_info));
         break;
@@ -112,9 +138,22 @@
         tep_redirect(tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, $page_info));
         break;
       case 'update_product_attribute':
+// iii 030811 added:  Enforce rule that TEXT and FILE Options use value PRODUCTS_OPTIONS_VALUE_TEXT_ID
+        $products_options_query = tep_db_query("select products_options_type from " . TABLE_PRODUCTS_OPTIONS . " where products_options_id = '" . $HTTP_POST_VARS['options_id'] . "'");
+        $products_options_array = tep_db_fetch_array($products_options_query);
+        switch ($products_options_array['products_options_type']) {
+          case PRODUCTS_OPTIONS_TYPE_TEXT:
+          case PRODUCTS_OPTIONS_TYPE_FILE:
+            $values_id = PRODUCTS_OPTIONS_VALUE_TEXT_ID;
+            break;
+          default: 
+        $values_id = tep_db_prepare_input($HTTP_POST_VARS['values_id']);
+}
+// iii 030811 added END
+
         $products_id = tep_db_prepare_input($HTTP_POST_VARS['products_id']);
         $options_id = tep_db_prepare_input($HTTP_POST_VARS['options_id']);
-        $values_id = tep_db_prepare_input($HTTP_POST_VARS['values_id']);
+//        $values_id = tep_db_prepare_input($HTTP_POST_VARS['values_id']);
         $value_price = tep_db_prepare_input($HTTP_POST_VARS['value_price']);
         $price_prefix = tep_db_prepare_input($HTTP_POST_VARS['price_prefix']);
         $attribute_id = tep_db_prepare_input($HTTP_POST_VARS['attribute_id']);
@@ -135,6 +174,7 @@
         break;
       case 'delete_option':
         $option_id = tep_db_prepare_input($HTTP_GET_VARS['option_id']);
+        tep_db_query("delete from " . TABLE_PRODUCTS_OPTIONS_VALUES_TO_PRODUCTS_OPTIONS . " where products_options_id = '" . (int)$option_id . "' and products_options_values_id = '" . PRODUCTS_OPTIONS_VALUES_TEXT_ID . "'");
 
         tep_db_query("delete from " . TABLE_PRODUCTS_OPTIONS . " where products_options_id = '" . (int)$option_id . "'");
 
@@ -162,28 +202,44 @@
     }
   }
 
+//iii 031103 added to get results from database option type query
+  $products_options_types_list = array();
+  $products_options_types_query = tep_db_query("select products_options_types_id, products_options_types_name from " . TABLE_PRODUCTS_OPTIONS_TYPES . " where language_id='" . (int)$languages_id . "' order by products_options_types_id");
+  while ($products_options_type_array = tep_db_fetch_array($products_options_types_query)) {
+    $products_options_types_list[$products_options_type_array['products_options_types_id']] = $products_options_type_array['products_options_types_name'];
+  }
+
 //CLR 030312 add function to draw pulldown list of option types
 // Draw a pulldown for Option Types
+//iii 031103 modified to use results of database option type query from above
 function draw_optiontype_pulldown($name, $default = '') {
+  global $products_options_types_list;
   $values = array();
-  $values[] = array('id' => 0, 'text' => 'Select');
-  $values[] = array('id' => 1, 'text' => 'Text');
-  $values[] = array('id' => 2, 'text' => 'Radio');
-  $values[] = array('id' => 3, 'text' => 'Checkbox');
-  $values[] = array('id' => 4, 'text' => 'Textarea');
+  foreach ($products_options_types_list as $id => $text) {
+    $values[] = array('id' => $id, 'text' => $text);
+  }
+/*  $values[] = array('id' => PRODUCTS_OPTIONS_TYPE_SELECT, 'text' => TABLE_TEXT_OPT_TYPE_SELECT);
+  $values[] = array('id' => PRODUCTS_OPTIONS_TYPE_TEXT, 'text' => TABLE_TEXT_OPT_TYPE_TEXT);
+  $values[] = array('id' => PRODUCTS_OPTIONS_TYPE_RADIO, 'text' => TABLE_TEXT_OPT_TYPE_RADIO);
+  $values[] = array('id' => PRODUCTS_OPTIONS_TYPE_CHECKBOX, 'text' => TABLE_TEXT_OPT_TYPE_CHECKBOX);
+  $values[] = array('id' => PRODUCTS_OPTIONS_TYPE_FILE, 'text' => TABLE_TEXT_OPT_TYPE_FILE);*/
   return tep_draw_pull_down_menu($name, $values, $default);
 }
 
 //CLR 030312 add function to translate type_id to name
 // Translate option_type_values to english string
+//iii 031103 modified to use results of database option type query from above
 function translate_type_to_name($opt_type) {
-  if ($opt_type == 0) return 'Select';
-  if ($opt_type == 1) return 'Text';
-  if ($opt_type == 2) return 'Radio';
-  if ($opt_type == 3) return 'Checkbox';
-  if ($opt_type == 4) return 'Textarea';
-  return 'Error ' . $opt_type;
+  global $products_options_types_list;
+  return isset($products_options_types_list[$opt_type]) ? $products_options_types_list[$opt_type] : 'Error ' . $opt_type;
+/*  if ($opt_type == PRODUCTS_OPTIONS_TYPE_SELECT) return TABLE_TEXT_OPT_TYPE_SELECT;
+  if ($opt_type == PRODUCTS_OPTIONS_TYPE_TEXT) return TABLE_TEXT_OPT_TYPE_TEXT;
+  if ($opt_type == PRODUCTS_OPTIONS_TYPE_RADIO) return TABLE_TEXT_OPT_TYPE_RADIO;
+  if ($opt_type == PRODUCTS_OPTIONS_TYPE_CHECKBOX) return TABLE_TEXT_OPT_TYPE_CHECKBOX;
+  if ($opt_type == PRODUCTS_OPTIONS_TYPE_FILE) return TABLE_TEXT_OPT_TYPE_FILE;
+  return 'Error ' . $opt_type;*/
 }
+// iii 031103 added/modified:  END
 
 ?>
 <!doctype html public "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -590,6 +646,12 @@ function go_option() {
     $values = tep_db_query($values);
     while ($values_values = tep_db_fetch_array($values)) {
       $options_name = tep_options_name($values_values['products_options_id']);
+      $options_name = tep_options_name($values_values['products_options_id']);
+// iii 030813 added: Option Type Feature and File Uploading
+// fetch products_options_id for use if the option value is deleted
+// with TEXT and FILE Options, there are multiple options for the single TEXT 
+// value and only the single reference should be deleted
+      $option_id = $values_values['products_options_id'];	  
       $values_name = $values_values['products_options_values_name'];
       $rows++;
 ?>
@@ -622,11 +684,14 @@ function go_option() {
 <?php
         echo '</form>';
       } else {
+// iii 030813 added:  option ID to parameter list of delete button's href
+// allows delete to specify just that option/value pair when deleting from 
+// the TABLE_PRODUCTS_OPTIONS_VALUES_TO_PRODUCTS_OPTIONS table
 ?>
                 <td align="center" class="smallText">&nbsp;<?php echo $values_values["products_options_values_id"]; ?>&nbsp;</td>
                 <td align="center" class="smallText">&nbsp;<?php echo $options_name; ?>&nbsp;</td>
                 <td class="smallText">&nbsp;<?php echo $values_name; ?>&nbsp;</td>
-                <td align="center" class="smallText">&nbsp;<?php echo '<a href="' . tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, 'action=update_option_value&value_id=' . $values_values['products_options_values_id'] . (isset($HTTP_GET_VARS['value_page']) ? '&value_page=' . $HTTP_GET_VARS['value_page'] : ''), 'NONSSL') . '">'; ?><?php echo tep_image_button('button_edit.gif', IMAGE_UPDATE); ?></a>&nbsp;&nbsp;<?php echo '<a href="' . tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, 'action=delete_option_value&value_id=' . $values_values['products_options_values_id'], 'NONSSL') , '">'; ?><?php echo tep_image_button('button_delete.gif', IMAGE_DELETE); ?></a>&nbsp;</td>
+                <td align="center" class="smallText">&nbsp;<?php echo '<a href="' . tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, 'action=update_option_value&value_id=' . $values_values['products_options_values_id'] . (isset($HTTP_GET_VARS['value_page']) ? '&value_page=' . $HTTP_GET_VARS['value_page'] : ''), 'NONSSL') . '">'; ?><?php echo tep_image_button('button_edit.gif', IMAGE_UPDATE); ?></a>&nbsp;&nbsp;<?php echo '<a href="' . tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, 'action=delete_option_value&value_id=' . $values_values['products_options_values_id'] . '&option_id=' . $option_id, 'NONSSL') , '">'; ?><?php echo tep_image_button('button_delete.gif', IMAGE_DELETE); ?></a>&nbsp;</td>
 <?php
       }
       $max_values_id_query = tep_db_query("select max(products_options_values_id) + 1 as next_id from " . TABLE_PRODUCTS_OPTIONS_VALUES);

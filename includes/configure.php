@@ -38,6 +38,8 @@
   define('DIR_FS_CATALOG', dirname($HTTP_SERVER_VARS['SCRIPT_FILENAME']) . '/');
   define('DIR_FS_DOWNLOAD', DIR_FS_CATALOG . 'download/');
   define('DIR_FS_DOWNLOAD_PUBLIC', DIR_FS_CATALOG . 'pub/');
+  define('DIR_WS_UPLOADS', DIR_WS_IMAGES . 'uploads/');
+  define('DIR_FS_UPLOADS', DIR_FS_CATALOG . DIR_WS_UPLOADS);
 
 // define our database connection
   define('DB_SERVER', ''); // eg, localhost - should not be empty for productive servers
@@ -45,15 +47,5 @@
   define('DB_SERVER_PASSWORD', '');
   define('DB_DATABASE', 'swisscart');
   define('USE_PCONNECT', 'false'); // use persistent connections?
-  define('STORE_SESSIONS', ''); // leave empty '' for default handler or set to 'mysql'
-  
-// Product Option Type feature
-define('PRODUCTS_OPTIONS_TYPE_SELECT', 0);
-define('PRODUCTS_OPTIONS_TYPE_TEXT', 1);
-define('PRODUCTS_OPTIONS_TYPE_RADIO', 2);
-define('PRODUCTS_OPTIONS_TYPE_CHECKBOX', 3);
-
-define('PRODUCTS_OPTIONS_TYPE_TEXTAREA', 4);
-define('TEXT_PREFIX', 'txt_');
-define('PRODUCTS_OPTIONS_VALUE_TEXT_ID', 0); //Must match id for user defined "TEXT" value in db table TABLE_PRODUCTS_OPTIONS_VALUES   
+  define('STORE_SESSIONS', ''); // leave empty '' for default handler or set to 'mysql'  
 ?>

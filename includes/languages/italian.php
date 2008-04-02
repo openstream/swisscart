@@ -336,4 +336,11 @@ define('TEXT_CCVAL_ERROR_UNKNOWN_CARD', 'I primi quattro numeri digitati sono: %
 define('FOOTER_TEXT_BODY', 'Copyright &copy; 2003 <a href="http://www.oscommerce.com" target="_blank">osCommerce</a>&nbsp;|&nbsp;powered by <a href="http://www.swisscart.com" target="_blank">swisscart&reg;</a>');
 
 define('TEXT_XSELL_PRODUCTS', 'Prodotti correlati');
+
+define('ERROR_FILETYPE_NOT_ALLOWED', 'Error:  File type not allowed.');
+define('WARNING_NO_FILE_UPLOADED', 'Warning:  no file uploaded.');
+define('SUCCESS_FILE_SAVED_SUCCESSFULLY', 'Success:  file saved successfully.');
+define('ERROR_FILE_NOT_SAVED', 'Error:  file not saved.');
+define('ERROR_DESTINATION_NOT_WRITEABLE', 'Error:  destination not writeable.');
+define('ERROR_DESTINATION_DOES_NOT_EXIST', 'Error: destination does not exist.');
 ?>
