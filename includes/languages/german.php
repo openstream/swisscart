@@ -84,7 +84,7 @@ define('BOX_HEADING_WHATS_NEW', 'Neue Produkte');
 // quick_find box text in includes/boxes/quick_find.php
 define('BOX_HEADING_SEARCH', 'Schnellsuche');
 define('BOX_SEARCH_TEXT', 'Verwenden Sie Stichworte, um ein Produkt zu finden.');
-define('BOX_SEARCH_ADVANCED_SEARCH', 'erweiterte Suche');
+define('BOX_SEARCH_ADVANCED_SEARCH', 'Erweiterte Suche');
 
 // specials box text in includes/boxes/specials.php
 define('BOX_HEADING_SPECIALS', 'Aktionen');

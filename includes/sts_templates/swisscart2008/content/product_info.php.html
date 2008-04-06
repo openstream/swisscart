@@ -1,0 +1,101 @@
+<?php DEFINE ('STS_CONTENT_END_CHAR', '$'); ?>
+
+<h2>Content Sub-Template</h2>
+<p>Here starts the product info sub-template which replaces the $content variable of the main template. The sub-template can be found in your templates's sub-folder named <i>content</i>.</p>
+<p><strong>Note: </strong>The product info sub-template does currently neither support additional images nor the so called option type feature that allows you to select option rendering other then the default drop down selector.</p>
+$startform$
+<h3>Product Details</h3>
+<table border="1">
+  <tr>
+    <th>Product Name:</th>
+    <td>$productname$</td>
+  </tr>
+  <tr>
+    <th>Image and text link<br>
+      to popup:</th>
+    <td>$product_popup$</td>
+  </tr>
+  <tr>
+    <th>Product id:</th>
+    <td>$productsid$</td>
+  </tr>
+  <tr>
+    <th>Regular Price:</th>
+    <td>$regularprice$</td>
+  </tr>
+  <tr>
+    <th>Special Price:</th>
+    <td>$specialprice$&nbsp;</td>
+  </tr>
+  <tr>
+    <th>Product Name:</th>
+    <td>$productname$</td>
+  </tr>
+  <tr>
+    <th>Product Model:</th>
+    <td>$productmodel$&nbsp;</td>
+  </tr>
+</table>
+<h3>Additional placeholders for the default image</h3>
+<table border="1">
+  <tr>
+    <th style="vertical-align: top; ">Image Small:</th>
+    <td>$imagesmall$</td>
+  </tr>
+  <tr>
+    <th style="vertical-align: top; ">Image Large:</th>
+    <td><div style="width: 400px; height: 200px; overflow: auto; ">$imagelarge$</div></td>
+  </tr>
+</table>
+<h3>Product Description</h3>
+<p>$productdesc$</p>
+<h3>Option Header/$optionheader$</h3>
+<table border="1">
+  <tr>
+    <th>Option Names:</th>
+    <th>Option Choices</th>
+  </tr>
+  <tr>
+    <td>$optionnames$ </td>
+    <td>$optionchoices$ </td>
+  </tr>
+</table>
+<p>Note: The option type feature does not yet work with STS template engine!</p>
+<h3>Additional Info</h3>
+<table border="1">
+  <tr>
+    <th>Reviews:</th><td>$reviews$&nbsp;</td>
+  </tr>
+  <tr>
+    <th>MoreInfo Label:</th><td>$moreinfolabel$&nbsp;</td>
+  </tr>
+  <tr>
+    <th>MoreInfo URL:</th><td><a style="width: 400px; display: block; overflow: auto; " href="$moreinfourl$">$moreinfourl$</a>&nbsp;</td>
+  </tr>  
+  <tr>
+    <th>ProductDate Label:</th>
+    <td>$productdatelabel$</td>
+  </tr>
+  <tr>
+    <th>ProductDate:</th>
+    <td>$productdate$</td>
+  </tr>
+  <tr>
+    <th>Reviews URL:</th>
+    <td><a style="width: 400px; display: block; overflow: auto; " href="$reviewsurl$">$reviewsurl$</a></td>
+  </tr>
+  <tr>
+    <th>Reviews Button:</th>
+    <td>$reviewsbutton$</td>
+  </tr>
+  <tr>
+    <th>AddToCart Button:</th>
+    <td>$addtocartbutton$</td>
+  </tr>  
+  <tr>
+    <th>Using any image (such as the logo) as an AddToCart button:</th>
+    <td><input src="images/oscommerce.gif" type="image" /></td>
+  </tr>    
+</table>
+$endform$
+<p>$alsopurchased$</p>

@@ -1,0 +1,354 @@
+	/*
+  $Id: stylesheet.css,v 1.56 2003/06/30 20:04:02 hpdl Exp $
+
+  osCommerce, Open Source E-Commerce Solutions
+  http://www.oscommerce.com
+
+  Customized by swisscart®, Swiss Webshop Solutions
+  http://www.swisscart.com
+
+  Copyright (c) 2003-2007 osCommerce
+
+  Released under the GNU General Public License
+*/
+
+body, td, th, p, select, textarea {
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 11px;
+  color: #575757;  
+}
+body {
+  background: #fff url(images/bg-body.gif) repeat-x;
+  margin: 0px;
+  text-align: center;
+}
+td {
+  vertical-align: top;
+}
+#wrapper { 
+  width: 898px; 
+  margin: 0 auto; 
+  text-align: left; 
+  background-color: #fff;
+}
+h1 {
+  padding: 0;
+  margin: 0;
+}  
+h3 {
+  padding-top: 20px;
+}
+a {
+  color: #39b9dd;
+  text-decoration: none;
+}
+.content a {
+  color: #424242;
+}
+a:hover {
+  color: #000;
+  text-decoration: none;
+}
+
+form {
+  display: inline;
+}
+
+table.header td {
+  padding: 0;
+  margin: 0;
+}
+table.header {
+  background: #fff url(images/bg-body.gif) repeat-x;
+  background-position: -1px top;
+}
+tr.headerNavigation {
+}
+
+td.headerNavigation {
+  padding: 2px 10px 10px 10px;
+}
+
+.headerNavigation a { 
+}
+
+.headerNavigation a:hover {
+}
+
+TR.headerError {
+  background: #CF2F31;
+}
+
+TD.headerError {
+  background: #CF2F31;
+  color: #fff;
+  font-weight : bold;
+  text-align : center;
+}
+
+TR.headerInfo {
+  background: #00ff00;
+}
+
+TD.headerInfo {
+  background: #00ff00;
+  color: #ffffff;
+  font-weight: bold;
+  text-align: center;
+}
+
+tr.footer {
+}
+
+td.footer {
+  color: #818181;
+  text-align: center;
+  padding-bottom: 10px;
+}
+td.footer a {
+  color: #575757;
+}
+.infoBox {
+}
+
+.infoBoxContents {
+  padding-bottom: 20px;
+}
+.infoBoxContents .infoBoxContents, #languages .infoBoxContents {
+  padding-bottom: 0;
+}
+.infoBoxNotice {
+  background: #FF8E90;
+}
+
+.infoBoxNoticeContents {
+  background: #FFE6E6;
+}
+
+td.infoBoxHeading {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #919191;
+  padding-left: 2px;
+  font-weight: bold;
+}
+.infoBoxModule td.infoBoxHeading, h2.infoBoxHeading {
+  background-color: #fff;
+  color: #9a9a9a;
+  font-weight: bold;
+  font-size: 11px;
+  padding-left: 0;
+  margin-left: 0;
+}
+h2.infoBoxHeading {
+  padding-top: 20px;
+}
+td.infoBoxArrow {
+  width: 16px;
+/*  background: url(images/bg-infoboxHeading.gif) no-repeat 0 1px;*/
+}
+td.infoBoxHeading td.infoBoxHeading {
+  border-bottom: none;
+}
+TD.infoBox, SPAN.infoBox {
+}
+div.content {
+  padding-left: 20px;
+  width: 480px;
+}
+TR.accountHistory-odd, TR.addressBook-odd, TR.alsoPurchased-odd, TR.payment-odd, TR.productListing-odd, TR.productReviews-odd, TR.upcomingProducts-odd, TR.shippingOptions-odd {
+  background: #fff;
+}
+
+TR.accountHistory-even, TR.addressBook-even, TR.alsoPurchased-even, TR.payment-even, TR.productListing-even, TR.productReviews-even, TR.upcomingProducts-even, TR.shippingOptions-even {
+  background: #f8f8f9;
+}
+
+TABLE.productListing {
+  border: 1px;
+  border-style: solid;
+  border-color: #E7EAF1;
+  border-spacing: 1px;
+}
+
+.productListing-heading {
+  background: #E7EAF1;
+  color: #6C6C6C;
+  font-weight: bold;
+}
+
+TD.productListing-data {
+}
+
+A.pageResults {
+  color: #0000FF;
+}
+
+A.pageResults:hover {
+  color: #0000FF;
+  background: #FFFF33;
+}
+
+TD.pageHeading, DIV.pageHeading, h1 {
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #9a9a9a;
+}
+h2 {
+  font-size: 11px;
+  font-weight: bold;
+  padding-left: 5px;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  text-align: left;
+  text-transform: uppercase;
+  color: #9A9AAB;
+}
+p {
+  margin-top: 0;
+}
+TD.pageHeading, DIV.pageHeading {
+  padding-top: 3px;
+}
+TR.subBar {
+  background: #f4f7fd;
+}
+
+TD.subBar {
+  color: #000000;
+}
+
+TD.main, P.main {
+  line-height: 1.5;
+}
+
+TD.smallText, SPAN.smallText, P.smallText {
+}
+
+TD.accountCategory {
+  color: #aabbdd;
+}
+
+TD.fieldKey {
+  font-weight: bold;
+}
+
+TD.fieldValue {
+}
+
+TD.tableHeading {
+  font-weight: bold;
+}
+
+SPAN.newItemInCart {
+  color: #CF2F31;
+}
+
+CHECKBOX, INPUT, RADIO, SELECT {
+}
+
+SPAN.greetUser {
+  color: #f0a480;
+  font-weight: bold;
+}
+
+TABLE.formArea {
+  background: #f1f9fe;
+  border-color: #7b9ebd;
+  border-style: solid;
+  border-width: 1px;
+}
+
+TD.formAreaTitle {
+  font-weight: bold;
+}
+
+SPAN.markProductOutOfStock {
+  color: #c76170;
+  font-weight: bold;
+}
+
+SPAN.productSpecialPrice {
+  color: #CF2F31;
+}
+
+SPAN.errorText {
+  color: #CF2F31;
+}
+
+.moduleRow { }
+.moduleRowOver { background-color: #D7E9F7; cursor: pointer; cursor: hand; }
+.moduleRowSelected { background-color: #E9F4FC; }
+
+.checkoutBarFrom, .checkoutBarTo { color: #8c8c8c; }
+.checkoutBarCurrent { color: #000000; padding-bottom: 20px; }
+
+/* message box */
+
+.messageBox { }
+.messageStackError, .messageStackWarning { background-color: #F2DC48; padding: 3px; border: 1px dotted #CF2F31; font-size: 10px; }
+.messageStackSuccess { background-color: #99ff00; }
+
+/* input requirement */
+
+.inputRequirement { color: #CF2F31; }
+
+.boxText { }
+.errorBox { background: #ffb3b5; font-weight: bold; }
+.stockWarning { background-color: #F2DC48; padding: 3px; border: 1px dotted #CF2F31; font-size: 10px; }
+.productsNotifications { background: #F3F4F8; }
+.orderEdit { color: #70d250; text-decoration: underline; }
+
+/* OTF contrib begins */
+/* DDB - 041031 - Form Field Progress Bar */
+.progress{
+  width: 1px;
+  height: 14px;
+  color: white;
+  font-size: 12px;
+  overflow: hidden;
+  background-color: navy;
+  padding-left: 5px;}
+/* OTF contrib ends */
+
+a.productDetail img {
+  border: 1px solid #C5C5C5;
+}
+a:hover.productDetail img {
+  border: 1px solid #B4D66C;
+}
+div.extraImage {
+  padding-bottom: 18px;
+}
+td.imagesPadding {
+  padding-top: 3px;
+}
+.productsName {
+  font-family: Helvetica, Verdana, Arial, sans-serif;
+  font-size: 20px;
+  color: #6A6A6A;
+  font-weight: bold;
+}
+h1.productsName {
+  padding: 20px 0 0 0;
+  margin: 0;
+  line-height: 18px;
+}
+div.productsPrice {
+  font-family: Helvetica, Verdana, Arial, sans-serif;
+  font-size: 30px;
+  font-weight: bold;
+  color: #9ccb3d;
+}
+.horizontalRule {
+  border-bottom: 1px solid #E7EAF1;
+}
+ul.xsell {
+  margin: 5px 0 10px 18px;
+  padding: 0;
+}
+.banner {
+  padding: 30px 0 10px 0;
+  text-align: center;
+}

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 25, 2008 at 10:22 PM
+-- Generation Time: Apr 06, 2008 at 02:58 PM
 -- Server version: 4.0.21
 -- PHP Version: 5.0.2
 
@@ -91,14 +91,15 @@ CREATE TABLE IF NOT EXISTS `banners` (
   `date_status_change` datetime default NULL,
   `status` int(1) NOT NULL default '1',
   PRIMARY KEY  (`banners_id`)
-) TYPE=MyISAM AUTO_INCREMENT=2 ;
+) TYPE=MyISAM AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `banners`
 --
 
 INSERT INTO `banners` (`banners_id`, `banners_title`, `banners_url`, `banners_image`, `banners_group`, `banners_html_text`, `expires_impressions`, `expires_date`, `date_scheduled`, `date_added`, `date_status_change`, `status`) VALUES
-(1, 'osCommerce', 'http://www.oscommerce.com', 'banners/oscommerce.gif', '468x50', '', 0, NULL, NULL, '2007-06-12 22:50:01', '2007-07-05 15:50:01', 0);
+(1, 'osCommerce', 'http://www.oscommerce.com', 'banners/oscommerce.gif', '468x50', '', 0, NULL, NULL, '2007-06-12 22:50:01', '2007-07-05 15:50:01', 0),
+(2, 'Zahlungsmöglichkeiten', '', '', '468x50', '<h2>Zahlungsmöglichkeiten</h2><img src="images/credit-card-logos.gif" border="0" alt="Zahlungsmöglichkeiten" title="Zahlungsmöglichkeiten">', 0, NULL, NULL, '2008-04-06 11:49:00', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -114,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `banners_history` (
   `banners_clicked` int(5) NOT NULL default '0',
   `banners_history_date` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`banners_history_id`)
-) TYPE=MyISAM AUTO_INCREMENT=4 ;
+) TYPE=MyISAM AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `banners_history`
@@ -123,7 +124,8 @@ CREATE TABLE IF NOT EXISTS `banners_history` (
 INSERT INTO `banners_history` (`banners_history_id`, `banners_id`, `banners_shown`, `banners_clicked`, `banners_history_date`) VALUES
 (1, 1, 21, 0, '2007-06-12 22:50:09'),
 (2, 1, 176, 0, '2007-06-13 02:03:37'),
-(3, 1, 196, 0, '2007-07-05 00:43:57');
+(3, 1, 196, 0, '2007-07-05 00:43:57'),
+(4, 2, 131, 2, '2008-04-06 11:49:05');
 
 -- --------------------------------------------------------
 
@@ -193,7 +195,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `last_modified` datetime default NULL,
   PRIMARY KEY  (`categories_id`),
   KEY `idx_categories_parent_id` (`parent_id`)
-) TYPE=MyISAM AUTO_INCREMENT=4 ;
+) TYPE=MyISAM AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `categories`
@@ -259,7 +261,7 @@ CREATE TABLE IF NOT EXISTS `configuration` (
   `use_function` varchar(255) default NULL,
   `set_function` varchar(255) default NULL,
   PRIMARY KEY  (`configuration_id`)
-) TYPE=MyISAM AUTO_INCREMENT=443 ;
+) TYPE=MyISAM AUTO_INCREMENT=468 ;
 
 --
 -- Dumping data for table `configuration`
@@ -375,7 +377,7 @@ INSERT INTO `configuration` (`configuration_id`, `configuration_title`, `configu
 (110, 'Display Buy Now column', 'PRODUCT_LIST_BUY_NOW', '4', 'Do you want to display the Buy Now column?', 8, 8, NULL, '2007-06-12 22:50:01', NULL, NULL),
 (111, 'Display Category/Manufacturer Filter (0=disable; 1=enable)', 'PRODUCT_LIST_FILTER', '1', 'Do you want to display the Category/Manufacturer Filter?', 8, 9, NULL, '2007-06-12 22:50:01', NULL, NULL),
 (112, 'Location of Prev/Next Navigation Bar (1-top, 2-bottom, 3-both)', 'PREV_NEXT_BAR_LOCATION', '2', 'Sets the location of the Prev/Next Navigation Bar (1-top, 2-bottom, 3-both)', 8, 10, NULL, '2007-06-12 22:50:01', NULL, NULL),
-(113, 'Check stock level', 'STOCK_CHECK', 'true', 'Check to see if sufficent stock is available', 9, 1, NULL, '2007-06-12 22:50:01', NULL, 'tep_cfg_select_option(array(''true'', ''false''),'),
+(113, 'Check stock level', 'STOCK_CHECK', 'false', 'Check to see if sufficent stock is available', 9, 1, '2008-03-26 14:05:47', '2007-06-12 22:50:01', NULL, 'tep_cfg_select_option(array(''true'', ''false''),'),
 (114, 'Subtract stock', 'STOCK_LIMITED', 'true', 'Subtract product in stock by product orders', 9, 2, NULL, '2007-06-12 22:50:01', NULL, 'tep_cfg_select_option(array(''true'', ''false''),'),
 (115, 'Allow Checkout', 'STOCK_ALLOW_CHECKOUT', 'true', 'Allow customer to checkout even if there is insufficient stock', 9, 3, NULL, '2007-06-12 22:50:01', NULL, 'tep_cfg_select_option(array(''true'', ''false''),'),
 (116, 'Mark product out of stock', 'STOCK_MARK_PRODUCT_OUT_OF_STOCK', '***', 'Display something on screen so customer can see which product has insufficient stock', 9, 4, NULL, '2007-06-12 22:50:01', NULL, NULL),
@@ -422,14 +424,14 @@ INSERT INTO `configuration` (`configuration_id`, `configuration_title`, `configu
 (157, 'Enter special character conversions', 'SEO_CHAR_CONVERT_SET', 'ä=>ae,ö=>oe,ü=>ue,Ä=>Ae,Ö=>Oe,Ü=>Ue,ß=>ss,é=>e,è=>e,à=>a,É=>E', 'This setting will convert characters.<br><br>The format <b>MUST</b> be in the form: <b>char=>conv,char2=>conv2</b>', 16, 14, '2007-11-06 19:48:17', '2007-06-12 23:21:07', NULL, NULL),
 (158, 'Remove all non-alphanumeric characters?', 'SEO_REMOVE_ALL_SPEC_CHARS', 'false', 'This will remove all non-letters and non-numbers.  This should be handy to remove all special characters with 1 setting.', 16, 15, '2007-06-12 23:21:07', '2007-06-12 23:21:07', NULL, 'tep_cfg_select_option(array(''true'', ''false''),'),
 (159, 'Reset SEO URLs Cache', 'SEO_URLS_CACHE_RESET', 'false', 'This will reset the cache data for SEO', 16, 16, '2007-06-12 23:31:15', '2007-06-12 23:21:07', 'tep_reset_cache_data_seo_urls', 'tep_cfg_select_option(array(''reset'', ''false''),'),
-(160, 'Installed Modules', 'MODULE_STS_INSTALLED', 'sts_default.php;sts_product_info.php', 'This is automatically updated. No need to edit.', 6, 0, '2007-11-07 21:06:16', '2007-06-13 16:11:39', NULL, NULL),
-(169, 'Code for debug output', 'MODULE_STS_DEBUG_CODE', 'debug', 'Code to enable debug output from URL (ex: index.php?sts_debug=debug', 6, 2, NULL, '2007-06-13 16:12:04', NULL, NULL),
-(170, 'Files for normal template', 'MODULE_STS_DEFAULT_NORMAL', 'sts_user_code.php;headertags.php', 'Files to include for a normal template, separated by semicolon', 6, 2, NULL, '2007-06-13 16:12:04', NULL, NULL),
-(171, 'Base folder', 'MODULE_STS_TEMPLATES_FOLDER', 'includes/sts_templates/', 'Base folder where the templates folders are located. Relative to your catalog folder. Should end with a slash', 6, 2, NULL, '2007-06-13 16:12:04', NULL, NULL),
-(172, 'Template folder', 'MODULE_STS_TEMPLATE_FOLDER', 'swisscart', 'This is the template folder in use, located inside the previous parameter. Do not start nor end with a slash', 6, 2, NULL, '2007-06-13 16:12:04', NULL, NULL),
-(173, 'Default template file', 'MODULE_STS_TEMPLATE_FILE', 'sts_template.html', 'Name of the default template file', 6, 2, NULL, '2007-06-13 16:12:04', NULL, NULL),
-(174, 'Use template for infoboxes', 'MODULE_STS_INFOBOX_STATUS', 'true', 'Do you want to use templates for infoboxes?', 6, 1, NULL, '2007-06-13 16:12:04', NULL, 'tep_cfg_select_option(array(''true'', ''false''),'),
-(168, 'Use Templates?', 'MODULE_STS_DEFAULT_STATUS', 'true', 'Do you want to use Simple Template System?', 6, 1, NULL, '2007-06-13 16:12:04', NULL, 'tep_cfg_select_option(array(''true'', ''false''),'),
+(160, 'Installed Modules', 'MODULE_STS_INSTALLED', 'sts_default.php;sts_product_info.php', 'This is automatically updated. No need to edit.', 6, 0, '2008-04-02 15:09:53', '2007-06-13 16:11:39', NULL, NULL),
+(466, 'Use template for infoboxes', 'MODULE_STS_INFOBOX_STATUS', 'true', 'Do you want to use templates for infoboxes?', 6, 1, NULL, '2008-04-02 15:09:53', NULL, 'tep_cfg_select_option(array(''true'', ''false''),'),
+(465, 'Default template file', 'MODULE_STS_TEMPLATE_FILE', 'sts_template.html', 'Name of the default template file', 6, 2, NULL, '2008-04-02 15:09:53', NULL, NULL),
+(464, 'Template folder', 'MODULE_STS_TEMPLATE_FOLDER', 'swisscart2008', 'This is the template folder in use, located inside the previous parameter. Do not start nor end with a slash', 6, 2, NULL, '2008-04-02 15:09:53', NULL, NULL),
+(463, 'Base folder', 'MODULE_STS_TEMPLATES_FOLDER', 'includes/sts_templates/', 'Base folder where the templates folders are located. Relative to your catalog folder. Should end with a slash', 6, 2, NULL, '2008-04-02 15:09:53', NULL, NULL),
+(462, 'Files for normal template', 'MODULE_STS_DEFAULT_NORMAL', 'sts_user_code.php', 'Files to include for a normal template, separated by semicolon', 6, 2, NULL, '2008-04-02 15:09:53', NULL, NULL),
+(461, 'Code for debug output', 'MODULE_STS_DEBUG_CODE', 'debug', 'Code to enable debug output from URL (ex: index.php?sts_debug=debug', 6, 2, NULL, '2008-04-02 15:09:53', NULL, NULL),
+(460, 'Use Templates?', 'MODULE_STS_DEFAULT_STATUS', 'true', 'Do you want to use Simple Template System?', 6, 1, NULL, '2008-04-02 15:09:53', NULL, 'tep_cfg_select_option(array(''true'', ''false''),'),
 (185, 'Use template for product info page', 'MODULE_STS_PRODUCT_INFO_STATUS', 'false', 'Do you want to use templates for product info pages?', 6, 1, NULL, '2007-07-07 03:33:35', NULL, 'tep_cfg_select_option(array(''true'', ''false''),'),
 (189, 'Lightbox Popup Images', 'LIGHTBOX_ENABLE', 'true', 'Lightbox is a simple, unobtrusive script used to overlay images on the product detail page.', 4, 10, '2007-12-11 02:20:47', '2007-07-07 03:59:26', NULL, 'tep_cfg_select_option(array(''true'', ''false''),'),
 (188, 'Files for content template', 'MODULE_STS_PRODUCT_INFO_CONTENT', 'sts_user_code.php;product_info.php;headertags.php', 'Files to include for a content template, separated by semicolon', 6, 3, NULL, '2007-07-07 03:33:35', NULL, NULL),
@@ -570,7 +572,18 @@ INSERT INTO `configuration` (`configuration_id`, `configuration_title`, `configu
 (437, 'E-Mail-Signatur', 'EMAIL_SIGNATURE', 'Mit freundlichen Grüssen\r\nNick Weisser\r\n\r\nOpenstream Internet Solutions\r\nZürich, Switzerland\r\n\r\nPhone  +41 44 500 78 78\r\nFax    +41 44 500 78 79\r\nSkype  nick.weisser\r\n\r\nhttp://www.swisscart.com', 'Diese Signatur wird an alle Mails angehÃ¤ngt, die vom System verschickt werden, d.h. RegistrationsbestÃ¤tigung, BestellbestÃ¤tigung, StatusÃ¤nderungen, etc.', 1, 18, '2008-01-18 21:18:34', '2008-01-18 20:55:19', '', 'tep_cfg_textarea('),
 (438, 'Einkaufen ohne Konto', 'PURCHASE_WITHOUT_ACCOUNT', 'nein', 'D&uuml;rfen Kunden ohne Konto einkaufen?', 5, 10, '2008-03-25 22:14:38', '2008-01-23 02:22:22', NULL, 'tep_cfg_select_option(array(''ja'', ''nein''),'),
 (439, 'Einkaufen ohne Konto Versandadresse', 'PURCHASE_WITHOUT_ACCOUNT_SEPARATE_SHIPPING', 'ja', 'D&uuml;rfen Kunden ohne Konto eine separate Versandadresse anlegen?', 5, 11, NULL, '2008-01-23 02:22:22', NULL, 'tep_cfg_select_option(array(''ja'', ''nein''),'),
-(442, 'Enable Debugging', 'DEBUGGING_ENABLED', 'false', 'Will display the GLOBALS array at the bottom of the page', 10, 20, '2008-03-19 17:13:50', '2008-03-14 00:00:00', NULL, 'tep_cfg_select_option(array(''true'', ''false''),');
+(442, 'Enable Debugging', 'DEBUGGING_ENABLED', 'false', 'Will display the GLOBALS array at the bottom of the page', 10, 20, '2008-03-19 17:13:50', '2008-03-14 00:00:00', NULL, 'tep_cfg_select_option(array(''true'', ''false''),'),
+(456, 'File product option type', 'PRODUCTS_OPTIONS_TYPE_FILE', '5', 'Numeric value of the file product option type', 6, NULL, '2008-04-02 11:34:36', '2008-04-02 11:34:36', NULL, NULL),
+(455, 'Textarea option type', 'PRODUCTS_OPTIONS_TYPE_TEXTAREA', '4', 'Numeric value of the textarea product option type', 6, NULL, '2008-04-02 11:34:36', '2008-04-02 11:34:36', NULL, NULL),
+(454, 'Check box product option type', 'PRODUCTS_OPTIONS_TYPE_CHECKBOX', '3', 'Numeric value of the check box product option type', 6, NULL, '2008-04-02 11:34:36', '2008-04-02 11:34:36', NULL, NULL),
+(453, 'Radio button product option type', 'PRODUCTS_OPTIONS_TYPE_RADIO', '2', 'Numeric value of the radio button product option type', 6, NULL, '2008-04-02 11:34:36', '2008-04-02 11:34:36', NULL, NULL),
+(451, 'Product option type Select', 'PRODUCTS_OPTIONS_TYPE_SELECT', '0', 'The number representing the Select type of product option.', 6, NULL, '2008-04-02 11:34:36', '2008-04-02 11:34:36', NULL, NULL),
+(452, 'Text product option type', 'PRODUCTS_OPTIONS_TYPE_TEXT', '1', 'Numeric value of the text product option type', 6, NULL, '2008-04-02 11:34:36', '2008-04-02 11:34:36', NULL, NULL),
+(449, 'Upload prefix', 'UPLOAD_PREFIX', 'upload_', 'Prefix used to differentiate between upload options and other options', 6, NULL, '2008-04-02 10:02:03', '2008-04-02 10:02:03', NULL, NULL),
+(450, 'Text prefix', 'TEXT_PREFIX', 'txt_', 'Prefix used to differentiate between text option values and other option values', 6, NULL, '2008-04-02 10:02:03', '2008-04-02 10:02:03', NULL, NULL),
+(457, 'ID for text and file oroducts options values', 'PRODUCTS_OPTIONS_VALUE_TEXT_ID', '0', 'Numeric value of the products_options_values_id used by the text and file attributes.', 6, NULL, '2008-04-02 11:34:36', '2008-04-02 11:34:36', NULL, NULL),
+(458, 'Upload prefix', 'UPLOAD_PREFIX', 'upload_', 'Prefix used to differentiate between upload options and other options', 6, NULL, '2008-04-02 11:34:36', '2008-04-02 11:34:36', NULL, NULL),
+(467, 'Artikelnummer anzeigen?', 'DISPLAY_PRODUCTS_MODEL', 'true', 'Artikelnummer auf Produktdetailseite unter der Artikelbezeichnung anzeigen.', 8, 32, '2008-04-04 13:30:25', '2008-04-04 00:00:00', NULL, 'tep_cfg_select_option(array(''true'', ''false''),');
 
 -- --------------------------------------------------------
 
@@ -629,7 +642,7 @@ CREATE TABLE IF NOT EXISTS `counter` (
 --
 
 INSERT INTO `counter` (`startdate`, `counter`) VALUES
-('20070612', 3080);
+('20070612', 3457);
 
 -- --------------------------------------------------------
 
@@ -987,14 +1000,12 @@ CREATE TABLE IF NOT EXISTS `customers_basket` (
   `clickandbuy_TransactionID` varchar(11) NOT NULL default '',
   `clickandbuy_externalBDRID` varchar(11) NOT NULL default '',
   PRIMARY KEY  (`customers_basket_id`)
-) TYPE=MyISAM AUTO_INCREMENT=2 ;
+) TYPE=MyISAM AUTO_INCREMENT=20 ;
 
 --
 -- Dumping data for table `customers_basket`
 --
 
-INSERT INTO `customers_basket` (`customers_basket_id`, `customers_id`, `products_id`, `customers_basket_quantity`, `final_price`, `customers_basket_date_added`, `clickandbuy_TransactionID`, `clickandbuy_externalBDRID`) VALUES
-(1, 2, '', 1, NULL, '20080325', '', '');
 
 -- --------------------------------------------------------
 
@@ -1011,14 +1022,12 @@ CREATE TABLE IF NOT EXISTS `customers_basket_attributes` (
   `products_options_value_id` int(11) NOT NULL default '0',
   `products_options_value_text` text,
   PRIMARY KEY  (`customers_basket_attributes_id`)
-) TYPE=MyISAM AUTO_INCREMENT=2 ;
+) TYPE=MyISAM AUTO_INCREMENT=21 ;
 
 --
 -- Dumping data for table `customers_basket_attributes`
 --
 
-INSERT INTO `customers_basket_attributes` (`customers_basket_attributes_id`, `customers_id`, `products_id`, `products_options_id`, `products_options_value_id`, `products_options_value_text`) VALUES
-(1, 2, '', 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -1042,7 +1051,7 @@ CREATE TABLE IF NOT EXISTS `customers_info` (
 --
 
 INSERT INTO `customers_info` (`customers_info_id`, `customers_info_date_of_last_logon`, `customers_info_number_of_logons`, `customers_info_date_account_created`, `customers_info_date_account_last_modified`, `global_product_notifications`) VALUES
-(2, '2008-03-25 14:19:33', 21, '2007-07-05 01:00:50', NULL, 0);
+(2, '2008-04-02 15:00:07', 24, '2007-07-05 01:00:50', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1070,6 +1079,37 @@ INSERT INTO `featured` (`featured_id`, `products_id`, `featured_date_added`, `fe
 (1, 4, '2008-03-12 15:00:01', NULL, NULL, NULL, 1),
 (2, 5, '2008-03-12 15:41:13', NULL, '0000-00-00 00:00:00', NULL, 1),
 (3, 1, '2008-03-12 15:41:22', NULL, '0000-00-00 00:00:00', NULL, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `files_uploaded`
+--
+
+DROP TABLE IF EXISTS `files_uploaded`;
+CREATE TABLE IF NOT EXISTS `files_uploaded` (
+  `files_uploaded_id` int(11) NOT NULL auto_increment,
+  `sesskey` varchar(32) default NULL,
+  `customers_id` int(11) default NULL,
+  `files_uploaded_name` varchar(64) NOT NULL default '',
+  PRIMARY KEY  (`files_uploaded_id`)
+) TYPE=MyISAM COMMENT='Must always have either a sesskey or customers_id' AUTO_INCREMENT=11 ;
+
+--
+-- Dumping data for table `files_uploaded`
+--
+
+INSERT INTO `files_uploaded` (`files_uploaded_id`, `sesskey`, `customers_id`, `files_uploaded_name`) VALUES
+(1, '9c421ed65406aebb1d9172ecbb9435d6', NULL, 'tux.png'),
+(2, '9c421ed65406aebb1d9172ecbb9435d6', 2, 'open-source-press-logo.png'),
+(3, '9c421ed65406aebb1d9172ecbb9435d6', 2, 'release-open-source.jpg'),
+(4, '9c421ed65406aebb1d9172ecbb9435d6', 2, 'release-open-source.jpg'),
+(5, '9c421ed65406aebb1d9172ecbb9435d6', 2, 'opensource.png'),
+(6, '9c421ed65406aebb1d9172ecbb9435d6', 2, 'tux.png'),
+(7, '9c421ed65406aebb1d9172ecbb9435d6', 2, 'open-source-press-logo.png'),
+(8, '9c421ed65406aebb1d9172ecbb9435d6', 2, 'opensource.png'),
+(9, '9c421ed65406aebb1d9172ecbb9435d6', 2, 'open-source-press-logo.png'),
+(10, '9c421ed65406aebb1d9172ecbb9435d6', 2, 'opensource.png');
 
 -- --------------------------------------------------------
 
@@ -1204,9 +1244,9 @@ CREATE TABLE IF NOT EXISTS `languages` (
 INSERT INTO `languages` (`languages_id`, `name`, `code`, `image`, `directory`, `sort_order`) VALUES
 (1, 'English', 'en', 'icon.gif', 'english', 10),
 (2, 'Deutsch', 'de', 'icon.gif', 'german', 5),
-(3, 'Español', 'es', 'icon.gif', 'espanol', 25),
+(3, 'EspaÃ±ol', 'es', 'icon.gif', 'espanol', 25),
 (4, 'Italiano', 'it', 'icon.gif', 'italian', 20),
-(5, 'Français', 'fr', 'icon.gif', 'french', 15);
+(5, 'FranÃ§ais', 'fr', 'icon.gif', 'french', 15);
 
 -- --------------------------------------------------------
 
@@ -1223,7 +1263,7 @@ CREATE TABLE IF NOT EXISTS `manufacturers` (
   `last_modified` datetime default NULL,
   PRIMARY KEY  (`manufacturers_id`),
   KEY `IDX_MANUFACTURERS_NAME` (`manufacturers_name`)
-) TYPE=MyISAM AUTO_INCREMENT=6 ;
+) TYPE=MyISAM AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `manufacturers`
@@ -1233,7 +1273,8 @@ INSERT INTO `manufacturers` (`manufacturers_id`, `manufacturers_name`, `manufact
 (1, 'JamoTrade', 'jamotrade.jpg', '2007-11-04 14:42:14', NULL),
 (2, 'Zeed', 'zeed.gif', '2007-11-04 15:02:43', NULL),
 (4, 'Sony', 'sony-logo.jpg', '2007-11-05 02:36:16', NULL),
-(5, 'Hewlett-Packard', 'hp-logo.gif', '2007-11-05 02:57:47', NULL);
+(5, 'Hewlett-Packard', 'hp-logo.gif', '2007-11-05 02:57:47', NULL),
+(8, 'Open Source Press', 'open-source-press-logo.png', '2008-03-26 23:10:41', NULL);
 
 -- --------------------------------------------------------
 
@@ -1279,7 +1320,12 @@ INSERT INTO `manufacturers_info` (`manufacturers_id`, `languages_id`, `manufactu
 (5, 1, 'http://www.hp.com', 0, NULL, 'Hewlett-Packard', 'Hewlett-Packard', 'Hewlett-Packard', ''),
 (5, 5, 'http://www.hp.com', 0, NULL, 'Hewlett-Packard', 'Hewlett-Packard', 'Hewlett-Packard', ''),
 (5, 4, 'http://www.hp.com', 0, NULL, 'Hewlett-Packard', 'Hewlett-Packard', 'Hewlett-Packard', ''),
-(5, 3, 'http://www.hp.com', 0, NULL, 'Hewlett-Packard', 'Hewlett-Packard', 'Hewlett-Packard', '');
+(5, 3, 'http://www.hp.com', 0, NULL, 'Hewlett-Packard', 'Hewlett-Packard', 'Hewlett-Packard', ''),
+(8, 2, 'https://www.opensourcepress.de/', 0, NULL, 'Open Source Press', 'Open Source Press', 'Open Source Press', ''),
+(8, 1, '', 0, NULL, 'Open Source Press', 'Open Source Press', 'Open Source Press', ''),
+(8, 5, '', 0, NULL, 'Open Source Press', 'Open Source Press', 'Open Source Press', ''),
+(8, 4, '', 0, NULL, 'Open Source Press', 'Open Source Press', 'Open Source Press', ''),
+(8, 3, '', 0, NULL, 'Open Source Press', 'Open Source Press', 'Open Source Press', '');
 
 -- --------------------------------------------------------
 
@@ -1366,7 +1412,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `shipping_method` varchar(255) NOT NULL default '',
   `shipping_class` varchar(32) NOT NULL default '',
   PRIMARY KEY  (`orders_id`)
-) TYPE=MyISAM AUTO_INCREMENT=5 ;
+) TYPE=MyISAM AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `orders`
@@ -1376,7 +1422,11 @@ INSERT INTO `orders` (`orders_id`, `customers_id`, `customers_name`, `customers_
 (1, 2, 'Nick Weisser', 'Openstream Internet Solutions', 'Wieslergasse 6', '', 'Zürch', '8049', 'Zürich', 'Switzerland', '0445007878', 'nick@openstream.ch', 1, 'Nick Weisser', '', '', 'Openstream Internet Solutions', 'Wieslergasse 6', '', 'Zürch', '8049', 'Zürich', 'Switzerland', '', 1, 'Nick Weisser', '', '', 'Openstream Internet Solutions', 'Wieslergasse 6', '', 'Zürch', '8049', 'Zürich', 'Switzerland', '', 1, 'Nachnahme', '', '', '', '', '', NULL, '2007-12-13 17:27:27', 1, NULL, 'CHF', 1.000000, '', '', ''),
 (2, 0, 'Nick Weisser', 'Openstream Internet Solutions', 'Wieslergasse 6', '', 'Zürich', '8049', '', 'Switzerland', '044-5007878', 'info@openstream.ch', 1, 'Nick Weisser', '', '', 'Openstream Internet Solutions', 'Wieslergasse 6', '', 'Zürich', '8049', '', 'Switzerland', '', 1, 'Nick Weisser', '', '', 'Openstream Internet Solutions', 'Wieslergasse 6', '', 'Zürich', '8049', '', 'Switzerland', '', 1, 'Nachnahme', '', '', '', '', '', '2008-01-23 18:42:34', '2008-01-23 18:22:55', 2, NULL, 'CHF', 1.000000, '', '', ''),
 (3, 0, 'Nick Weisser', 'Openstream Internet Solutions', 'Wieslergasse 6', '', 'Zürich', '8049', '', 'Switzerland', '044-5007878', 'nick.weisser@gmail.com', 1, 'Nick Weisser', '', '', 'Openstream Internet Solutions', 'Friedhofstrasse 36', '', 'Wahlwies', '78333', '', 'Germany', '', 5, 'Nick Weisser', '', '', 'Openstream Internet Solutions', 'Wieslergasse 6', '', 'Zürich', '8049', '', 'Switzerland', '', 1, 'Nachnahme', '', '', '', '', '', NULL, '2008-01-23 21:32:07', 1, NULL, 'CHF', 1.000000, '', '', ''),
-(4, 0, 'Nick Weisser', 'Openstream Internet Solutions', 'Wieslergasse 6', '', 'Zürich', '8049', '', 'Switzerland', '044-5007878', 'info@openstream.ch', 1, 'Nick Weisser', 'Nick', 'Weisser', 'Openstream Internet Solutions', 'Wieslergasse 6', '', 'Zürich', '8049', '', 'Switzerland', 'CH', 1, 'Nick Weisser', 'Nick', 'Weisser', 'Openstream Internet Solutions', 'Wieslergasse 6', '', 'Zürich', '8049', '', 'Switzerland', 'CH', 1, 'Nachnahme', '', '', '', '', '', NULL, '2008-03-25 22:11:40', 1, NULL, 'CHF', 1.000000, 'cod', 'Paketversand (1 x 3.5 kg) (Economy)', 'chp');
+(4, 0, 'Nick Weisser', 'Openstream Internet Solutions', 'Wieslergasse 6', '', 'Zürich', '8049', '', 'Switzerland', '044-5007878', 'info@openstream.ch', 1, 'Nick Weisser', 'Nick', 'Weisser', 'Openstream Internet Solutions', 'Wieslergasse 6', '', 'Zürich', '8049', '', 'Switzerland', 'CH', 1, 'Nick Weisser', 'Nick', 'Weisser', 'Openstream Internet Solutions', 'Wieslergasse 6', '', 'Zürich', '8049', '', 'Switzerland', 'CH', 1, 'Nachnahme', '', '', '', '', '', NULL, '2008-03-25 22:11:40', 1, NULL, 'CHF', 1.000000, 'cod', 'Paketversand (1 x 3.5 kg) (Economy)', 'chp'),
+(5, 2, 'Nick Weisser', 'Openstream Internet Solutions', 'Wieslergasse 6', '', 'Zürch', '8049', 'Zürich', 'Switzerland', '0445007878', 'nick@openstream.ch', 1, 'Nick Weisser', 'Nick', 'Weisser', 'Openstream Internet Solutions', 'Wieslergasse 6', '', 'Zürch', '8049', 'Zürich', 'Switzerland', 'CH', 1, 'Nick Weisser', 'Nick', 'Weisser', 'Openstream Internet Solutions', 'Wieslergasse 6', '', 'Zürch', '8049', 'Zürich', 'Switzerland', 'CH', 1, 'Nachnahme', '', '', '', '', '', NULL, '2008-03-26 22:29:06', 1, NULL, 'CHF', 1.000000, 'cod', 'Brief Economy Inland (Versand nach CH : 0.3 kg (1 x 0.3 kg))', 'chplet'),
+(6, 2, 'Nick Weisser', 'Openstream Internet Solutions', 'Wieslergasse 6', '', 'Zürch', '8049', 'Zürich', 'Switzerland', '0445007878', 'nick@openstream.ch', 1, 'Nick Weisser', 'Nick', 'Weisser', 'Openstream Internet Solutions', 'Wieslergasse 6', '', 'Zürch', '8049', 'Zürich', 'Switzerland', 'CH', 1, 'Nick Weisser', 'Nick', 'Weisser', 'Openstream Internet Solutions', 'Wieslergasse 6', '', 'Zürch', '8049', 'Zürich', 'Switzerland', 'CH', 1, 'Nachnahme', '', '', '', '', '', NULL, '2008-04-02 12:15:44', 1, NULL, 'CHF', 1.000000, 'cod', 'Paketversand (1 x 3.5 kg) (Economy)', 'chp'),
+(7, 2, 'Nick Weisser', 'Openstream Internet Solutions', 'Wieslergasse 6', '', 'Zürch', '8049', 'Zürich', 'Switzerland', '0445007878', 'nick@openstream.ch', 1, 'Nick Weisser', 'Nick', 'Weisser', 'Openstream Internet Solutions', 'Wieslergasse 6', '', 'Zürch', '8049', 'Zürich', 'Switzerland', 'CH', 1, 'Nick Weisser', 'Nick', 'Weisser', 'Openstream Internet Solutions', 'Wieslergasse 6', '', 'Zürch', '8049', 'Zürich', 'Switzerland', 'CH', 1, 'Nachnahme', '', '', '', '', '', NULL, '2008-04-02 15:00:23', 1, NULL, 'CHF', 1.000000, 'cod', 'Paketversand (1 x 7 kg) (Economy)', 'chp'),
+(9, 2, 'Nick Weisser', 'Openstream Internet Solutions', 'Wieslergasse 6', '', 'Zürch', '8049', 'Zürich', 'Switzerland', '0445007878', 'nick@openstream.ch', 1, 'Nick Weisser', 'Nick', 'Weisser', 'Openstream Internet Solutions', 'Wieslergasse 6', '', 'Zürch', '8049', 'Zürich', 'Switzerland', 'CH', 1, 'Nick Weisser', 'Nick', 'Weisser', 'Openstream Internet Solutions', 'Wieslergasse 6', '', 'Zürch', '8049', 'Zürich', 'Switzerland', 'CH', 1, 'Nachnahme', '', '', '', '', '', NULL, '2008-04-02 16:43:54', 1, NULL, 'CHF', 1.000000, 'cod', 'Paketversand (1 x 3.5 kg) (Economy)', 'chp');
 
 -- --------------------------------------------------------
 
@@ -1396,7 +1446,7 @@ CREATE TABLE IF NOT EXISTS `orders_products` (
   `products_tax` decimal(7,4) NOT NULL default '0.0000',
   `products_quantity` int(2) NOT NULL default '0',
   PRIMARY KEY  (`orders_products_id`)
-) TYPE=MyISAM AUTO_INCREMENT=5 ;
+) TYPE=MyISAM AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `orders_products`
@@ -1406,7 +1456,12 @@ INSERT INTO `orders_products` (`orders_products_id`, `orders_id`, `products_id`,
 (1, 1, 4, '80004', 'Sony HDR-HC1', 4033.4572, 4033.4572, 7.6000, 1),
 (2, 2, 2, '80002', 'Monster Truck BigFoot', 1013.0112, 1013.0112, 7.6000, 1),
 (3, 3, 1, '', 'R/C Buggy HBX W2', 157.0632, 157.0632, 7.6000, 1),
-(4, 4, 1, '', 'R/C Buggy HBX W2', 157.0632, 157.0632, 7.6000, 1);
+(4, 4, 1, '', 'R/C Buggy HBX W2', 157.0632, 157.0632, 7.6000, 1),
+(5, 5, 13, '1000012', 'Release! Was Open-Source-Projekte erfolgreich macht', 45.9961, 45.9961, 2.4000, 1),
+(6, 6, 1, '', 'R/C Buggy HBX W2', 157.0632, 157.0632, 7.6000, 1),
+(7, 7, 1, '', 'R/C Buggy HBX W2', 157.0632, 157.0632, 7.6000, 1),
+(8, 7, 1, '', 'R/C Buggy HBX W2', 157.0632, 157.0632, 7.6000, 1),
+(10, 9, 1, '', 'R/C Buggy HBX W2', 157.0632, 157.0632, 7.6000, 1);
 
 -- --------------------------------------------------------
 
@@ -1424,12 +1479,17 @@ CREATE TABLE IF NOT EXISTS `orders_products_attributes` (
   `options_values_price` decimal(15,4) NOT NULL default '0.0000',
   `price_prefix` char(1) NOT NULL default '',
   PRIMARY KEY  (`orders_products_attributes_id`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) TYPE=MyISAM AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `orders_products_attributes`
 --
 
+INSERT INTO `orders_products_attributes` (`orders_products_attributes_id`, `orders_id`, `orders_products_id`, `products_options`, `products_options_values`, `options_values_price`, `price_prefix`) VALUES
+(1, 6, 6, 'Datei', 'release-open-source.jpg', 0.0000, '+'),
+(2, 6, 6, 'Name', 'Hans Mustermann', 0.0000, '+'),
+(3, 7, 8, 'Datei', '1. tux.png', 0.0000, '+'),
+(5, 9, 10, 'Datei', '10opensource.png', 0.0000, '+');
 
 -- --------------------------------------------------------
 
@@ -1504,7 +1564,7 @@ CREATE TABLE IF NOT EXISTS `orders_status_history` (
   `customer_notified` int(1) default '0',
   `comments` text,
   PRIMARY KEY  (`orders_status_history_id`)
-) TYPE=MyISAM AUTO_INCREMENT=6 ;
+) TYPE=MyISAM AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `orders_status_history`
@@ -1515,7 +1575,11 @@ INSERT INTO `orders_status_history` (`orders_status_history_id`, `orders_id`, `o
 (2, 2, 1, '2008-01-23 18:22:55', 1, 'test'),
 (3, 2, 2, '2008-01-23 18:42:35', 1, 'Test Aktualisierung des Status.'),
 (4, 3, 1, '2008-01-23 21:32:07', 1, ''),
-(5, 4, 1, '2008-03-25 22:11:40', 1, 'test');
+(5, 4, 1, '2008-03-25 22:11:40', 1, 'test'),
+(6, 5, 1, '2008-03-26 22:29:06', 1, ''),
+(7, 6, 1, '2008-04-02 12:15:44', 1, 'Test mit Upload'),
+(8, 7, 1, '2008-04-02 15:00:23', 1, 'Datei-Test'),
+(10, 9, 1, '2008-04-02 16:43:54', 1, 'Test Datei-Attribut');
 
 -- --------------------------------------------------------
 
@@ -1534,7 +1598,7 @@ CREATE TABLE IF NOT EXISTS `orders_total` (
   `sort_order` int(11) NOT NULL default '0',
   PRIMARY KEY  (`orders_total_id`),
   KEY `idx_orders_total_orders_id` (`orders_id`)
-) TYPE=MyISAM AUTO_INCREMENT=17 ;
+) TYPE=MyISAM AUTO_INCREMENT=37 ;
 
 --
 -- Dumping data for table `orders_total`
@@ -1556,7 +1620,23 @@ INSERT INTO `orders_total` (`orders_total_id`, `orders_id`, `title`, `text`, `va
 (13, 4, 'Zwischensumme:', 'CHF 169.00', 169.0000, 'ot_subtotal', 1),
 (14, 4, 'Paketversand (1 x 3.5 kg) (Economy):', 'CHF 8.00', 8.0000, 'ot_shipping', 2),
 (15, 4, '7.6% MwSt.:', 'CHF 11.94', 11.9368, 'ot_tax', 3),
-(16, 4, '<b>Summe</b>:', '<b>CHF 177.00</b>', 177.0000, 'ot_total', 4);
+(16, 4, '<b>Summe</b>:', '<b>CHF 177.00</b>', 177.0000, 'ot_total', 4),
+(17, 5, 'Zwischensumme:', 'CHF 47.10', 47.1000, 'ot_subtotal', 1),
+(18, 5, 'Brief Economy Inland (Versand nach CH : 0.3 kg (1 x 0.3 kg)):', 'CHF 1.80', 1.8000, 'ot_shipping', 2),
+(19, 5, '2.4% MwSt.:', 'CHF 1.10', 1.1039, 'ot_tax', 3),
+(20, 5, '<b>Summe</b>:', '<b>CHF 48.90</b>', 48.9000, 'ot_total', 4),
+(21, 6, 'Zwischensumme:', 'CHF 169.00', 169.0000, 'ot_subtotal', 1),
+(22, 6, 'Paketversand (1 x 3.5 kg) (Economy):', 'CHF 8.00', 8.0000, 'ot_shipping', 2),
+(23, 6, '7.6% MwSt.:', 'CHF 11.94', 11.9368, 'ot_tax', 3),
+(24, 6, '<b>Summe</b>:', '<b>CHF 177.00</b>', 177.0000, 'ot_total', 4),
+(25, 7, 'Zwischensumme:', 'CHF 338.00', 338.0000, 'ot_subtotal', 1),
+(26, 7, 'Paketversand (1 x 7 kg) (Economy):', 'CHF 11.00', 11.0000, 'ot_shipping', 2),
+(27, 7, '7.6% MwSt.:', 'CHF 23.87', 23.8736, 'ot_tax', 3),
+(28, 7, '<b>Summe</b>:', '<b>CHF 349.00</b>', 349.0000, 'ot_total', 4),
+(35, 9, '7.6% MwSt.:', 'CHF 11.94', 11.9368, 'ot_tax', 3),
+(34, 9, 'Paketversand (1 x 3.5 kg) (Economy):', 'CHF 8.00', 8.0000, 'ot_shipping', 2),
+(33, 9, 'Zwischensumme:', 'CHF 169.00', 169.0000, 'ot_subtotal', 1),
+(36, 9, '<b>Summe</b>:', '<b>CHF 177.00</b>', 177.0000, 'ot_total', 4);
 
 -- --------------------------------------------------------
 
@@ -1584,14 +1664,14 @@ CREATE TABLE IF NOT EXISTS `products` (
   `products_ordered` int(11) NOT NULL default '0',
   PRIMARY KEY  (`products_id`),
   KEY `idx_products_date_added` (`products_date_added`)
-) TYPE=MyISAM AUTO_INCREMENT=12 ;
+) TYPE=MyISAM AUTO_INCREMENT=16 ;
 
 --
 -- Dumping data for table `products`
 --
 
 INSERT INTO `products` (`products_id`, `products_quantity`, `products_model`, `products_image`, `products_image2`, `products_image3`, `products_image4`, `products_price`, `products_date_added`, `products_last_modified`, `products_date_available`, `products_weight`, `products_status`, `products_tax_class_id`, `manufacturers_id`, `products_ordered`) VALUES
-(1, -2, '', 'buggy-hbx.jpg', 'buggy-hbx-02.jpg', 'buggy-hbx-03.jpg', 'buggy-hbx-04.jpg', 157.0632, '2007-11-04 14:11:17', '2007-11-04 14:42:50', NULL, 3.50, 1, 1, 1, 2),
+(1, -6, '', 'buggy-hbx.jpg', 'buggy-hbx-02.jpg', 'buggy-hbx-03.jpg', 'buggy-hbx-04.jpg', 157.0632, '2007-11-04 14:11:17', '2007-11-04 14:42:50', NULL, 3.50, 1, 1, 1, 6),
 (2, 9, '80002', 'monster.jpg', 'monster-02.jpg', 'monster-03.jpg', 'monster-04.jpg', 1013.0112, '2007-11-04 15:01:18', '2007-11-04 15:03:09', NULL, 5.80, 1, 1, 2, 1),
 (4, 9, '80004', 'sony-hdr.jpg', 'sony-hdr-02.jpg', 'sony-hdr-03.jpg', '', 4033.4572, '2007-11-05 02:33:13', '2007-11-05 02:36:50', NULL, 0.25, 1, 1, 4, 1),
 (5, 10, '80005', 'hp-2710p.jpg', 'hp-2710p-02.jpg', '', '', 1719.3309, '2007-11-05 03:03:14', '2007-12-14 15:25:55', NULL, 1.68, 1, 1, 5, 0),
@@ -1616,7 +1696,7 @@ CREATE TABLE IF NOT EXISTS `products_attributes` (
   `products_attributes_weight` decimal(5,2) NOT NULL default '0.00',
   `products_attributes_weight_prefix` char(1) NOT NULL default '',
   PRIMARY KEY  (`products_attributes_id`)
-) TYPE=MyISAM AUTO_INCREMENT=43 ;
+) TYPE=MyISAM AUTO_INCREMENT=48 ;
 
 --
 -- Dumping data for table `products_attributes`
@@ -1633,7 +1713,7 @@ INSERT INTO `products_attributes` (`products_attributes_id`, `products_id`, `opt
 (33, 5, 1, 1, 0.0000, '+', 0, 0.00, '+'),
 (32, 5, 1, 2, 157.9925, '+', 0, 0.00, '+'),
 (41, 5, 3, 6, 0.0000, '+', 0, 0.00, '+'),
-(42, 1, 4, 0, 0.0000, '+', 0, 0.00, '');
+(47, 1, 5, 0, 0.0000, '+', 0, 0.00, '');
 
 -- --------------------------------------------------------
 
@@ -1675,16 +1755,16 @@ CREATE TABLE IF NOT EXISTS `products_description` (
   `products_head_keywords_tag` longtext,
   PRIMARY KEY  (`products_id`,`language_id`),
   KEY `products_name` (`products_name`)
-) TYPE=MyISAM AUTO_INCREMENT=12 ;
+) TYPE=MyISAM AUTO_INCREMENT=16 ;
 
 --
 -- Dumping data for table `products_description`
 --
 
 INSERT INTO `products_description` (`products_id`, `language_id`, `products_name`, `products_description`, `products_url`, `products_viewed`, `products_seo_url`, `products_head_title_tag`, `products_head_desc_tag`, `products_head_keywords_tag`) VALUES
-(1, 2, 'R/C Buggy HBX W2', '<p>Der HBX MAX BUGGY W2 ist ein reinrassiges Hightechger&auml;t. Der Allradantrieb, die Vollfederung des Fahrwerks sowie die extreme Gel&auml;ndeg&auml;ngigkeit werden Piloten JEDEN Alters begeistern.&nbsp;</p><p><strong>Technische Daten:</strong></p><ul><li>Mode: RC Buggy HBX W2</li><li>Ma&szlig;stab: 1:10</li><li>Mottorart: Elektromotor Luftgek&uuml;hlt</li><li>max. Geschwindigkeit: ca.60km/h</li><li>Stromversorgung: 7,2V 1800mAh Ni-Cd Akku</li><li>Karosserie: aus Lexan</li><li>Radstand: ca.260mm</li><li>Abmessungen (LxBxH): 400mm/260mm/180mm</li><li>Gewicht: ca.1380g (fahrbereit)</li><li>Fernbedienung: rechts/links proportional Vorw&auml;rts/R&uuml;ckw&auml;rts</li><li>dosierbare Regelung der Geschwindigkeit</li><li>Frequenz: 27 Mhz auswechselbarer Quarz.</li><li>Durchmesser der R&auml;der: 8,5 cm</li></ul><p><br /><strong>Beschreibung:</strong></p><ul><li>F&auml;hrt bis zu ca. 60 Km/h!</li><li>4x4 Allradantrieb!</li><li>spitzen Beschleunigung</li><li>Einzelradaufh&auml;ngung</li><li>Einzelradfederung</li><li>Ma&szlig;stab 1:10</li><li>luftgek&uuml;hlter starker elktro- Rippenmotor</li><li>Versiegeltes Getriebe</li><li>elektronischer Fahrtenregler</li><li>Servolenkung</li><li>Chassis des Buggys ist &uuml;berwiegen aus Metall hergestellt</li><li>Wechselbares Cover strapazierf&auml;hig aus Polycarbonat</li><li>Luftgef&uuml;llte noppen Gummireifen</li><li>Fahrzeug ist komplett geschraubt und kann komplett auseinander genommen werden (Anleitung liegt auch bei)</li><li>Der Buggy ist fertig montiert und sofort startklar</li><li>Profi Pistolenfernsteuerung mit ca. 200 Metern Reichweite!</li><li>Per Fernsteuerung l&auml;sst sich alles am Buggy einstellen wie kalibrieren der Lenkung usw!</li><li>Starker Akkupack 1800mAh 7,2V</li><li>Schnellladeger&auml;t Ladedauer nur 5 Stunden</li><li>mit dem Ladeger&auml;t k&ouml;nnen sogar wiederaufladbare Akkus &uuml;ber die Fernsteuerung geladen werden (passender Stecker enthalten).</li><li>Rennen mit mehreren Autos durch Frequenzquarz m&ouml;glich.</li><li>Buggy wird in verschiedenen Farben geliefert.</li></ul><p><br /><strong>Lieferumfang:</strong></p><ul><li>RC Buggy HBX W2</li><li>Profi Pistolenfernbedienung proportionalHochleistungs- Akkupack</li><li>Ladeger&auml;t</li><li>Batterien f&uuml;r Fernsteuerung</li><li>Ausf&uuml;hrliches Anleitung mit Bildern</li></ul>', '', 121, '', 'R/C Buggy HBX W2', 'R/C Buggy HBX W2', 'R/C Buggy HBX W2'),
-(1, 1, 'R/C Buggy HBX W2', '<p>Der HBX MAX BUGGY W2 ist ein reinrassiges Hightechger&auml;t. Der Allradantrieb, die Vollfederung des Fahrwerks sowie die extreme Gel&auml;ndeg&auml;ngigkeit werden Piloten JEDEN Alters begeistern.&nbsp;</p><p><strong>Technische Daten:</strong></p> <ul><li>Mode: RC Buggy HBX W2</li><li>Ma&szlig;stab: 1:10</li><li>Mottorart: Elektromotor Luftgek&uuml;hlt</li><li>max. Geschwindigkeit: ca.60km/h</li><li>Stromversorgung: 7,2V 1800mAh Ni-Cd Akku</li><li>Karosserie: aus Lexan</li><li>Radstand: ca.260mm</li><li>Abmessungen (LxBxH): 400mm/260mm/180mm</li><li>Gewicht: ca.1380g (fahrbereit)</li><li>Fernbedienung: rechts/links proportional Vorw&auml;rts/R&uuml;ckw&auml;rts</li><li>dosierbare Regelung der Geschwindigkeit</li><li>Frequenz: 27 Mhz auswechselbarer Quarz.</li><li>Durchmesser der R&auml;der: 8,5 cm</li></ul> <p><br /><strong>Beschreibung:</strong></p> <ul><li>F&auml;hrt bis zu ca. 60 Km/h!</li><li>4x4 Allradantrieb!</li><li>spitzen Beschleunigung</li><li>Einzelradaufh&auml;ngung</li><li>Einzelradfederung</li><li>Ma&szlig;stab 1:10</li><li>luftgek&uuml;hlter starker elktro- Rippenmotor</li><li>Versiegeltes Getriebe</li><li>elektronischer Fahrtenregler</li><li>Servolenkung</li><li>Chassis des Buggys ist &uuml;berwiegen aus Metall hergestellt</li><li>Wechselbares Cover strapazierf&auml;hig aus Polycarbonat</li><li>Luftgef&uuml;llte noppen Gummireifen</li><li>Fahrzeug ist komplett geschraubt und kann komplett auseinander genommen werden (Anleitung liegt auch bei)</li><li>Der Buggy ist fertig montiert und sofort startklar</li><li>Profi Pistolenfernsteuerung mit ca. 200 Metern Reichweite!</li><li>Per Fernsteuerung l&auml;sst sich alles am Buggy einstellen wie kalibrieren der Lenkung usw!</li><li>Starker Akkupack 1800mAh 7,2V</li><li>Schnellladeger&auml;t Ladedauer nur 5 Stunden</li><li>mit dem Ladeger&auml;t k&ouml;nnen sogar wiederaufladbare Akkus &uuml;ber die Fernsteuerung geladen werden (passender Stecker enthalten).</li><li>Rennen mit mehreren Autos durch Frequenzquarz m&ouml;glich.</li><li>Buggy wird in verschiedenen Farben geliefert.</li></ul> <p><br /><strong>Lieferumfang:</strong></p> <ul><li>RC Buggy HBX W2</li><li>Profi Pistolenfernbedienung proportionalHochleistungs- Akkupack</li><li>Ladeger&auml;t</li><li>Batterien f&uuml;r Fernsteuerung</li><li>Ausf&uuml;hrliches Anleitung mit Bildern</li></ul>', '', 10, '', 'R/C Buggy HBX W2', 'R/C Buggy HBX W2', 'R/C Buggy HBX W2'),
-(1, 5, 'R/C Buggy HBX W2', '<p>Der HBX MAX BUGGY W2 ist ein reinrassiges Hightechger&auml;t. Der Allradantrieb, die Vollfederung des Fahrwerks sowie die extreme Gel&auml;ndeg&auml;ngigkeit werden Piloten JEDEN Alters begeistern.&nbsp;</p><p><strong>Technische Daten:</strong></p> <ul><li>Mode: RC Buggy HBX W2</li><li>Ma&szlig;stab: 1:10</li><li>Mottorart: Elektromotor Luftgek&uuml;hlt</li><li>max. Geschwindigkeit: ca.60km/h</li><li>Stromversorgung: 7,2V 1800mAh Ni-Cd Akku</li><li>Karosserie: aus Lexan</li><li>Radstand: ca.260mm</li><li>Abmessungen (LxBxH): 400mm/260mm/180mm</li><li>Gewicht: ca.1380g (fahrbereit)</li><li>Fernbedienung: rechts/links proportional Vorw&auml;rts/R&uuml;ckw&auml;rts</li><li>dosierbare Regelung der Geschwindigkeit</li><li>Frequenz: 27 Mhz auswechselbarer Quarz.</li><li>Durchmesser der R&auml;der: 8,5 cm</li></ul> <p><br /><strong>Beschreibung:</strong></p> <ul><li>F&auml;hrt bis zu ca. 60 Km/h!</li><li>4x4 Allradantrieb!</li><li>spitzen Beschleunigung</li><li>Einzelradaufh&auml;ngung</li><li>Einzelradfederung</li><li>Ma&szlig;stab 1:10</li><li>luftgek&uuml;hlter starker elktro- Rippenmotor</li><li>Versiegeltes Getriebe</li><li>elektronischer Fahrtenregler</li><li>Servolenkung</li><li>Chassis des Buggys ist &uuml;berwiegen aus Metall hergestellt</li><li>Wechselbares Cover strapazierf&auml;hig aus Polycarbonat</li><li>Luftgef&uuml;llte noppen Gummireifen</li><li>Fahrzeug ist komplett geschraubt und kann komplett auseinander genommen werden (Anleitung liegt auch bei)</li><li>Der Buggy ist fertig montiert und sofort startklar</li><li>Profi Pistolenfernsteuerung mit ca. 200 Metern Reichweite!</li><li>Per Fernsteuerung l&auml;sst sich alles am Buggy einstellen wie kalibrieren der Lenkung usw!</li><li>Starker Akkupack 1800mAh 7,2V</li><li>Schnellladeger&auml;t Ladedauer nur 5 Stunden</li><li>mit dem Ladeger&auml;t k&ouml;nnen sogar wiederaufladbare Akkus &uuml;ber die Fernsteuerung geladen werden (passender Stecker enthalten).</li><li>Rennen mit mehreren Autos durch Frequenzquarz m&ouml;glich.</li><li>Buggy wird in verschiedenen Farben geliefert.</li></ul> <p><br /><strong>Lieferumfang:</strong></p> <ul><li>RC Buggy HBX W2</li><li>Profi Pistolenfernbedienung proportionalHochleistungs- Akkupack</li><li>Ladeger&auml;t</li><li>Batterien f&uuml;r Fernsteuerung</li><li>Ausf&uuml;hrliches Anleitung mit Bildern</li></ul>', '', 0, '', 'R/C Buggy HBX W2', 'R/C Buggy HBX W2', 'R/C Buggy HBX W2'),
+(1, 2, 'R/C Buggy HBX W2', '<p>Der HBX MAX BUGGY W2 ist ein reinrassiges Hightechger&auml;t. Der Allradantrieb, die Vollfederung des Fahrwerks sowie die extreme Gel&auml;ndeg&auml;ngigkeit werden Piloten JEDEN Alters begeistern.&nbsp;</p><p><strong>Technische Daten:</strong></p><ul><li>Mode: RC Buggy HBX W2</li><li>Ma&szlig;stab: 1:10</li><li>Mottorart: Elektromotor Luftgek&uuml;hlt</li><li>max. Geschwindigkeit: ca.60km/h</li><li>Stromversorgung: 7,2V 1800mAh Ni-Cd Akku</li><li>Karosserie: aus Lexan</li><li>Radstand: ca.260mm</li><li>Abmessungen (LxBxH): 400mm/260mm/180mm</li><li>Gewicht: ca.1380g (fahrbereit)</li><li>Fernbedienung: rechts/links proportional Vorw&auml;rts/R&uuml;ckw&auml;rts</li><li>dosierbare Regelung der Geschwindigkeit</li><li>Frequenz: 27 Mhz auswechselbarer Quarz.</li><li>Durchmesser der R&auml;der: 8,5 cm</li></ul><p><br /><strong>Beschreibung:</strong></p><ul><li>F&auml;hrt bis zu ca. 60 Km/h!</li><li>4x4 Allradantrieb!</li><li>spitzen Beschleunigung</li><li>Einzelradaufh&auml;ngung</li><li>Einzelradfederung</li><li>Ma&szlig;stab 1:10</li><li>luftgek&uuml;hlter starker elktro- Rippenmotor</li><li>Versiegeltes Getriebe</li><li>elektronischer Fahrtenregler</li><li>Servolenkung</li><li>Chassis des Buggys ist &uuml;berwiegen aus Metall hergestellt</li><li>Wechselbares Cover strapazierf&auml;hig aus Polycarbonat</li><li>Luftgef&uuml;llte noppen Gummireifen</li><li>Fahrzeug ist komplett geschraubt und kann komplett auseinander genommen werden (Anleitung liegt auch bei)</li><li>Der Buggy ist fertig montiert und sofort startklar</li><li>Profi Pistolenfernsteuerung mit ca. 200 Metern Reichweite!</li><li>Per Fernsteuerung l&auml;sst sich alles am Buggy einstellen wie kalibrieren der Lenkung usw!</li><li>Starker Akkupack 1800mAh 7,2V</li><li>Schnellladeger&auml;t Ladedauer nur 5 Stunden</li><li>mit dem Ladeger&auml;t k&ouml;nnen sogar wiederaufladbare Akkus &uuml;ber die Fernsteuerung geladen werden (passender Stecker enthalten).</li><li>Rennen mit mehreren Autos durch Frequenzquarz m&ouml;glich.</li><li>Buggy wird in verschiedenen Farben geliefert.</li></ul><p><br /><strong>Lieferumfang:</strong></p><ul><li>RC Buggy HBX W2</li><li>Profi Pistolenfernbedienung proportionalHochleistungs- Akkupack</li><li>Ladeger&auml;t</li><li>Batterien f&uuml;r Fernsteuerung</li><li>Ausf&uuml;hrliches Anleitung mit Bildern</li></ul>', '', 186, '', 'R/C Buggy HBX W2', 'R/C Buggy HBX W2', 'R/C Buggy HBX W2'),
+(1, 1, 'R/C Buggy HBX W2', '<p>Der HBX MAX BUGGY W2 ist ein reinrassiges Hightechger&auml;t. Der Allradantrieb, die Vollfederung des Fahrwerks sowie die extreme Gel&auml;ndeg&auml;ngigkeit werden Piloten JEDEN Alters begeistern.&nbsp;</p><p><strong>Technische Daten:</strong></p> <ul><li>Mode: RC Buggy HBX W2</li><li>Ma&szlig;stab: 1:10</li><li>Mottorart: Elektromotor Luftgek&uuml;hlt</li><li>max. Geschwindigkeit: ca.60km/h</li><li>Stromversorgung: 7,2V 1800mAh Ni-Cd Akku</li><li>Karosserie: aus Lexan</li><li>Radstand: ca.260mm</li><li>Abmessungen (LxBxH): 400mm/260mm/180mm</li><li>Gewicht: ca.1380g (fahrbereit)</li><li>Fernbedienung: rechts/links proportional Vorw&auml;rts/R&uuml;ckw&auml;rts</li><li>dosierbare Regelung der Geschwindigkeit</li><li>Frequenz: 27 Mhz auswechselbarer Quarz.</li><li>Durchmesser der R&auml;der: 8,5 cm</li></ul> <p><br /><strong>Beschreibung:</strong></p> <ul><li>F&auml;hrt bis zu ca. 60 Km/h!</li><li>4x4 Allradantrieb!</li><li>spitzen Beschleunigung</li><li>Einzelradaufh&auml;ngung</li><li>Einzelradfederung</li><li>Ma&szlig;stab 1:10</li><li>luftgek&uuml;hlter starker elktro- Rippenmotor</li><li>Versiegeltes Getriebe</li><li>elektronischer Fahrtenregler</li><li>Servolenkung</li><li>Chassis des Buggys ist &uuml;berwiegen aus Metall hergestellt</li><li>Wechselbares Cover strapazierf&auml;hig aus Polycarbonat</li><li>Luftgef&uuml;llte noppen Gummireifen</li><li>Fahrzeug ist komplett geschraubt und kann komplett auseinander genommen werden (Anleitung liegt auch bei)</li><li>Der Buggy ist fertig montiert und sofort startklar</li><li>Profi Pistolenfernsteuerung mit ca. 200 Metern Reichweite!</li><li>Per Fernsteuerung l&auml;sst sich alles am Buggy einstellen wie kalibrieren der Lenkung usw!</li><li>Starker Akkupack 1800mAh 7,2V</li><li>Schnellladeger&auml;t Ladedauer nur 5 Stunden</li><li>mit dem Ladeger&auml;t k&ouml;nnen sogar wiederaufladbare Akkus &uuml;ber die Fernsteuerung geladen werden (passender Stecker enthalten).</li><li>Rennen mit mehreren Autos durch Frequenzquarz m&ouml;glich.</li><li>Buggy wird in verschiedenen Farben geliefert.</li></ul> <p><br /><strong>Lieferumfang:</strong></p> <ul><li>RC Buggy HBX W2</li><li>Profi Pistolenfernbedienung proportionalHochleistungs- Akkupack</li><li>Ladeger&auml;t</li><li>Batterien f&uuml;r Fernsteuerung</li><li>Ausf&uuml;hrliches Anleitung mit Bildern</li></ul>', '', 21, '', 'R/C Buggy HBX W2', 'R/C Buggy HBX W2', 'R/C Buggy HBX W2'),
+(1, 5, 'R/C Buggy HBX W2', '<p>Der HBX MAX BUGGY W2 ist ein reinrassiges Hightechger&auml;t. Der Allradantrieb, die Vollfederung des Fahrwerks sowie die extreme Gel&auml;ndeg&auml;ngigkeit werden Piloten JEDEN Alters begeistern.&nbsp;</p><p><strong>Technische Daten:</strong></p> <ul><li>Mode: RC Buggy HBX W2</li><li>Ma&szlig;stab: 1:10</li><li>Mottorart: Elektromotor Luftgek&uuml;hlt</li><li>max. Geschwindigkeit: ca.60km/h</li><li>Stromversorgung: 7,2V 1800mAh Ni-Cd Akku</li><li>Karosserie: aus Lexan</li><li>Radstand: ca.260mm</li><li>Abmessungen (LxBxH): 400mm/260mm/180mm</li><li>Gewicht: ca.1380g (fahrbereit)</li><li>Fernbedienung: rechts/links proportional Vorw&auml;rts/R&uuml;ckw&auml;rts</li><li>dosierbare Regelung der Geschwindigkeit</li><li>Frequenz: 27 Mhz auswechselbarer Quarz.</li><li>Durchmesser der R&auml;der: 8,5 cm</li></ul> <p><br /><strong>Beschreibung:</strong></p> <ul><li>F&auml;hrt bis zu ca. 60 Km/h!</li><li>4x4 Allradantrieb!</li><li>spitzen Beschleunigung</li><li>Einzelradaufh&auml;ngung</li><li>Einzelradfederung</li><li>Ma&szlig;stab 1:10</li><li>luftgek&uuml;hlter starker elktro- Rippenmotor</li><li>Versiegeltes Getriebe</li><li>elektronischer Fahrtenregler</li><li>Servolenkung</li><li>Chassis des Buggys ist &uuml;berwiegen aus Metall hergestellt</li><li>Wechselbares Cover strapazierf&auml;hig aus Polycarbonat</li><li>Luftgef&uuml;llte noppen Gummireifen</li><li>Fahrzeug ist komplett geschraubt und kann komplett auseinander genommen werden (Anleitung liegt auch bei)</li><li>Der Buggy ist fertig montiert und sofort startklar</li><li>Profi Pistolenfernsteuerung mit ca. 200 Metern Reichweite!</li><li>Per Fernsteuerung l&auml;sst sich alles am Buggy einstellen wie kalibrieren der Lenkung usw!</li><li>Starker Akkupack 1800mAh 7,2V</li><li>Schnellladeger&auml;t Ladedauer nur 5 Stunden</li><li>mit dem Ladeger&auml;t k&ouml;nnen sogar wiederaufladbare Akkus &uuml;ber die Fernsteuerung geladen werden (passender Stecker enthalten).</li><li>Rennen mit mehreren Autos durch Frequenzquarz m&ouml;glich.</li><li>Buggy wird in verschiedenen Farben geliefert.</li></ul> <p><br /><strong>Lieferumfang:</strong></p> <ul><li>RC Buggy HBX W2</li><li>Profi Pistolenfernbedienung proportionalHochleistungs- Akkupack</li><li>Ladeger&auml;t</li><li>Batterien f&uuml;r Fernsteuerung</li><li>Ausf&uuml;hrliches Anleitung mit Bildern</li></ul>', '', 2, '', 'R/C Buggy HBX W2', 'R/C Buggy HBX W2', 'R/C Buggy HBX W2'),
 (1, 4, 'R/C Buggy HBX W2', '<p>Der HBX MAX BUGGY W2 ist ein reinrassiges Hightechger&auml;t. Der Allradantrieb, die Vollfederung des Fahrwerks sowie die extreme Gel&auml;ndeg&auml;ngigkeit werden Piloten JEDEN Alters begeistern.&nbsp;</p><p><strong>Technische Daten:</strong></p> <ul><li>Mode: RC Buggy HBX W2</li><li>Ma&szlig;stab: 1:10</li><li>Mottorart: Elektromotor Luftgek&uuml;hlt</li><li>max. Geschwindigkeit: ca.60km/h</li><li>Stromversorgung: 7,2V 1800mAh Ni-Cd Akku</li><li>Karosserie: aus Lexan</li><li>Radstand: ca.260mm</li><li>Abmessungen (LxBxH): 400mm/260mm/180mm</li><li>Gewicht: ca.1380g (fahrbereit)</li><li>Fernbedienung: rechts/links proportional Vorw&auml;rts/R&uuml;ckw&auml;rts</li><li>dosierbare Regelung der Geschwindigkeit</li><li>Frequenz: 27 Mhz auswechselbarer Quarz.</li><li>Durchmesser der R&auml;der: 8,5 cm</li></ul> <p><br /><strong>Beschreibung:</strong></p> <ul><li>F&auml;hrt bis zu ca. 60 Km/h!</li><li>4x4 Allradantrieb!</li><li>spitzen Beschleunigung</li><li>Einzelradaufh&auml;ngung</li><li>Einzelradfederung</li><li>Ma&szlig;stab 1:10</li><li>luftgek&uuml;hlter starker elktro- Rippenmotor</li><li>Versiegeltes Getriebe</li><li>elektronischer Fahrtenregler</li><li>Servolenkung</li><li>Chassis des Buggys ist &uuml;berwiegen aus Metall hergestellt</li><li>Wechselbares Cover strapazierf&auml;hig aus Polycarbonat</li><li>Luftgef&uuml;llte noppen Gummireifen</li><li>Fahrzeug ist komplett geschraubt und kann komplett auseinander genommen werden (Anleitung liegt auch bei)</li><li>Der Buggy ist fertig montiert und sofort startklar</li><li>Profi Pistolenfernsteuerung mit ca. 200 Metern Reichweite!</li><li>Per Fernsteuerung l&auml;sst sich alles am Buggy einstellen wie kalibrieren der Lenkung usw!</li><li>Starker Akkupack 1800mAh 7,2V</li><li>Schnellladeger&auml;t Ladedauer nur 5 Stunden</li><li>mit dem Ladeger&auml;t k&ouml;nnen sogar wiederaufladbare Akkus &uuml;ber die Fernsteuerung geladen werden (passender Stecker enthalten).</li><li>Rennen mit mehreren Autos durch Frequenzquarz m&ouml;glich.</li><li>Buggy wird in verschiedenen Farben geliefert.</li></ul> <p><br /><strong>Lieferumfang:</strong></p> <ul><li>RC Buggy HBX W2</li><li>Profi Pistolenfernbedienung proportionalHochleistungs- Akkupack</li><li>Ladeger&auml;t</li><li>Batterien f&uuml;r Fernsteuerung</li><li>Ausf&uuml;hrliches Anleitung mit Bildern</li></ul>', '', 0, '', 'R/C Buggy HBX W2', 'R/C Buggy HBX W2', 'R/C Buggy HBX W2'),
 (1, 3, 'R/C Buggy HBX W2', '<p>Der HBX MAX BUGGY W2 ist ein reinrassiges Hightechger&auml;t. Der Allradantrieb, die Vollfederung des Fahrwerks sowie die extreme Gel&auml;ndeg&auml;ngigkeit werden Piloten JEDEN Alters begeistern.&nbsp;</p><p><strong>Technische Daten:</strong></p> <ul><li>Mode: RC Buggy HBX W2</li><li>Ma&szlig;stab: 1:10</li><li>Mottorart: Elektromotor Luftgek&uuml;hlt</li><li>max. Geschwindigkeit: ca.60km/h</li><li>Stromversorgung: 7,2V 1800mAh Ni-Cd Akku</li><li>Karosserie: aus Lexan</li><li>Radstand: ca.260mm</li><li>Abmessungen (LxBxH): 400mm/260mm/180mm</li><li>Gewicht: ca.1380g (fahrbereit)</li><li>Fernbedienung: rechts/links proportional Vorw&auml;rts/R&uuml;ckw&auml;rts</li><li>dosierbare Regelung der Geschwindigkeit</li><li>Frequenz: 27 Mhz auswechselbarer Quarz.</li><li>Durchmesser der R&auml;der: 8,5 cm</li></ul> <p><br /><strong>Beschreibung:</strong></p> <ul><li>F&auml;hrt bis zu ca. 60 Km/h!</li><li>4x4 Allradantrieb!</li><li>spitzen Beschleunigung</li><li>Einzelradaufh&auml;ngung</li><li>Einzelradfederung</li><li>Ma&szlig;stab 1:10</li><li>luftgek&uuml;hlter starker elktro- Rippenmotor</li><li>Versiegeltes Getriebe</li><li>elektronischer Fahrtenregler</li><li>Servolenkung</li><li>Chassis des Buggys ist &uuml;berwiegen aus Metall hergestellt</li><li>Wechselbares Cover strapazierf&auml;hig aus Polycarbonat</li><li>Luftgef&uuml;llte noppen Gummireifen</li><li>Fahrzeug ist komplett geschraubt und kann komplett auseinander genommen werden (Anleitung liegt auch bei)</li><li>Der Buggy ist fertig montiert und sofort startklar</li><li>Profi Pistolenfernsteuerung mit ca. 200 Metern Reichweite!</li><li>Per Fernsteuerung l&auml;sst sich alles am Buggy einstellen wie kalibrieren der Lenkung usw!</li><li>Starker Akkupack 1800mAh 7,2V</li><li>Schnellladeger&auml;t Ladedauer nur 5 Stunden</li><li>mit dem Ladeger&auml;t k&ouml;nnen sogar wiederaufladbare Akkus &uuml;ber die Fernsteuerung geladen werden (passender Stecker enthalten).</li><li>Rennen mit mehreren Autos durch Frequenzquarz m&ouml;glich.</li><li>Buggy wird in verschiedenen Farben geliefert.</li></ul> <p><br /><strong>Lieferumfang:</strong></p> <ul><li>RC Buggy HBX W2</li><li>Profi Pistolenfernbedienung proportionalHochleistungs- Akkupack</li><li>Ladeger&auml;t</li><li>Batterien f&uuml;r Fernsteuerung</li><li>Ausf&uuml;hrliches Anleitung mit Bildern</li></ul>', '', 0, '', 'R/C Buggy HBX W2', 'R/C Buggy HBX W2', 'R/C Buggy HBX W2'),
 (2, 2, 'Monster Truck BigFoot', '<p class="bodytext"><strong>THE BIGGEST BY ZEED! </strong></p> <p class="bodytext">BigFood, der gr&ouml;&szlig;te Monster Truck bei ZEED, damit fahren Sie alles um! </p> <p class="bodytext">Das gro&szlig;e und breite Chassis sorgt mit seinem Design schon von weitem f&uuml;r aufsehen. Die Reifen sind mit den Felgen verklebt und garantieren auf fast jedem Untergrund guten halt. Ob auf feuchtem Gras, im Gel&auml;nde oder auf der Strasse, mit dem BigFood macht es einfach Spa&szlig;! Dank den gro&szlig;en Stossd&auml;mpfern hat der BigFood eine hohe Bodenfreiheit. Dieses Federwerk sorgt zudem f&uuml;r perfekte Gewichtsverteilung, damit der Monster Truck auch weite Spr&uuml;nge &uuml;ber H&uuml;gel oder Rampen ohne weiteres meistert. </p> <p class="bodytext">Dank dem Betrieb eines 23ccm Zweitakt Motors mit herk&ouml;mmlichem Treibstoff ist der Monster Truck wesentlich einfacher im Betrieb und wird zudem als Ready to Run Modell ausgeliefert. Aus der Packung, fertig und los! </p> <p class="bodytext">Das starten beim BigFood ist ein Kinderspiel. Dank dem eingebauten Zugseil, wird der Monster Truck wie ein Rasenm&auml;her gestartet. </p> <p class="bodytext">Das flexible Chassis sorgt bei dem BigFood f&uuml;r extreme Haltbarkeit und Stabilit&auml;t. </p> <p class="bodytext">Die Kombination der voll einstellbaren langen Federwerken und Doppelquerlenker Aufh&auml;ngung, sorgen f&uuml;r optimales Fahrverhalten im Gel&auml;nde wie auch auf der Strasse. Die Stossd&auml;mpfer, welche aus hochfestem Aluminium gefertigt werden, k&ouml;nnen von aussen durch 2 Varianten eingestellt und ge&auml;ndert werden. F&uuml;r ein gleichm&auml;ssiges Arbeiten der Aufh&auml;ngungen auf allen Oberfl&auml;chen sorgen die langen Federn. </p> <p class="bodytext">Eine hochwertige Fernsteuerung, welche f&uuml;r eine grosse Reichweite garantiert, ist selbstverst&auml;ndlich im RTR Pack enthalten. </p> <p class="bodytext">Dank des grossen 23ccm Benzinmotor hat der BigFood eine grosse Leistung zu bieten. Der 1:5 grosse Monster Truck ist durch die grosse Leistung des 23ccm Benzinmotors gleich beweglich wie ein 1:10 Modell. Mit nur einer Tankf&uuml;llung f&auml;hrt der BigFood l&auml;nger als 40 Minuten. Dadurch dass der Monster Truck normalen Treibstoff ben&uuml;tzt, ist dieser auch deutlich g&uuml;nstiger als Modellbaukraftstoff. Der Motor des BigFood verf&uuml;gt &uuml;ber einen Seilzugstarter, einer Treibstoffpumpe und einen Chocke. </p> <p class="bodytext"><strong>Chassis:</strong> </p> <ul><li>L&auml;nge gesamt 700mm </li><li>H&ouml;he 350mm </li><li>Breite: Vorne 490mm / Hinten 510mm </li><li>Spurweite: Vorne 380mm / Hinten 410mm </li><li>Radstand 485mm </li><li>Bodenfreiheit 92mm </li><li>Gewicht 9,9kg </li><li>4mm Aluminiumchassis </li><li>bel&uuml;ftete Doppelscheibenbremse </li><li>Antrieb: geh&auml;rtete Metallzahnr&auml;der mit Schutzabdeckung </li><li>D&auml;mpfer: 2 verschiedene D&auml;mpfungen und einstellbare Federspannung </li><li>Differenzial: 4 Zahn&auml;der im abgedichteten Geh&auml;use </li></ul> <p class="bodytext"><strong>Motor:</strong> </p> <ul><li>2 Takt Benzinmotor </li><li>Luftk&uuml;hlung </li><li>23ccm Hubraum </li><li>Maximale Leistung: 2,2PS </li><li>Treibstoff: Gemisch 25 (Benzin) : 1 (hochwertiges Zweitakt&ouml;l) </li><li>700ccm Treibstofftank </li><li>Seilzugstarter </li></ul> <p class="bodytext"><strong>Fernsteuerung:</strong> </p> <ul><li>2 Kanal FM Fernsteuerung </li><li>Lenkservo: Starkes, wasserdichtes Servo mit 15kg Stellkraft </li><li>Gasservo: Starkes, wasserdichtes Servo mit 6kg Stallkraft </li></ul>', '', 21, '', 'Monster Truck BigFoot', 'Monster Truck BigFoot', 'Monster Truck BigFoot'),
@@ -1692,17 +1772,17 @@ INSERT INTO `products_description` (`products_id`, `language_id`, `products_name
 (2, 5, 'Monster Truck BigFoot', '<p class="bodytext"><strong>THE BIGGEST BY ZEED! </strong></p> <p class="bodytext">BigFood, der gr&ouml;&szlig;te Monster Truck bei ZEED, damit fahren Sie alles um! </p> <p class="bodytext">Das gro&szlig;e und breite Chassis sorgt mit seinem Design schon von weitem f&uuml;r aufsehen. Die Reifen sind mit den Felgen verklebt und garantieren auf fast jedem Untergrund guten halt. Ob auf feuchtem Gras, im Gel&auml;nde oder auf der Strasse, mit dem BigFood macht es einfach Spa&szlig;! Dank den gro&szlig;en Stossd&auml;mpfern hat der BigFood eine hohe Bodenfreiheit. Dieses Federwerk sorgt zudem f&uuml;r perfekte Gewichtsverteilung, damit der Monster Truck auch weite Spr&uuml;nge &uuml;ber H&uuml;gel oder Rampen ohne weiteres meistert. </p> <p class="bodytext">Dank dem Betrieb eines 23ccm Zweitakt Motors mit herk&ouml;mmlichem Treibstoff ist der Monster Truck wesentlich einfacher im Betrieb und wird zudem als Ready to Run Modell ausgeliefert. Aus der Packung, fertig und los! </p> <p class="bodytext">Das starten beim BigFood ist ein Kinderspiel. Dank dem eingebauten Zugseil, wird der Monster Truck wie ein Rasenm&auml;her gestartet. </p> <p class="bodytext">Das flexible Chassis sorgt bei dem BigFood f&uuml;r extreme Haltbarkeit und Stabilit&auml;t. </p> <p class="bodytext">Die Kombination der voll einstellbaren langen Federwerken und Doppelquerlenker Aufh&auml;ngung, sorgen f&uuml;r optimales Fahrverhalten im Gel&auml;nde wie auch auf der Strasse. Die Stossd&auml;mpfer, welche aus hochfestem Aluminium gefertigt werden, k&ouml;nnen von aussen durch 2 Varianten eingestellt und ge&auml;ndert werden. F&uuml;r ein gleichm&auml;ssiges Arbeiten der Aufh&auml;ngungen auf allen Oberfl&auml;chen sorgen die langen Federn. </p> <p class="bodytext">Eine hochwertige Fernsteuerung, welche f&uuml;r eine grosse Reichweite garantiert, ist selbstverst&auml;ndlich im RTR Pack enthalten. </p> <p class="bodytext">Dank des grossen 23ccm Benzinmotor hat der BigFood eine grosse Leistung zu bieten. Der 1:5 grosse Monster Truck ist durch die grosse Leistung des 23ccm Benzinmotors gleich beweglich wie ein 1:10 Modell. Mit nur einer Tankf&uuml;llung f&auml;hrt der BigFood l&auml;nger als 40 Minuten. Dadurch dass der Monster Truck normalen Treibstoff ben&uuml;tzt, ist dieser auch deutlich g&uuml;nstiger als Modellbaukraftstoff. Der Motor des BigFood verf&uuml;gt &uuml;ber einen Seilzugstarter, einer Treibstoffpumpe und einen Chocke. </p> <p class="bodytext"><strong>Chassis:</strong> </p> <ul><li>L&auml;nge gesamt 700mm </li><li>H&ouml;he 350mm </li><li>Breite: Vorne 490mm / Hinten 510mm </li><li>Spurweite: Vorne 380mm / Hinten 410mm </li><li>Radstand 485mm </li><li>Bodenfreiheit 92mm </li><li>Gewicht 9,9kg </li><li>4mm Aluminiumchassis </li><li>bel&uuml;ftete Doppelscheibenbremse </li><li>Antrieb: geh&auml;rtete Metallzahnr&auml;der mit Schutzabdeckung </li><li>D&auml;mpfer: 2 verschiedene D&auml;mpfungen und einstellbare Federspannung </li><li>Differenzial: 4 Zahn&auml;der im abgedichteten Geh&auml;use </li></ul> <p class="bodytext"><strong>Motor:</strong> </p> <ul><li>2 Takt Benzinmotor </li><li>Luftk&uuml;hlung </li><li>23ccm Hubraum </li><li>Maximale Leistung: 2,2PS </li><li>Treibstoff: Gemisch 25 (Benzin) : 1 (hochwertiges Zweitakt&ouml;l) </li><li>700ccm Treibstofftank </li><li>Seilzugstarter </li></ul> <p class="bodytext"><strong>Fernsteuerung:</strong> </p> <ul><li>2 Kanal FM Fernsteuerung </li><li>Lenkservo: Starkes, wasserdichtes Servo mit 15kg Stellkraft </li><li>Gasservo: Starkes, wasserdichtes Servo mit 6kg Stallkraft </li></ul>', '', 0, '', 'Monster Truck BigFoot', 'Monster Truck BigFoot', 'Monster Truck BigFoot'),
 (2, 4, 'Monster Truck BigFoot', '<p class="bodytext"><strong>THE BIGGEST BY ZEED! </strong></p> <p class="bodytext">BigFood, der gr&ouml;&szlig;te Monster Truck bei ZEED, damit fahren Sie alles um! </p> <p class="bodytext">Das gro&szlig;e und breite Chassis sorgt mit seinem Design schon von weitem f&uuml;r aufsehen. Die Reifen sind mit den Felgen verklebt und garantieren auf fast jedem Untergrund guten halt. Ob auf feuchtem Gras, im Gel&auml;nde oder auf der Strasse, mit dem BigFood macht es einfach Spa&szlig;! Dank den gro&szlig;en Stossd&auml;mpfern hat der BigFood eine hohe Bodenfreiheit. Dieses Federwerk sorgt zudem f&uuml;r perfekte Gewichtsverteilung, damit der Monster Truck auch weite Spr&uuml;nge &uuml;ber H&uuml;gel oder Rampen ohne weiteres meistert. </p> <p class="bodytext">Dank dem Betrieb eines 23ccm Zweitakt Motors mit herk&ouml;mmlichem Treibstoff ist der Monster Truck wesentlich einfacher im Betrieb und wird zudem als Ready to Run Modell ausgeliefert. Aus der Packung, fertig und los! </p> <p class="bodytext">Das starten beim BigFood ist ein Kinderspiel. Dank dem eingebauten Zugseil, wird der Monster Truck wie ein Rasenm&auml;her gestartet. </p> <p class="bodytext">Das flexible Chassis sorgt bei dem BigFood f&uuml;r extreme Haltbarkeit und Stabilit&auml;t. </p> <p class="bodytext">Die Kombination der voll einstellbaren langen Federwerken und Doppelquerlenker Aufh&auml;ngung, sorgen f&uuml;r optimales Fahrverhalten im Gel&auml;nde wie auch auf der Strasse. Die Stossd&auml;mpfer, welche aus hochfestem Aluminium gefertigt werden, k&ouml;nnen von aussen durch 2 Varianten eingestellt und ge&auml;ndert werden. F&uuml;r ein gleichm&auml;ssiges Arbeiten der Aufh&auml;ngungen auf allen Oberfl&auml;chen sorgen die langen Federn. </p> <p class="bodytext">Eine hochwertige Fernsteuerung, welche f&uuml;r eine grosse Reichweite garantiert, ist selbstverst&auml;ndlich im RTR Pack enthalten. </p> <p class="bodytext">Dank des grossen 23ccm Benzinmotor hat der BigFood eine grosse Leistung zu bieten. Der 1:5 grosse Monster Truck ist durch die grosse Leistung des 23ccm Benzinmotors gleich beweglich wie ein 1:10 Modell. Mit nur einer Tankf&uuml;llung f&auml;hrt der BigFood l&auml;nger als 40 Minuten. Dadurch dass der Monster Truck normalen Treibstoff ben&uuml;tzt, ist dieser auch deutlich g&uuml;nstiger als Modellbaukraftstoff. Der Motor des BigFood verf&uuml;gt &uuml;ber einen Seilzugstarter, einer Treibstoffpumpe und einen Chocke. </p> <p class="bodytext"><strong>Chassis:</strong> </p> <ul><li>L&auml;nge gesamt 700mm </li><li>H&ouml;he 350mm </li><li>Breite: Vorne 490mm / Hinten 510mm </li><li>Spurweite: Vorne 380mm / Hinten 410mm </li><li>Radstand 485mm </li><li>Bodenfreiheit 92mm </li><li>Gewicht 9,9kg </li><li>4mm Aluminiumchassis </li><li>bel&uuml;ftete Doppelscheibenbremse </li><li>Antrieb: geh&auml;rtete Metallzahnr&auml;der mit Schutzabdeckung </li><li>D&auml;mpfer: 2 verschiedene D&auml;mpfungen und einstellbare Federspannung </li><li>Differenzial: 4 Zahn&auml;der im abgedichteten Geh&auml;use </li></ul> <p class="bodytext"><strong>Motor:</strong> </p> <ul><li>2 Takt Benzinmotor </li><li>Luftk&uuml;hlung </li><li>23ccm Hubraum </li><li>Maximale Leistung: 2,2PS </li><li>Treibstoff: Gemisch 25 (Benzin) : 1 (hochwertiges Zweitakt&ouml;l) </li><li>700ccm Treibstofftank </li><li>Seilzugstarter </li></ul> <p class="bodytext"><strong>Fernsteuerung:</strong> </p> <ul><li>2 Kanal FM Fernsteuerung </li><li>Lenkservo: Starkes, wasserdichtes Servo mit 15kg Stellkraft </li><li>Gasservo: Starkes, wasserdichtes Servo mit 6kg Stallkraft </li></ul>', '', 0, '', 'Monster Truck BigFoot', 'Monster Truck BigFoot', 'Monster Truck BigFoot'),
 (2, 3, 'Monster Truck BigFoot', '<p class="bodytext"><strong>THE BIGGEST BY ZEED! </strong></p> <p class="bodytext">BigFood, der gr&ouml;&szlig;te Monster Truck bei ZEED, damit fahren Sie alles um! </p> <p class="bodytext">Das gro&szlig;e und breite Chassis sorgt mit seinem Design schon von weitem f&uuml;r aufsehen. Die Reifen sind mit den Felgen verklebt und garantieren auf fast jedem Untergrund guten halt. Ob auf feuchtem Gras, im Gel&auml;nde oder auf der Strasse, mit dem BigFood macht es einfach Spa&szlig;! Dank den gro&szlig;en Stossd&auml;mpfern hat der BigFood eine hohe Bodenfreiheit. Dieses Federwerk sorgt zudem f&uuml;r perfekte Gewichtsverteilung, damit der Monster Truck auch weite Spr&uuml;nge &uuml;ber H&uuml;gel oder Rampen ohne weiteres meistert. </p> <p class="bodytext">Dank dem Betrieb eines 23ccm Zweitakt Motors mit herk&ouml;mmlichem Treibstoff ist der Monster Truck wesentlich einfacher im Betrieb und wird zudem als Ready to Run Modell ausgeliefert. Aus der Packung, fertig und los! </p> <p class="bodytext">Das starten beim BigFood ist ein Kinderspiel. Dank dem eingebauten Zugseil, wird der Monster Truck wie ein Rasenm&auml;her gestartet. </p> <p class="bodytext">Das flexible Chassis sorgt bei dem BigFood f&uuml;r extreme Haltbarkeit und Stabilit&auml;t. </p> <p class="bodytext">Die Kombination der voll einstellbaren langen Federwerken und Doppelquerlenker Aufh&auml;ngung, sorgen f&uuml;r optimales Fahrverhalten im Gel&auml;nde wie auch auf der Strasse. Die Stossd&auml;mpfer, welche aus hochfestem Aluminium gefertigt werden, k&ouml;nnen von aussen durch 2 Varianten eingestellt und ge&auml;ndert werden. F&uuml;r ein gleichm&auml;ssiges Arbeiten der Aufh&auml;ngungen auf allen Oberfl&auml;chen sorgen die langen Federn. </p> <p class="bodytext">Eine hochwertige Fernsteuerung, welche f&uuml;r eine grosse Reichweite garantiert, ist selbstverst&auml;ndlich im RTR Pack enthalten. </p> <p class="bodytext">Dank des grossen 23ccm Benzinmotor hat der BigFood eine grosse Leistung zu bieten. Der 1:5 grosse Monster Truck ist durch die grosse Leistung des 23ccm Benzinmotors gleich beweglich wie ein 1:10 Modell. Mit nur einer Tankf&uuml;llung f&auml;hrt der BigFood l&auml;nger als 40 Minuten. Dadurch dass der Monster Truck normalen Treibstoff ben&uuml;tzt, ist dieser auch deutlich g&uuml;nstiger als Modellbaukraftstoff. Der Motor des BigFood verf&uuml;gt &uuml;ber einen Seilzugstarter, einer Treibstoffpumpe und einen Chocke. </p> <p class="bodytext"><strong>Chassis:</strong> </p> <ul><li>L&auml;nge gesamt 700mm </li><li>H&ouml;he 350mm </li><li>Breite: Vorne 490mm / Hinten 510mm </li><li>Spurweite: Vorne 380mm / Hinten 410mm </li><li>Radstand 485mm </li><li>Bodenfreiheit 92mm </li><li>Gewicht 9,9kg </li><li>4mm Aluminiumchassis </li><li>bel&uuml;ftete Doppelscheibenbremse </li><li>Antrieb: geh&auml;rtete Metallzahnr&auml;der mit Schutzabdeckung </li><li>D&auml;mpfer: 2 verschiedene D&auml;mpfungen und einstellbare Federspannung </li><li>Differenzial: 4 Zahn&auml;der im abgedichteten Geh&auml;use </li></ul> <p class="bodytext"><strong>Motor:</strong> </p> <ul><li>2 Takt Benzinmotor </li><li>Luftk&uuml;hlung </li><li>23ccm Hubraum </li><li>Maximale Leistung: 2,2PS </li><li>Treibstoff: Gemisch 25 (Benzin) : 1 (hochwertiges Zweitakt&ouml;l) </li><li>700ccm Treibstofftank </li><li>Seilzugstarter </li></ul> <p class="bodytext"><strong>Fernsteuerung:</strong> </p> <ul><li>2 Kanal FM Fernsteuerung </li><li>Lenkservo: Starkes, wasserdichtes Servo mit 15kg Stellkraft </li><li>Gasservo: Starkes, wasserdichtes Servo mit 6kg Stallkraft </li></ul>', '', 0, '', 'Monster Truck BigFoot', 'Monster Truck BigFoot', 'Monster Truck BigFoot'),
-(4, 2, 'Sony HDR-HC1', '<ul><li>10fach optischer Zoom</li><li>3 Megapixel CMOS-Sensor</li><li>14 bit HD DXP Analog/Digital-Wandler</li><li>2,7 Zoll Hybrid LCD-Monitor</li><li>123.000 Pixel</li><li>Steady Shot Bildstabilisator</li><li>Fotofunktion Fotos mit 1920 x 1440 Pixel</li><li>Speicherm&ouml;glichkeit auf Memory Stick Duo</li><li>Anschl&uuml;sse i.LlNK Ein- und Ausgang</li><li>USB</li><li>Komponenten-Ausgang</li><li>Audio/Video- und S-Video-Ausgang</li><li>Abmessungen 71 x 94 x 188 mm</li><li>Gewicht 670 g</li></ul>', '', 50, '', 'Sony HDR-HC1', 'Sony HDR-HC1', 'Sony HDR-HC1'),
-(4, 1, 'Sony HDR-HC1', 'The Sony Handycam HDR-HC1''s real draw is its ability to record 1080i HD video on standard MiniDV cassettes; it uses the recently implemented HDV format, which employs MPEG-2 compression rather than DV. Not much software currently supports HDV for digitizing, and the packages that do tend to be expensive products such as Adobe Premiere Pro 1.5 and Apple Final Cut Pro 5.0. So the HC1 also provides HD-to-DV downconversion for editing or playback on a standard-def (SD) TV. Like its big brother, the HDR-FX1, it incorporates Sony''s Cinematic mode for simulating the appearance of 24fps film. It can also record standard DV. The camcorder supports component-video output and supplies the necessary cables, but if you have a FireWire port on your TV, you''ll get the best playback quality that way.<br /><br />For the HC1''s sensor, Sony uses a 1/3-inch, 3-megapixel CMOS chip with an RGB filter array. That provides an effective 2.0 megapixels for HD shooting and stills, 1.5 megapixels for SD video, and 2.8 megapixels for 4:3 photos. Its Zeiss T* 10X zoom lens won''t win any spec wars, but it''s perfectly sufficient for most shots, and Sony boosts the zoom effectiveness with its Super SteadyShot electronic stabilization.<br /><br />The rest of the HC1''s features compete respectably with those of most camcorders in the same price bracket. You can select among automatic, manual, or spot focus. The Expanded Focus button enlarges the center of the scene for easier manual focusing, and the Tele Macro button will defocus the background to bring out the subject. In addition to using automatic adjustment and a handful of exposure presets, you can manually adjust the exposure or select the shutter speed. Same goes for the white balance, which includes a manual color-bias slider within the menu system. A zebra-stripe overexposure display and a live histogram supplement your exposure options, and for low-light shooting, you can turn to Sony''s infrared NightShot mode and Super NightShot, which uses infrared and the built-in video light. An on-camera flash works for still photography, and Sony''s Active Interface Shoe allows for more accessories. You can adjust the audio levels manually, and the HC1 includes connectors for an external microphone and headphones.', '', 2, '', 'Sony HDR-HC1', 'Sony HDR-HC1', 'Sony HDR-HC1'),
-(4, 5, 'Sony HDR-HC1', '<ul><li>10fach optischer Zoom</li><li>3 Megapixel CMOS-Sensor</li><li>14 bit HD DXP Analog/Digital-Wandler</li><li>2,7 Zoll Hybrid LCD-Monitor</li><li>123.000 Pixel</li><li>Steady Shot Bildstabilisator</li><li>Fotofunktion Fotos mit 1920 x 1440 Pixel</li><li>Speicherm&ouml;glichkeit auf Memory Stick Duo</li><li>Anschl&uuml;sse i.LlNK Ein- und Ausgang</li><li>USB</li><li>Komponenten-Ausgang</li><li>Audio/Video- und S-Video-Ausgang</li><li>Abmessungen 71 x 94 x 188 mm</li><li>Gewicht 670 g</li></ul>', '', 0, '', 'Sony HDR-HC1', 'Sony HDR-HC1', 'Sony HDR-HC1'),
-(4, 4, 'Sony HDR-HC1', '<ul><li>10fach optischer Zoom</li><li>3 Megapixel CMOS-Sensor</li><li>14 bit HD DXP Analog/Digital-Wandler</li><li>2,7 Zoll Hybrid LCD-Monitor</li><li>123.000 Pixel</li><li>Steady Shot Bildstabilisator</li><li>Fotofunktion Fotos mit 1920 x 1440 Pixel</li><li>Speicherm&ouml;glichkeit auf Memory Stick Duo</li><li>Anschl&uuml;sse i.LlNK Ein- und Ausgang</li><li>USB</li><li>Komponenten-Ausgang</li><li>Audio/Video- und S-Video-Ausgang</li><li>Abmessungen 71 x 94 x 188 mm</li><li>Gewicht 670 g</li></ul>', '', 0, '', 'Sony HDR-HC1', 'Sony HDR-HC1', 'Sony HDR-HC1'),
-(4, 3, 'Sony HDR-HC1', '<ul><li>10fach optischer Zoom</li><li>3 Megapixel CMOS-Sensor</li><li>14 bit HD DXP Analog/Digital-Wandler</li><li>2,7 Zoll Hybrid LCD-Monitor</li><li>123.000 Pixel</li><li>Steady Shot Bildstabilisator</li><li>Fotofunktion Fotos mit 1920 x 1440 Pixel</li><li>Speicherm&ouml;glichkeit auf Memory Stick Duo</li><li>Anschl&uuml;sse i.LlNK Ein- und Ausgang</li><li>USB</li><li>Komponenten-Ausgang</li><li>Audio/Video- und S-Video-Ausgang</li><li>Abmessungen 71 x 94 x 188 mm</li><li>Gewicht 670 g</li></ul>', '', 0, '', 'Sony HDR-HC1', 'Sony HDR-HC1', 'Sony HDR-HC1'),
-(5, 2, 'HP Compaq 2710p Notebook', '<ul><li>Genuine Windows Vista&reg; Business</li><li>Intel&reg; Core&trade;2 Duo ULV processor U7500 1.06 GHz 2 MB L2 cache 533 MHz front side bus</li><li>12.1 in&nbsp;Illumi-Lite, WXGA UWVA, anti-glare with Digitizer</li><li>1 GB 667 MHz DDR2 SDRAM</li><li>60 GB 4200 rpm SMART PATA</li><li>Intel 802.11a/b/g<br /> Bluetooth 2.0</li><li>100 GB 4200 rpm SMART PATA</li></ul>', '', 65, '', 'HP Compaq 2710p Notebook', 'HP Compaq 2710p Notebook', 'HP Compaq 2710p Notebook'),
+(4, 2, 'Sony HDR-HC1', '<ul><li>10fach optischer Zoom</li><li>3 Megapixel CMOS-Sensor</li><li>14 bit HD DXP Analog/Digital-Wandler</li><li>2,7 Zoll Hybrid LCD-Monitor</li><li>123.000 Pixel</li><li>Steady Shot Bildstabilisator</li><li>Fotofunktion Fotos mit 1920 x 1440 Pixel</li><li>Speicherm&ouml;glichkeit auf Memory Stick Duo</li><li>Anschl&uuml;sse i.LlNK Ein- und Ausgang</li><li>USB</li><li>Komponenten-Ausgang</li><li>Audio/Video- und S-Video-Ausgang</li><li>Abmessungen 71 x 94 x 188 mm</li><li>Gewicht 670 g</li></ul>', '', 54, '', 'Sony HDR-HC1', 'Sony HDR-HC1', 'Sony HDR-HC1'),
+(4, 1, 'Sony HDR-HC1', 'The Sony Handycam HDR-HC1''s real draw is its ability to record 1080i HD video on standard MiniDV cassettes; it uses the recently implemented HDV format, which employs MPEG-2 compression rather than DV. Not much software currently supports HDV for digitizing, and the packages that do tend to be expensive products such as Adobe Premiere Pro 1.5 and Apple Final Cut Pro 5.0. So the HC1 also provides HD-to-DV downconversion for editing or playback on a standard-def (SD) TV. Like its big brother, the HDR-FX1, it incorporates Sony''s Cinematic mode for simulating the appearance of 24fps film. It can also record standard DV. The camcorder supports component-video output and supplies the necessary cables, but if you have a FireWire port on your TV, you''ll get the best playback quality that way.<br /><br />For the HC1''s sensor, Sony uses a 1/3-inch, 3-megapixel CMOS chip with an RGB filter array. That provides an effective 2.0 megapixels for HD shooting and stills, 1.5 megapixels for SD video, and 2.8 megapixels for 4:3 photos. Its Zeiss T* 10X zoom lens won''t win any spec wars, but it''s perfectly sufficient for most shots, and Sony boosts the zoom effectiveness with its Super SteadyShot electronic stabilization.<br /><br />The rest of the HC1''s features compete respectably with those of most camcorders in the same price bracket. You can select among automatic, manual, or spot focus. The Expanded Focus button enlarges the center of the scene for easier manual focusing, and the Tele Macro button will defocus the background to bring out the subject. In addition to using automatic adjustment and a handful of exposure presets, you can manually adjust the exposure or select the shutter speed. Same goes for the white balance, which includes a manual color-bias slider within the menu system. A zebra-stripe overexposure display and a live histogram supplement your exposure options, and for low-light shooting, you can turn to Sony''s infrared NightShot mode and Super NightShot, which uses infrared and the built-in video light. An on-camera flash works for still photography, and Sony''s Active Interface Shoe allows for more accessories. You can adjust the audio levels manually, and the HC1 includes connectors for an external microphone and headphones.', '', 6, '', 'Sony HDR-HC1', 'Sony HDR-HC1', 'Sony HDR-HC1'),
+(4, 5, 'Sony HDR-HC1', '<ul><li>10fach optischer Zoom</li><li>3 Megapixel CMOS-Sensor</li><li>14 bit HD DXP Analog/Digital-Wandler</li><li>2,7 Zoll Hybrid LCD-Monitor</li><li>123.000 Pixel</li><li>Steady Shot Bildstabilisator</li><li>Fotofunktion Fotos mit 1920 x 1440 Pixel</li><li>Speicherm&ouml;glichkeit auf Memory Stick Duo</li><li>Anschl&uuml;sse i.LlNK Ein- und Ausgang</li><li>USB</li><li>Komponenten-Ausgang</li><li>Audio/Video- und S-Video-Ausgang</li><li>Abmessungen 71 x 94 x 188 mm</li><li>Gewicht 670 g</li></ul>', '', 4, '', 'Sony HDR-HC1', 'Sony HDR-HC1', 'Sony HDR-HC1'),
+(4, 4, 'Sony HDR-HC1', '<ul><li>10fach optischer Zoom</li><li>3 Megapixel CMOS-Sensor</li><li>14 bit HD DXP Analog/Digital-Wandler</li><li>2,7 Zoll Hybrid LCD-Monitor</li><li>123.000 Pixel</li><li>Steady Shot Bildstabilisator</li><li>Fotofunktion Fotos mit 1920 x 1440 Pixel</li><li>Speicherm&ouml;glichkeit auf Memory Stick Duo</li><li>Anschl&uuml;sse i.LlNK Ein- und Ausgang</li><li>USB</li><li>Komponenten-Ausgang</li><li>Audio/Video- und S-Video-Ausgang</li><li>Abmessungen 71 x 94 x 188 mm</li><li>Gewicht 670 g</li></ul>', '', 6, '', 'Sony HDR-HC1', 'Sony HDR-HC1', 'Sony HDR-HC1'),
+(4, 3, 'Sony HDR-HC1', '<ul><li>10fach optischer Zoom</li><li>3 Megapixel CMOS-Sensor</li><li>14 bit HD DXP Analog/Digital-Wandler</li><li>2,7 Zoll Hybrid LCD-Monitor</li><li>123.000 Pixel</li><li>Steady Shot Bildstabilisator</li><li>Fotofunktion Fotos mit 1920 x 1440 Pixel</li><li>Speicherm&ouml;glichkeit auf Memory Stick Duo</li><li>Anschl&uuml;sse i.LlNK Ein- und Ausgang</li><li>USB</li><li>Komponenten-Ausgang</li><li>Audio/Video- und S-Video-Ausgang</li><li>Abmessungen 71 x 94 x 188 mm</li><li>Gewicht 670 g</li></ul>', '', 3, '', 'Sony HDR-HC1', 'Sony HDR-HC1', 'Sony HDR-HC1'),
+(5, 2, 'HP Compaq 2710p Notebook', '<ul><li>Genuine Windows Vista&reg; Business</li><li>Intel&reg; Core&trade;2 Duo ULV processor U7500 1.06 GHz 2 MB L2 cache 533 MHz front side bus</li><li>12.1 in&nbsp;Illumi-Lite, WXGA UWVA, anti-glare with Digitizer</li><li>1 GB 667 MHz DDR2 SDRAM</li><li>60 GB 4200 rpm SMART PATA</li><li>Intel 802.11a/b/g<br /> Bluetooth 2.0</li><li>100 GB 4200 rpm SMART PATA</li></ul>', '', 69, '', 'HP Compaq 2710p Notebook', 'HP Compaq 2710p Notebook', 'HP Compaq 2710p Notebook'),
 (5, 1, 'HP Compaq 2710p Notebook', '<ul><li>Genuine Windows Vista&reg; Business</li><li>Intel&reg; Core&trade;2 Duo ULV processor U7500 1.06 GHz 2 MB L2 cache 533 MHz front side bus</li><li>12.1 in&nbsp;Illumi-Lite, WXGA UWVA, anti-glare with Digitizer</li><li>1 GB 667 MHz DDR2 SDRAM</li><li>60 GB 4200 rpm SMART PATA</li><li>Intel 802.11a/b/g<br />  Bluetooth 2.0</li><li>100 GB 4200 rpm SMART PATA</li></ul>', '', 1, '', 'HP Compaq 2710p Notebook', 'HP Compaq 2710p Notebook', 'HP Compaq 2710p Notebook'),
 (5, 5, 'HP Compaq 2710p Notebook', '<ul><li>Genuine Windows Vista&reg; Business</li><li>Intel&reg; Core&trade;2 Duo ULV processor U7500 1.06 GHz 2 MB L2 cache 533 MHz front side bus</li><li>12.1 in&nbsp;Illumi-Lite, WXGA UWVA, anti-glare with Digitizer</li><li>1 GB 667 MHz DDR2 SDRAM</li><li>60 GB 4200 rpm SMART PATA</li><li>Intel 802.11a/b/g<br />  Bluetooth 2.0</li><li>100 GB 4200 rpm SMART PATA</li></ul>', '', 0, '', 'HP Compaq 2710p Notebook', 'HP Compaq 2710p Notebook', 'HP Compaq 2710p Notebook'),
 (5, 4, 'HP Compaq 2710p Notebook', '<ul><li>Genuine Windows Vista&reg; Business</li><li>Intel&reg; Core&trade;2 Duo ULV processor U7500 1.06 GHz 2 MB L2 cache 533 MHz front side bus</li><li>12.1 in&nbsp;Illumi-Lite, WXGA UWVA, anti-glare with Digitizer</li><li>1 GB 667 MHz DDR2 SDRAM</li><li>60 GB 4200 rpm SMART PATA</li><li>Intel 802.11a/b/g<br />  Bluetooth 2.0</li><li>100 GB 4200 rpm SMART PATA</li></ul>', '', 0, '', 'HP Compaq 2710p Notebook', 'HP Compaq 2710p Notebook', 'HP Compaq 2710p Notebook'),
 (5, 3, 'HP Compaq 2710p Notebook', '<ul><li>Genuine Windows Vista&reg; Business</li><li>Intel&reg; Core&trade;2 Duo ULV processor U7500 1.06 GHz 2 MB L2 cache 533 MHz front side bus</li><li>12.1 in&nbsp;Illumi-Lite, WXGA UWVA, anti-glare with Digitizer</li><li>1 GB 667 MHz DDR2 SDRAM</li><li>60 GB 4200 rpm SMART PATA</li><li>Intel 802.11a/b/g<br />  Bluetooth 2.0</li><li>100 GB 4200 rpm SMART PATA</li></ul>', '', 0, '', 'HP Compaq 2710p Notebook', 'HP Compaq 2710p Notebook', 'HP Compaq 2710p Notebook'),
-(6, 2, 'VAIO® UX Series Micro PC', '<p>Lightweight heavyweight: The ultra-portable VAIO&reg; VGN-UX380N Micro PC, a handheld wonder that packs powerful computing into a compact size. The ingenious design is for more than just good looks-it''s actually engineered for serious productivity on the go. Features include a 4.5&quot; wide SVGA display with XBRITE&reg; LCD technology, Intel&reg; Core&trade; Solo Ultra Low Voltage CPU for fast processing and Windows Vista&reg; Business on board. Of course, advanced wireless capabilities are built right in, and expansion is a breeze with the included port replicator. Integrated camera and microphone ensure that you can stay connected via VoIP.</p><p><strong>Ultra-portable design.</strong><br />The VAIO&reg; UX Micro PC is so small and lightweight you won&rsquo;t believe it&rsquo;s a full-functioning PC. But this remarkably compact dynamo is designed for productivity on the go. With a 4.5&rdquo; wide SVGA11 (1024x600) display with XBRITE&trade; LCD technology, Intel&reg; Core&trade; Solo Ultra Low Voltage CPU for fast processing, and Windows Vista&trade; Business on board. Advanced Wireless capabilities are built right in, and expansion is a breeze with the included port replicator.</p><p><strong>A truly mobile wireless companion.</strong><br />True mobility is about broad access, just as much as it is about slim, lightweight design. And the VAIO&reg; UX Micro PC is taking that access farther than ever before. With integrated wireless Wide Area Network (WAN)13 technology, you can access the Cingular Wireless EDGE network to extend your wireless coverage beyond LAN3 access networks and hotspots. And with integrated wireless LAN3 and Bluetooth&reg; technology5, the VAIO&reg; UX Micro PC gives you the freedom to go farther, do more, and stay connected.</p><p><strong>Communication on the go.</strong><br />The VAIO&reg; UX Micro PC is communications-ready, with integrated camera and built-in microphone and speakers, so you&rsquo;re equipped to communicate via VoIP12 (Voice over Internet Protocol) virtually anywhere WLAN3 or WWAN13 service is available.</p><p><strong>Ingenious design.</strong><br />An integrated keyboard and stylus allow you to choose the input method you prefer. VAIO&reg; Touch Launcher and Instant Command enable quick and easy program access, and the biometric fingerprint sensor stores your passwords so you can access applications and secure web sites without having to type them. And the UX Micro PC really makes smart use of all its display space. With control buttons for zooming, scrolling, and a stick pointer, as well as the ability to view in either landscape or portrait orientations, you know you&rsquo;ll be able to view documents, applications, and media in the most appropriate way.</p>', '', 149, '', 'VAIO® UX Series Micro PC', 'VAIO® UX Series Micro PC', 'VAIO® UX Series Micro PC'),
+(6, 2, 'VAIO® UX Series Micro PC', '<p>Lightweight heavyweight: The ultra-portable VAIO&reg; VGN-UX380N Micro PC, a handheld wonder that packs powerful computing into a compact size. The ingenious design is for more than just good looks-it''s actually engineered for serious productivity on the go. Features include a 4.5&quot; wide SVGA display with XBRITE&reg; LCD technology, Intel&reg; Core&trade; Solo Ultra Low Voltage CPU for fast processing and Windows Vista&reg; Business on board. Of course, advanced wireless capabilities are built right in, and expansion is a breeze with the included port replicator. Integrated camera and microphone ensure that you can stay connected via VoIP.</p><p><strong>Ultra-portable design.</strong><br />The VAIO&reg; UX Micro PC is so small and lightweight you won&rsquo;t believe it&rsquo;s a full-functioning PC. But this remarkably compact dynamo is designed for productivity on the go. With a 4.5&rdquo; wide SVGA11 (1024x600) display with XBRITE&trade; LCD technology, Intel&reg; Core&trade; Solo Ultra Low Voltage CPU for fast processing, and Windows Vista&trade; Business on board. Advanced Wireless capabilities are built right in, and expansion is a breeze with the included port replicator.</p><p><strong>A truly mobile wireless companion.</strong><br />True mobility is about broad access, just as much as it is about slim, lightweight design. And the VAIO&reg; UX Micro PC is taking that access farther than ever before. With integrated wireless Wide Area Network (WAN)13 technology, you can access the Cingular Wireless EDGE network to extend your wireless coverage beyond LAN3 access networks and hotspots. And with integrated wireless LAN3 and Bluetooth&reg; technology5, the VAIO&reg; UX Micro PC gives you the freedom to go farther, do more, and stay connected.</p><p><strong>Communication on the go.</strong><br />The VAIO&reg; UX Micro PC is communications-ready, with integrated camera and built-in microphone and speakers, so you&rsquo;re equipped to communicate via VoIP12 (Voice over Internet Protocol) virtually anywhere WLAN3 or WWAN13 service is available.</p><p><strong>Ingenious design.</strong><br />An integrated keyboard and stylus allow you to choose the input method you prefer. VAIO&reg; Touch Launcher and Instant Command enable quick and easy program access, and the biometric fingerprint sensor stores your passwords so you can access applications and secure web sites without having to type them. And the UX Micro PC really makes smart use of all its display space. With control buttons for zooming, scrolling, and a stick pointer, as well as the ability to view in either landscape or portrait orientations, you know you&rsquo;ll be able to view documents, applications, and media in the most appropriate way.</p>', '', 150, '', 'VAIO® UX Series Micro PC', 'VAIO® UX Series Micro PC', 'VAIO® UX Series Micro PC'),
 (6, 1, 'VAIO® UX Series Micro PC', '<p>Lightweight heavyweight: The ultra-portable VAIO&reg; VGN-UX380N Micro PC, a handheld wonder that packs powerful computing into a compact size. The ingenious design is for more than just good looks-it''s actually engineered for serious productivity on the go. Features include a 4.5&quot; wide SVGA display with XBRITE&reg; LCD technology, Intel&reg; Core&trade; Solo Ultra Low Voltage CPU for fast processing and Windows Vista&reg; Business on board. Of course, advanced wireless capabilities are built right in, and expansion is a breeze with the included port replicator. Integrated camera and microphone ensure that you can stay connected via VoIP.<br /> </p><p><strong>Ultra-portable design.</strong><br /> The VAIO&reg; UX Micro PC is so small and lightweight you won&rsquo;t believe it&rsquo;s a full-functioning PC. But this remarkably compact dynamo is designed for productivity on the go. With a 4.5&rdquo; wide SVGA11 (1024x600) display with XBRITE&trade; LCD technology, Intel&reg; Core&trade; Solo Ultra Low Voltage CPU for fast processing, and Windows Vista&trade; Business on board. Advanced Wireless capabilities are built right in, and expansion is a breeze with the included port replicator.<br /> </p><p><strong>A truly mobile wireless companion.</strong><br /> True mobility is about broad access, just as much as it is about slim, lightweight design. And the VAIO&reg; UX Micro PC is taking that access farther than ever before. With integrated wireless Wide Area Network (WAN)13 technology, you can access the Cingular Wireless EDGE network to extend your wireless coverage beyond LAN3 access networks and hotspots. And with integrated wireless LAN3 and Bluetooth&reg; technology5, the VAIO&reg; UX Micro PC gives you the freedom to go farther, do more, and stay connected.<br /> </p><p><strong>Communication on the go.</strong><br /> The VAIO&reg; UX Micro PC is communications-ready, with integrated camera and built-in microphone and speakers, so you&rsquo;re equipped to communicate via VoIP12 (Voice over Internet Protocol) virtually anywhere WLAN3 or WWAN13 service is available.<br /> </p><p><strong>Ingenious design.</strong><br /> An integrated keyboard and stylus allow you to choose the input method you prefer. VAIO&reg; Touch Launcher and Instant Command enable quick and easy program access, and the biometric fingerprint sensor stores your passwords so you can access applications and secure web sites without having to type them. And the UX Micro PC really makes smart use of all its display space. With control buttons for zooming, scrolling, and a stick pointer, as well as the ability to view in either landscape or portrait orientations, you know you&rsquo;ll be able to view documents, applications, and media in the most appropriate way.</p>', '', 0, '', 'VAIO® UX Series Micro PC', 'VAIO® UX Series Micro PC', 'VAIO® UX Series Micro PC'),
 (6, 5, 'VAIO® UX Series Micro PC', '<p>Lightweight heavyweight: The ultra-portable VAIO&reg; VGN-UX380N Micro PC, a handheld wonder that packs powerful computing into a compact size. The ingenious design is for more than just good looks-it''s actually engineered for serious productivity on the go. Features include a 4.5&quot; wide SVGA display with XBRITE&reg; LCD technology, Intel&reg; Core&trade; Solo Ultra Low Voltage CPU for fast processing and Windows Vista&reg; Business on board. Of course, advanced wireless capabilities are built right in, and expansion is a breeze with the included port replicator. Integrated camera and microphone ensure that you can stay connected via VoIP.<br /> </p><p><strong>Ultra-portable design.</strong><br /> The VAIO&reg; UX Micro PC is so small and lightweight you won&rsquo;t believe it&rsquo;s a full-functioning PC. But this remarkably compact dynamo is designed for productivity on the go. With a 4.5&rdquo; wide SVGA11 (1024x600) display with XBRITE&trade; LCD technology, Intel&reg; Core&trade; Solo Ultra Low Voltage CPU for fast processing, and Windows Vista&trade; Business on board. Advanced Wireless capabilities are built right in, and expansion is a breeze with the included port replicator.<br /> </p><p><strong>A truly mobile wireless companion.</strong><br /> True mobility is about broad access, just as much as it is about slim, lightweight design. And the VAIO&reg; UX Micro PC is taking that access farther than ever before. With integrated wireless Wide Area Network (WAN)13 technology, you can access the Cingular Wireless EDGE network to extend your wireless coverage beyond LAN3 access networks and hotspots. And with integrated wireless LAN3 and Bluetooth&reg; technology5, the VAIO&reg; UX Micro PC gives you the freedom to go farther, do more, and stay connected.<br /> </p><p><strong>Communication on the go.</strong><br /> The VAIO&reg; UX Micro PC is communications-ready, with integrated camera and built-in microphone and speakers, so you&rsquo;re equipped to communicate via VoIP12 (Voice over Internet Protocol) virtually anywhere WLAN3 or WWAN13 service is available.<br /> </p><p><strong>Ingenious design.</strong><br /> An integrated keyboard and stylus allow you to choose the input method you prefer. VAIO&reg; Touch Launcher and Instant Command enable quick and easy program access, and the biometric fingerprint sensor stores your passwords so you can access applications and secure web sites without having to type them. And the UX Micro PC really makes smart use of all its display space. With control buttons for zooming, scrolling, and a stick pointer, as well as the ability to view in either landscape or portrait orientations, you know you&rsquo;ll be able to view documents, applications, and media in the most appropriate way.</p>', '', 0, '', 'VAIO® UX Series Micro PC', 'VAIO® UX Series Micro PC', 'VAIO® UX Series Micro PC'),
 (6, 4, 'VAIO® UX Series Micro PC', '<p>Lightweight heavyweight: The ultra-portable VAIO&reg; VGN-UX380N Micro PC, a handheld wonder that packs powerful computing into a compact size. The ingenious design is for more than just good looks-it''s actually engineered for serious productivity on the go. Features include a 4.5&quot; wide SVGA display with XBRITE&reg; LCD technology, Intel&reg; Core&trade; Solo Ultra Low Voltage CPU for fast processing and Windows Vista&reg; Business on board. Of course, advanced wireless capabilities are built right in, and expansion is a breeze with the included port replicator. Integrated camera and microphone ensure that you can stay connected via VoIP.<br /> </p><p><strong>Ultra-portable design.</strong><br /> The VAIO&reg; UX Micro PC is so small and lightweight you won&rsquo;t believe it&rsquo;s a full-functioning PC. But this remarkably compact dynamo is designed for productivity on the go. With a 4.5&rdquo; wide SVGA11 (1024x600) display with XBRITE&trade; LCD technology, Intel&reg; Core&trade; Solo Ultra Low Voltage CPU for fast processing, and Windows Vista&trade; Business on board. Advanced Wireless capabilities are built right in, and expansion is a breeze with the included port replicator.<br /> </p><p><strong>A truly mobile wireless companion.</strong><br /> True mobility is about broad access, just as much as it is about slim, lightweight design. And the VAIO&reg; UX Micro PC is taking that access farther than ever before. With integrated wireless Wide Area Network (WAN)13 technology, you can access the Cingular Wireless EDGE network to extend your wireless coverage beyond LAN3 access networks and hotspots. And with integrated wireless LAN3 and Bluetooth&reg; technology5, the VAIO&reg; UX Micro PC gives you the freedom to go farther, do more, and stay connected.<br /> </p><p><strong>Communication on the go.</strong><br /> The VAIO&reg; UX Micro PC is communications-ready, with integrated camera and built-in microphone and speakers, so you&rsquo;re equipped to communicate via VoIP12 (Voice over Internet Protocol) virtually anywhere WLAN3 or WWAN13 service is available.<br /> </p><p><strong>Ingenious design.</strong><br /> An integrated keyboard and stylus allow you to choose the input method you prefer. VAIO&reg; Touch Launcher and Instant Command enable quick and easy program access, and the biometric fingerprint sensor stores your passwords so you can access applications and secure web sites without having to type them. And the UX Micro PC really makes smart use of all its display space. With control buttons for zooming, scrolling, and a stick pointer, as well as the ability to view in either landscape or portrait orientations, you know you&rsquo;ll be able to view documents, applications, and media in the most appropriate way.</p>', '', 0, '', 'VAIO® UX Series Micro PC', 'VAIO® UX Series Micro PC', 'VAIO® UX Series Micro PC');
@@ -1773,11 +1853,66 @@ INSERT INTO `products_options` (`products_options_id`, `language_id`, `products_
 (3, 5, 'Operating System', 0, 0, '', 0),
 (3, 4, 'Operating System', 0, 0, '', 0),
 (3, 3, 'Operating System', 0, 0, '', 0),
-(4, 2, 'Name', 1, 40, '', 0),
-(4, 1, 'Name', 1, 40, '', 0),
 (4, 5, 'Nom', 1, 40, '', 0),
 (4, 4, 'Nome', 1, 40, '', 0),
-(4, 3, 'Nombre', 1, 40, '', 0);
+(4, 3, 'Nombre', 1, 40, '', 0),
+(4, 2, 'Name', 1, 40, '(für die Gravur)', 0),
+(4, 1, 'Name', 1, 40, '', 0),
+(5, 4, 'File', 5, 0, '', 0),
+(5, 3, 'File', 5, 0, '', 0),
+(5, 2, 'Datei', 5, 0, '', 0),
+(5, 1, 'File', 5, 0, '', 0),
+(5, 5, 'Fichier', 5, 0, '', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products_options_types`
+--
+
+DROP TABLE IF EXISTS `products_options_types`;
+CREATE TABLE IF NOT EXISTS `products_options_types` (
+  `products_options_types_id` int(11) NOT NULL default '0',
+  `products_options_types_name` varchar(32) default NULL,
+  `language_id` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`products_options_types_id`,`language_id`)
+) TYPE=MyISAM COMMENT='Track products_options_types';
+
+--
+-- Dumping data for table `products_options_types`
+--
+
+INSERT INTO `products_options_types` (`products_options_types_id`, `products_options_types_name`, `language_id`) VALUES
+(0, 'Select', 1),
+(1, 'Text', 1),
+(2, 'Radio', 1),
+(3, 'Checkbox', 1),
+(4, 'Textarea', 1),
+(5, 'File', 1),
+(0, 'Select', 2),
+(1, 'Text', 2),
+(2, 'Radio', 2),
+(3, 'Checkbox', 2),
+(4, 'Textarea', 2),
+(5, 'File', 2),
+(0, 'Select', 3),
+(1, 'Text', 3),
+(2, 'Radio', 3),
+(3, 'Checkbox', 3),
+(4, 'Textarea', 3),
+(5, 'File', 3),
+(0, 'Select', 4),
+(1, 'Text', 4),
+(2, 'Radio', 4),
+(3, 'Checkbox', 4),
+(4, 'Textarea', 4),
+(5, 'File', 4),
+(0, 'Select', 5),
+(1, 'Text', 5),
+(2, 'Radio', 5),
+(3, 'Checkbox', 5),
+(4, 'Textarea', 5),
+(5, 'File', 5);
 
 -- --------------------------------------------------------
 
@@ -1866,7 +2001,7 @@ CREATE TABLE IF NOT EXISTS `products_options_values_to_products_options` (
   `products_options_id` int(11) NOT NULL default '0',
   `products_options_values_id` int(11) NOT NULL default '0',
   PRIMARY KEY  (`products_options_values_to_products_options_id`)
-) TYPE=MyISAM AUTO_INCREMENT=11 ;
+) TYPE=MyISAM AUTO_INCREMENT=15 ;
 
 --
 -- Dumping data for table `products_options_values_to_products_options`
@@ -1882,7 +2017,9 @@ INSERT INTO `products_options_values_to_products_options` (`products_options_val
 (7, 3, 7),
 (8, 3, 8),
 (9, 3, 9),
-(10, 3, 10);
+(10, 3, 10),
+(14, 5, 0),
+(13, 5, 0);
 
 -- --------------------------------------------------------
 
@@ -2054,7 +2191,7 @@ CREATE TABLE IF NOT EXISTS `specials` (
 --
 
 INSERT INTO `specials` (`specials_id`, `products_id`, `specials_new_products_price`, `specials_date_added`, `specials_last_modified`, `expires_date`, `date_status_change`, `status`) VALUES
-(1, 7, 64.9628, '2007-11-05 06:16:02', '2007-11-05 06:16:38', '0000-00-00 00:00:00', NULL, 1);
+(1, 7, 64.9628, '2007-11-05 06:16:02', '2007-11-05 06:16:38', '0000-00-00 00:00:00', '2008-04-06 12:34:10', 0);
 
 -- --------------------------------------------------------
 
@@ -2070,14 +2207,15 @@ CREATE TABLE IF NOT EXISTS `tax_class` (
   `last_modified` datetime default NULL,
   `date_added` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`tax_class_id`)
-) TYPE=MyISAM AUTO_INCREMENT=2 ;
+) TYPE=MyISAM AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `tax_class`
 --
 
 INSERT INTO `tax_class` (`tax_class_id`, `tax_class_title`, `tax_class_description`, `last_modified`, `date_added`) VALUES
-(1, '7.6% MwSt.', '7.6% MwSt.', '2007-08-07 22:43:29', '2007-06-12 22:50:01');
+(1, '7.6% MwSt.', '7.6% MwSt.', '2007-08-07 22:43:29', '2007-06-12 22:50:01'),
+(2, '2.4% MwSt.', '2.4% MwSt.', NULL, '2008-03-26 22:15:55');
 
 -- --------------------------------------------------------
 
@@ -2096,14 +2234,15 @@ CREATE TABLE IF NOT EXISTS `tax_rates` (
   `last_modified` datetime default NULL,
   `date_added` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`tax_rates_id`)
-) TYPE=MyISAM AUTO_INCREMENT=2 ;
+) TYPE=MyISAM AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `tax_rates`
 --
 
 INSERT INTO `tax_rates` (`tax_rates_id`, `tax_zone_id`, `tax_class_id`, `tax_priority`, `tax_rate`, `tax_description`, `last_modified`, `date_added`) VALUES
-(1, 1, 1, 1, 7.6000, '7.6% MwSt.', '2007-08-07 22:43:02', '2007-06-12 22:50:01');
+(1, 1, 1, 1, 7.6000, '7.6% MwSt.', '2007-08-07 22:43:02', '2007-06-12 22:50:01'),
+(2, 1, 2, 0, 2.4000, '2.4% MwSt.', '2008-03-26 22:16:40', '2008-03-26 22:16:17');
 
 -- --------------------------------------------------------
 
@@ -2127,7 +2266,7 @@ CREATE TABLE IF NOT EXISTS `whos_online` (
 --
 
 INSERT INTO `whos_online` (`customer_id`, `full_name`, `session_id`, `ip_address`, `time_entry`, `time_last_click`, `last_page_url`) VALUES
-(0, 'Guest', 'f1262b6bad2fd0b874ebf03bd457dc71', '127.0.0.1', '1206475364', '1206480040', '/swisscart/trunk/product_info.php?products_id=1{txt_4}Hans%20Mustermann&osCsid=f1262b6bad2fd0b874ebf03bd457dc71');
+(0, 'Guest', '186bc799a13d7e1a31166173027e9818', '127.0.0.1', '1207485897', '1207486497', '/swisscart/trunk/login.php?osCsid=186bc799a13d7e1a31166173027e9818');
 
 -- --------------------------------------------------------
 
