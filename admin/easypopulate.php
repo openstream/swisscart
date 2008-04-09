@@ -63,13 +63,13 @@ global $active, $inactive, $zero_qty_inactive, $deleteit;
 $active = 'Active';
 $inactive = 'Inactive';
 //$deleteit = 'Delete'; // not functional yet
-$zero_qty_inactive = true;
+$zero_qty_inactive = false;
 
 //**** Size of products_model in products table ****
 // set this to the size of your model number field in the db.  We check to make sure all models are no longer than this value.
 // this prevents the database from getting fubared.  Just making this number bigger won't help your database!  They must match!
 global $modelsize;
-$modelsize = 25;
+$modelsize = 36;
 
 //**** Price includes tax? ****
 // Set the v_price_with_tax to
@@ -83,7 +83,7 @@ $price_with_tax =true;
 // set to 1 = replace quotes with escape characters
 // set to 0 = no quote replacement
 global $replace_quotes;
-$replace_quotes = false;
+$replace_quotes = true;
 
 // **** Field Separator ****
 // change this if you can't use the default of tabs
@@ -114,7 +114,7 @@ $preserve_tabs_cr_lf = false; // default is: false
 // **** Max Category Levels ****
 // change this if you need more or fewer categories
 global $max_categories;
-$max_categories = 3; // 7 is default
+$max_categories = 7; // 7 is default
 
 // VJ product attributes begin
 // **** Product Attributes ****
@@ -1868,6 +1868,26 @@ function walk( $item1 ) {
 				CURRENT_TIMESTAMP
 				)";
 			$result = tep_db_query($sql);
+			
+			// Insert data into manufacturers_info table
+        	$languages = tep_get_languages();            
+            for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
+				$sql = "INSERT INTO " . TABLE_MANUFACTURERS_INFO . "(
+					manufacturers_id,
+					languages_id,
+					manufacturers_htc_title_tag,
+					manufacturers_htc_desc_tag,
+					manufacturers_htc_keywords_tag
+					) VALUES (
+					$max_mfg_id,
+					{$languages[$i]['id']},
+					'$v_manufacturers_name',
+					'$v_manufacturers_name',
+					'$v_manufacturers_name'
+					)";
+				$result = tep_db_query($sql);				
+			}
+			
 			$v_manufacturer_id = $max_mfg_id;
 		}
 	}
