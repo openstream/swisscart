@@ -93,6 +93,7 @@
                           'payment_method' => $order->info['payment_method'],
 						  'payment_class' => $order->info['payment_class'],
 						  'shipping_method' => $order->info['shipping_method'],
+						  'shipping_module' => $shipping['id'],
                           'shipping_class' => $order->info['shipping_class'], 
                           'cc_type' => $order->info['cc_type'],
                           'cc_owner' => $order->info['cc_owner'],
