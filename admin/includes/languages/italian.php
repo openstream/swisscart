@@ -200,6 +200,7 @@ define('IMAGE_CANCEL', 'Cancella');
 define('IMAGE_CONFIRM', 'Conferma');
 define('IMAGE_COPY', 'Copia');
 define('IMAGE_COPY_TO', 'Copia In');
+define('IMAGE_CREATE_ORDER', 'Create Order');
 define('IMAGE_DETAILS', 'Dettagli');
 define('IMAGE_DELETE', 'Cancella');
 define('IMAGE_EDIT', 'Modifica');

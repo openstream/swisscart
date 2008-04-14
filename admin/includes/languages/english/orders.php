@@ -62,6 +62,7 @@ define('TEXT_INFO_RESTOCK_PRODUCT_QUANTITY', 'Restock product quantity');
 define('TEXT_DATE_ORDER_CREATED', 'Date Created:');
 define('TEXT_DATE_ORDER_LAST_MODIFIED', 'Last Modified:');
 define('TEXT_INFO_PAYMENT_METHOD', 'Payment Method:');
+define('TEXT_IMAGE_CREATE','Create Order');
 
 define('TEXT_ALL_ORDERS', 'All Orders');
 define('TEXT_NO_ORDER_HISTORY', 'No Order History Available');

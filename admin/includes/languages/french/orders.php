@@ -62,6 +62,7 @@ define('TEXT_INFO_RESTOCK_PRODUCT_QUANTITY', 'Remettre en stock la quantit&eacut
 define('TEXT_DATE_ORDER_CREATED', 'Date de cr&eacute;ation&nbsp;:');
 define('TEXT_DATE_ORDER_LAST_MODIFIED', 'Derni&egrave;re modification&nbsp;:');
 define('TEXT_INFO_PAYMENT_METHOD', 'Moyen de paiement&nbsp;:');
+define('TEXT_IMAGE_CREATE','Créer un ordre');
 
 define('TEXT_ALL_ORDERS', 'Toutes les commandes');
 define('TEXT_NO_ORDER_HISTORY', 'Aucun historique de commande disponible');

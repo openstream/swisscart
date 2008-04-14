@@ -65,6 +65,7 @@ define('TEXT_INFO_RESTOCK_PRODUCT_QUANTITY', 'A&ntilde;adir productos al almacen
 define('TEXT_DATE_ORDER_CREATED', 'A&ntilde;adido el:');
 define('TEXT_DATE_ORDER_LAST_MODIFIED', 'Modificado:');
 define('TEXT_INFO_PAYMENT_METHOD', 'M&eacute;todo de Pago:');
+define('TEXT_IMAGE_CREATE','Create Order');
 
 define('TEXT_ALL_ORDERS', 'Todos');
 define('TEXT_NO_ORDER_HISTORY', 'No hay hist&oacute;rico');

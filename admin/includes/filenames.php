@@ -22,6 +22,8 @@
   define('FILENAME_CATEGORIES', 'categories.php');
   define('FILENAME_CONFIGURATION', 'configuration.php');
   define('FILENAME_COUNTRIES', 'countries.php');
+  define('FILENAME_CREATE_ORDER_PROCESS', 'create_order_process.php');
+  define('FILENAME_CREATE_ORDER', 'create_order.php');  
   define('FILENAME_CURRENCIES', 'currencies.php');
   define('FILENAME_CUSTOMERS', 'customers.php');
   define('FILENAME_DEFAULT', 'index.php');
