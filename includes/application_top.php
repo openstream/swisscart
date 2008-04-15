@@ -491,7 +491,11 @@ if (is_file('FirePHP_Build/Init.inc.php')) {
 				  // the dot and space after the insert_id were causing problems
                   //$real_ids[TEXT_PREFIX . $HTTP_POST_VARS[UPLOAD_PREFIX . $i]] = $insert_id . ". " . $products_options_file->filename;
 				  $real_ids[TEXT_PREFIX . $HTTP_POST_VARS[UPLOAD_PREFIX . $i]] = $insert_id . $products_options_file->filename;
-                  $products_options_file->set_filename("$insert_id" . $products_options_file->filename);
+				  $unwanted_chars = array(' ','ö','ä','ü','Ö','Ä','Ü','é','à','è');
+				  $trimed_filename = str_replace($unwanted_chars, '', $products_options_file->filename);
+				  $trimed_filename =  'id' . $insert_id . '_' . substr($trimed_filename,-26);
+				  $real_ids[TEXT_PREFIX . $HTTP_POST_VARS[UPLOAD_PREFIX . $i]] = $trimed_filename;
+                  $products_options_file->set_filename($trimed_filename);
                   if (!($products_options_file->save())) {
                     break 2;
                   }
