@@ -244,9 +244,11 @@
           <tr>
             <td class="pageHeading"><h1><?php 
 			  if (isset($HTTP_GET_VARS['manufacturers_id'])) {  
-				$category_query = tep_db_query("select manufacturers_name from " . TABLE_MANUFACTURERS . " where manufacturers_id = '" . (int)$HTTP_GET_VARS['manufacturers_id'] . "'");
+				$category_query = tep_db_query("select manufacturers_name, manufacturers_region, manufacturers_country, manufacturers_htc_description, manufacturers_image, manufacturers_image_1, manufacturers_image_2, manufacturers_image_3, manufacturers_image_4, manufacturers_image_5 from " . TABLE_MANUFACTURERS . " m left join ". TABLE_MANUFACTURERS_INFO ." mi on (m.manufacturers_id=mi.manufacturers_id) where m.manufacturers_id = '" . (int)$HTTP_GET_VARS['manufacturers_id'] . "' and mi.languages_id='". (int)$languages_id ."'");
 				$category = tep_db_fetch_array($category_query);
-				if ($category['manufacturers_name'] != "") {echo $category['manufacturers_name'];} else { echo HEADING_TITLE;}
+				if ($category['manufacturers_name'] != "") {
+					echo $category['manufacturers_name'];			
+				} else { echo HEADING_TITLE;}
 			  } else { 
 				$category_query = tep_db_query("select cd.categories_name from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.categories_id = '" . (int)$current_category_id . "' and cd.categories_id = '" . (int)$current_category_id . "' and cd.language_id = '" . (int)$languages_id . "'");
 				$category = tep_db_fetch_array($category_query);
@@ -294,6 +296,21 @@
 ?>
             <td align="right"><?php if (HEADING_IMAGE_ENABLED == 'true') echo tep_image(DIR_WS_IMAGES . $image, HEADING_TITLE, HEADING_IMAGE_WIDTH, HEADING_IMAGE_HEIGHT); ?></td>
           </tr>
+          <tr><td><?php
+            if (isset($HTTP_GET_VARS['manufacturers_id'])) {
+                echo '<br />'. TEXT_MANUFACTURERS_DESCRIPTION .': ' . $category['manufacturers_htc_description'] . "\n";
+                echo '<br />'. TEXT_MANUFACTURERS_REGION .': ' . $category['manufacturers_region'] . "\n";
+                echo '<br />'. TEXT_MANUFACTURERS_COUNTRY .': ' . $category['manufacturers_country'] . "\n";
+				echo '<br /><br />' . "\n";
+				
+				echo '<table border="0" width="100%" cellspacing="0" cellpadding="0" align="center"><tr>' . "\n";
+				for($i=1; $i<=5; $i++)
+					if(!empty($category['manufacturers_image_' . $i]))		
+						echo '<td><a rel="lightbox[roadtrip]" href="' .tep_image_link(DIR_WS_IMAGES . $category['manufacturers_image_' . $i]).'" title="'.$category['manufacturers_name'].'">' . tep_image(DIR_WS_IMAGES . $category['manufacturers_image_' . $i], $category['manufacturers_name'], 80, SMALL_IMAGE_HEIGHT). '</a></td>';
+				
+				echo '</tr></table>' . "\n";
+            }
+        ?></td></tr>
         </table></td>
       </tr>
       <tr>
