@@ -16,9 +16,9 @@
   define('ENABLE_SSL', false); // secure webserver for checkout procedure?
   define('HTTP_COOKIE_DOMAIN', 'localhost');
   define('HTTPS_COOKIE_DOMAIN', '');
-  define('HTTP_COOKIE_PATH', '/swisscart/trunk/');
+  define('HTTP_COOKIE_PATH', '/swisscart/');
   define('HTTPS_COOKIE_PATH', '');
-  define('DIR_WS_HTTP_CATALOG', '/swisscart/trunk/');
+  define('DIR_WS_HTTP_CATALOG', '/swisscart/');
   define('DIR_WS_HTTPS_CATALOG', '');
   define('DIR_WS_IMAGES', 'images/');
   define('DIR_WS_ICONS', DIR_WS_IMAGES . 'icons/');
@@ -30,7 +30,7 @@
   define('DIR_WS_LANGUAGES', DIR_WS_INCLUDES . 'languages/');
 
   define('DIR_WS_DOWNLOAD_PUBLIC', 'pub/');
-  define('DIR_FS_CATALOG', 'C:/xampp/htdocs/swisscart/trunk/');
+  define('DIR_FS_CATALOG', 'C:/xampp/htdocs/swisscart/');
   define('DIR_FS_DOWNLOAD', DIR_FS_CATALOG . 'download/');
   define('DIR_FS_DOWNLOAD_PUBLIC', DIR_FS_CATALOG . 'pub/');
   define('DIR_WS_UPLOADS', DIR_WS_IMAGES . 'uploads/');
@@ -38,9 +38,9 @@
 
 // define our database connection
   define('DB_SERVER', 'localhost'); // eg, localhost - should not be empty for productive servers
-  define('DB_SERVER_USERNAME', 'root');
-  define('DB_SERVER_PASSWORD', '');
-  define('DB_DATABASE', 'swisscart_development');
+  define('DB_SERVER_USERNAME', 'duongvu');
+  define('DB_SERVER_PASSWORD', 'duongvu');
+  define('DB_DATABASE', 'swisscart');
   define('USE_PCONNECT', 'false'); // use persistent connections?
   define('STORE_SESSIONS', ''); // leave empty '' for default handler or set to 'mysql'
 ?>
