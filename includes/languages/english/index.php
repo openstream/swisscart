@@ -42,6 +42,9 @@ if ( ($category_depth == 'products') || (isset($HTTP_GET_VARS['manufacturers_id'
   define('TEXT_NOW', '\' now');
   define('TEXT_ALL_CATEGORIES', 'All Categories');
   define('TEXT_ALL_MANUFACTURERS', 'All Manufacturers');
+  define('TEXT_MANUFACTURERS_REGION', 'Region');
+  define('TEXT_MANUFACTURERS_COUNTRY', 'Country');
+  define('TEXT_MANUFACTURERS_DESCRIPTION', 'Description');
 } elseif ($category_depth == 'top') {
   define('HEADING_TITLE', 'What\'s New Here?');
 } elseif ($category_depth == 'nested') {
