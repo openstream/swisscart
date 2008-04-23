@@ -11,6 +11,6 @@
   Released under the GNU General Public License
 */
 
-  define('MODULE_PAYMENT_POSTFINANCE_TEXT_TITLE', 'PostFinance (Postcard oder Yellowpay)');
+  define('MODULE_PAYMENT_POSTFINANCE_TEXT_TITLE', 'PostFinance (Postcard und E-Finance)');
   define('MODULE_PAYMENT_POSTFINANCE_TEXT_DESCRIPTION', 'Zahlung &uuml;ber PostFinance');
 ?>
