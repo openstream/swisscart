@@ -42,7 +42,7 @@
       } elseif ($type == 'warning') {
         $this->errors[] = array('params' => 'class="messageStackWarning"', 'text' => tep_image(DIR_WS_ICONS . 'warning.gif', ICON_WARNING) . '&nbsp;' . $message);
       } elseif ($type == 'success') {
-        $this->errors[] = array('params' => 'class="messageStackSuccess"', 'text' => tep_image(DIR_WS_ICONS . 'success.gif', ICON_SUCCESS) . '&nbsp;' . $message);
+        $this->errors[] = array('params' => 'class="messageStackSuccess"', 'text' => tep_image(DIR_WS_ICONS . 'success.png', ICON_SUCCESS) . '&nbsp;' . $message);
       } else {
         $this->errors[] = array('params' => 'class="messageStackError"', 'text' => $message);
       }

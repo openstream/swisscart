@@ -139,7 +139,8 @@
 <?php
   } elseif ($category_depth == 'products' || isset($HTTP_GET_VARS['manufacturers_id'])) {
 // create column list
-    $define_list = array('PRODUCT_LIST_MODEL' => PRODUCT_LIST_MODEL,
+    $define_list = array('PRODUCT_LIST_SORT_ORDER' => PRODUCT_LIST_SORT_ORDER,
+                         'PRODUCT_LIST_MODEL' => PRODUCT_LIST_MODEL,
                          'PRODUCT_LIST_NAME' => PRODUCT_LIST_NAME,
                          'PRODUCT_LIST_MANUFACTURER' => PRODUCT_LIST_MANUFACTURER,
                          'PRODUCT_LIST_PRICE' => PRODUCT_LIST_PRICE,
@@ -160,6 +161,9 @@
 
     for ($i=0, $n=sizeof($column_list); $i<$n; $i++) {
       switch ($column_list[$i]) {
+        case 'PRODUCT_LIST_SORT_ORDER':
+          $select_column_list .= 'p.products_sort_order, ';
+          break;
         case 'PRODUCT_LIST_MODEL':
           $select_column_list .= 'p.products_model, ';
           break;
@@ -203,7 +207,13 @@
 
     if ( (!isset($HTTP_GET_VARS['sort'])) || (!ereg('[1-8][ad]', $HTTP_GET_VARS['sort'])) || (substr($HTTP_GET_VARS['sort'], 0, 1) > sizeof($column_list)) ) {
       for ($i=0, $n=sizeof($column_list); $i<$n; $i++) {
-        if ($column_list[$i] == 'PRODUCT_LIST_NAME') {
+        if ($column_list[$i] == 'PRODUCT_LIST_SORT_ORDER') {
+          $HTTP_GET_VARS['sort'] = $i+1 . 'a';
+          $listing_sql .= " order by p.products_sort_order, pd.products_name";
+
+          break;
+        }
+        elseif ($column_list[$i] == 'PRODUCT_LIST_NAME' && PRODUCT_LIST_SORT_ORDER==0) {
           $HTTP_GET_VARS['sort'] = $i+1 . 'a';
           $listing_sql .= " order by pd.products_name";
           break;
@@ -214,6 +224,9 @@
       $sort_order = substr($HTTP_GET_VARS['sort'], 1);
       $listing_sql .= ' order by ';
       switch ($column_list[$sort_col-1]) {
+        case 'PRODUCT_LIST_SORT_ORDER':
+          $listing_sql .= "p.products_sort_order , pd.products_name " . ($sort_order == 'a' ? 'asc' : '');
+          break;
         case 'PRODUCT_LIST_MODEL':
           $listing_sql .= "p.products_model " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
           break;

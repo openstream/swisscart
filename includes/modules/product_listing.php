@@ -64,7 +64,9 @@
         break;
     }
 
-    if ( ($column_list[$col] != 'PRODUCT_LIST_BUY_NOW') && ($column_list[$col] != 'PRODUCT_LIST_IMAGE') ) {
+    if ($column_list[$col] == 'PRODUCT_LIST_SORT_ORDER'){break;}
+    if ( ($column_list[$col] != 'PRODUCT_LIST_BUY_NOW') && ($column_list[$col] != 'PRODUCT_LIST_IMAGE') && ($column_list[$col] != 'PRODUCT_LIST_MULTIPLE')) {
+   // if ( ($column_list[$col] != 'PRODUCT_LIST_BUY_NOW') && ($column_list[$col] != 'PRODUCT_LIST_IMAGE') ) {
       $lc_text = tep_create_sort_heading($HTTP_GET_VARS['sort'], $col+1, $lc_text);
     }
 
@@ -89,6 +91,8 @@
 
       for ($col=0, $n=sizeof($column_list); $col<$n; $col++) {
         $lc_align = '';
+
+		if ($column_list[$col] == 'PRODUCT_LIST_SORT_ORDER') break;
 
         switch ($column_list[$col]) {
           case 'PRODUCT_LIST_MODEL':

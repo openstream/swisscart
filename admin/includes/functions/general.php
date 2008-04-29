@@ -1519,4 +1519,10 @@ function tep_reset_cache_data_seo_urls($action){
                         'text' => 'Bottom Right');                                                                                                                                                                     
       return tep_draw_pull_down_menu('configuration_value', $align, $watermark_alignment);
 }  
+
+//// sort order ////
+// Sets the sort order of a product
+  function tep_set_product_sort_order($products_id, $sort_order) {
+    return tep_db_query("update " . TABLE_PRODUCTS . " set products_sort_order = '" . $sort_order . "', products_last_modified = now() where products_id = '" . (int)$products_id . "'");
+  }
 ?>

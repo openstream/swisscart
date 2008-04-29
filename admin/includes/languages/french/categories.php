@@ -17,6 +17,7 @@ define('HEADING_TITLE_GOTO', 'Aller &agrave;&nbsp;:');
 define('TABLE_HEADING_ID', 'ID');
 define('TABLE_HEADING_CATEGORIES_PRODUCTS', 'Cat&eacute;gories/Produits');
 define('TABLE_HEADING_ACTION', 'Action');
+define('TABLE_HEADING_SORT_ORDER', 'Ordre de tri');
 define('TABLE_HEADING_STATUS', 'Etat');
 
 define('TEXT_NEW_PRODUCT', 'Nouveau produit dans &quot;%s&quot;');

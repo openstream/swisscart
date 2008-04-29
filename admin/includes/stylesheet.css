@@ -76,7 +76,7 @@ ol li p { padding-top: 0; margin-top: 0; font-weight: normal; font-size: 12px; c
 
 .messageBox { font-size: 10px; }
 .messageStackError, .messageStackWarning { font-size: 10px; background-color: #cc0000; color: white; }
-.messageStackSuccess { font-size: 10px; background-color: #7187bb; color: white; }
+.messageStackSuccess { font-size: 10px; background-color: #47AF41; color: white; }
 
 /* forms */
 CHECKBOX, INPUT, RADIO, SELECT, TEXTAREA, FILE { font-size: 11px; }

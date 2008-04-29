@@ -15,7 +15,7 @@ define('HEADING_TITLE', 'Option w&auml;hlen ...');
 define('BOX_TITLE_ORDERS', 'Bestellungen');
 define('BOX_TITLE_STATISTICS', 'Statistik');
 
-define('BOX_NEWS_RSS_SOURCE', 'http://www.openstream.ch/index.php?type=100&tx_ttnews[cat]=3');
+define('BOX_NEWS_RSS_SOURCE', 'http://www.swisscart-webshop.ch/rss.xml');
 
 define('BOX_ENTRY_SUPPORT_SITE', 'swisscart&reg; Support');
 define('BOX_ENTRY_SUPPORT_FORUMS', 'osCommerce Support Forum');

@@ -20,6 +20,7 @@ define('HEADING_TITLE_GOTO', 'Ir A:');
 define('TABLE_HEADING_ID', 'ID');
 define('TABLE_HEADING_CATEGORIES_PRODUCTS', 'Categorias / Productos');
 define('TABLE_HEADING_ACTION', 'Acci&oacute;n');
+define('TABLE_HEADING_SORT_ORDER', 'Orden');
 define('TABLE_HEADING_STATUS', 'Estado');
 
 define('TEXT_NEW_PRODUCT', 'Nuevo Producto en &quot;%s&quot;');
