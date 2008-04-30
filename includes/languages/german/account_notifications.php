@@ -19,7 +19,7 @@ define('NAVBAR_TITLE_2', 'Produktbenachrichtungen');
 define('HEADING_TITLE', 'Produktbenachrichtigungen');
 
 define('MY_NOTIFICATIONS_TITLE', 'Meine Produktbenachrichtigungen');
-define('MY_NOTIFICATIONS_DESCRIPTION', 'Diese Benachrichtigungen erlauben es Ihnen, &uuml;ber alle &Auml;nderungen an einem Produkt informiert zu werden.<br><br>Wenn Sie Benachrichtigungen f&uuml; unser komplettes Angebot erhalten wollen, sollte Sie die allgemeinen Benachrichtigungen aktivieren.');
+define('MY_NOTIFICATIONS_DESCRIPTION', 'Diese Benachrichtigungen erlauben es Ihnen, &uuml;ber alle &Auml;nderungen an einem Produkt informiert zu werden.<br><br>Wenn Sie Benachrichtigungen f&uuml;r unser komplettes Angebot erhalten wollen, sollte Sie die allgemeinen Benachrichtigungen aktivieren.');
 
 define('GLOBAL_NOTIFICATIONS_TITLE', 'Allgemeine Benachrichtungen');
 define('GLOBAL_NOTIFICATIONS_DESCRIPTION', '&Uuml;ber alle &Auml;nderungen informiert werden.');
