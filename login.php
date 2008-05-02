@@ -143,16 +143,13 @@ function session_win() {
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
           <tr>
-            <td class="main" width="50%" valign="top"><b><?php echo HEADING_NEW_CUSTOMER; ?></b></td>
-            <td class="main" width="50%" valign="top"><b><?php echo HEADING_RETURNING_CUSTOMER; ?></b></td>
+            <td class="main" width="45%" valign="top"><b><?php echo HEADING_NEW_CUSTOMER; ?></b></td>
+            <td class="main" width="55%" valign="top"><b><?php echo HEADING_RETURNING_CUSTOMER; ?></b></td>
           </tr>
           <tr>
-            <td width="50%" height="100%" valign="top"><table border="0" width="100%" height="100%" cellspacing="1" cellpadding="2" class="infoBox">
+            <td width="45%" height="100%" valign="top"><table border="0" width="100%" height="100%" cellspacing="1" cellpadding="2" class="infoBox">
               <tr class="infoBoxContents">
                 <td><table border="0" width="100%" height="100%" cellspacing="0" cellpadding="2">
-                  <tr>
-                    <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
-                  </tr>
                   <tr>
                     <td class="main" valign="top"><?php echo TEXT_NEW_CUSTOMER . '<br><br>' . TEXT_NEW_CUSTOMER_INTRODUCTION; ?></td>
                   </tr>
@@ -171,17 +168,11 @@ function session_win() {
                 </table></td>
               </tr>
             </table></td>
-            <td width="50%" height="100%" valign="top"><table border="0" width="100%" height="100%" cellspacing="1" cellpadding="2" class="infoBox">
+            <td width="55%" height="100%" valign="top"><table border="0" width="100%" height="100%" cellspacing="1" cellpadding="2" class="infoBox">
               <tr class="infoBoxContents">
                 <td><table border="0" width="100%" height="100%" cellspacing="0" cellpadding="2">
                   <tr>
-                    <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
-                  </tr>
-                  <tr>
                     <td class="main" colspan="2"><?php echo TEXT_RETURNING_CUSTOMER; ?></td>
-                  </tr>
-                  <tr>
-                    <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
                   </tr>
                   <tr>
                     <td class="main"><b><?php echo ENTRY_EMAIL_ADDRESS; ?></b></td>

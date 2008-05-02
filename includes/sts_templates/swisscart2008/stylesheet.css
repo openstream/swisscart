@@ -31,6 +31,9 @@ td {
   text-align: left; 
   background: #fff url(images/bg-wrapper.gif) repeat-y;
 }
+body.col2 #wrapper {
+  background: #fff url(images/bg-wrapper-2col.gif) repeat-y;
+}
 h1 {
   padding: 0;
   margin: 0;
@@ -155,6 +158,9 @@ TD.infoBox, SPAN.infoBox {
 div.content {
   padding-left: 20px;
   width: 480px;
+}
+body.col2 div.content {
+  width: 680px;
 }
 TR.accountHistory-odd, TR.addressBook-odd, TR.alsoPurchased-odd, TR.payment-odd, TR.productListing-odd, TR.productReviews-odd, TR.upcomingProducts-odd, TR.shippingOptions-odd {
   background: #fff;
@@ -354,4 +360,7 @@ ul.xsell {
 }
 .banner p {
   text-align: left;
+}
+.important {
+  color: #CC0000;
 }

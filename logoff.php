@@ -65,10 +65,7 @@
             <td><?php if (HEADING_IMAGE_ENABLED == 'true') echo tep_image(DIR_WS_IMAGES . 'table_background_man_on_board.gif', HEADING_TITLE); ?></td>
             <td valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
               <tr>
-                <td class="pageHeading" align="center"><?php echo HEADING_TITLE; ?></td>
-              </tr>
-              <tr>
-                <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
+                <td class="pageHeading"><?php echo HEADING_TITLE; ?></td>
               </tr>
               <tr>
                 <td class="main"><?php echo TEXT_MAIN; ?></td>
