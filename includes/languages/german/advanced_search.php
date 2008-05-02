@@ -16,8 +16,8 @@
 define('NAVBAR_TITLE_1', 'Erweiterte Suche');
 define('NAVBAR_TITLE_2', 'Suchergebnisse');
 
-define('HEADING_TITLE_1', 'Geben Sie Ihre Suchkriterien ein');
-define('HEADING_TITLE_2', 'Artikel, welche den Suchkriterien entsprechen');
+define('HEADING_TITLE_1', 'Erweiterte Suche');
+define('HEADING_TITLE_2', 'Artikel, die den Suchkriterien entsprechen');
 
 define('HEADING_SEARCH_CRITERIA', 'Geben Sie Ihre Stichworte ein');
 
