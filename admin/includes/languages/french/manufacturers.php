@@ -39,4 +39,16 @@ define('TEXT_DELETE_WARNING_PRODUCTS', '<b>ATTENTION&nbsp;:</b> Il y a encore %s
 
 define('ERROR_DIRECTORY_NOT_WRITEABLE', 'Erreur&nbsp;: Il n\'est pas possible d\'&eacute;crire dans ce r&eacute;pertoire. Veuillez d&eacute;finir correctement les droits d\'utilisateur de&nbsp;: %s');
 define('ERROR_DIRECTORY_DOES_NOT_EXIST', 'Erreur&nbsp;: Le r&eacute;pertoire n\'existe pas&nbsp;: %s');
+
+// Manufacturers Extra-Info
+define('TEXT_MANUFACTURERS_REGION', 'Manufacturers Region:');
+define('TEXT_MANUFACTURERS_COUNTRY', 'Manufacturers Country:');
+define('TEXT_MANUFACTURERS_IMAGE_REMOVE', 'Remove Image?');
+
+define('TEXT_MANUFACTURERS_DESCRIPTION', 'Manufacturer Description:');
+define('TEXT_MANUFACTURERS_IMAGE_1', 'Manufacturers Image 1:');
+define('TEXT_MANUFACTURERS_IMAGE_2', 'Manufacturers Image 2:');
+define('TEXT_MANUFACTURERS_IMAGE_3', 'Manufacturers Image 3:');
+define('TEXT_MANUFACTURERS_IMAGE_4', 'Manufacturers Image 4:');
+define('TEXT_MANUFACTURERS_IMAGE_5', 'Manufacturers Image 5:');
 ?>

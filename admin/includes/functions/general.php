@@ -1469,7 +1469,15 @@ function tep_reset_cache_data_seo_urls($action){
     $manufacturer = tep_db_fetch_array($manufacturer_query);
 
     return $manufacturer['manufacturers_htc_description'];
-  }   
+  }
+  
+  // Added function to retreive Manufacturer's Description
+  function tep_get_manufacturer_description($manufacturer_id, $language_id) {
+    $manufacturer_query = tep_db_query("select manufacturers_description from " . TABLE_MANUFACTURERS_INFO . " where manufacturers_id = '" . (int)$manufacturer_id . "' and languages_id = '" . (int)$language_id . "'");
+    $manufacturer = tep_db_fetch_array($manufacturer_query);
+
+    return $manufacturer['manufacturers_description'];
+  } 
   
 
   function tep_cfg_readonly($value){
@@ -1518,7 +1526,7 @@ function tep_reset_cache_data_seo_urls($action){
       $align[]= array('id' => 'Bottom Right',
                         'text' => 'Bottom Right');                                                                                                                                                                     
       return tep_draw_pull_down_menu('configuration_value', $align, $watermark_alignment);
-}  
+}
 
 //// sort order ////
 // Sets the sort order of a product

@@ -42,6 +42,9 @@ if ( ($category_depth == 'products') || (isset($HTTP_GET_VARS['manufacturers_id'
   define('TEXT_NOW', '\' bestellen!');
   define('TEXT_ALL_CATEGORIES', 'Alle Kategorien');
   define('TEXT_ALL_MANUFACTURERS', 'Alle Hersteller');
+  define('TEXT_MANUFACTURERS_REGION', 'Region');
+  define('TEXT_MANUFACTURERS_COUNTRY', 'Country');
+  define('TEXT_MANUFACTURERS_DESCRIPTION', 'Description');
 } elseif ($category_depth == 'top') {
   define('HEADING_TITLE', 'Unser Angebot');
 } elseif ($category_depth == 'nested') {

@@ -42,6 +42,9 @@ if ( ($category_depth == 'products') || ($HTTP_GET_VARS['manufacturers_id']) ) {
   define('TEXT_NOW', '\' maintenant');
   define('TEXT_ALL_CATEGORIES', 'Toutes cat&eacute;gories');
   define('TEXT_ALL_MANUFACTURERS', 'Tous fabricants');
+  define('TEXT_MANUFACTURERS_REGION', 'Region');
+  define('TEXT_MANUFACTURERS_COUNTRY', 'Country');
+  define('TEXT_MANUFACTURERS_DESCRIPTION', 'Description');
 } elseif ($category_depth == 'top') {
   define('HEADING_TITLE', 'Quoi de neuf&nbsp;?');
 } elseif ($category_depth == 'nested') {

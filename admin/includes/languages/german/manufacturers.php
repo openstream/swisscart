@@ -42,4 +42,16 @@ define('TEXT_DELETE_WARNING_PRODUCTS', '<b>WARNUNG:</b> Es existieren noch %s Ar
 
 define('ERROR_DIRECTORY_NOT_WRITEABLE', 'Fehler: Das Verzeichnis %s ist schreibgesch&uuml;tzt. Bitte korrigieren Sie die Zugriffsrechte zu diesem Verzeichnis!');
 define('ERROR_DIRECTORY_DOES_NOT_EXIST', 'Fehler: Das Verzeichnis %s existiert nicht!');
+
+// Manufacturers Extra-Info
+define('TEXT_MANUFACTURERS_REGION', 'Manufacturers Region:');
+define('TEXT_MANUFACTURERS_COUNTRY', 'Manufacturers Country:');
+define('TEXT_MANUFACTURERS_IMAGE_REMOVE', 'Remove Image?');
+
+define('TEXT_MANUFACTURERS_DESCRIPTION', 'Manufacturer Description:');
+define('TEXT_MANUFACTURERS_IMAGE_1', 'Manufacturers Image 1:');
+define('TEXT_MANUFACTURERS_IMAGE_2', 'Manufacturers Image 2:');
+define('TEXT_MANUFACTURERS_IMAGE_3', 'Manufacturers Image 3:');
+define('TEXT_MANUFACTURERS_IMAGE_4', 'Manufacturers Image 4:');
+define('TEXT_MANUFACTURERS_IMAGE_5', 'Manufacturers Image 5:');
 ?>

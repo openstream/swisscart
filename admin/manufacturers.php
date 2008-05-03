@@ -50,7 +50,7 @@
           tep_db_query("update " . TABLE_MANUFACTURERS . " set manufacturers_image = '" . $manufacturers_image->filename . "' where manufacturers_id = '" . (int)$manufacturers_id . "'");
         }
 		
-		for($i=1; $i<=5; $i++){
+		for($i=1; $i<=4; $i++){
 			if(!empty($_FILES['manufacturers_image_' . $i]['name']) || (empty($_FILES['manufacturers_image_' . $i]['name']) && $HTTP_POST_VARS['remove_image_' . $i]=='on'))
 			if ($manufacturers_image_x = new upload('manufacturers_image_' . $i, DIR_FS_CATALOG_IMAGES)) {
 			  tep_db_query("update " . TABLE_MANUFACTURERS . " set manufacturers_image_".$i." = '" . $manufacturers_image_x->filename . "' where manufacturers_id = '" . (int)$manufacturers_id . "'");
@@ -64,6 +64,7 @@
           $manufacturers_htc_desc_array = $HTTP_POST_VARS['manufacturers_htc_desc_tag'];
           $manufacturers_htc_keywords_array = $HTTP_POST_VARS['manufacturers_htc_keywords_tag'];
           $manufacturers_htc_description_array = $HTTP_POST_VARS['manufacturers_htc_description'];
+		  $manufacturers_description_array = $HTTP_POST_VARS['manufacturers_description'];
  		  
           $language_id = $languages[$i]['id'];
 
@@ -72,7 +73,8 @@
            						  'manufacturers_htc_title_tag' => (tep_not_null($manufacturers_htc_title_array[$language_id]) ? tep_db_prepare_input($manufacturers_htc_title_array[$language_id]) : $manufacturers_name),
            						  'manufacturers_htc_desc_tag' => (tep_not_null($manufacturers_htc_desc_array[$language_id]) ? tep_db_prepare_input($manufacturers_htc_desc_array[$language_id]) : $manufacturers_name),
            						  'manufacturers_htc_keywords_tag' => (tep_not_null($manufacturers_htc_keywords_array[$language_id]) ? tep_db_prepare_input($manufacturers_htc_keywords_array[$language_id]) : $manufacturers_name),
-           						  'manufacturers_htc_description' => tep_db_prepare_input($manufacturers_htc_description_array[$language_id]));
+           						  'manufacturers_htc_description' => tep_db_prepare_input($manufacturers_htc_description_array[$language_id]),
+								  'manufacturers_description' => tep_db_prepare_input($manufacturers_description_array[$language_id]));
 
 
           if ($action == 'insert') {
@@ -135,6 +137,7 @@
 <script language="javascript" src="includes/general.js"></script>
 <?php
 // Tiny MCE WYISIWYG detection and include
+
 $tinymce_imagemanager = (TINYMCE_IMAGEMANAGER_ENABLED == 'true') ? ',imagemanager':'';
 if($action== 'new' || $action=='edit') { // prevent hidden fields to be rendered by TinyMCE in preview
 	if (file_exists("tiny_mce/tiny_mce.js")) { $tiny_mce = "tiny_mce/tiny_mce.js"; }
@@ -149,7 +152,7 @@ if($action== 'new' || $action=='edit') { // prevent hidden fields to be rendered
 	mode : "exact",
 	elements : "';
 	$languages = tep_get_languages();
-	for ($i=0, $n=sizeof($languages); $i<$n; $i++) echo 'manufacturers_htc_description[' . $languages[$i]['id'] . '],';
+	for ($i=0, $n=sizeof($languages); $i<$n; $i++) echo 'manufacturers_description[' . $languages[$i]['id'] . '],';
 	echo '",
 	language : "' . $languages_selected . '",
 	theme : "' . TINYMCE_THEME . '",
@@ -204,7 +207,7 @@ if($action== 'new' || $action=='edit') { // prevent hidden fields to be rendered
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
 <?php
-  $manufacturers_query_raw = "select m.manufacturers_id, m.manufacturers_name, m.manufacturers_image, m.date_added, m.last_modified, m.manufacturers_region, m.manufacturers_country, m.manufacturers_image_1, m.manufacturers_image_2, m.manufacturers_image_3, m.manufacturers_image_4, m.manufacturers_image_5, mi.manufacturers_htc_title_tag from " . TABLE_MANUFACTURERS . " m LEFT JOIN " .  TABLE_MANUFACTURERS_INFO . " mi on m.manufacturers_id = mi.manufacturers_id where mi.languages_id = '".$languages_id ."' order by m.manufacturers_name";
+  $manufacturers_query_raw = "select m.manufacturers_id, m.manufacturers_name, m.manufacturers_image, m.date_added, m.last_modified, m.manufacturers_region, m.manufacturers_country, m.manufacturers_image_1, m.manufacturers_image_2, m.manufacturers_image_3, m.manufacturers_image_4, mi.manufacturers_htc_title_tag from " . TABLE_MANUFACTURERS . " m LEFT JOIN " .  TABLE_MANUFACTURERS_INFO . " mi on m.manufacturers_id = mi.manufacturers_id where mi.languages_id = '".$languages_id ."' order by m.manufacturers_name";
   $manufacturers_split = new splitPageResults($HTTP_GET_VARS['page'], MAX_DISPLAY_SEARCH_RESULTS, $manufacturers_query_raw, $manufacturers_query_numrows);
   $manufacturers_query = tep_db_query($manufacturers_query_raw);
   while ($manufacturers = tep_db_fetch_array($manufacturers_query)) {
@@ -259,12 +262,11 @@ if($action== 'new' || $action=='edit') { // prevent hidden fields to be rendered
       $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_NAME . '<br>' . tep_draw_input_field('manufacturers_name'));
 	  $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_REGION . '<br>' . tep_draw_input_field('manufacturers_region'));
 	  $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_COUNTRY . '<br>' . tep_draw_input_field('manufacturers_country'));
-      $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_IMAGE . '<br>' . tep_draw_file_field('manufacturers_image'));
-	  $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_IMAGE . '<br>' . tep_draw_file_field('manufacturers_image_1'));
-	  $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_IMAGE . '<br>' . tep_draw_file_field('manufacturers_image_2'));
-	  $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_IMAGE . '<br>' . tep_draw_file_field('manufacturers_image_3'));
-	  $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_IMAGE . '<br>' . tep_draw_file_field('manufacturers_image_4'));
-	  $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_IMAGE . '<br>' . tep_draw_file_field('manufacturers_image_5'));
+      $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_IMAGE_1 . '<br>' . tep_draw_file_field('manufacturers_image'));
+	  $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_IMAGE_2 . '<br>' . tep_draw_file_field('manufacturers_image_1'));
+	  $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_IMAGE_3 . '<br>' . tep_draw_file_field('manufacturers_image_2'));
+	  $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_IMAGE_4 . '<br>' . tep_draw_file_field('manufacturers_image_3'));
+	  $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_IMAGE_5 . '<br>' . tep_draw_file_field('manufacturers_image_4'));
 
       $manufacturer_inputs_string = '';
       $languages = tep_get_languages();
@@ -273,12 +275,13 @@ if($action== 'new' || $action=='edit') { // prevent hidden fields to be rendered
         $manufacturer_htc_title_string .= '<br>' . tep_image(DIR_WS_CATALOG_LANGUAGES . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], $languages[$i]['name']) . '&nbsp;' . tep_draw_input_field('manufacturers_htc_title_tag[' . $languages[$i]['id'] . ']');
         $manufacturer_htc_desc_string .= '<br>' . tep_image(DIR_WS_CATALOG_LANGUAGES . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], $languages[$i]['name']) . '&nbsp;' . tep_draw_input_field('manufacturers_htc_desc_tag[' . $languages[$i]['id'] . ']');
         $manufacturer_htc_keywords_string .= '<br>' . tep_image(DIR_WS_CATALOG_LANGUAGES . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], $languages[$i]['name']) . '&nbsp;' . tep_draw_input_field('manufacturers_htc_keywords_tag[' . $languages[$i]['id'] . ']');
-        //$manufacturer_htc_description_string .= '<br>' . tep_image(DIR_WS_CATALOG_LANGUAGES . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], $languages[$i]['name']) . '&nbsp;' . tep_draw_textarea_field('manufacturers_htc_description[' . $languages[$i]['id'] . ']', 'hard', 30, 5, '');
-		$manufacturer_htc_description_string .= '<br>' . tep_image(DIR_WS_CATALOG_LANGUAGES . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], $languages[$i]['name']) . '&nbsp;' . tep_draw_textarea_field('manufacturers_htc_description[' . $languages[$i]['id'] . ']', 'soft', '70', '15', tep_get_manufacturer_htc_description($mInfo->manufacturers_id, $languages[$i]['id']), 'id="manufacturers_htc_description[' . $languages[$i]['id'] . ']"');
+        $manufacturer_htc_description_string .= '<br>' . tep_image(DIR_WS_CATALOG_LANGUAGES . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], $languages[$i]['name']) . '&nbsp;' . tep_draw_textarea_field('manufacturers_htc_description[' . $languages[$i]['id'] . ']', 'hard', 30, 5, '');
+		$manufacturer_description_string .= '<br>' . tep_image(DIR_WS_CATALOG_LANGUAGES . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], $languages[$i]['name']) . '&nbsp;' . tep_draw_textarea_field('manufacturers_description[' . $languages[$i]['id'] . ']', 'soft', '70', '15', (isset($manufacturers_description[$languages[$i]['id']]) ? $manufacturers_description[$languages[$i]['id']] : tep_get_manufacturer_description($mInfo->manufacturers_id, $languages[$i]['id'])), 'id="manufacturers_description[' . $languages[$i]['id'] . ']"');
       }
 	  
       $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_URL . $manufacturer_inputs_string);
-      $contents[] = array('text' => '<br>' . 'Header Tags Manufacturer Title' . $manufacturer_htc_title_string);
+      $contents[] = array('text' => '<br>' . 'Manufacturer Description' . $manufacturer_description_string);
+	  $contents[] = array('text' => '<br>' . 'Header Tags Manufacturer Title' . $manufacturer_htc_title_string);
       $contents[] = array('text' => '<br>' . 'Header Tags Manufacturer Description' . $manufacturer_htc_desc_string);
       $contents[] = array('text' => '<br>' . 'Header Tags Manufacturer Keywords' . $manufacturer_htc_keywords_string);
       $contents[] = array('text' => '<br>' . 'Header Tags Manufacturer Description' . $manufacturer_htc_description_string);
@@ -292,19 +295,17 @@ if($action== 'new' || $action=='edit') { // prevent hidden fields to be rendered
 	  $remove_image_2 = ($mInfo->manufacturers_image_2 == '') ? '' : '<br />' . TEXT_MANUFACTURERS_IMAGE_REMOVE .'&nbsp;<input type="checkbox" id="remove_image" name="remove_image_2">';
 	  $remove_image_3 = ($mInfo->manufacturers_image_3 == '') ? '' : '<br />' . TEXT_MANUFACTURERS_IMAGE_REMOVE .'&nbsp;<input type="checkbox" id="remove_image" name="remove_image_3">';
 	  $remove_image_4 = ($mInfo->manufacturers_image_4 == '') ? '' : '<br />' . TEXT_MANUFACTURERS_IMAGE_REMOVE .'&nbsp;<input type="checkbox" id="remove_image" name="remove_image_4">';
-	  $remove_image_5 = ($mInfo->manufacturers_image_5 == '') ? '' : '<br />' . TEXT_MANUFACTURERS_IMAGE_REMOVE .'&nbsp;<input type="checkbox" id="remove_image" name="remove_image_5">';
 
       $contents = array('form' => tep_draw_form('manufacturers', FILENAME_MANUFACTURERS, 'page=' . $HTTP_GET_VARS['page'] . '&mID=' . $mInfo->manufacturers_id . '&action=save', 'post', 'enctype="multipart/form-data"'));
       $contents[] = array('text' => TEXT_EDIT_INTRO);
       $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_NAME . '<br>' . tep_draw_input_field('manufacturers_name', $mInfo->manufacturers_name));
 	  $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_REGION . '<br>' . tep_draw_input_field('manufacturers_region', $mInfo->manufacturers_region));
 	  $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_COUNTRY . '<br>' . tep_draw_input_field('manufacturers_country', $mInfo->manufacturers_country));
-      $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_IMAGE . '<br>' . tep_draw_file_field('manufacturers_image') . '<br>' . $mInfo->manufacturers_image . $remove_image);
-	  $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_IMAGE . '<br>' . tep_draw_file_field('manufacturers_image_1') . '<br>' . $mInfo->manufacturers_image_1 . $remove_image_1);
-	  $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_IMAGE . '<br>' . tep_draw_file_field('manufacturers_image_2') . '<br>' . $mInfo->manufacturers_image_2 . $remove_image_2);
-	  $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_IMAGE . '<br>' . tep_draw_file_field('manufacturers_image_3') . '<br>' . $mInfo->manufacturers_image_3 . $remove_image_3);
-	  $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_IMAGE . '<br>' . tep_draw_file_field('manufacturers_image_4') . '<br>' . $mInfo->manufacturers_image_4 . $remove_image_4);
-	  $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_IMAGE . '<br>' . tep_draw_file_field('manufacturers_image_5') . '<br>' . $mInfo->manufacturers_image_5 . $remove_image_5);
+      $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_IMAGE_1 . '<br>' . tep_draw_file_field('manufacturers_image') . '<br>' . $mInfo->manufacturers_image . $remove_image);
+	  $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_IMAGE_2 . '<br>' . tep_draw_file_field('manufacturers_image_1') . '<br>' . $mInfo->manufacturers_image_1 . $remove_image_1);
+	  $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_IMAGE_3 . '<br>' . tep_draw_file_field('manufacturers_image_2') . '<br>' . $mInfo->manufacturers_image_2 . $remove_image_2);
+	  $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_IMAGE_4 . '<br>' . tep_draw_file_field('manufacturers_image_3') . '<br>' . $mInfo->manufacturers_image_3 . $remove_image_3);
+	  $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_IMAGE_5 . '<br>' . tep_draw_file_field('manufacturers_image_4') . '<br>' . $mInfo->manufacturers_image_4 . $remove_image_4);
 
       $manufacturer_inputs_string = '';
       $languages = tep_get_languages();
@@ -313,15 +314,17 @@ if($action== 'new' || $action=='edit') { // prevent hidden fields to be rendered
         $manufacturer_htc_title_string .= '<br>' . tep_image(DIR_WS_CATALOG_LANGUAGES . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], $languages[$i]['name']) . '&nbsp;' . tep_draw_input_field('manufacturers_htc_title_tag[' . $languages[$i]['id'] . ']', tep_get_manufacturer_htc_title($mInfo->manufacturers_id, $languages[$i]['id']));
         $manufacturer_htc_desc_string .= '<br>' . tep_image(DIR_WS_CATALOG_LANGUAGES . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], $languages[$i]['name']) . '&nbsp;' . tep_draw_input_field('manufacturers_htc_desc_tag[' . $languages[$i]['id'] . ']', tep_get_manufacturer_htc_desc($mInfo->manufacturers_id, $languages[$i]['id']));
         $manufacturer_htc_keywords_string .= '<br>' . tep_image(DIR_WS_CATALOG_LANGUAGES . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], $languages[$i]['name']) . '&nbsp;' . tep_draw_input_field('manufacturers_htc_keywords_tag[' . $languages[$i]['id'] . ']', tep_get_manufacturer_htc_keywords($mInfo->manufacturers_id, $languages[$i]['id']));
-        //$manufacturer_htc_description_string .= '<br>' . tep_image(DIR_WS_CATALOG_LANGUAGES . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], $languages[$i]['name']) . '&nbsp;' . tep_draw_textarea_field('manufacturers_htc_description[' . $languages[$i]['id'] . ']', 'hard', 30, 5, tep_get_manufacturer_htc_description($mInfo->manufacturers_id, $languages[$i]['id']));
-		$manufacturer_htc_description_string .= '<br>' . tep_image(DIR_WS_CATALOG_LANGUAGES . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], $languages[$i]['name']) . '&nbsp;' .tep_draw_textarea_field('manufacturers_htc_description[' . $languages[$i]['id'] . ']', 'soft', '70', '15', tep_get_manufacturer_htc_description($mInfo->manufacturers_id, $languages[$i]['id']), 'id="manufacturers_htc_description[' . $languages[$i]['id'] . ']"');
-      }	  
-
+        $manufacturer_htc_description_string .= '<br>' . tep_image(DIR_WS_CATALOG_LANGUAGES . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], $languages[$i]['name']) . '&nbsp;' . tep_draw_textarea_field('manufacturers_htc_description[' . $languages[$i]['id'] . ']', 'hard', 30, 5, tep_get_manufacturer_htc_description($mInfo->manufacturers_id, $languages[$i]['id']));
+		$manufacturer_description_string .= '<br>' . tep_image(DIR_WS_CATALOG_LANGUAGES . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], $languages[$i]['name']) . '&nbsp;' . tep_draw_textarea_field('manufacturers_description[' . $languages[$i]['id'] . ']', 'soft', '70', '15', (isset($manufacturers_description[$languages[$i]['id']]) ? $manufacturers_description[$languages[$i]['id']] : tep_get_manufacturer_description($mInfo->manufacturers_id, $languages[$i]['id'])), 'id="manufacturers_description[' . $languages[$i]['id'] . ']"');
+      }	  	  
+	  
       $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_URL . $manufacturer_inputs_string);
+	  $contents[] = array('text' => '<br>' . TEXT_MANUFACTURERS_DESCRIPTION . $manufacturer_description_string);
       $contents[] = array('text' => '<br>' . 'Header Tags Manufacturer Title' . $manufacturer_htc_title_string);
       $contents[] = array('text' => '<br>' . 'Header Tags Manufacturer Description' . $manufacturer_htc_desc_string);
       $contents[] = array('text' => '<br>' . 'Header Tags Manufacturer Keywords' . $manufacturer_htc_keywords_string);
       $contents[] = array('text' => '<br>' . 'Header Tags Manufacturer Description' . $manufacturer_htc_description_string);
+	  
       $contents[] = array('align' => 'center', 'text' => '<br>' . tep_image_submit('button_save.gif', IMAGE_SAVE) . ' <a href="' . tep_href_link(FILENAME_MANUFACTURERS, 'page=' . $HTTP_GET_VARS['page'] . '&mID=' . $mInfo->manufacturers_id) . '">' . tep_image_button('button_cancel.gif', IMAGE_CANCEL) . '</a>');
       break;
     case 'delete':

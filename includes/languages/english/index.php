@@ -49,5 +49,5 @@ if ( ($category_depth == 'products') || (isset($HTTP_GET_VARS['manufacturers_id'
   define('HEADING_TITLE', 'What\'s New Here?');
 } elseif ($category_depth == 'nested') {
   define('HEADING_TITLE', 'Categories');
-}
+} 
 ?>

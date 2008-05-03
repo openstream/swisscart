@@ -29,7 +29,6 @@ define('TEXT_NEW_INTRO', 'Please fill out the following information for the new 
 define('TEXT_EDIT_INTRO', 'Please make any necessary changes');
 
 define('TEXT_MANUFACTURERS_NAME', 'Manufacturers Name:');
-define('TEXT_MANUFACTURERS_IMAGE', 'Manufacturers Image:');
 define('TEXT_MANUFACTURERS_URL', 'Manufacturers URL:');
 
 define('TEXT_DELETE_INTRO', 'Are you sure you want to delete this manufacturer?');
@@ -40,7 +39,15 @@ define('TEXT_DELETE_WARNING_PRODUCTS', '<b>WARNING:</b> There are %s products st
 define('ERROR_DIRECTORY_NOT_WRITEABLE', 'Error: I can not write to this directory. Please set the right user permissions on: %s');
 define('ERROR_DIRECTORY_DOES_NOT_EXIST', 'Error: Directory does not exist: %s');
 
+// Manufacturers Extra-Info
 define('TEXT_MANUFACTURERS_REGION', 'Manufacturers Region:');
 define('TEXT_MANUFACTURERS_COUNTRY', 'Manufacturers Country:');
 define('TEXT_MANUFACTURERS_IMAGE_REMOVE', 'Remove Image?');
+
+define('TEXT_MANUFACTURERS_DESCRIPTION', 'Manufacturer Description:');
+define('TEXT_MANUFACTURERS_IMAGE_1', 'Manufacturers Image 1:');
+define('TEXT_MANUFACTURERS_IMAGE_2', 'Manufacturers Image 2:');
+define('TEXT_MANUFACTURERS_IMAGE_3', 'Manufacturers Image 3:');
+define('TEXT_MANUFACTURERS_IMAGE_4', 'Manufacturers Image 4:');
+define('TEXT_MANUFACTURERS_IMAGE_5', 'Manufacturers Image 5:');
 ?>

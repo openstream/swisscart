@@ -39,6 +39,9 @@ if ( ($category_depth == 'products') || (isset($HTTP_GET_VARS['manufacturers_id'
   define('TEXT_NOW', '\' Ora');
   define('TEXT_ALL_CATEGORIES', 'Tutte le categoria');
   define('TEXT_ALL_MANUFACTURERS', 'Tutti i produttori');
+  define('TEXT_MANUFACTURERS_REGION', 'Region');
+  define('TEXT_MANUFACTURERS_COUNTRY', 'Country');
+  define('TEXT_MANUFACTURERS_DESCRIPTION', 'Description');
 } elseif ($category_depth == 'top') {
   define('HEADING_TITLE', 'Cose c\' è di nuovo?');
 } elseif ($category_depth == 'nested') {
