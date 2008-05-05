@@ -44,14 +44,14 @@ define('ERROR_DIRECTORY_NOT_WRITEABLE', 'Fehler: Das Verzeichnis %s ist schreibg
 define('ERROR_DIRECTORY_DOES_NOT_EXIST', 'Fehler: Das Verzeichnis %s existiert nicht!');
 
 // Manufacturers Extra-Info
-define('TEXT_MANUFACTURERS_REGION', 'Manufacturers Region:');
-define('TEXT_MANUFACTURERS_COUNTRY', 'Manufacturers Country:');
-define('TEXT_MANUFACTURERS_IMAGE_REMOVE', 'Remove Image?');
+define('TEXT_MANUFACTURERS_REGION', 'Hersteller Region (optional):');
+define('TEXT_MANUFACTURERS_COUNTRY', 'Hersteller Land (optional):');
+define('TEXT_MANUFACTURERS_IMAGE_REMOVE', 'Bild entfernen?');
 
-define('TEXT_MANUFACTURERS_DESCRIPTION', 'Manufacturer Description:');
-define('TEXT_MANUFACTURERS_IMAGE_1', 'Manufacturers Image 1:');
-define('TEXT_MANUFACTURERS_IMAGE_2', 'Manufacturers Image 2:');
-define('TEXT_MANUFACTURERS_IMAGE_3', 'Manufacturers Image 3:');
-define('TEXT_MANUFACTURERS_IMAGE_4', 'Manufacturers Image 4:');
-define('TEXT_MANUFACTURERS_IMAGE_5', 'Manufacturers Image 5:');
+define('TEXT_MANUFACTURERS_DESCRIPTION', 'Hersteller Beschreibung:');
+define('TEXT_MANUFACTURERS_IMAGE_1', 'Hersteller Bild 1:');
+define('TEXT_MANUFACTURERS_IMAGE_2', 'Hersteller Bild 2:');
+define('TEXT_MANUFACTURERS_IMAGE_3', 'Hersteller Bild 3:');
+define('TEXT_MANUFACTURERS_IMAGE_4', 'Hersteller Bild 4:');
+define('TEXT_MANUFACTURERS_IMAGE_5', 'Hersteller Bild 5:');
 ?>
