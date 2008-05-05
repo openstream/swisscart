@@ -312,7 +312,7 @@
           <tr><td><?php
             if (isset($HTTP_GET_VARS['manufacturers_id'])) {
                 if(!empty($category['manufacturers_description']))
-					echo '<br />'. TEXT_MANUFACTURERS_DESCRIPTION .': ' . $category['manufacturers_description'] . "\n";
+					echo '<br />'. $category['manufacturers_description'] . "\n";
 				if(!empty($category['manufacturers_region']))
                 	echo '<br />'. TEXT_MANUFACTURERS_REGION .': ' . $category['manufacturers_region'] . "\n";
 				if(!empty($category['manufacturers_country']))
