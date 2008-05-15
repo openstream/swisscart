@@ -57,17 +57,23 @@
     <td width="200" valign="top" style="padding-right: 50px; "><br />
       <?php
   if(BOX_NEWS_RSS_SOURCE) {  
-	  require(DIR_WS_CLASSES . 'rss_reader.php');
-	  $rss = new RSSReader(BOX_NEWS_RSS_SOURCE);
+	  require(DIR_WS_CLASSES . 'rss/rss_php.php');
+	    
+	  $rss = new rss_php;
+      $rss->load(BOX_NEWS_RSS_SOURCE);
+	  $items = $rss->getRSS(); #returns all rss items
+	  
+//	  echo '<pre>'; print_r($items); echo '</pre>';	  
+  
 	  $rss_content = '<ul class="rssfeed">';
-	  for ($i=0;$i<3;$i++) $rss_content .= '<li>' . $rss->getItemTitle("rsslink",$i) . '</li>';
+	  for ($i=0;$i<3;$i++) $rss_content .= '<li><a href="' . $items['rss']['channel']["item:$i"]['link'] . '">' . $items['rss']['channel']["item:$i"]['title'] . '</a></li>';
 	  $rss_content .= '</ul>';
 		  
 	  $heading = array();
 	  $contents = array();
 	
 	  $heading[] = array('params' => 'class="menuBoxHeading"',
-						 'text'  => $rss->getChannelTitle() . '&nbsp;<img src="images/icons/feed.png" alt="RSS Feed" />');
+						 'text'  => $items['rss']['channel']['title'] . '&nbsp;<img src="images/icons/feed.png" alt="RSS Feed" />');
 	
 	  $contents[] = array('params' => 'class="infoBox"',
 						  'text'  => $rss_content);
@@ -76,6 +82,7 @@
 	  echo $box->menuBox($heading, $contents);
 	
 	  echo '<br>';
+
   }
 
   $heading = array();
