@@ -1,21 +1,16 @@
 <?php
 /*
-  $Id: configure.php,v 1.14 2003/02/21 16:55:24 dgw_ Exp $
-
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
-  
-  Customized by swisscart®, Swiss Webshop Solutions
-  http://www.swisscart.com  
 
-  Copyright (c) 2002 osCommerce
+  Copyright (c) 2003 osCommerce
 
   Released under the GNU General Public License
 */
 
-// define our webserver variables
-// FS = Filesystem (physical)
-// WS = Webserver (virtual)
+// Define the webserver and path parameters
+// * DIR_FS_* = Filesystem directories (local/physical)
+// * DIR_WS_* = Webserver directories (virtual/URL)
   define('HTTP_SERVER', ''); // eg, http://localhost or - https://localhost should not be NULL for productive servers
   define('HTTP_CATALOG_SERVER', '');
   define('HTTPS_CATALOG_SERVER', '');
@@ -41,12 +36,12 @@
   define('DIR_FS_BACKUP', DIR_FS_ADMIN . 'backups/');
   define('DIR_WS_CATALOG_IMAGES_UPLOADS', DIR_WS_CATALOG_IMAGES . 'uploads/');
   define('DIR_FS_CATALOG_IMAGES_UPLOADS', DIR_FS_CATALOG_IMAGES . 'uploads/');
-   
+
 // define our database connection
   define('DB_SERVER', '');
   define('DB_SERVER_USERNAME', 'mysql');
   define('DB_SERVER_PASSWORD', '');
-  define('DB_DATABASE', 'osCommerce');
+  define('DB_DATABASE', 'swisscart');
   define('USE_PCONNECT', 'false');
   define('STORE_SESSIONS', '');
 ?>
