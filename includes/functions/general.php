@@ -1289,7 +1289,7 @@
 ////
 // Return a product's description
 // TABLES: products_description
-  function sc_get_products_teaser($product_id, $language = '') {
+  function sc_get_products_teaser($product_id, $language = '', $length = PRODUCT_LIST_TEASER_LENGTH) {
     global $languages_id;
 
     if (PRODUCT_LIST_TEASER_ENABLED == 'false') return;
@@ -1299,7 +1299,13 @@
     $product_query = tep_db_query("select products_description from " . TABLE_PRODUCTS_DESCRIPTION . " where products_id = '" . (int)$product_id . "' and language_id = '" . (int)$language . "'");
     $product_description = tep_db_fetch_array($product_query);
 
-    return '<br>' . strip_tags(substr($product_description['products_description'], 0, PRODUCT_LIST_TEASER_LENGTH)) . '...';
+    $unwanted = array('</li><li>', '</p><p>', '</ul><p>');
+	$product_description['products_description'] = str_ireplace($unwanted,' ',$product_description['products_description']);
+	
+	$product_description['products_description'] = strip_tags($product_description['products_description']);
+	$teaser = '<br>' . substr($product_description['products_description'], 0, $length);
+	if(strlen($product_description['products_description']) > 0) $teaser .= ' ...';
+	return $teaser;
   }
 
 
