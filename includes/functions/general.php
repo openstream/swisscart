@@ -1299,7 +1299,7 @@
     $product_query = tep_db_query("select products_description from " . TABLE_PRODUCTS_DESCRIPTION . " where products_id = '" . (int)$product_id . "' and language_id = '" . (int)$language . "'");
     $product_description = tep_db_fetch_array($product_query);
 
-    $unwanted = array('</li><li>', '</p><p>', '</ul><p>');
+    $unwanted = array('</li><li>', '</p><p>', '</ul><p>', '</div><div>', '&nbsp;');
 	$product_description['products_description'] = str_ireplace($unwanted,' ',$product_description['products_description']);
 	
 	$product_description['products_description'] = strip_tags($product_description['products_description']);
