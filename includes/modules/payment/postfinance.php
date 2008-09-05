@@ -215,11 +215,11 @@ switch($adminlang){
   		//$sidretour = tep_session_id();
   		//$sidretour = 'osCsid=' . tep_session_id(); 
       $sidretour = tep_session_name() . '=' . tep_session_id(); 
-		  eval('$Hash_seed=MODULE_PAYMENT_POSTFINANCE_TEXT_HASH_'.$currency.';');
+	  eval('$Hash_seed=MODULE_PAYMENT_POSTFINANCE_TEXT_HASH_'.$currency.';');
       eval('$Shop_ID=MODULE_PAYMENT_POSTFINANCE_SHOP_ID_'.$currency.';');
-      $txtHash_tosecure = $Shop_ID . $currency . $usedtotal . $Hash_seed;
-      $txtHash = md5($txtHash_tosecure);
       eval('$txtShopId=MODULE_PAYMENT_POSTFINANCE_TXT_SHOP_ID_'.$currency.';');
+      $txtHash_tosecure = $txtShopId . $currency . $usedtotal . $Hash_seed;
+      $txtHash = md5($txtHash_tosecure);
 
       // required hidden fields
       $process_button_string = tep_draw_hidden_field('txtShopID', $txtShopId) .
@@ -237,7 +237,8 @@ switch($adminlang){
 							   tep_draw_hidden_field('txtBCity', $order->billing['city']) .
 							   tep_draw_hidden_field('txtBTel', $order->customer['telephone']) .
                                tep_draw_hidden_field('txtBEmail', $order->customer['email_address']) .
-							   tep_draw_hidden_field('txtHistoryBack', 'false') .						   
+							   tep_draw_hidden_field('txtHistoryBack', 'false') .
+							   tep_draw_hidden_field('deliveryPaymentType', 'deferred') . 						   
                                tep_draw_hidden_field(tep_session_name(),tep_session_id());
 
 
