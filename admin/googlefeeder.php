@@ -5,8 +5,9 @@
 //	Organization: Conceptual Networking
 //  Last Update: 2/20/07
 
-require('includes/application_top.php');
-
+require('includes/configure.php');
+require(DIR_WS_FUNCTIONS . 'database.php');
+  
 //  Start TIMER
 //  -----------
 $stimer = explode( ' ', microtime() );
