@@ -60,7 +60,7 @@
     }
   }
 
-  $psfeeder_list_header .= "sku\tproduct_url\tname\tdescription\timage_url\tcategory\tprice";
+  $psfeeder_list_header .= "product_id\tsku\tproduct_url\tname\tdescription\timage_url\tcategory\tprice";
   $psfeeder_list_header .= ($flat_shipping == 1) ? "\tshipping" : "";
   $psfeeder_list_header .= "\n";
 
@@ -87,9 +87,14 @@
 
     while($products = tep_db_fetch_array($products_query)) {
 
-// products model number
+// products_id
+      $psfeeder_list .= $products['products_id'];
+	  $psfeeder_list .= "\t";
+
+// products_model
       $psfeeder_list .= ($products['products_model'] == '') ? $products['products_id'] : $products['products_model'];
 	  $psfeeder_list .= "\t";
+
 // product URL;
       $psfeeder_list .= tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $products['products_id'], 'NONSSL', false) . "\t";
 
