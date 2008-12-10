@@ -381,7 +381,7 @@ define('TEXT_CCVAL_ERROR_UNKNOWN_CARD', 'Les quatre premiers chiffres saisis son
   Please leave this comment intact together with the
   following copyright announcement.
 */
-define('FOOTER_TEXT_BODY', 'Copyright &copy; 2003 <a href="http://www.oscommerce.com" target="_blank">osCommerce</a>&nbsp;|&nbsp;powered by <a href="http://www.swisscart.com" target="_blank">swisscart&reg;</a>');
+define('FOOTER_TEXT_BODY', 'Copyright &copy; ' . date('Y') . ' <a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . STORE_NAME . '</a>&nbsp;|&nbsp;powered by <a href="http://www.swisscart.com" target="_blank">swisscart&reg;</a>');
 
 define('TEXT_XSELL_PRODUCTS', 'Autres Produits');
 
