@@ -22,9 +22,15 @@ STS v4.1 by Rigadin (rigadin@osc-help.net)
    $sts->template['MyText']='Hello World';
 */
 
-	$sts->start_capture();
-	require(DIR_WS_BOXES . 'xsell_products.php');
-	$sts->stop_capture('xsellbox', 'box');
+    $sts->start_capture();
+    require(DIR_WS_BOXES . 'xsell_products.php');
+    $sts->stop_capture('xsellbox', 'box');
+
+  // Starting Google Analytics E-Commerce Tracking
+    $sts->start_capture();
+    require(DIR_WS_MODULES . "analytics.php");
+    $sts->stop_capture('google_analytics');
+
 
     $sts->start_capture();
     echo "\n<!-- Start Category Menu -->\n";
