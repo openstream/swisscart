@@ -57,9 +57,9 @@ function tep_information_show_category() {
 
 			//Set the main title to bold if it was selected or one of its children were selected
 			if (((isset($_GET['info_id'])) && ($_GET['info_id'] == $element['key'])) || ($parent_child_selected == $element['key'])) {
-				$informationString .= '<a href="' . tep_href_link(FILENAME_INFORMATION, 'info_id=' . $element['key']) . '"><b>' . $information_tree[$element['key']]['info_title'] . '</b></a><br />';
+				$informationString .= '<a href="' . tep_href_link(FILENAME_INFORMATION, 'info_id=' . $element['key']) . '"><b>' . $information_tree[$element['key']]['info_title'] . '</b></a><br>';
 			} else {
-				$informationString .= '<a href="' . tep_href_link(FILENAME_INFORMATION, 'info_id=' . $element['key']) . '">' . $information_tree[$element['key']]['info_title'] . '</a><br />';
+				$informationString .= '<a href="' . tep_href_link(FILENAME_INFORMATION, 'info_id=' . $element['key']) . '">' . $information_tree[$element['key']]['info_title'] . '</a><br>';
 				//Sitemap only
 				$sitemapString .= '<li><a href="' . tep_href_link(FILENAME_INFORMATION, 'info_id=' . $element['key']) . '">' . $information_tree[$element['key']]['info_title'] . '</a></li>' . "\n";
 			}
@@ -87,9 +87,9 @@ function tep_information_show_category() {
 
 					//Show a child as bold if it was selected
 					if ((isset($_GET['info_id'])) && ($_GET['info_id'] == $child_information[$i]['child_info_id'])) {
-						$informationString .= '&nbsp;&nbsp;<a href="' . tep_href_link(FILENAME_INFORMATION, 'info_id=' . $child_information[$i]['child_info_id']) . '"><b>' . $information_tree[$child_information[$i]['child_info_id']]['info_title'] . '</b></a><br />';
+						$informationString .= '&nbsp;&nbsp;<a href="' . tep_href_link(FILENAME_INFORMATION, 'info_id=' . $child_information[$i]['child_info_id']) . '"><b>' . $information_tree[$child_information[$i]['child_info_id']]['info_title'] . '</b></a><br>';
 					} else {
-						$informationString .= '&nbsp;&nbsp;<a href="' . tep_href_link(FILENAME_INFORMATION, 'info_id=' . $child_information[$i]['child_info_id']) . '">' . $information_tree[$child_information[$i]['child_info_id']]['info_title'] . '</a><br />';
+						$informationString .= '&nbsp;&nbsp;<a href="' . tep_href_link(FILENAME_INFORMATION, 'info_id=' . $child_information[$i]['child_info_id']) . '">' . $information_tree[$child_information[$i]['child_info_id']]['info_title'] . '</a><br>';
 					}
 				}
 			}
