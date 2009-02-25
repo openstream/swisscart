@@ -40,6 +40,10 @@ STS v4.1 by Rigadin (rigadin@osc-help.net)
     echo "<!-- End Category Menu -->\n";
     $sts->stop_capture('catmenu');
 
+    $sts->start_capture();
+    echo STORE_NAME;
+    $sts->stop_capture('storename');
+
   function tep_get_category_tree($parent_id = '0', $spacing = '', $exclude = '', $category_tree_array = '', $include_itself = false) {
     global $languages_id;
 
