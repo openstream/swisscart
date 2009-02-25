@@ -443,6 +443,8 @@ if($_GET['action'] != 'new_product_preview') { // prevent hidden fields to be re
 	echo '<script language="javascript" type="text/javascript" src="' . $tiny_mce . '"></script>
 	<script language="javascript" type="text/javascript">
 	tinyMCE.init({
+	doctype : "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">",
+	element_format : "html",
 	relative_urls : false,
 	remove_script_host : true,
 	mode : "exact",
