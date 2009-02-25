@@ -284,7 +284,7 @@ SPAN.errorText {
 }
 
 .moduleRow { }
-.moduleRowOver { background-color: #D7E9F7; cursor: pointer; cursor: hand; }
+.moduleRowOver { background-color: #D7E9F7; cursor: pointer; }
 .moduleRowSelected { background-color: #E9F4FC; }
 
 .checkoutBarFrom, .checkoutBarTo { color: #8c8c8c; }
