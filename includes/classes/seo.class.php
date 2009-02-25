@@ -645,6 +645,11 @@ class SEO_URL{
 		$link = $this->add_sid($link, $add_session_id, $connection, $separator); 
 		$this->stop($this->timestamp, $time);
 		$this->performance['TOTAL_TIME'] += $time;
+		
+		if (strpos($link, '&') !== false) {
+		  $link = str_replace('&', '&amp;', $link);
+		}		
+		
 		switch($this->attributes['SEO_URLS_USE_W3C_VALID']){
 			case ('true'):
 				if (!isset($_SESSION['customer_id']) && defined('ENABLE_PAGE_CACHE') && ENABLE_PAGE_CACHE == 'true' && class_exists('page_cache')){
