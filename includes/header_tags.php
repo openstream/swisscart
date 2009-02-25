@@ -367,10 +367,10 @@ switch (true) {
   }
 
 echo ' <title>' . $tags_array['title'] . '</title>' . "\n";
-echo ' <meta name="Description" content="' . $tags_array['desc'] . '" />' . "\n";
-echo ' <meta name="Keywords" content="' . $tags_array['keywords'] . '" />' . "\n";
-echo ' <meta name="robots" content="noodp" />' . "\n";
-echo ' <meta http-equiv="Content-Type" content="text/html; charset=' . CHARSET  . '" />'."\n";
+echo ' <meta name="Description" content="' . $tags_array['desc'] . '">' . "\n";
+echo ' <meta name="Keywords" content="' . $tags_array['keywords'] . '">' . "\n";
+echo ' <meta name="robots" content="noodp">' . "\n";
+echo ' <meta http-equiv="Content-Type" content="text/html; charset=' . CHARSET  . '">'."\n";
 //NOTE: If you want your email add to your source code, remove the two slashes on the 
 //following line of code. This serves no useful purpose and is not suggested tobe used
 //echo '  <meta name="Reply-to" content="' . HEAD_REPLY_TAG_ALL . '"/>' . "\n";
