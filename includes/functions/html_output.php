@@ -218,7 +218,12 @@ function tep_image($src, $alt = '', $width = '', $height = '', $params = '') {
         $image .= ' onload="fixPNG(this)"'; 
   }
   
-  $image .= '>';   
+  $image .= '>';  
+  
+  if (strpos($image, '&') !== false) {
+	$image = str_replace('&', '&amp;', $image);
+  }
+
   return $image; 
 }
 
