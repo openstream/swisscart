@@ -252,11 +252,11 @@ function tep_image_link($src, $width = POPUP_IMAGE_WIDTH, $height = POPUP_IMAGE_
 	global $sts;
 	$src = $sts->image_button($image,$language);
 	if ($src!='')
-		$image_submit = '<input type="image" src="' . tep_output_string($src) . '" border="0" alt="' . tep_output_string($alt) . '"';
+		$image_submit = '<input type="image" src="' . tep_output_string($src) . '" alt="' . tep_output_string($alt) . '"';
 	else 
 	// END STS v4.4
 
-    $image_submit = '<input type="image" src="' . tep_output_string(DIR_WS_LANGUAGES . $language . '/images/buttons/' . $image) . '" border="0" alt="' . tep_output_string($alt) . '"';
+    $image_submit = '<input type="image" src="' . tep_output_string(DIR_WS_LANGUAGES . $language . '/images/buttons/' . $image) . '" alt="' . tep_output_string($alt) . '"';
 
     if (tep_not_null($alt)) $image_submit .= ' title=" ' . tep_output_string($alt) . ' "';
 
