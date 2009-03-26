@@ -425,7 +425,7 @@ function tep_image_link($src, $width = POPUP_IMAGE_WIDTH, $height = POPUP_IMAGE_
         $field .= ' SELECTED';
       }
 
-      $field .= '>' . tep_output_string_protected($values[$i]['text'], array('"' => '&quot;', '\'' => '&#039;', '<' => '&lt;', '>' => '&gt;')) . '</option>';
+      $field .= '>' . tep_output_string($values[$i]['text'], array('"' => '&quot;', '\'' => '&#039;', '<' => '&lt;', '>' => '&gt;')) . '</option>';
     }
     $field .= '</select>';
 
