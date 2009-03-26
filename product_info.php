@@ -334,7 +334,7 @@ if ($products_attribs_array['options_values_price'] != '0') {
     } //clr 030714 end if
 ?>           
           
-          <div style="padding: 30px 0 20px 0; "><?php 
+          <div class="buttons"><?php 
 		  	//$link_to_pdf = (SEO_ENABLED == 'true') ?  tep_href_link($GLOBALS['seo_urls']->cache['PRODUCTS'][$product_info['products_id']] . '-' . $product_info['products_id'] . '.pdf') : tep_href_link('pdf_datasheet.php', 'products_id=' . $product_info['products_id']);
 			echo tep_draw_hidden_field('products_id', $product_info['products_id']) . tep_image_submit('button_in_cart.gif', IMAGE_BUTTON_IN_CART) . '&nbsp;<a onclick="window.print(); return(false)" href="#">' . tep_image_button('button_pdf.gif', IMAGE_BUTTON_PDF) . '</a>'; ?></div>
        </td>
