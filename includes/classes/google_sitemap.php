@@ -417,12 +417,12 @@ class GoogleSitemap{
 				                     );
 
 				// added for pdf document reference by nick@openstream.ch
-				$container[] = array('loc' => htmlspecialchars(utf8_encode($location_pdf)),
+				/*$container[] = array('loc' => htmlspecialchars(utf8_encode($location_pdf)),
 				                     'lastmod' => date ("Y-m-d", strtotime($lastmod)),
 									 'changefreq' => $changefreq,
 									 'priority' => $priority
 				                     );													 
-									 
+				*/					 
 				if ( sizeof($container) >= 50000 ){
 					$type = $number == 0 ? 'products' : 'products' . $number;
 					$this->GenerateSitemap($container, $type);

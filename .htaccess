@@ -53,7 +53,7 @@ RewriteRule ^(.*)-a-([0-9]+).html$ article_info.php?articles_id=$2&%{QUERY_STRIN
 RewriteRule ^(.*)-pr-([0-9]+).html$ product_reviews.php?products_id=$2&%{QUERY_STRING}
 RewriteRule ^(.*)-pri-([0-9]+).html$ product_reviews_info.php?products_id=$2&%{QUERY_STRING}
 RewriteRule ^(.*)-i-([0-9]+).html$ information.php?info_id=$2&%{QUERY_STRING}
-RewriteRule ^(.*)-(.*).pdf$ pdf_datasheet.php?products_id=$2&%{QUERY_STRING}
+#RewriteRule ^(.*)-(.*).pdf$ pdf_datasheet.php?products_id=$2&%{QUERY_STRING}
 # Ultimate SEO URLs END
 
 #RSS Feeds
