@@ -27,7 +27,7 @@
 <title><?php echo TITLE; ?></title>
 <base href="<?php echo (($request_type == 'SSL') ? HTTPS_SERVER : HTTP_SERVER) . DIR_WS_CATALOG; ?>">
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
-<script language="javascript">
+<script type="text/javascript">
 function popupWindow(url) {
   window.open(url,'popupWindow','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=yes,copyhistory=no,width=100,height=100,screenX=150,screenY=150,top=150,left=150')
 }
@@ -71,10 +71,12 @@ function setcolor(obj,percentage,prop){
     </table></td>
 <!-- body_text //-->
     <td width="100%" valign="top"><?php echo tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO, tep_get_all_get_params(array('action')) . 'action=add_product'), 'post', 'enctype="multipart/form-data"'); ?><table border="0" width="100%" cellspacing="0" cellpadding="0">
+<?php if ($messageStack->size('upload') > 0) { ?> 
       <tr>
         <td><?php echo $messageStack->output('upload'); ?></td>
       </tr>
 <?php
+}
   if ($product_check['total'] < 1) {
 ?>
       <tr>
@@ -333,8 +335,8 @@ if ($products_attribs_array['options_values_price'] != '0') {
 ?>           
           
           <div style="padding: 30px 0 20px 0; "><?php 
-		  	$link_to_pdf = (SEO_ENABLED == 'true') ?  tep_href_link($GLOBALS['seo_urls']->cache['PRODUCTS'][$product_info['products_id']] . '-' . $product_info['products_id'] . '.pdf') : tep_href_link('pdf_datasheet.php', 'products_id=' . $product_info['products_id']);
-			echo tep_draw_hidden_field('products_id', $product_info['products_id']) . tep_image_submit('button_in_cart.gif', IMAGE_BUTTON_IN_CART) . '&nbsp;<a href="' . $link_to_pdf . '">' . tep_image_button('button_pdf.gif', IMAGE_BUTTON_PDF) . '</a>'; ?></div>
+		  	//$link_to_pdf = (SEO_ENABLED == 'true') ?  tep_href_link($GLOBALS['seo_urls']->cache['PRODUCTS'][$product_info['products_id']] . '-' . $product_info['products_id'] . '.pdf') : tep_href_link('pdf_datasheet.php', 'products_id=' . $product_info['products_id']);
+			echo tep_draw_hidden_field('products_id', $product_info['products_id']) . tep_image_submit('button_in_cart.gif', IMAGE_BUTTON_IN_CART) . '&nbsp;<a onclick="window.print(); return(false)" href="#">' . tep_image_button('button_pdf.gif', IMAGE_BUTTON_PDF) . '</a>'; ?></div>
        </td>
       </tr>
 	  <tr>

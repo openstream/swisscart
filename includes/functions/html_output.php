@@ -240,7 +240,7 @@ function tep_image_link($src, $width = POPUP_IMAGE_WIDTH, $height = POPUP_IMAGE_
 			$width = round(POPUP_IMAGE_HEIGHT * $image_ratio);
 		}
 		
-		return FILENAME_IMAGEMAGIC . "?img=$src&w=$width&h=$height&page=popup";	
+		return FILENAME_IMAGEMAGIC . "?img=$src&amp;w=$width&amp;h=$height&amp;page=popup";	
 	} else {
 		return $src;
 }

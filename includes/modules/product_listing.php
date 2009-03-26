@@ -104,7 +104,7 @@
             if (isset($HTTP_GET_VARS['manufacturers_id'])) {
               $lc_text = '<a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'manufacturers_id=' . $HTTP_GET_VARS['manufacturers_id'] . '&products_id=' . $listing['products_id']) . '">' . $listing['products_name'] . '</a>';
             } else {
-              $lc_text = '<a href="' . tep_href_link(FILENAME_PRODUCT_INFO, ($cPath ? 'cPath=' . $cPath . '&' : '') . 'products_id=' . $listing['products_id']) . '" style="font-weight: bold; ">' . $listing['products_name'] . '</a>&nbsp;' . sc_get_products_teaser($listing['products_id']);
+              $lc_text = '<a href="' . tep_href_link(FILENAME_PRODUCT_INFO, ($cPath ? 'cPath=' . $cPath . '&' : '') . 'products_id=' . $listing['products_id']) . '" style="font-weight: bold; ">' . tep_output_string_protected($listing['products_name']) . '</a>&nbsp;' . sc_get_products_teaser($listing['products_id']);
             }
             break;
           case 'PRODUCT_LIST_MANUFACTURER':
