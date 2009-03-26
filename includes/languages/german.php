@@ -270,7 +270,7 @@ define('IMAGE_BUTTON_IMAGE_ENLARGE', 'Bild vergr&ouml;ssern');
 define('IMAGE_BUTTON_LOGIN', 'Anmelden');
 define('IMAGE_BUTTON_IN_CART', 'In den Warenkorb');
 define('IMAGE_BUTTON_NOTIFICATIONS', 'Benachrichtigungen');
-define('IMAGE_BUTTON_PDF', 'PDF/Druckversion');
+define('IMAGE_BUTTON_PDF', 'Drucken');
 define('IMAGE_BUTTON_QUICK_FIND', 'Schnellsuche');
 define('IMAGE_BUTTON_REMOVE_NOTIFICATIONS', 'Benachrichtigungen löschen');
 define('IMAGE_BUTTON_REVIEWS', 'Bewertungen');

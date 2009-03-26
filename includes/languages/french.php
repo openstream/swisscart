@@ -315,7 +315,7 @@ define('IMAGE_BUTTON_IMAGE_ENLARGE', 'Agrandir Image');
 define('IMAGE_BUTTON_LOGIN', 'S\'indentifier');
 define('IMAGE_BUTTON_IN_CART', 'Acheter');
 define('IMAGE_BUTTON_NOTIFICATIONS', 'Notifications');
-define('IMAGE_BUTTON_PDF', 'Version PDF');
+define('IMAGE_BUTTON_PDF', 'Imprimir');
 define('IMAGE_BUTTON_QUICK_FIND', 'Recherche rapide');
 define('IMAGE_BUTTON_REMOVE_NOTIFICATIONS', 'Supprimer les notifications');
 define('IMAGE_BUTTON_REVIEWS', 'Critiques');

@@ -267,7 +267,7 @@ define('IMAGE_BUTTON_IMAGE_ENLARGE', 'Ingrandire Immagine');
 define('IMAGE_BUTTON_LOGIN', 'Entra-login-');
 define('IMAGE_BUTTON_IN_CART', 'Aggiungi al carrello');
 define('IMAGE_BUTTON_NOTIFICATIONS', 'Comunicazioni');
-define('IMAGE_BUTTON_PDF', 'Versione PDF');
+define('IMAGE_BUTTON_PDF', 'Stampare');
 define('IMAGE_BUTTON_QUICK_FIND', 'Ricerca veloce');
 define('IMAGE_BUTTON_REMOVE_NOTIFICATIONS', 'Cancella comunicazioni');
 define('IMAGE_BUTTON_REVIEWS', 'Recensioni');
