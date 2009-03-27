@@ -92,10 +92,11 @@
                      'text'  => 'Support');
 
   $contents[] = array('params' => 'class="infoBox"',
-                      'text'  => '<a href="http://www.swisscart.com" target="_blank">' . BOX_ENTRY_SUPPORT_SITE . '</a><br>' .
-                                 '<a href="http://forums.oscommerce.com" target="_blank">' . BOX_ENTRY_SUPPORT_FORUMS . '</a><br>' .
-                                 '<a href="http://www.oscommerce.info/" target="_blank">' . BOX_ENTRY_KNOWLEDGE_BASE . '</a><br>' . 		
-								 '<a href="http://www.oscommerce.com/community/contributions" target="_blank">' . BOX_ENTRY_CONTRIBUTIONS . '</a>');								 						 
+                      'text'  => '<a href="http://docu.swisscart-com" target="_blank">' . BOX_ENTRY_DOCUMENTATION . '</a><br>' .
+					  			 '<a href="http://www.swisscart-webshop.ch" target="_blank">' . BOX_ENTRY_SUPPORT_SITE . '</a><br>' .
+                                 '<a href="http://www.oscommerce.info/" target="_blank">' . BOX_ENTRY_KNOWLEDGE_BASE . '</a><br>' .
+                                 '<a href="http://forums.oscommerce.com" target="_blank">' . BOX_ENTRY_SUPPORT_FORUMS . '</a><br>' .								 
+								 '<a href="http://addons.oscommerce.com/" target="_blank">' . BOX_ENTRY_CONTRIBUTIONS . '</a>');								 						 
 
   $box = new box;
   echo $box->menuBox($heading, $contents);

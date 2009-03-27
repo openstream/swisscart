@@ -15,12 +15,13 @@ define('HEADING_TITLE', 'Choose an action..');
 define('BOX_TITLE_ORDERS', 'Orders');
 define('BOX_TITLE_STATISTICS', 'Statistics');
 
-define('BOX_NEWS_RSS_SOURCE', 'http://www.oscommerce.com/oscommerce_contributions.rdf');
+define('BOX_NEWS_RSS_SOURCE', 'http://www.swisscart-webshop.ch/rss.xml');
 
-define('BOX_ENTRY_SUPPORT_SITE', 'Support Site');
+define('BOX_ENTRY_SUPPORT_SITE', 'swisscart&reg; Website');
 define('BOX_ENTRY_SUPPORT_FORUMS', 'Support Forums');
 define('BOX_ENTRY_CONTRIBUTIONS', 'Contributions');
 define('BOX_ENTRY_KNOWLEDGE_BASE', 'osCommerce Knowledge Base');
+define('BOX_ENTRY_DOCUMENTATION', 'swisscart&reg; Documentation');
 
 define('BOX_ENTRY_CUSTOMERS', 'Customers:');
 define('BOX_ENTRY_PRODUCTS', 'Products:');

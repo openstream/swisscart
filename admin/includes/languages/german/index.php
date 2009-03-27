@@ -17,10 +17,11 @@ define('BOX_TITLE_STATISTICS', 'Statistik');
 
 define('BOX_NEWS_RSS_SOURCE', 'http://www.swisscart-webshop.ch/rss.xml');
 
-define('BOX_ENTRY_SUPPORT_SITE', 'swisscart&reg; Support');
+define('BOX_ENTRY_SUPPORT_SITE', 'swisscart&reg; Webseite');
 define('BOX_ENTRY_SUPPORT_FORUMS', 'osCommerce Support Forum');
 define('BOX_ENTRY_CONTRIBUTIONS', 'Add-On Module');
 define('BOX_ENTRY_KNOWLEDGE_BASE', 'osCommerce Knowledge Base');
+define('BOX_ENTRY_DOCUMENTATION', 'swisscart&reg; Dokumentation');
 
 define('BOX_ENTRY_CUSTOMERS', 'Kunden:');
 define('BOX_ENTRY_PRODUCTS', 'Produkte:');

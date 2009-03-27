@@ -17,8 +17,8 @@ define('BOX_TITLE_STATISTICS', 'Statistiche');
 
 define('BOX_NEWS_RSS_SOURCE', 'http://www.openstream.ch/index.php?type=100&tx_ttnews[cat]=3');
 
-define('BOX_ENTRY_SUPPORT_SITE', 'Sito di Supporto');
-define('BOX_ENTRY_SUPPORT_FORUMS', 'Forums di Supporto');
+define('BOX_ENTRY_SUPPORT_SITE', 'Sito swisscart&reg;');
+define('BOX_ENTRY_SUPPORT_FORUMS', 'Forums di Supporto osCommerce');
 define('BOX_ENTRY_MAILING_LISTS', 'Mailing Lists');
 define('BOX_ENTRY_BUG_REPORTS', 'Rapporto Errori');
 define('BOX_ENTRY_FAQ', 'FAQ');
@@ -26,6 +26,8 @@ define('BOX_ENTRY_LIVE_DISCUSSIONS', 'Chat');
 define('BOX_ENTRY_CVS_REPOSITORY', 'Raccolta CVS');
 define('BOX_ENTRY_INFORMATION_PORTAL', 'Portale d\' informazione');
 define('BOX_ENTRY_KNOWLEDGE_BASE', 'osCommerce Knowledge Base');
+define('BOX_ENTRY_DOCUMENTATION', 'swisscart&reg; Documentation');
+define('BOX_ENTRY_CONTRIBUTIONS', 'Add-On Modules');
 
 define('BOX_ENTRY_CUSTOMERS', 'Clienti:');
 define('BOX_ENTRY_PRODUCTS', 'Prodotti:');
