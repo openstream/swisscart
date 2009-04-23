@@ -20,8 +20,6 @@
 		$this->enabled			= (MODULE_PAYMENT_POSTFINANCE_STATUS == 'True') ? true : false;
 		$this->state			= (MODULE_PAYMENT_POSTFINANCE_MOD == '1') ? '1' : '0';
 
-//	$this->code				= 'postfinance';
-	
 	switch($this->adminlang){
 	case 1:
 		$this->postFinanceInfo = array(
@@ -455,7 +453,6 @@
     function process_button() {
 		global $HTTP_POST_VARS, $HTTP_SERVER_VARS, $customer_id, $currencies, $currency, $order, $osCsid, $sidretour, $customers_id, $language, $cart_PostFinance_ID;
 
-//		$cart_id = explode("-", $_SESSION['cart_PostFinance_ID']);
 		$cart_id = explode("-", $cart_PostFinance_ID);
 		$order_id = $cart_id[1];
 
@@ -545,10 +542,8 @@
 									. tep_draw_hidden_field('BUTTONBGCOLOR', $payment_gateway_page_buttonbgcolor) 
 									. tep_draw_hidden_field('BUTTONTXTCOLOR', $payment_gateway_page_buttontxtcolor) 
 									. tep_draw_hidden_field('FONTTYPE', $payment_gateway_page_fonttype) 
-									//. tep_draw_hidden_field('paramplus', $sessid)
-									. tep_draw_hidden_field('LOGO', $payment_gateway_page_logo);
-									tep_draw_hidden_field('txtHistoryBack', 'false')
-
+									. tep_draw_hidden_field('LOGO', $payment_gateway_page_logo)
+									. tep_draw_hidden_field('txtHistoryBack', 'false')
 									. tep_draw_hidden_field(tep_session_name(),tep_session_id());
 
 	  return $process_button_string;
@@ -556,6 +551,7 @@
 
 	function before_process() {
       global $customer_id, $order, $order_totals, $sendto, $billto, $languages_id, $payment, $currencies, $cart, $cart_PostFinance_ID;
+      global $$payment;
 
       $order_id = substr($cart_PostFinance_ID, strpos($cart_PostFinance_ID, '-')+1);
 	  $order_status = $_GET['STATUS'];
@@ -717,16 +713,15 @@
       $email_order .= "\n" . EMAIL_TEXT_BILLING_ADDRESS . "\n" .
                       EMAIL_SEPARATOR . "\n" .
                       tep_address_label($customer_id, $billto, 0, '', "\n") . "\n\n";
-
+      if (is_object($$payment)) {
         $email_order .= EMAIL_TEXT_PAYMENT_METHOD . "\n" .
                         EMAIL_SEPARATOR . "\n";
         $payment_class = $$payment;
-        $email_order .= "Post finance". "\n\n";
+        $email_order .= $payment_class->title . "\n\n";
         if ($payment_class->email_footer) {
           $email_order .= $payment_class->email_footer . "\n\n";
         }
-
-
+	  }
 
 	if ($order_status == '5' || $order_status == '9' || $order_status == '91' || $order_status == '51') {
 		  tep_mail($order->customer['firstname'] . ' ' . $order->customer['lastname'], $order->customer['email_address'], EMAIL_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
