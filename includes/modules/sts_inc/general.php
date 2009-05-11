@@ -42,15 +42,15 @@ STS v4.3 by Rigadin (rigadin@osc-help.net)
     $sts->template['breadcrumbs'] = $breadcrumb->trail(' &raquo; ');
 	
     if (tep_session_is_registered('customer_id')) {
-      $sts->template['myaccount'] = '&raquo; <a href="' . tep_href_link(FILENAME_ACCOUNT, '', 'SSL') . '" class="headerNavigation">' . HEADER_TITLE_MY_ACCOUNT . '</a>';
+      $sts->template['myaccount'] = ' <a href="' . tep_href_link(FILENAME_ACCOUNT, '', 'SSL') . '" class="headerNavigation">' . HEADER_TITLE_MY_ACCOUNT . '</a>';
       $sts->template['urlmyaccount'] = tep_href_link(FILENAME_ACCOUNT, '', 'SSL');
-      $sts->template['logoff'] = '&raquo; <a href="' . tep_href_link(FILENAME_LOGOFF, '', 'SSL')  . '" class="headerNavigation">' . HEADER_TITLE_LOGOFF . '</a>';
+      $sts->template['logoff'] = ' <a href="' . tep_href_link(FILENAME_LOGOFF, '', 'SSL')  . '" class="headerNavigation">' . HEADER_TITLE_LOGOFF . '</a>';
       $sts->template['urllogoff'] = tep_href_link(FILENAME_LOGOFF, '', 'SSL');
-      $sts->template['myaccountlogoff'] = $sts->template['myaccount'] . '<br>' . $sts->template['logoff'];
+      $sts->template['myaccountlogoff'] = $sts->template['myaccount'] . ' | ' . $sts->template['logoff'];
 // Next tags added in v4.3
 			$sts->template['loginofflogo'] = '<a href="' . tep_href_link(FILENAME_LOGOFF, '', 'SSL') . '" class="headerNavigation">' . tep_image(STS_TEMPLATE_DIR.'images/'.$language . '/header_logoff.gif', HEADER_TITLE_LOGOFF) . '</a>';
     } else {
-      $sts->template['myaccount'] = '&raquo; <a href="' . tep_href_link(FILENAME_ACCOUNT, '', 'SSL') . '" class="headerNavigation">' . HEADER_TITLE_MY_ACCOUNT . '</a>';
+      $sts->template['myaccount'] = ' <a href="' . tep_href_link(FILENAME_ACCOUNT, '', 'SSL') . '" class="headerNavigation">' . HEADER_TITLE_MY_ACCOUNT . '</a>';
       $sts->template['urlmyaccount'] = tep_href_link(FILENAME_ACCOUNT, '', 'SSL');
       $sts->template['logoff'] = '';
       $sts->template['urllogoff'] = '';
@@ -59,10 +59,10 @@ STS v4.3 by Rigadin (rigadin@osc-help.net)
 			$sts->template['loginofflogo'] = '<a href="' . tep_href_link(FILENAME_LOGIN, '', 'SSL') . '" class="headerNavigation">' . tep_image(STS_TEMPLATE_DIR.'images/'.$language . '/header_login.gif', HEADER_TITLE_LOGIN) . '</a>';
     }
 // v4.5: use SSL if possible.
-    $sts->template['cartcontents']    = '&raquo; <a href="' . tep_href_link(FILENAME_SHOPPING_CART, '', 'SSL') . '" class="headerNavigation">' . HEADER_TITLE_CART_CONTENTS . '</a>';
+    $sts->template['cartcontents']    = ' <a href="' . tep_href_link(FILENAME_SHOPPING_CART, '', 'SSL') . '" class="headerNavigation">' . HEADER_TITLE_CART_CONTENTS . '</a>';
     $sts->template['urlcartcontents'] = tep_href_link(FILENAME_SHOPPING_CART, '', 'SSL');  // A real URL since v4.3, before was same as $cartcontents
 
-    $sts->template['checkout'] = '&raquo; <a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL') . '" class="headerNavigation">' . HEADER_TITLE_CHECKOUT . '</a>';
+    $sts->template['checkout'] = ' <a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL') . '" class="headerNavigation">' . HEADER_TITLE_CHECKOUT . '</a>';
     $sts->template['urlcheckout'] = tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL');
     $sts->template['headertags']= "<title>" . TITLE ."</title>";
 		
