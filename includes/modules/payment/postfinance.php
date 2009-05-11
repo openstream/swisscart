@@ -552,6 +552,14 @@
 	function before_process() {
       global $customer_id, $order, $order_totals, $sendto, $billto, $languages_id, $payment, $currencies, $cart, $cart_PostFinance_ID;
       global $$payment;
+	  
+	  
+	  // added for pre v2.2RC compatibility
+	  if (!is_array($order_totals)) {
+		require(DIR_WS_CLASSES . 'order_total.php');
+		$order_total_modules = new order_total;
+		$order_totals = $order_total_modules->process();	  
+	  }
 
       $order_id = substr($cart_PostFinance_ID, strpos($cart_PostFinance_ID, '-')+1);
 	  $order_status = $_GET['STATUS'];
@@ -703,6 +711,13 @@
       for ($i=0, $n=sizeof($order_totals); $i<$n; $i++) {
         $email_order .= strip_tags($order_totals[$i]['title']) . ' ' . strip_tags($order_totals[$i]['text']) . "\n";
       }
+
+	  /*if($_SERVER['REMOTE_ADDR'] == '217.224.165.29') {
+		//print_r($order_totals);
+		print_r($GLOBALS);
+		die();
+	  }*/
+	  //$email_order .= '---test---' . "\n";
 
       if ($order->content_type != 'virtual') {
         $email_order .= "\n" . EMAIL_TEXT_DELIVERY_ADDRESS . "\n" .
