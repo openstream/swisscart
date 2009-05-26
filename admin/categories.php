@@ -17,13 +17,12 @@
 
   $action = (isset($HTTP_GET_VARS['action']) ? $HTTP_GET_VARS['action'] : '');
 
-// Ultimate SEO URLs BEGIN
-// If the action will affect the cache entries
-    if (eregi("(insert|update|setflag)", $action))
-        include_once ('includes/reset_seo_cache.php');
-// Ultimate SEO URLs END
-
-  if (tep_not_null($action)) {
+ if (tep_not_null($action)) {
+    // ULTIMATE Seo Urls 5
+    // If the action will affect the cache entries
+    if ( eregi("(insert|update|setflag)", $action) ){
+      tep_reset_cache_data_seo_urls('reset');
+    } 
     switch ($action) {
       case 'beginsort':
         $sorting = true;

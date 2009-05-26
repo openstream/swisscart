@@ -47,4 +47,6 @@
   }
 // STS
 }
+// ULTIMATE Seo Urls 5
+usu::performance();
 ?>

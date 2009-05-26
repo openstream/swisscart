@@ -13,21 +13,18 @@
   Released under the GNU General Public License
 */
 
-if (SEO_ENABLED == 'true') {
+if (SEO_URLS_ENABLED == 'true') {
 ////
-// Ultimate SEO URLs v2.1
+// ULTIMATE Seo Urls 5
 // The HTML href link wrapper function
   function tep_href_link($page = '', $parameters = '', $connection = 'NONSSL', $add_session_id = true, $search_engine_safe = true) {
-        global $seo_urls;                
-                if ( !is_object($seo_urls) ){
-                        if ( !class_exists('SEO_URL') ){
-                                include_once(DIR_WS_CLASSES . 'seo.class.php');
-                        }
-                        global $languages_id;
-                        $seo_urls = new SEO_URL($languages_id);
-                }
-        return $seo_urls->href_link($page, $parameters, $connection, $add_session_id);
-  }
+    global $seo_urls, $languages_id, $request_type, $session_started, $sid;                
+    if ( !is_object($seo_urls) ){
+      include_once DIR_WS_MODULES . 'ultimate_seo_urls5/classes/usu.php';
+      $seo_urls = new usu($languages_id, $request_type, $session_started, $sid);
+    }
+    return $seo_urls->href_link($page, $parameters, $connection, $add_session_id);
+  } 
   } else {
  ////
 // The HTML href link wrapper function

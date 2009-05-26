@@ -57,7 +57,7 @@ if (is_file('FirePHP_Build/Init.inc.php')) {
   $request_type = (getenv('HTTPS') == 'on') ? 'SSL' : 'NONSSL';
 
 // set php_self in the local scope
-  if (!isset($PHP_SELF)) $PHP_SELF = $HTTP_SERVER_VARS['PHP_SELF'];
+  if (!isset($PHP_SELF)) $PHP_SELF = basename($_SERVER['SCRIPT_NAME']); 
 
   if ($request_type == 'NONSSL') {
     define('DIR_WS_CATALOG', DIR_WS_HTTP_CATALOG);
@@ -300,14 +300,12 @@ if (is_file('FirePHP_Build/Init.inc.php')) {
 // include the language translations
   require(DIR_WS_LANGUAGES . $language . '.php');
 
-// Ultimate SEO URLs v2.1
-    if (SEO_ENABLED == 'true' or (SEO_ENABLED != 'true' and SEO_ENABLED != 'false')) {
-    include_once(DIR_WS_CLASSES . 'seo.class.php');
-    if ( !is_object($seo_urls) )
-    {
-      $seo_urls = new SEO_URL($languages_id);
-    }
+// ULTIMATE Seo Urls 5
+  if ( !isset($seo_urls) || !is_object($seo_urls) ){
+    include_once DIR_WS_MODULES . 'ultimate_seo_urls5/classes/usu.php';
+    $seo_urls = new usu($languages_id, $request_type, $session_started, $SID);
   }
+  $seo_urls->initiate($SID, $languages_id, $language); 
 
 // currency
   if (!tep_session_is_registered('currency') || isset($HTTP_GET_VARS['currency']) || ( (USE_DEFAULT_LANGUAGE_CURRENCY == 'true') && (LANGUAGE_CURRENCY != $currency) ) ) {

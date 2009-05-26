@@ -1360,20 +1360,36 @@
     return $tmp_array;
   }
   
-// Function to reset SEO URLs database cache entries 
-// Ultimate SEO URLs v2.1
-function tep_reset_cache_data_seo_urls($action){        
-        switch ($action){
-                case 'reset':
-                        tep_db_query("DELETE FROM cache WHERE cache_name LIKE '%seo_urls%'");
-                        tep_db_query("UPDATE configuration SET configuration_value='false' WHERE configuration_key='SEO_URLS_CACHE_RESET'");
-                        break;
-                default:
-                        break;
+// ULTIMATE Seo Urls 5
+// Reset the seo urls cache
+function tep_reset_cache_data_seo_urls($action = false){
+  if ( $action == 'reset' ){
+    $usu5_path = DIR_FS_CATALOG . DIR_WS_MODULES . 'ultimate_seo_urls5' . DIRECTORY_SEPARATOR;
+    switch( SEO_URLS_CACHE_SYSTEM ){
+      case 'FileSystem': 
+        $path_to_cache = realpath($usu5_path . 'cache') . DIRECTORY_SEPARATOR;
+        $it = new DirectoryIterator($path_to_cache);
+        while( $it->valid() ){
+          if ( !$it->isDot() && is_readable($path_to_cache . $it->getFilename()) && (substr($it->getFilename(), -6) == '.cache') ){
+            unlink($path_to_cache . $it->getFilename());
+          }
+          $it->next();
         }
-        # The return value is used to set the value upon viewing
-        # It's NOT returining a false to indicate failure!!
-        return 'false';
+        break;
+      case 'Database':
+        tep_db_query("TRUNCATE TABLE `usu_cache`");
+        break;
+      case 'Memcached':
+        if ( class_exists('Memcache') ){
+          include_once $usu5_path . 'interfaces' . DIRECTORY_SEPARATOR . 'Interface_Cache.php';
+          include_once $usu5_path . 'classes' . DIRECTORY_SEPARATOR . 'Usu_Cache_Memcached.php';
+          $mc = new Usu_Cache_Memcached('dummy');
+          $mc->flushOut();
+        }
+        break;
+    }
+    tep_db_query("UPDATE " . TABLE_CONFIGURATION . " SET configuration_value='false' WHERE configuration_key='SEO_URLS_CACHE_RESET'");
+  }       
 }  
 
   function tep_get_category_seo_url($category_id, $language_id) {
