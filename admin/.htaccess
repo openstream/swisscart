@@ -24,7 +24,7 @@
              downgrade-1.0 force-response-1.0
   </IfDefine>
 </IfModule>
-AuthUserFile "/var/www/virtual/swisscart.com/domains/demo.swisscart.com/htdocs/admin/.htpasswd"
+AuthUserFile "/home/swisscart.com/domains/demo.swisscart.com/htdocs/admin/.htpasswd"
 AuthType Basic
 AuthName "swisscart administration"
 require valid-user
