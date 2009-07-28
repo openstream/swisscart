@@ -113,7 +113,8 @@ settings =
 'height='+h+',width='+w+',top='+TopPosition+',left='+LeftPosition+',scrollbars='+scroll+',resizable'
 win = window.open(mypage,myname,settings)
 }
-//--></script>
+//--></script
+>
 </head>
 <body marginwidth="0" marginheight="0" topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0">
 <!-- header //-->
@@ -187,7 +188,7 @@ win = window.open(mypage,myname,settings)
   }
 ?>
 						  <tr><td colspan="3" class="horizontalRule">&nbsp;</td></tr>
-						  <tr><td colspan="3"><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td></tr>						  
+						  <tr><td colspan="3"><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td></tr>
                                 <?php
 								  if (MODULE_ORDER_TOTAL_INSTALLED) {
 									$order_total_modules->process();
@@ -383,7 +384,7 @@ win = window.open(mypage,myname,settings)
                 <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
               </tr>
               </form>
-              
+
             </table></td>
         </tr>
         <tr>

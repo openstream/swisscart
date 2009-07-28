@@ -28,7 +28,8 @@
                                    '<a href="' . tep_href_link(FILENAME_SPECIALS, '', 'NONSSL') . '" class="menuBoxContentLink">' . BOX_CATALOG_SPECIALS . '</a><br>' .
 								   '<a href="' . tep_href_link(FILENAME_FEATURED, '', 'NONSSL') . '" class="menuBoxContentLink">' . BOX_CATALOG_FEATURED_PRODUCTS . '</a><br>' .
                                    '<a href="' . tep_href_link(FILENAME_XSELL_PRODUCTS, '', 'NONSSL') . '" class="menuBoxContentLink">' . BOX_CATALOG_XSELL . '</a><br>' .								   
-                                   '<a href="' . tep_href_link(FILENAME_PRODUCTS_EXPECTED, '', 'NONSSL') . '" class="menuBoxContentLink">' . BOX_CATALOG_PRODUCTS_EXPECTED . '</a>');
+                                   '<a href="' . tep_href_link(FILENAME_PRODUCTS_EXPECTED, '', 'NONSSL') . '" class="menuBoxContentLink">' . BOX_CATALOG_PRODUCTS_EXPECTED . '</a><br>' . 
+								   '<a href="' . tep_href_link(FILENAME_COUPONS, '', 'NONSSL') . '" class="menuBoxContentLink">' . BOX_CATALOG_COUPONS . '</a>');
   }
 
   $box = new box;

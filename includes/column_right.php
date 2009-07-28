@@ -19,6 +19,9 @@
 	} else {
 
   require(DIR_WS_BOXES . 'shopping_cart.php');
+// coupons addon start
+  require(DIR_WS_BOXES . 'coupon.php');
+// coupons addon end
 
   if (isset($HTTP_GET_VARS['products_id'])) include(DIR_WS_BOXES . 'manufacturer_info.php');
 

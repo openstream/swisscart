@@ -31,4 +31,8 @@ define('TABLE_HEADING_COMMENTS', 'Anmerkungen zur Bestellung');
 
 define('TITLE_CONTINUE_CHECKOUT_PROCEDURE', 'Fortsetzung des Bestellvorganges');
 define('TEXT_CONTINUE_CHECKOUT_PROCEDURE', 'zur Best&auml;tigung Ihrer Bestellung.');
+
+// coupons addon start
+define('TEXT_COUPON_HEADING', 'Coupon / Gutschein');
+// coupons addon end
 ?>

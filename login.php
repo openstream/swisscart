@@ -60,6 +60,17 @@
 
 // restore cart contents
         $cart->restore_contents();
+// coupon addon start
+        if (tep_session_is_registered('coupon_code_code')) {
+          $code_check_query = tep_db_query("select date_purchased from " . TABLE_COUPONS_SALES . " where coupons_code = '" . tep_db_input($coupon_code_code) . "' and customers_id = '" . (int)($customer_id) . "'");
+          if (tep_db_num_rows($code_check_query)>0) {
+            $check_result = tep_db_fetch_array($code_check_query);
+            tep_session_unregister('coupon_code_code');
+            tep_session_unregister('coupon_code_value');
+            tep_redirect(tep_href_link(FILENAME_DEFAULT, 'error_message=' . COUPON_BOX_SORRY_CUSTOMER . ' (' . tep_date_short($check_result['date_purchased']) . ')'));
+          }
+        }
+// coupon addon end
 
         if (sizeof($navigation->snapshot) > 0) {
           $origin_href = tep_href_link($navigation->snapshot['page'], tep_array_to_string($navigation->snapshot['get'], array(tep_session_name())), $navigation->snapshot['mode']);

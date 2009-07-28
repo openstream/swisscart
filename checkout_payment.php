@@ -176,6 +176,16 @@ function rowOutEffect(object) {
       </tr>
 <?php
   }
+
+// coupons addon start - error message - by Claudio
+    if ($messageStack->size('coupons') > 0) {
+      echo '<tr>'.
+             '<td class="headerError">'.
+                $messageStack->output('coupons').
+             '</td>'.
+           '</tr>';
+  }
+// coupons addon start - error message
 ?>
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
@@ -191,12 +201,12 @@ function rowOutEffect(object) {
               <tr>
                 <td align="left" width="50%" valign="top"><table border="0" cellspacing="0" cellpadding="2">
                   <tr>
-                    <td><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td> 
+                    <td><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
                     <td class="main" valign="top"><?php echo tep_address_label($customer_id, $billto, true, ' ', '<br>'); ?></td>
-                    <td><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td> 
+                    <td><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
                   </tr>
                 </table></td>
-                <td class="main" width="50%" valign="top"><br><br><?php echo '<a href="' . tep_href_link(FILENAME_CHECKOUT_PAYMENT_ADDRESS, '', 'SSL') . '">' . tep_image_button('button_change_address.gif', IMAGE_BUTTON_CHANGE_ADDRESS) . '</a>'; ?></td>                
+                <td class="main" width="50%" valign="top"><br><br><?php echo '<a href="' . tep_href_link(FILENAME_CHECKOUT_PAYMENT_ADDRESS, '', 'SSL') . '">' . tep_image_button('button_change_address.gif', IMAGE_BUTTON_CHANGE_ADDRESS) . '</a>'; ?></td>
               </tr>
             </table></td>
           </tr>
@@ -311,6 +321,17 @@ function rowOutEffect(object) {
       <tr>
         <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
       </tr>
+      <?php // coupon addon start ?>
+      <tr>
+        <td class="main"><b><?php echo TEXT_COUPON_HEADING; ?></b></td>
+      </tr>
+      <tr>
+        <td><?php require(DIR_WS_INCLUDES . 'boxes/coupon_payment.php'); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
+      </tr>
+      <?php // coupon addon end ?>
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
           <tr>

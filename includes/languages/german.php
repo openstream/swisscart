@@ -270,7 +270,7 @@ define('IMAGE_BUTTON_IMAGE_ENLARGE', 'Bild vergr&ouml;ssern');
 define('IMAGE_BUTTON_LOGIN', 'Anmelden');
 define('IMAGE_BUTTON_IN_CART', 'In den Warenkorb');
 define('IMAGE_BUTTON_NOTIFICATIONS', 'Benachrichtigungen');
-define('IMAGE_BUTTON_PDF', 'Drucken');
+define('IMAGE_BUTTON_PDF', 'PDF/Druckversion');
 define('IMAGE_BUTTON_QUICK_FIND', 'Schnellsuche');
 define('IMAGE_BUTTON_REMOVE_NOTIFICATIONS', 'Benachrichtigungen löschen');
 define('IMAGE_BUTTON_REVIEWS', 'Bewertungen');
@@ -330,4 +330,7 @@ define('SUCCESS_FILE_SAVED_SUCCESSFULLY', 'Erfolg:  Datei wurde erfolgreich gesp
 define('ERROR_FILE_NOT_SAVED', 'Fehler: Datei wurde nicht gespeichert.');
 define('ERROR_DESTINATION_NOT_WRITEABLE', 'Fehler: Ziel nicht schreibbar');
 define('ERROR_DESTINATION_DOES_NOT_EXIST', 'Fehler: Ziel existiert nicht.');
+// coupons addon start
+  define('BOX_CATALOG_COUPONS', 'Gutscheine');
+// coupons addon end
 ?>

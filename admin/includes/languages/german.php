@@ -310,4 +310,5 @@ define('WARNING_NO_FILE_UPLOADED', 'Warning: No file uploaded.');
 define('WARNING_FILE_UPLOADS_DISABLED', 'Warning: File uploads are disabled in the php.ini configuration file.');
 
 define('BOX_MODULES_STS', 'STS');
+define('BOX_CATALOG_COUPONS', 'Coupons');
 ?>

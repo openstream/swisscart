@@ -32,7 +32,7 @@
   define('TABLE_CUSTOMERS_INFO', 'customers_info');
   define('TABLE_FEATURED', 'featured');
   define('TABLE_FILES_UPLOADED', 'files_uploaded');
-  define('TABLE_INFORMATION', 'information');  
+  define('TABLE_INFORMATION', 'information');
   define('TABLE_LANGUAGES', 'languages');
   define('TABLE_MANUFACTURERS', 'manufacturers');
   define('TABLE_MANUFACTURERS_INFO', 'manufacturers_info');
@@ -63,4 +63,7 @@
   define('TABLE_WHOS_ONLINE', 'whos_online');
   define('TABLE_ZONES', 'zones');
   define('TABLE_PRODUCTS_XSELL', 'products_xsell');
-?>
+// coupons addon start
+  define('TABLE_COUPONS', 'coupons');
+  define('TABLE_COUPONS_SALES', 'coupons_sales');
+// coupons addon end

@@ -56,7 +56,7 @@ if (is_file('FirePHP_Build/Init.inc.php')) {
 // set the type of request (secure or not)
   $request_type = (getenv('HTTPS') == 'on') ? 'SSL' : 'NONSSL';
 
-// set php_self in the local scope
+// set php_self in the local scope                              
   if (!isset($PHP_SELF)) $PHP_SELF = basename($_SERVER['SCRIPT_NAME']); 
 
   if ($request_type == 'NONSSL') {
@@ -300,9 +300,9 @@ if (is_file('FirePHP_Build/Init.inc.php')) {
 // include the language translations
   require(DIR_WS_LANGUAGES . $language . '.php');
 
-// ULTIMATE Seo Urls 5
+// ULTIMATE Seo Urls 5 by FWR Media
   if ( !isset($seo_urls) || !is_object($seo_urls) ){
-    include_once DIR_WS_MODULES . 'ultimate_seo_urls5/classes/usu.php';
+    include_once DIR_WS_MODULES . 'ultimate_seo_urls5' . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY_SEPARATOR . 'usu.php';
     $seo_urls = new usu($languages_id, $request_type, $session_started, $SID);
   }
   $seo_urls->initiate($SID, $languages_id, $language); 
@@ -330,7 +330,7 @@ if (is_file('FirePHP_Build/Init.inc.php')) {
     $navigation = new navigationHistory;
   }
   $navigation->add_current_page();
-  
+
 
 // include the who's online functions
   require(DIR_WS_FUNCTIONS . 'whos_online.php');
@@ -469,7 +469,7 @@ if (is_file('FirePHP_Build/Init.inc.php')) {
                               tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
                               break;
       // customer adds a product from the products page
-      case 'add_product' :    
+      case 'add_product' :
         if (isset($HTTP_POST_VARS['products_id']) && is_numeric($HTTP_POST_VARS['products_id'])) {
 // iii 030813 added: File uploading: save uploaded files with unique file names
           $real_ids = $HTTP_POST_VARS['id'];
@@ -573,8 +573,10 @@ if (is_file('FirePHP_Build/Init.inc.php')) {
   define('WARN_SESSION_DIRECTORY_NOT_WRITEABLE', 'true');
   define('WARN_SESSION_AUTO_START', 'true');
   define('WARN_DOWNLOAD_DIRECTORY_NOT_READABLE', 'true');
-  
+
 // PWA BOF
   if (tep_session_is_registered('customer_id') && $customer_id == 0 && substr(basename($PHP_SELF),0,7)=='account') tep_redirect(tep_href_link(FILENAME_SHOPPING_CART));
 // PWA EOF
-?>
+// coupons addon start
+  require('includes/application_coupon.php');
+// coupons addon end

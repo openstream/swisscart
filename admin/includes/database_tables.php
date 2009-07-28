@@ -30,7 +30,7 @@
   define('TABLE_CUSTOMERS_INFO', 'customers_info');
   define('TABLE_FEATURED', 'featured');
   define('TABLE_INFORMATION', 'information');
-  define('TABLE_INFORMATION_GROUP', 'information_group');  
+  define('TABLE_INFORMATION_GROUP', 'information_group');
   define('TABLE_LANGUAGES', 'languages');
   define('TABLE_MANUFACTURERS', 'manufacturers');
   define('TABLE_MANUFACTURERS_INFO', 'manufacturers_info');
@@ -63,4 +63,8 @@
   define('TABLE_ZONES_TO_GEO_ZONES', 'zones_to_geo_zones');
   define('TABLE_WHOS_ONLINE', 'whos_online');
   define('TABLE_ZONES', 'zones');
+// coupons addon start
+  define('TABLE_COUPONS', 'coupons');
+  define('TABLE_COUPONS_SALES', 'coupons_sales');
+// coupons addon end
 ?>

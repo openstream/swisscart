@@ -362,4 +362,5 @@ define('WARNING_NO_FILE_UPLOADED', 'Attention&nbsp;: Aucun fichier t&eacute;l&ea
 define('WARNING_FILE_UPLOADS_DISABLED', 'Attention&nbsp;: Le t&eacute;l&eacute;chargement de fichiers a &eacute;t&eacute; d&eacute;sactiv&eacute; dans le fichier de configuration de php&nbsp;: php.ini.');
 
 define('BOX_MODULES_STS', 'STS');
+define('BOX_CATALOG_COUPONS', 'Coupons');
 ?>

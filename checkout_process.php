@@ -88,13 +88,13 @@
                           'billing_postcode' => $order->billing['postcode'],
                           'billing_state' => $order->billing['state'],
                           'billing_country' => $order->billing['country']['title'],
-						  'billing_country_iso_code_2' => $order->billing['country']['iso_code_2'], 
+						  'billing_country_iso_code_2' => $order->billing['country']['iso_code_2'],
                           'billing_address_format_id' => $order->billing['format_id'],
                           'payment_method' => $order->info['payment_method'],
 						  'payment_class' => $order->info['payment_class'],
 						  'shipping_method' => $order->info['shipping_method'],
 						  'shipping_module' => $shipping['id'],
-                          'shipping_class' => $order->info['shipping_class'], 
+                          'shipping_class' => $order->info['shipping_class'],
                           'cc_type' => $order->info['cc_type'],
                           'cc_owner' => $order->info['cc_owner'],
                           'cc_number' => $order->info['cc_number'],
@@ -240,11 +240,11 @@
                  EMAIL_TEXT_ORDER_NUMBER . ' ' . $insert_id . "\n" .
                  html_entity_decode(EMAIL_TEXT_INVOICE_URL) . ' ' . tep_href_link(FILENAME_ACCOUNT_HISTORY_INFO, 'order_id=' . $insert_id, 'SSL', false) . "\n" .
                  EMAIL_TEXT_DATE_ORDERED . ' ' . strftime(DATE_FORMAT_LONG) . "\n\n";
-				 
+
 // PWA BOF
   if ($customer_id == 0) $email_order .= EMAIL_WARNING . "\n\n";
 // PWA EOF
-				 
+
   if ($order->info['comments']) {
     $email_order .= tep_db_output($order->info['comments']) . "\n\n";
   }
@@ -275,9 +275,9 @@
       $email_order .= $payment_class->email_footer . "\n\n";
     }
   }
-  
+
   $email_order .= "\n\n" . EMAIL_SIGNATURE;
-  
+
   tep_mail($order->customer['firstname'] . ' ' . $order->customer['lastname'], $order->customer['email_address'], EMAIL_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
 
 // send emails to other people
@@ -296,6 +296,13 @@
   tep_session_unregister('shipping');
   tep_session_unregister('payment');
   tep_session_unregister('comments');
+// coupons addon start
+  if (isset($ot_coupon) && is_object($ot_coupon) && $ot_coupon->redeem==true) {
+    tep_db_query("insert into " . TABLE_COUPONS_SALES . " (coupons_code, customers_id, orders_id, date_purchased) values ('" . tep_db_input($ot_coupon->coupons_code) . "', '" . (int)$customer_id . "', '" . (int)$insert_id . "', now())");
+    tep_session_unregister('coupon_code_code');
+    tep_session_unregister('coupon_code_value');
+  }
+// coupons addon end
 
   tep_redirect(tep_href_link(FILENAME_CHECKOUT_SUCCESS, '', 'SSL'));
 
