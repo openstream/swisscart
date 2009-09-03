@@ -17,7 +17,7 @@
  * @filesource
  */
 
-	//chdir('../');
+//	chdir('../');
 	/**
 	 * Option to compress the files
 	 */
@@ -33,89 +33,15 @@
 	/**
 	 * Carried over from application_top.php for compatibility
 	 */
-	define('DIR_WS_CATALOG', DIR_WS_HTTP_CATALOG);
-
-	// Set the local configuration parameters - mainly for developers
-	if (file_exists('includes/local/configure.php')) include('includes/local/configure.php');
-
-	require_once('includes/configure.php');
-	require_once(DIR_WS_INCLUDES . 'filenames.php');
-	require_once(DIR_WS_INCLUDES . 'database_tables.php');
-	require_once(DIR_WS_FUNCTIONS . 'database.php');
-	tep_db_connect() or die('Unable to connect to database server!');
-
-	$configuration_query = tep_db_query('select configuration_key as cfgKey, configuration_value as cfgValue from ' . TABLE_CONFIGURATION);
-	while ($configuration = tep_db_fetch_array($configuration_query)) {
-		define($configuration['cfgKey'], $configuration['cfgValue']);
-	}
-
-	function tep_not_null($value) {
-		if (is_array($value)) {
-		  if (sizeof($value) > 0) {
-			return true;
-		  } else {
-			return false;
-		  }
-		} else {
-		  if (($value != '') && (strtolower($value) != 'null') && (strlen(trim($value)) > 0)) {
-			return true;
-		  } else {
-			return false;
-		  }
-		}
-	} # end function
-
-	include_once(DIR_WS_CLASSES . 'language.php');
-	$lng = new language();
-	$languages_id = $lng->language['id'];
-
-if ( defined('SEO_URLS') && SEO_URLS == 'true' || defined('SEO_ENABLED') && SEO_ENABLED == 'true' ) {
-
-	function tep_session_is_registered( $var ){
-		return false;
-	}  # end function
-
-	function tep_session_name(){
-		return false;
-	} # end function
-	
-	function tep_session_id(){
-		return false;
-	} # end function
-
-	function tep_parse_input_field_data($data, $parse) {
-		return strtr(trim($data), $parse);
-	} # end function
-
-	function tep_output_string($string, $translate = false, $protected = false) {
-		if ($protected == true) {
-		  return htmlspecialchars($string);
-		} else {
-		  if ($translate == false) {
-			return tep_parse_input_field_data($string, array('"' => '&quot;'));
-		  } else {
-			return tep_parse_input_field_data($string, $translate);
-		  }
-		}
-	} # end function
-
-	
-	if ( file_exists(DIR_WS_CLASSES . 'seo.class.php') ){
-		require_once(DIR_WS_CLASSES . 'seo.class.php');
-		$seo_urls = new SEO_URL($languages_id);
-	}
-	
-	require_once(DIR_WS_FUNCTIONS . 'html_output.php');
-	
-	if ( file_exists(DIR_WS_CLASSES . 'cache.class.php') ){
-		include(DIR_WS_CLASSES . 'cache.class.php');
-		$cache = new cache($languages_id);
-		if ( file_exists('includes/seo_cache.php') ){
-			include('includes/seo_cache.php');
-		}
-		$cache->get_cache('GLOBAL');
-	}
-} # end if
+	define('GOOGLE_SITEMAP_MAN_CHANGE_FREQ', 'weekly');
+	/**
+	 * Carried over from application_top.php for compatibility
+	 */
+	define('GOOGLE_SITEMAP_SPECIALS_CHANGE_FREQ', 'weekly');
+	/**
+	 * Carried over from application_top.php for compatibility
+	 */
+include_once 'includes/application_top.php';
 
 require_once(DIR_WS_CLASSES . 'google_sitemap.php');
 
@@ -138,6 +64,40 @@ if ($google->GenerateCategorySitemap()){
 	echo 'ERROR: Google Category Sitemap Generation FAILED!' . "\n\n";
 }
 
+$showManufacturers = true;
+if ($google->GenerateManufacturerSitemap()){
+	echo 'Generated Google Manufacturers Sitemap Successfully' . "\n\n";
+} else {
+  $manufacturers_query = tep_db_query("select manufacturers_id from " . TABLE_MANUFACTURERS . " limit 1");
+  if (tep_db_num_rows($manufacturers_query) > 0)
+  {
+    $submit = false;
+	  echo 'ERROR: Google Manufacturers Sitemap Generation FAILED!' . "\n\n";
+  }
+  else 
+  {
+    $showManufacturers = false;
+	  echo 'Google Sitemap Manufacturers not generated - no Manufacturers found!' . "\n\n";
+  } 
+}
+
+$showSpecials = true;
+if ($google->GenerateSpecialsSitemap()){
+	echo 'Generated Google Specials Sitemap Successfully' . "\n\n";
+} else {
+  $specials_query = tep_db_query("select p.products_id from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_SPECIALS . " s where p.products_status = '1' and p.products_id = s.products_id and pd.products_id = s.products_id and pd.language_id = '" . (int)$languages_id . "' and s.status = '1' limit 1");
+  if (tep_db_num_rows($specials_query) > 0)
+  {
+	  $submit = false;
+	  echo 'ERROR: Google Specials Sitemap Generation FAILED!' . "\n\n";
+  }
+  else 
+  {
+    $showSpecials = false;
+	  echo 'Google Sitemap Specials not generated - no specials found!' . "\n\n";
+  } 
+}
+
 if ($google->GenerateSitemapIndex()){
 	echo 'Generated Google Sitemap Index Successfully' . "\n\n";
 } else {
@@ -149,15 +109,22 @@ if ($submit){
 	echo 'CONGRATULATIONS! All files generated successfully.' . "\n\n";
 	echo 'If you have not already submitted the sitemap index to Google click the link below.' . "\n";
 	echo 'Before you do I HIGHLY recommend that you view the XML files to make sure the data is correct.' . "\n\n";
-	echo '<a href="' . $google->GenerateSubmitURL() . '">' . $google->GenerateSubmitURL() . '</a>' . "\n\n";
+	echo $google->GenerateSubmitURL() . "\n\n";
 	echo 'For your convenience here is the CRON command for your site:' . "\n";
-	echo 'php ' . $_SERVER['PHP_SELF'] . "\n\n";
-	echo 'Here is your sitemap index: <a href="' . $google->base_url . 'sitemapindex.xml">' . $google->base_url . 'sitemapindex.xml</a>' . "\n";
-	echo 'Here is your product sitemap: <a href="' . $google->base_url . 'sitemapproducts.xml">' . $google->base_url . 'sitemapproducts.xml</a>' . "\n";
-	echo 'Here is your category sitemap: <a href="' . $google->base_url . 'sitemapcategories.xml">' . $google->base_url . 'sitemapcategories.xml</a>' . "\n";
+	echo 'php ' . dirname($_SERVER['SCRIPT_FILENAME']) . '/index.php' . "\n\n";
+	echo 'Here is your sitemap index: ' . $google->base_url . 'sitemapindex.xml' . "\n";
+	echo 'Here is your product sitemap: ' . $google->base_url . 'sitemapproducts.xml' . "\n";
+	echo 'Here is your category sitemap: ' . $google->base_url . 'sitemapcategories.xml' . "\n";
+	
+  if ($showManufacturers)
+    echo 'Here is your manufacturers sitemap: ' . $google->base_url . 'sitemapmanufacturers.xml' . "\n";
+  
+  if ($showSpecials)
+  	echo 'Here is your specials sitemap: ' . $google->base_url . 'sitemapspecials.xml' . "\n";
 } else {
 	print_r($google->debug);
 }
 
 echo '</pre>';
+include_once 'includes/application_bottom.php';
 ?>

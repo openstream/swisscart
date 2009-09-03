@@ -14,8 +14,6 @@
  * @copyright Copyright 2005, Bobby Easland 
  * @author Bobby Easland 
  * @filesource
- *
- * modified and extended for PDF link support by nick@openstream.ch
  */
 
 /**
@@ -31,179 +29,6 @@
  * @copyright Copyright 2005, Bobby Easland 
  * @author Bobby Easland 
  */
-class MySQL_DataBase{
-	/**
- 	* Database host (localhost, IP based, etc)
-	* @var string
- 	*/
-	var $host;
-	/**
- 	* Database user
-	* @var string
- 	*/
-	var $user;
-	/**
- 	* Database name
-	* @var string
- 	*/
-	var $db;
-	/**
- 	* Database password
-	* @var string
- 	*/
-	var $pass;
-	/**
- 	* Database link
-	* @var resource
- 	*/
-	var $link_id;
-
-/**
- * MySQL_DataBase class constructor 
- * @author Bobby Easland 
- * @version 1.0
- * @param string $host
- * @param string $user
- * @param string $db
- * @param string $pass  
- */	
-	function MySQL_DataBase($host, $user, $db, $pass){
-		$this->host = $host;
-		$this->user = $user;
-		$this->db = $db;
-		$this->pass = $pass;		
-		$this->ConnectDB();
-		$this->SelectDB();
-	} # end function
-
-/**
- * Function to connect to MySQL 
- * @author Bobby Easland 
- * @version 1.0
- */	
-	function ConnectDB(){
-		$this->link_id = mysql_connect($this->host, $this->user, $this->pass);
-	} # end function
-	
-/**
- * Function to select the database
- * @author Bobby Easland 
- * @version 1.0
- * @return resoource 
- */	
-	function SelectDB(){
-		return mysql_select_db($this->db);
-	} # end function
-	
-/**
- * Function to perform queries
- * @author Bobby Easland 
- * @version 1.0
- * @param string $query SQL statement
- * @return resource 
- */	
-	function Query($query){
-		return @mysql_query($query, $this->link_id);
-	} # end function
-	
-/**
- * Function to fetch array
- * @author Bobby Easland 
- * @version 1.0
- * @param resource $resource_id
- * @param string $type MYSQL_BOTH or MYSQL_ASSOC
- * @return array 
- */	
-	function FetchArray($resource_id, $type = MYSQL_BOTH){
-		return @mysql_fetch_array($resource_id, $type);
-	} # end function
-	
-/**
- * Function to fetch the number of rows
- * @author Bobby Easland 
- * @version 1.0
- * @param resource $resource_id
- * @return mixed  
- */	
-	function NumRows($resource_id){
-		return @mysql_num_rows($resource_id);
-	} # end function
-	
-/**
- * Function to free the resource
- * @author Bobby Easland 
- * @version 1.0
- * @param resource $resource_id
- * @return boolean
- */	
-	function Free($resource_id){
-		return @mysql_free_result($resource_id);
-	} # end function
-
-/**
- * Function to add slashes
- * @author Bobby Easland 
- * @version 1.0
- * @param string $data
- * @return string 
- */	
-	function Slashes($data){
-		return addslashes($data);
-	} # end function
-
-/**
- * Function to perform DB inserts and updates - abstracted from osCommerce-MS-2.2 project
- * @author Bobby Easland 
- * @version 1.0
- * @param string $table Database table
- * @param array $data Associative array of columns / values
- * @param string $action insert or update
- * @param string $parameters
- * @return resource
- */	
-	function DBPerform($table, $data, $action = 'insert', $parameters = '') {
-		reset($data);
-		if ($action == 'insert') {
-		  $query = 'INSERT INTO `' . $table . '` (';
-		  while (list($columns, ) = each($data)) {
-			$query .= '`' . $columns . '`, ';
-		  }
-		  $query = substr($query, 0, -2) . ') values (';
-		  reset($data);
-		  while (list(, $value) = each($data)) {
-			switch ((string)$value) {
-			  case 'now()':
-				$query .= 'now(), ';
-				break;
-			  case 'null':
-				$query .= 'null, ';
-				break;
-			  default:
-				$query .= "'" . $this->Slashes($value) . "', ";
-				break;
-			}
-		  }
-		  $query = substr($query, 0, -2) . ')';
-		} elseif ($action == 'update') {
-		  $query = 'UPDATE `' . $table . '` SET ';
-		  while (list($columns, $value) = each($data)) {
-			switch ((string)$value) {
-			  case 'now()':
-				$query .= '`' .$columns . '`=now(), ';
-				break;
-			  case 'null':
-				$query .= '`' .$columns .= '`=null, ';
-				break;
-			  default:
-				$query .= '`' .$columns . "`='" . $this->Slashes($value) . "', ";
-				break;
-			}
-		  }
-		  $query = substr($query, 0, -2) . ' WHERE ' . $parameters;
-		}
-		return $this->Query($query);
-	} # end function	
-} # end class
 
 /**
  * Google Sitemap Base Class
@@ -218,11 +43,6 @@ class MySQL_DataBase{
  * @author Bobby Easland 
  */
 class GoogleSitemap{
-	/**
- 	* $DB is the database object
-	* @var object
- 	*/
-	var $DB;
 	/**
  	* $filename is the base name of the feeds (i.e. - 'sitemap')
 	* @var string
@@ -254,8 +74,7 @@ class GoogleSitemap{
  * @param string $db Database name
  * @param string $pass Database password
  */	
-	function GoogleSitemap($host, $user, $db, $pass){
-		$this->DB = new MySQL_Database($host, $user, $db, $pass);
+	function GoogleSitemap(){
 		$this->filename = "sitemap";
 		$this->savepath = DIR_FS_CATALOG;
 		$this->base_url = HTTP_SERVER . DIR_WS_HTTP_CATALOG;
@@ -291,6 +110,7 @@ class GoogleSitemap{
 			default:
 				$filename .= '.xml';
 				if ($fp = fopen($filename, 'w+')){
+				     echo 'Write '.$filename.'<br>';
 					fwrite($fp, $data);
 					fclose($fp);
 					$this->debug['SAVE_FILE_XML'][] = array('file' => $filename, 'status' => 'success', 'file_exists' => 'true');
@@ -344,7 +164,7 @@ class GoogleSitemap{
  */	
 	function GenerateSitemap($data, $file){
 		$content = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
-		$content = '<?xml-stylesheet type="text/xsl" href="includes/gss.xsl"?>' . "\n";				
+		$content = '<?xml-stylesheet type="text/xsl" href="includes/gss.xsl"?>' . "\n";
 		$content .= '<urlset xmlns="http://www.google.com/schemas/sitemap/0.84">' . "\n";
 		foreach ($data as $url){
 			$content .= "\t" . '<url>' . "\n";
@@ -366,7 +186,7 @@ class GoogleSitemap{
  */	
 	function GenerateSitemapIndex(){
 		$content = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
-		$content = '<?xml-stylesheet type="text/xsl" href="includes/gss.xsl"?>' . "\n";			
+		$content = '<?xml-stylesheet type="text/xsl" href="includes/gss.xsl"?>' . "\n"; //human readable
 		$content .= '<sitemapindex xmlns="http://www.google.com/schemas/sitemap/0.84">' . "\n";		
 		$pattern = defined('GOOGLE_SITEMAP_COMPRESS')
 				     ?	GOOGLE_SITEMAP_COMPRESS == 'true'
@@ -395,17 +215,16 @@ class GoogleSitemap{
 			    FROM " . TABLE_PRODUCTS . " 
 				WHERE products_status='1' 
 				ORDER BY products_ordered DESC";
-		if ( $products_query = $this->DB->Query($sql) ){
+		if ( $products_query = tep_db_query($sql) ){
 			$this->debug['QUERY']['PRODUCTS']['STATUS'] = 'success';
-			$this->debug['QUERY']['PRODUCTS']['NUM_ROWS'] = $this->DB->NumRows($products_query);
+			$this->debug['QUERY']['PRODUCTS']['NUM_ROWS'] = tep_db_num_rows($products_query);
 			$container = array();
 			$number = 0;
 			$top = 0;
-			while( $result = $this->DB->FetchArray($products_query) ){
+			while( $result = tep_db_fetch_array($products_query) ){
 				$top = max($top, $result['products_ordered']);
-				$location = $this->hrefLink(FILENAME_PRODUCT_INFO, 'products_id=' . $result['pID'], 'NONSSL', false);
-				$location_pdf = $this->hrefLinkPDF(FILENAME_PDF_DATASHEET, $result['pID'], 'NONSSL', false);
-				$lastmod = $this->NotNull($result['last_mod']) ? $result['last_mod'] : $result['date_added'];
+				$location = tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $result['pID'], 'NONSSL', false);
+				$lastmod = tep_not_null($result['last_mod']) ? $result['last_mod'] : $result['date_added'];
 				$changefreq = GOOGLE_SITEMAP_PROD_CHANGE_FREQ;
 				$ratio = $top > 0 ? $result['products_ordered']/$top : 0;
 				$priority = $ratio < .1 ? .1 : number_format($ratio, 1, '.', ''); 
@@ -415,14 +234,6 @@ class GoogleSitemap{
 									 'changefreq' => $changefreq,
 									 'priority' => $priority
 				                     );
-
-				// added for pdf document reference by nick@openstream.ch
-				/*$container[] = array('loc' => htmlspecialchars(utf8_encode($location_pdf)),
-				                     'lastmod' => date ("Y-m-d", strtotime($lastmod)),
-									 'changefreq' => $changefreq,
-									 'priority' => $priority
-				                     );													 
-				*/					 
 				if ( sizeof($container) >= 50000 ){
 					$type = $number == 0 ? 'products' : 'products' . $number;
 					$this->GenerateSitemap($container, $type);
@@ -430,7 +241,7 @@ class GoogleSitemap{
 					$number++;
 				}
 			} # end while
-			$this->DB->Free($products_query);			
+			tep_db_free_result($products_query);			
 			if ( sizeof($container) > 1 ) {
 				$type = $number == 0 ? 'products' : 'products' . $number;
 				return $this->GenerateSitemap($container, $type);
@@ -451,14 +262,14 @@ class GoogleSitemap{
 		$sql = "SELECT categories_id as cID, date_added, last_modified as last_mod 
 			    FROM " . TABLE_CATEGORIES . " 
 				ORDER BY parent_id ASC, sort_order ASC, categories_id ASC";
-		if ( $categories_query = $this->DB->Query($sql) ){
+		if ( $categories_query = tep_db_query($sql) ){
 			$this->debug['QUERY']['CATEOGRY']['STATUS'] = 'success';
-			$this->debug['QUERY']['CATEOGRY']['NUM_ROWS'] = $this->DB->NumRows($categories_query);
+			$this->debug['QUERY']['CATEOGRY']['NUM_ROWS'] = tep_db_num_rows($categories_query);
 			$container = array();
 			$number = 0;
-			while( $result = $this->DB->FetchArray($categories_query) ){
-				$location = $this->hrefLink(FILENAME_DEFAULT, 'cPath=' . $this->GetFullcPath($result['cID']), 'NONSSL', false);
-				$lastmod = $this->NotNull($result['last_mod']) ? $result['last_mod'] : $result['date_added'];
+			while( $result = tep_db_fetch_array($categories_query) ){
+				$location =tep_href_link(FILENAME_DEFAULT, 'cPath=' . $this->GetFullcPath($result['cID']), 'NONSSL', false);
+				$lastmod = tep_not_null($result['last_mod']) ? $result['last_mod'] : $result['date_added'];
 				$changefreq = GOOGLE_SITEMAP_CAT_CHANGE_FREQ;
 				$priority = .5; 
 				
@@ -474,7 +285,7 @@ class GoogleSitemap{
 					$number++;
 				}
 			} # end while
-			$this->DB->Free($categories_query);			
+			tep_db_free_result($categories_query);			
 			if ( sizeof($container) > 1 ) {
 				$type = $number == 0 ? 'categories' : 'categories' . $number;
 				return $this->GenerateSitemap($container, $type);
@@ -482,6 +293,97 @@ class GoogleSitemap{
 		} else {
 			$this->debug['QUERY']['CATEOGRY']['STATUS'] = 'false';
 			$this->debug['QUERY']['CATEOGRY']['NUM_ROWS'] = '0';
+		}
+	} # end function
+	
+/**
+ * Funciton to generate manufacturer sitemap data
+ * @author Jack_mcs from Bobbys code
+ * @version 1.1
+ * @return boolean
+ */
+	function GenerateManufacturerSitemap(){
+        $sql = "SELECT manufacturers_id as mID, date_added, last_modified as last_mod, manufacturers_name
+                FROM " . TABLE_MANUFACTURERS . " order by manufacturers_name DESC";
+
+		if ( $manufacturers_query = tep_db_query($sql) ){
+			$this->debug['QUERY']['MANUFACTURERS']['STATUS'] = 'success';
+			$this->debug['QUERY']['MANUFACTURERS']['NUM_ROWS'] = tep_db_num_rows($manufacturers_query);
+			$container = array();
+			$number = 0;
+			while( $result = tep_db_fetch_array($manufacturers_query) ){
+				$location = tep_href_link(FILENAME_DEFAULT, 'manufacturers_id=' . $result['mID'], 'NONSSL', false);
+				$lastmod = tep_not_null($result['last_mod']) ? $result['last_mod'] : $result['date_added'];
+				$changefreq = GOOGLE_SITEMAP_MAN_CHANGE_FREQ;
+				$priority = .5;
+
+				$container[] = array('loc' => htmlspecialchars(utf8_encode($location)),
+				                     'lastmod' => date ("Y-m-d", strtotime($lastmod)),
+									 'changefreq' => $changefreq,
+									 'priority' => $priority
+				                     );
+				if ( sizeof($container) >= 50000 ){
+					$type = $number == 0 ? 'manufacturers' : 'manufacturers' . $number;
+					$this->GenerateSitemap($container, $type);
+					$container = array();
+					$number++;
+				}
+			} # end while
+			tep_db_free_result($manufacturers_query);
+			if ( sizeof($container) > 1 ) {
+				$type = $number == 0 ? 'manufacturers' : 'manufacturers' . $number;
+				return $this->GenerateSitemap($container, $type);
+			} # end if			
+		} else {
+			$this->debug['QUERY']['MANUFACTURERS']['STATUS'] = 'false';
+			$this->debug['QUERY']['MANUFACTURERS']['NUM_ROWS'] = '0';
+		}
+	} # end function
+
+/**
+ * Funciton to generate manufacturer sitemap data
+ * @author Jack_mcs from Bobbys code
+ * @version 1.1
+ * @return boolean
+ */
+	function GenerateSpecialsSitemap(){
+        $sql = "SELECT p.products_id as pID, s.specials_date_added as date_added, s.specials_last_modified as last_mod, p.products_ordered
+                FROM " . TABLE_PRODUCTS . " p left join " . TABLE_PRODUCTS_DESCRIPTION . " pd on p.products_id = pd.products_id left join " . TABLE_SPECIALS . " s on pd.products_id = s.products_id
+                where p.products_status = '1' and s.status = '1' order by s.specials_date_added desc ";
+		if ( $products_query = tep_db_query($sql) ){
+			$this->debug['QUERY']['SPECIALS']['STATUS'] = 'success';
+			$this->debug['QUERY']['SPECIALS']['NUM_ROWS'] = tep_db_num_rows($products_query);
+			$container = array();
+			$number = 0;
+			$top = 0;
+			while( $result = tep_db_fetch_array($products_query) ){
+				$top = max($top, $result['products_ordered']);
+				$location = tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $result['pID'], 'NONSSL', false);
+				$lastmod = tep_not_null($result['last_mod']) ? $result['last_mod'] : $result['date_added'];
+				$changefreq = GOOGLE_SITEMAP_SPECIALS_CHANGE_FREQ;
+				$ratio = $top > 0 ? $result['products_ordered']/$top : 0;
+				$priority = $ratio < .1 ? .1 : number_format($ratio, 1, '.', ''); 
+				
+				$container[] = array('loc' => htmlspecialchars(utf8_encode($location)),
+				                     'lastmod' => date ("Y-m-d", strtotime($lastmod)),
+									 'changefreq' => $changefreq,
+									 'priority' => $priority
+				                     );
+				if ( sizeof($container) >= 50000 ){
+					$type = $number == 0 ? 'specials' : 'specials' . $number;
+					$this->GenerateSitemap($container, $type);
+					$container = array();
+					$number++;
+				}
+			} # end while
+			tep_db_free_result($products_query);			
+			if ( sizeof($container) > 1 ) {
+				$type = $number == 0 ? 'specials' : 'specials' . $number;
+				return $this->GenerateSitemap($container, $type);
+			} # end if			
+		} else {
+			$this->debug['QUERY']['SPECIALS']['STATUS'] = 'false';
+			$this->debug['QUERY']['SPECIALS']['NUM_ROWS'] = '0';
 		}
 	} # end function
 
@@ -516,8 +418,8 @@ class GoogleSitemap{
 		$sql = "SELECT parent_id 
 		        FROM " . TABLE_CATEGORIES . " 
 				WHERE categories_id='" . (int)$categories_id . "'";
-		$parent_categories_query = $this->DB->Query($sql);
-		while ($parent_categories = $this->DB->FetchArray($parent_categories_query)) {
+		$parent_categories_query = tep_db_query($sql);
+		while ($parent_categories = tep_db_fetch_array($parent_categories_query)) {
 			if ($parent_categories['parent_id'] == 0) return true;
 			$categories[sizeof($categories)] = $parent_categories['parent_id'];
 			if ($parent_categories['parent_id'] != $categories_id) {
@@ -525,62 +427,6 @@ class GoogleSitemap{
 			}
 		}
 	} # end function
-
-/**
- * Function to check if a value is NULL 
- * @author Bobby Easland as abstracted from osCommerce-MS2.2 
- * @version 1.0
- * @param mixed $value
- * @return boolean
- */	
-	function NotNull($value) {
-		if (is_array($value)) {
-			if (sizeof($value) > 0) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			if (($value != '') && (strtolower($value) != 'null') && (strlen(trim($value)) > 0)) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-	} # end function
-
-/**
- * Function to return href_link 
- * @author Bobby Easland 
- * @version 1.0
- * @param mixed $value
- * @return boolean
- */	
-	function hrefLink($page, $parameters, $connection, $add_session_id) {
-		if ( defined('SEO_URLS') && SEO_URLS == 'true' || defined('SEO_ENABLED') && SEO_ENABLED == 'true' ) {
-			return tep_href_link($page, $parameters, $connection, $add_session_id);
-		} else {
-			return $this->base_url . $page . '?' . $parameters;
-		}
-	} # end function
-
-/**
- * Function to return pdf href_link 
- * @author Nick Weisser
- * @version 1.0
- * @param mixed $value
- * @return boolean
- */	
-	function hrefLinkPDF($page, $products_id, $connection, $add_session_id) {
-		if ( defined('SEO_URLS') && SEO_URLS == 'true' || defined('SEO_ENABLED') && SEO_ENABLED == 'true' ) {
-			return tep_href_link($GLOBALS['seo_urls']->cache['PRODUCTS'][$products_id] . '-' . $products_id . '.pdf', '', $connection, $add_session_id);
-		} else {
-			return $this->base_url . $page . '?products_id=' . $products_id;
-		}
-	} # end function
-
-
-
 
 /**
  * Utility function to read and return the contents of a GZ formatted file
