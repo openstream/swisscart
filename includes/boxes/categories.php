@@ -129,7 +129,9 @@ function tep_make_cat_ulbranch($parcat, $table, $level, $maxlevel) {
     global $cPath_array, $classname_for_selected, $classname_for_parent;
 		
     $list = $table[$parcat];
-	
+
+    if (is_array($list)) {
+
     while(list($key,$val) = each($list)){
 			 
         if ($GLOBALS['this_level'] != $level) {
@@ -199,6 +201,8 @@ $output .= '</ul></li></ul></li></ul></li></ul></li>'."\n";
         }
     
 		} // End while loop
+
+    } // End if is_array()
 
     return $output;
     
