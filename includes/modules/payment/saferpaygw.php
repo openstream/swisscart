@@ -5,27 +5,27 @@
    Copyright (c) 2006 Alexander Federau
    -----------------------------------------------------------------------------------------
 
-   Released under the GNU General Public License 
+   Released under the GNU General Public License
    ---------------------------------------------------------------------------------------*/
 
 error_reporting(E_ALL ^ E_NOTICE);
-  
+
 define('MODULE_PAYMENT_SAFERPAYGW_TEST_ACCOUNT', '99867-94913159');
 if ( !defined('MODULE_PAYMENT_SAFERPAYGW_PASSWORD') ) {
 	define('MODULE_PAYMENT_SAFERPAYGW_PASSWORD', 'XAjc3Kna');
 }
 define('TABLE_SAFERPAY_TRANSACTIONS', 'saferpay_transactions');
-  
+
 class saferpaygw {
-    var $code, $title, $description, $enabled;
-    var $payinit_url, $xml_name;
-	var $saferpay_languages;
-	var $terminal_lang_code = 'en';
+  var $code, $title, $description, $enabled;
+  var $payinit_url, $xml_name;
+  var $saferpay_languages;
+  var $terminal_lang_code = 'en';
 
 // class constructor
 	function saferpaygw() {
 		global $order;
-		
+
   	    $this->code = 'saferpaygw';
 		$this->title = ((defined('MODULE_PAYMENT_SAFERPAYGW_TEXT_TITLE')) ? MODULE_PAYMENT_SAFERPAYGW_TEXT_TITLE : "");
 		$this->description = ((defined('MODULE_PAYMENT_SAFERPAYGW_TEXT_DESCRIPTION')) ? MODULE_PAYMENT_SAFERPAYGW_TEXT_DESCRIPTION : "");
@@ -38,9 +38,9 @@ class saferpaygw {
 
 		// set array of languages
 		$this->terminal_lang_code = DEFAULT_LANGUAGE;
-	  
+
 		if (is_object($order)) $this->update_status();
-      
+
 		$this->form_action_url = '';
 	}
 
@@ -83,7 +83,7 @@ class saferpaygw {
 	function pre_confirmation_check() {
 		global $osC_Session, $order, $currencies;
 		global $currency, $customer_id;
-      	
+
 		if (PHP_VERSION < 4.1) {
 			global $_POST;
 		}
@@ -106,7 +106,7 @@ class saferpaygw {
 		} else {
 			tep_db_query("alter table " . TABLE_ORDERS . " auto_increment=1");
 		}
-		// order_id + Time  XXX_HHMMSS 
+		// order_id + Time  XXX_HHMMSS
 		$this->orderid .= '_' . date("YmdHis");
 		//the checking for a posibility to send a request
 		//
@@ -118,8 +118,8 @@ class saferpaygw {
 		}
 		else {
 			$amount = $total  * $currencies->get_value($trx_currency);
-		} 
-	  
+		}
+
 		$strAttributes = 'ACCOUNTID=' . MODULE_PAYMENT_SAFERPAYGW_ACCOUNT_ID .
 					   '&LANGID=' . $this->terminal_lang_code .
 					   '&AMOUNT=' . number_format($amount*100, 0, '', '') .
@@ -127,14 +127,14 @@ class saferpaygw {
 					   '&ALLOWCOLLECT=no' .
 					   '&ORDERID='. $this->orderid .
 					   //'&USERNOTIFY=' . $customer_values['customers_email_address'] .
-					   '&DESCRIPTION=' . urlencode(STORE_NAME) .	
+					   '&DESCRIPTION=' . urlencode(htmlentities(STORE_NAME)) .
 					   '&SUCCESSLINK='.tep_href_link(FILENAME_CHECKOUT_PROCESS, '', 'SSL').
 					 '&DELIVERY=no'.
 					 '&CCCVC='. (MODULE_PAYMENT_SAFERPAYGW_CCCVC=='true'?'yes':'no').
 					 '&CCNAME='. (MODULE_PAYMENT_SAFERPAYGW_CCNAME=='true'?'yes':'no').
-					 '&FAILLINK='.tep_href_link(FILENAME_CHECKOUT_PAYMENT, 'payment_error=' . $this->code, 'SSL', true). 
+					 '&FAILLINK='.tep_href_link(FILENAME_CHECKOUT_PAYMENT, 'payment_error=' . $this->code, 'SSL', true).
 					 '&BACKLINK='.tep_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL');
-					 
+
 		if ( defined('MODULE_PAYMENT_SAFERPAYGW_MENUCOLOR') && tep_not_null(MODULE_PAYMENT_SAFERPAYGW_MENUCOLOR) ) {
 			$strAttributes .= '&MENUCOLOR='.MODULE_PAYMENT_SAFERPAYGW_MENUCOLOR;
 		}
@@ -159,17 +159,21 @@ class saferpaygw {
 		if ( defined('MODULE_PAYMENT_SAFERPAYGW_LINKCOLOR') && tep_not_null(MODULE_PAYMENT_SAFERPAYGW_LINKCOLOR) ) {
 			$strAttributes .= '&LINKCOLOR='.MODULE_PAYMENT_SAFERPAYGW_LINKCOLOR;
 		}
-		
+
 		$url = MODULE_PAYMENT_SAFERPAYGW_PAYINIT_URL.'?'.$strAttributes;
 		// debug
 		//error_log(var_export($url, true)."\n", 3, DIR_FS_CATALOG.'tmp/saferpay_'.date('Ymd').'.log');
-		$payinit_url = join("", file($url));
+		$payinit_url = $this->process_url($url);
 		// debug
 		//error_log("PayInit: ". var_export($payinit_url, true)."\n", 3, DIR_FS_CATALOG.'tmp/saferpay_'.date('Ymd').'.log');
 
   	    if(strlen($payinit_url) >0) {
 			$this->payinit_url = rawurlencode($payinit_url);
-			$this->form_action_url = "JavaScript: OpenSaferpayTerminal('" . $this->payinit_url . "', this, 'BUTTON');";
+			if ( strpos('\\', $this->payinit_url) !== false ) {
+				$this->payinit_url = stripslashes($this->payinit_url);
+			}
+		//	$this->form_action_url = "JavaScript: OpenSaferpayTerminal('" . $this->payinit_url . "', this, 'BUTTON');";
+			$this->form_action_url = $payinit_url;
 		}
 		else{
 			$payment_error_return = 'payment_error=' . $this->code . '&error=' . TEXT_SAFERPAYGW_SETUP_ERROR;
@@ -178,14 +182,57 @@ class saferpaygw {
 		return false;
     }
 
+	function process_url($sURL) {
+		switch ( MODULE_PAYMENT_SAFERPAYGW_URLREADER ) {
+			case 'curl':
+				//Die Session initialisieren
+				$ch = curl_init($sURL);
+				curl_setopt($ch, CURLOPT_PORT, 443);
+
+				// Prüfung des SSL-Zertifikats abschalten (SSL ist dennoch sicher)
+				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+				//Session Optionen setzen
+				// kein Header in der Ausgabe
+				curl_setopt($ch, CURLOPT_HEADER, 0);
+				// Rückgabe schalten
+				curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
+				//Ausführen der Aktionen
+				$sReturn = curl_exec($ch);
+				//Session beenden
+				curl_close($ch);
+				break;
+			
+			default:
+				$sReturn = implode("", file($sURL));
+				break;
+		}
+		return $sReturn;
+	}
+
 	function confirmation() {
 		return false;
     }
 
     function process_button() {
-//the preperation for a payment here
-		$process_button_string = '<script src="http://www.saferpay.com/OpenSaferpayScript.js"></script>';
-//end of the preperation for a payment here
+		//the preperation for a payment here
+		//		$process_button_string = '<script src="http://www.saferpay.com/OpenSaferpayScript.js"></script>';
+		//end of the preperation for a payment here
+
+		$script_name = 'includes/modules/payment/saferpaygw.js';
+		if (file_exists(DIR_FS_CATALOG . $script_name)) {
+			if ( ENABLE_SSL ) {
+				$process_button_string = '<script src="'.HTTPS_SERVER . DIR_WS_CATALOG . $script_name.'" type="text/javascript"></script>';
+			}
+			else {
+				$process_button_string = '<script src="'.HTTP_SERVER . DIR_WS_CATALOG . $script_name.'" type="text/javascript"></script>';
+			}
+		}
+		else {
+			$process_button_string = '<script src="http://www.saferpay.com/OpenSaferpayScript.js" type="text/javascript"></script>';
+		}
+
+		$form_action_url = "JavaScript: OpenSaferpayTerminal('" . $this->payinit_url . "', this, 'BUTTON');";
+		$process_button_string .= '<script type="text/javascript">var f=document.getElementById(\'checkout_confirmation\'); if(f) f.action="'.$form_action_url.'";</script>';
 
   	    return $process_button_string;
     }
@@ -194,13 +241,17 @@ class saferpaygw {
 		global $customer_id, $currency;
 		//global $QUERY_STRING;
 		parse_str($_SERVER['QUERY_STRING']);
-		//$DATA = rawurldecode($DATA);
-		//$SIGNATURE = rawurldecode($SIGNATURE);
+		$DATA = rawurldecode($DATA);
+		//if ( strpos('\\', $DATA) !== false ) {
+			//$DATA = stripslashes($DATA);
+		//}
+		while (substr($DATA,0,14)=="<IDP MSGTYPE=\\") {$DATA = stripslashes($DATA);} 
+		$SIGNATURE = rawurldecode($SIGNATURE);
 		// debug
 		//error_log("Responce: ". var_export($_SERVER['QUERY_STRING'], true)."\n", 3, DIR_FS_CATALOG.'tmp/saferpay_'.date('Ymd').'.log');
 		//error_log("Responce DATA: ". var_export($DATA, true)."\n", 3, DIR_FS_CATALOG.'tmp/saferpay_'.date('Ymd').'.log');
-		
-		//extract amount and currency 
+
+		//extract amount and currency
 		$trx_amount = 0;
 		if ( preg_match('/^<IDP\s.*AMOUNT="([0-9]+)".*>$/i', $DATA, $matches) ) {
 			$trx_amount = floatval($matches[1]);
@@ -217,12 +268,12 @@ class saferpaygw {
 		if ( preg_match('/^<IDP\s.*PROVIDERNAME="([^"]+)".*>$/i', $DATA, $matches) ) {
 			$payment_provider_name = $matches[1];
 		}
-		
+
 
 		/* put it all together */
 		$url = MODULE_PAYMENT_SAFERPAYGW_CONFIRM_URL ."?DATA=".urlencode($DATA)."&SIGNATURE=".urlencode($SIGNATURE);
 		/* verify pay confirm message at hosting server */
-		$result = join("", file($url));
+		$result = $this->process_url($url);
 		// debug
 		//error_log("PayConfirm: ". var_export($result, true)."\n", 3, DIR_FS_CATALOG.'tmp/saferpay_'.date('Ymd').'.log');
 
@@ -253,7 +304,7 @@ class saferpaygw {
 				// debug
 				//error_log("PayComplete URL:". var_export($url, true)."\n", 3, DIR_FS_CATALOG.'tmp/saferpay_'.date('Ymd').'.log');
 				/* complete payment by hosting server */
-				$result = join("", file($url));
+				$result = $this->process_url($url);
 				// debug
 				//error_log("PayComplete:". var_export($result, true)."\n", 3, DIR_FS_CATALOG.'tmp/saferpay_'.date('Ymd').'.log');
 				if (substr($result, 0, 2) == "OK") {
@@ -312,7 +363,8 @@ class saferpaygw {
 		//tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added, configuration_title, configuration_description) values ('MODULE_PAYMENT_SAFERPAYGW_PASSWORD', 'XAjc3Kna', '6', '4', now(), 'Saferpay-Passwort', 'Passwort welches f&uuml;r Saferpay verwendet wird')");
 		tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added, configuration_title, configuration_description) values ('MODULE_PAYMENT_SAFERPAYGW_ACCOUNT_ID', '99867-94913159', '6', '5', now(), 'Saferpay-Konto', 'ACCOUNTID des Saferpay Terminals')");
 		//tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added, configuration_title, configuration_description) values ('MODULE_PAYMENT_SAFERPAYGW_PATH', '', '6', '3', now(), '', '')");
-		
+
+		tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, date_added, configuration_title, configuration_description) values ('MODULE_PAYMENT_SAFERPAYGW_URLREADER', 'curl', '6', '1', 'cfg_pull_down_urlreader(', now(), 'URL Lesemethode', 'Welche Methode soll für das Lesen der URLs benutzt werden? (file oder curl)')");
 		tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added, configuration_title, configuration_description) values ('MODULE_PAYMENT_SAFERPAYGW_PAYINIT_URL', 'https://www.saferpay.com/hosting/CreatePayInit.asp', '6', '6', now(), 'PayInit URL', 'URL für die Initialisierung der Zahlung')");
 		tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added, configuration_title, configuration_description) values ('MODULE_PAYMENT_SAFERPAYGW_CONFIRM_URL', 'https://www.saferpay.com/hosting/VerifyPayConfirm.asp', '6', '7', now(), 'PayConfirm URL', 'URL für die Bestätigung der Zahlung')");
 		tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added, configuration_title, configuration_description) values ('MODULE_PAYMENT_SAFERPAYGW_COMPLETE_URL', 'https://www.saferpay.com/hosting/PayComplete.asp', '6', '8', now(), 'PayComplete URL', 'URL für das Abschließen der Zahlung')");
@@ -331,11 +383,11 @@ class saferpaygw {
 		tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added, configuration_title, configuration_description) values ('MODULE_PAYMENT_SAFERPAYGW_HEADCOLOR', '#134B83', '6', '10', now(), 'HEADCOLOR', 'Hintergrundfarbe des oberen Bereichs.')");
 		tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added, configuration_title, configuration_description) values ('MODULE_PAYMENT_SAFERPAYGW_HEADLINECOLOR', '#93B1CF', '6', '10', now(), 'HEADLINECOLOR', 'Farbe der Trennlinie oben links.')");
 		tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added, configuration_title, configuration_description) values ('MODULE_PAYMENT_SAFERPAYGW_LINKCOLOR', '#134B83', '6', '10', now(), 'LINKCOLOR', 'Schriftfarbe der Links.')");
-		
+
 		tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, date_added, configuration_title, configuration_description) values ('MODULE_PAYMENT_SAFERPAYGW_SORT_ORDER', '0', '6', '10', now(), 'Anzeigereihenfolge', 'Reihenfolge der Anzeige. Kleinste Ziffer wird zuerst angezeigt.')");
 		tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, use_function, set_function, date_added, configuration_title, configuration_description) values ('MODULE_PAYMENT_SAFERPAYGW_ZONE', '0', '6', '11', 'tep_get_zone_class_title', 'tep_cfg_pull_down_zone_classes(', now(), '<hr><br />Zahlungszone', 'Wenn eine Zone ausgew&auml;hlt ist, gilt die Zahlungsmethode nur f&uuml;r diese Zone.')");
 		tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_key, configuration_value, configuration_group_id, sort_order, set_function, use_function, date_added, configuration_title, configuration_description) values ('MODULE_PAYMENT_SAFERPAYGW_ORDER_STATUS_ID', '0', '6', '12', 'tep_cfg_pull_down_order_statuses(', 'tep_get_order_status_name', now(), 'Bestellstatus festlegen', 'Mit Saferpay bezahlte Bestellungen, auf diesen Status setzen')");
-		
+
 		// create DB table for store of saferpaytransactions
 		$query_raw = "CREATE TABLE IF NOT EXISTS ". TABLE_SAFERPAY_TRANSACTIONS ." (
   trans_id int(11) NOT NULL auto_increment,
@@ -353,9 +405,9 @@ class saferpaygw {
   PRIMARY KEY  (trans_id),
   KEY IDX_CUSTOMERS (customers_id),
   KEY IDX_ORDER (orders_id),
-  KEY IDX_SAFERPAY_ID (saferpay_ID) 
+  KEY IDX_SAFERPAY_ID (saferpay_ID)
 );";
-		
+
 		tep_db_query($query_raw);
 
     }
@@ -371,6 +423,7 @@ class saferpaygw {
 					 //'MODULE_PAYMENT_SAFERPAYGW_PASSWORD',
 					 'MODULE_PAYMENT_SAFERPAYGW_ACCOUNT_ID',
 					 //'MODULE_PAYMENT_SAFERPAYGW_PATH',
+					 'MODULE_PAYMENT_SAFERPAYGW_URLREADER',
 					 'MODULE_PAYMENT_SAFERPAYGW_PAYINIT_URL',
 					 'MODULE_PAYMENT_SAFERPAYGW_CONFIRM_URL',
 					 'MODULE_PAYMENT_SAFERPAYGW_COMPLETE_URL',
@@ -378,7 +431,7 @@ class saferpaygw {
 					 'MODULE_PAYMENT_SAFERPAYGW_CCCVC',
 					 'MODULE_PAYMENT_SAFERPAYGW_CCNAME',
 					 'MODULE_PAYMENT_SAFERPAYGW_CURRENCY',
-					 
+
 					 'MODULE_PAYMENT_SAFERPAYGW_MENUCOLOR',
 					 'MODULE_PAYMENT_SAFERPAYGW_MENUFONTCOLOR',
 					 //'MODULE_PAYMENT_SAFERPAYGW_FONT',
@@ -388,7 +441,7 @@ class saferpaygw {
 					 'MODULE_PAYMENT_SAFERPAYGW_HEADCOLOR',
 					 'MODULE_PAYMENT_SAFERPAYGW_HEADLINECOLOR',
 					 'MODULE_PAYMENT_SAFERPAYGW_LINKCOLOR',
-					 
+
 					 'MODULE_PAYMENT_SAFERPAYGW_ZONE',
 					 'MODULE_PAYMENT_SAFERPAYGW_ORDER_STATUS_ID',
 					 'MODULE_PAYMENT_SAFERPAYGW_SORT_ORDER');
@@ -426,7 +479,7 @@ function tep_cfg_pull_down_currencies($currency_code, $key = '') {
 	else {
 		$currencies_array = array ();
 	}
-	
+
 	while ($record = tep_db_fetch_array($query_res)) {
 		$currencies_array[] = array ('id' => $record['code'], 'text' => $record['title']);
 	}
@@ -440,5 +493,14 @@ function tep_get_currency_name($currency_id, $language_id = '') {
 		return $currency_id;
 	}
 	return TEXT_USER_CURRENCY;
+}
+
+function cfg_pull_down_urlreader($urlreader, $key = '') {
+	$name = (($key) ? 'configuration['.$key.']' : 'configuration_value');
+
+	$urlreader_ary = array(array ('id' => 'file', 'text' => 'file'),
+						     array('id' => 'curl', 'text' => 'curl'));
+
+	return tep_draw_pull_down_menu($name, $urlreader_ary, $urlreader);
 }
 ?>
