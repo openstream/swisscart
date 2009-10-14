@@ -32,7 +32,6 @@
 	font-family: Verdana, Arial, sans-serif;
 	font-size: 10px;
 }
-//
 -->
 </style>
 <link rel="stylesheet" type="text/css" href="includes/stylesheet.css">

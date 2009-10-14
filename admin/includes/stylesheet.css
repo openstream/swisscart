@@ -49,7 +49,7 @@ a.normalLink { font-size: 12px; text-decoration: underline; }
 /* page */
 body { background-color: #ffffff; color: #000000; margin: 0px; }
 .headerBar { background-color: #7187BB; }
-.headerBarWhiteFont { background-color: #7187BB; color: white; fontmain-weight: bold; padding: 2px; }
+.headerBarWhiteFont { background-color: #7187BB; color: white; font-weight: bold; padding: 2px; }
 .headerBarContent { font-size: 10px; color: #ffffff; font-weight: normal; padding: 1px; }
 .columnLeft { background-color: #F0F1F1; border-color: #F0F1F1; border-width: 5px; border-style: solid; padding: 2px; }
 .pageHeading, h1 { font-size: 18px; color: #727272; font-weight: bold; }
@@ -65,7 +65,7 @@ ol li p { padding-top: 0; margin-top: 0; font-weight: normal; font-size: 12px; c
 .dataTableHeadingContent { font-size: 10px; color: #ffffff; font-weight: bold; }
 .dataTableRow { background-color: #F0F1F1; }
 .dataTableRowSelected { background-color: #DEE4E8; }
-.dataTableRowOver { background-color: #FFFFFF; cursor: pointer; cursor: hand; }
+.dataTableRowOver { background-color: #FFFFFF; cursor: pointer; }
 .dataTableContent { font-size: 10px; color: #000000; }
 
 /* info box */
