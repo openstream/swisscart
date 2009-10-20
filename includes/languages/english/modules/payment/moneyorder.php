@@ -1,6 +1,6 @@
 <?php
 /*
-  $Id: moneyorder.php,v 1.6 2003/01/24 21:36:04 thomasamoulton Exp $
+  $Id: moneyorder.php,v 1.9 2003/07/11 09:04:23 jan0815 Exp $
 
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
@@ -10,7 +10,7 @@
   Released under the GNU General Public License
 */
 
-  define('MODULE_PAYMENT_MONEYORDER_TEXT_TITLE', 'Advance Payment');
-  define('MODULE_PAYMENT_MONEYORDER_TEXT_DESCRIPTION', 'Make Payable To:&nbsp;' . MODULE_PAYMENT_MONEYORDER_PAYTO . '<br><br>Send To:<br>' . nl2br(STORE_NAME_ADDRESS) . '<br><br>' . 'Your order will not ship until we receive payment.');
-  define('MODULE_PAYMENT_MONEYORDER_TEXT_EMAIL_FOOTER', "Make Payable To: ". MODULE_PAYMENT_MONEYORDER_PAYTO . "\n\nSend To:\n" . STORE_NAME_ADDRESS . "\n\n" . 'Your order will not ship until we receive payment.');
+  define('MODULE_PAYMENT_MONEYORDER_TEXT_TITLE', 'Advance Payment (Bank Transfer)');
+  define('MODULE_PAYMENT_MONEYORDER_TEXT_DESCRIPTION', nl2br(BANKDETAILS));
+  define('MODULE_PAYMENT_MONEYORDER_TEXT_EMAIL_FOOTER', BANKDETAILS);
 ?>
