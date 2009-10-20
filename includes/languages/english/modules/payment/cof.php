@@ -10,6 +10,6 @@
   Released under the GNU General Public License
 */
 
-  define('MODULE_PAYMENT_COF_TEXT_TITLE', 'Barzahlung (nur für Selbstabholer!)');
-  define('MODULE_PAYMENT_COF_TEXT_DESCRIPTION', 'Barzahlung');
+  define('MODULE_PAYMENT_COF_TEXT_TITLE', 'Cash Payment (Only if you pick up the goods yourself!)');
+  define('MODULE_PAYMENT_COF_TEXT_DESCRIPTION', 'Cash Payment');
 ?>

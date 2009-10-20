@@ -11,6 +11,6 @@
   Released under the GNU General Public License
 */
 
-  define('MODULE_PAYMENT_POSTFINANCE_TEXT_TITLE', 'PostFinance Debit Direct');
-  define('MODULE_PAYMENT_POSTFINANCE_TEXT_DESCRIPTION', 'Paiement par compte Postal');
+  define('MODULE_PAYMENT_POSTFINANCE_TEXT_TITLE', 'PostFinance Postcard and E-Finance');
+  define('MODULE_PAYMENT_POSTFINANCE_TEXT_DESCRIPTION', 'PostFinance');
 ?>
