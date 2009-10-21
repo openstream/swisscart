@@ -33,5 +33,5 @@ a:active 		{ color:#000; }
 #singleview .editsingle a.delete_disabled:hover	{ background:url('../img/im-delete.png') no-repeat; behavior:expression(PNG.fix(this)); }
 #singleview .editsingle a.edt 			{ background:url('../img/im-edit.png') no-repeat; behavior:expression(PNG.fix(this)); }
 #singleview .editsingle a.edt:hover		{ background:#e3e0d8 url('../img/im-edit.png') no-repeat; behavior:expression(PNG.fix(this)); }
-#singleview .editsingle a.edt_disabled 			{ color: gray; background:url('../img/im-edit.png') no-repeat; behavior:expression(PNG.fix(this)); }
-#singleview .editsingle a.edt_disabled:hover	{ background:url('../img/im-edit.png') no-repeat; behavior:expression(PNG.fix(this)); }
+#singleview .editsingle a.disabled 			{ color: gray; background:url('../img/im-edit.png') no-repeat; behavior:expression(PNG.fix(this)); }
+#singleview .editsingle a.disabled:hover	{ background:url('../img/im-edit.png') no-repeat; behavior:expression(PNG.fix(this)); }

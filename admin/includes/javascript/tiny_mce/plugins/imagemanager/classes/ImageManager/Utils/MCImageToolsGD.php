@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: MCImageToolsGD.php 109 2007-09-10 11:44:21Z spocke $
+ * $Id: MCImageToolsGD.php 654 2009-01-23 13:00:39Z spocke $
  *
  * @package MCImageManager.utils
  * @author Moxiecode
@@ -280,8 +280,8 @@ class ImageToolsGD {
 		$source = ImagecreateFromGif($this->_source);
 		$image = ImageCreate($this->_width, $this->_height);
 
-		//imagealphablending($thumbnail, true);
-		//imagesavealpha($thumbnail,true);
+		imagealphablending($image, false);
+		imagesavealpha($image, true);
 
 		$transparent = imagecolorallocate($image, 255, 255, 255);
 
@@ -325,17 +325,11 @@ class ImageToolsGD {
 
 		if ($this->_isPNG8($this->_source))
 			$image = ImageCreate($this->_width, $this->_height);
-		else
+		else {
 			$image = ImageCreateTrueColor($this->_width, $this->_height);
-
-		imagealphablending($image, true);
-		imagesavealpha($image, true);
-
-		$transparent = imagecolorallocatealpha($image, 255, 255, 255, 0);
-
-		imagefilledrectangle($image, 0, 0, $this->_width, $this->_height, $transparent);
-
-		imagecolortransparent($image, $transparent);
+			imagealphablending($image, false);
+			imagesavealpha($image, true);
+		}
 
 		ImageCopyResampled($image, $source, 0, 0, 0, 0, $this->_width, $this->_height, ImageSX($source), ImageSY($source));
 		ImageDestroy($source);
@@ -408,7 +402,7 @@ class ImageToolsGD {
 
 		switch ($this->_angle) {
 			case 90:
-				$fill = imagecreatetruecolor ($height, $width);
+				$fill = ImageCreateTrueColor($height, $width);
 				for ($x=0; $x<$width; $x++)
 					for ($y=0; $y<$height; $y++)
 						imagecopy($fill, $image, $height-$y-1, $x, $x, $y, 1, 1);
@@ -420,7 +414,7 @@ class ImageToolsGD {
 				return $this->_flipJpg();
 
 			case 270:
-				$fill = imagecreatetruecolor ($height, $width);
+				$fill = ImageCreateTrueColor($height, $width);
 				for ($x=0; $x<$width; $x++)
 					for ($y=0; $y<$height; $y++)
 						imagecopy($fill, $image, $y, $width-$x-1, $x, $y, 1, 1);
@@ -445,12 +439,15 @@ class ImageToolsGD {
 			case 90:
 				if ($this->_isPNG8($this->_source))
 					$fill = ImageCreate($height, $width);
-				else
+				else {
 					$fill = ImageCreateTrueColor($height, $width);
+					imagealphablending($fill, false);
+					imagesavealpha($fill, true);
+				}
 
 				for ($x=0; $x<$width; $x++)
 					for ($y=0; $y<$height; $y++)
-						imagecopy ($fill, $image, $height-$y-1, $x, $x, $y, 1, 1);
+						imagecopy($fill, $image, $height-$y-1, $x, $x, $y, 1, 1);
 			break;
 
 			case 180:
@@ -461,12 +458,15 @@ class ImageToolsGD {
 			case 270:
 				if ($this->_isPNG8($this->_source))
 					$fill = ImageCreate($height, $width);
-				else
+				else {
 					$fill = ImageCreateTrueColor($height, $width);
+					imagealphablending($fill, false);
+					imagesavealpha($fill, true);
+				}
 
 				for ($x=0; $x<$width; $x++)
 					for ($y=0; $y<$height; $y++)
-						imagecopy ($fill, $image, $y, $width-$x-1, $x, $y, 1, 1);
+						imagecopy($fill, $image, $y, $width-$x-1, $x, $y, 1, 1);
 			break;
 		}
 		
@@ -485,7 +485,10 @@ class ImageToolsGD {
 
 		switch ($this->_angle) {
 			case 90:
-				$fill = imagecreatetruecolor ($height, $width);
+				$fill = ImageCreateTrueColor($height, $width);
+				imagealphablending($fill, false);
+				imagesavealpha($fill, true);
+
 				for ($x=0; $x<$width; $x++)
 					for ($y=0; $y<$height; $y++)
 						imagecopy($fill, $image, $height-$y-1, $x, $x, $y, 1, 1);
@@ -497,7 +500,10 @@ class ImageToolsGD {
 				return $this->_flipGif();
 
 			case 270:
-				$fill = imagecreatetruecolor ($height, $width);
+				$fill = ImageCreateTrueColor($height, $width);
+				imagealphablending($fill, false);
+				imagesavealpha($fill, true);
+
 				for ($x=0; $x<$width; $x++)
 					for ($y=0; $y<$height; $y++)
 						imagecopy($fill, $image, $y, $width-$x-1, $x, $y, 1, 1);
@@ -518,12 +524,18 @@ class ImageToolsGD {
 
 		if ($this->_isPNG8($this->_source))
 			$image = ImageCreate($height, $width);
-		else
+		else {
 			$image = ImageCreateTrueColor($height, $width);
+			imagealphablending($image, false);
+			imagesavealpha($image, true);
+		}
 
 		if ($this->_hori) {
 			for ($i=0; $i<$width; $i++)
 				ImageCopyResampled($image, $source, $width - $i - 1, 0, $i, 0, 1, $height, 1, $height);
+
+			if ($this->_vert)
+				ImageCopyResampled($source, $image, 0, 0, 0, 0, $width, $height, $width, $height);
 		}
 
 		if ($this->_vert) {
@@ -545,28 +557,22 @@ class ImageToolsGD {
 
 		$image = ImageCreateTrueColor($width, $height);
 
-		$processed = false;
-
 		if ($this->_hori) {
 			for ($i=0; $i<$width; $i++)
 				ImageCopyResampled($image, $source, $width - $i - 1, 0, $i, 0, 1, $height, 1, $height);
 
-			$processed = true;
+			if ($this->_vert)
+				ImageCopyResampled($source, $image, 0, 0, 0, 0, $width, $height, $width, $height);
 		}
 
 		if ($this->_vert) {
 			for ($i=0; $i<$height; $i++)
 				ImageCopyResampled($image, $source, 0, $height - $i - 1, 0, $i, $width, 1, $width, 1);
-
-			$processed = true;
 		}
 
 		ImageDestroy($source);
 
-		if ($processed)
-			$result = ImageJpeg($image, $this->_target);
-		else
-			$result = false;
+		$result = ImageJpeg($image, $this->_target);
 
 		ImageDestroy($image);
 
@@ -583,6 +589,9 @@ class ImageToolsGD {
 		if ($this->_hori) {
 			for ($i=0; $i<$width; $i++)
 				ImageCopyResampled($image, $source, $width - $i - 1, 0, $i, 0, 1, $height, 1, $height);
+
+			if ($this->_vert)
+				ImageCopyResampled($source, $image, 0, 0, 0, 0, $width, $height, $width, $height);
 		}
 
 		if ($this->_vert) {
@@ -774,6 +783,82 @@ class ImageToolsGD {
 						break;
 				}
 			}
+		}
+	}
+
+	/**
+	 * Deletes formats for the specified image.
+	 *
+	 * Format parameters:
+	 *  %f - Filename.
+	 *  %e - Extension.
+	 *  %w - Image width.
+	 *  %h - Image height.
+	 *  %tw - Target width.
+	 *  %th - Target height.
+	 *  %ow - Original width.
+	 *  %oh - Original height.
+	 *
+	 *  Example: 320x240|gif=%f_%w_%h.gif,320x240=%f_%w_%h.%e
+	 */
+	function deleteFormatImages($path, $format) {
+		$chunks = explode(',', $format);
+		$imageInfo = @getimagesize($path);
+		$width = $imageInfo[0];
+		$height = $imageInfo[1];
+
+		foreach ($chunks as $chunk) {
+			if (!$chunk)
+				continue;
+
+			$parts = explode('=', $chunk);
+
+			$fileName = preg_replace('/\..+$/', '', basename($path));
+			$extension = preg_replace('/^.+\./', '', basename($path));
+			$targetWidth = $newWidth = $width;
+			$targetHeight = $newHeight = $height;
+
+			$items = explode('|', $parts[0]);
+			foreach ($items as $item) {
+				switch ($item) {
+					case "gif":
+					case "jpg":
+					case "jpeg":
+					case "png":
+						$extension = $item;
+						break;
+
+					default:
+						$matches = array();
+
+						if (preg_match('/\s?([0-9]+)\s?x([0-9]+)\s?/', $item, $matches)) {
+							$targetWidth = $matches[1];
+							$targetHeight = $matches[2];
+						}
+				}
+			}
+
+			// Scale it
+			if ($targetWidth != $width || $targetHeight != $height) {
+				$scale = min($targetWidth / $width, $targetHeight / $height);
+				$newWidth = $scale > 1 ? $width : floor($width * $scale);
+				$newHeight = $scale > 1 ? $height : floor($height * $scale);
+			}
+
+			// Build output path
+			$outPath = $parts[1];
+			$outPath = str_replace("%f", $fileName, $outPath);
+			$outPath = str_replace("%e", $extension, $outPath);
+			$outPath = str_replace("%ow", "" . $width, $outPath);
+			$outPath = str_replace("%oh", "" . $height, $outPath);
+			$outPath = str_replace("%tw", "" . $targetWidth, $outPath);
+			$outPath = str_replace("%th", "" . $targetHeight, $outPath);
+			$outPath = str_replace("%w", "" . $newWidth, $outPath);
+			$outPath = str_replace("%h", "" . $newHeight, $outPath);
+			$outPath = dirname($path) . '/' . $outPath;
+
+			if (file_exists($outPath))
+				unlink($outPath);
 		}
 	}
 

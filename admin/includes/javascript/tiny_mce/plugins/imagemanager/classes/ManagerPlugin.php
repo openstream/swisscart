@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: ManagerPlugin.php 10 2007-05-27 10:55:12Z spocke $
+ * $Id: ManagerPlugin.php 663 2009-02-09 13:03:11Z spocke $
  *
  * @package ManagerEngine
  * @author Moxiecode
@@ -223,6 +223,21 @@ class Moxiecode_ManagerPlugin {
 	 * @return bool true/false if the execution of the event chain should continue.
 	 */
 	function onInsertFile(&$man, &$file) {
+		return true;
+	}
+
+	/**
+	 * Gets called when resources are requested like JS or CSS files. This event enables a plugin to add resources dynamically.
+	 *
+	 * @param ManagerEngine $man ManagerEngine reference that the plugin is assigned to.
+	 * @param string $theme Resource type CSS or JS.
+	 * @param string $package Resource type CSS or JS.
+	 * @param string $type Resource type CSS or JS.
+	 * @param string $content_type Resource type CSS or JS.
+	 * @param Moxiecode_ClientResources $resources Resources class that is used to handle client resources.
+	 * @return bool true/false if the execution of the event chain should continue.
+	 */
+	function onRequestResources(&$man, $theme, $package, $type, $content_type, &$resources) {
 		return true;
 	}
 

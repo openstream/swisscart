@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: ManagerEngine.php 162 2007-11-16 12:46:59Z spocke $
+ * $Id: ManagerEngine.php 751 2009-10-20 12:05:36Z spocke $
  *
  * @package MCManager
  * @author Moxiecode
@@ -8,17 +8,17 @@
  */
 
 // Get base path
-$basepath = dirname(__FILE__) . "/";
+define('MCMANAGER_ABSPATH', dirname(__FILE__) . "/");
 
 // Import core classes
-require_once($basepath . "Utils/Logger.class.php");
-require_once($basepath . "ManagerPlugin.php");
-require_once($basepath . "Utils/ResultSet.php");
-require_once($basepath . "Utils/LanguagePack.php");
-require_once($basepath . "FileSystems/BaseFile.php");
-require_once($basepath . "FileSystems/FileStream.php");
-require_once($basepath . "FileSystems/FileFilter.php");
-require_once($basepath . "FileSystems/FileTreeHandler.php");
+require_once(MCMANAGER_ABSPATH . "Utils/Logger.class.php");
+require_once(MCMANAGER_ABSPATH . "ManagerPlugin.php");
+require_once(MCMANAGER_ABSPATH . "Utils/ResultSet.php");
+require_once(MCMANAGER_ABSPATH . "Utils/LanguagePack.php");
+require_once(MCMANAGER_ABSPATH . "FileSystems/BaseFile.php");
+require_once(MCMANAGER_ABSPATH . "FileSystems/FileStream.php");
+require_once(MCMANAGER_ABSPATH . "FileSystems/FileFilter.php");
+require_once(MCMANAGER_ABSPATH . "FileSystems/FileTreeHandler.php");
 
 /**
  * This class handles the core logic of the MCManager it's responsible for event handeling, configuration management,
@@ -62,54 +62,70 @@ class Moxiecode_ManagerEngine {
 	 * Sets the name/value array of config options. This method will also force some relative config option paths to absolute.
 	 *
 	 * @param Array $config Name/value array of config options.
+	 * @param bool $setup_values True/false if the paths etc of the config should be set to default values or not.
 	 */
-	function setConfig($config) {
+	function setConfig($config, $setup_values = true) {
 		$this->_rootPaths = array();
 
-		// Auto add rootpaths and force them absolute in config
-		$newRoots = array();
-		$roots = explode(';', $config['filesystem.rootpath']);
-		foreach ($roots as $root) {
-			$rootParts = explode('=', $root);
+		if ($setup_values) {
+			// Auto add rootpaths and force them absolute in config
+			$newRoots = array();
+			$roots = explode(';', $config['filesystem.rootpath']);
+			foreach ($roots as $root) {
+				$rootParts = explode('=', $root);
 
-			// Unnamed root
-			if (count($rootParts) == 1) {
-				$rootParts[0] = $this->removeTrailingSlash($this->toAbsPath($rootParts[0]));
-				$this->addRootPath($rootParts[0]);
+				// Unnamed root
+				if (count($rootParts) == 1) {
+					$rootParts[0] = $this->removeTrailingSlash($this->toAbsPath($rootParts[0]));
+					$this->addRootPath($rootParts[0]);
+				}
+
+				// Named root
+				if (count($rootParts) == 2) {
+					$rootParts[1] = $this->removeTrailingSlash($this->toAbsPath($rootParts[1]));
+					$this->addRootPath($rootParts[1]);
+				}
+
+				$newRoots[] = implode('=', $rootParts);
 			}
 
-			// Named root
-			if (count($rootParts) == 2) {
-				$rootParts[1] = $this->removeTrailingSlash($this->toAbsPath($rootParts[1]));
-				$this->addRootPath($rootParts[1]);
-			}
+			$config['filesystem.rootpath'] = implode(';', $newRoots);
 
-			$newRoots[] = implode('=', $rootParts);
-		}
-
-		$config['filesystem.rootpath'] = implode(';', $newRoots);
-
-		// Force absolute path
-		if ($config['filesystem.path'] == "")
-			$config['filesystem.path'] = $this->_rootPaths[0];
-		else
-			$config['filesystem.path'] = $this->removeTrailingSlash($this->toAbsPath($config['filesystem.path']));
-
-		// Setup absolute wwwroot
-		if (isset($config['preview.wwwroot']) && $config['preview.wwwroot'])
-			$config['preview.wwwroot'] = $this->toUnixPath($this->toAbsPath($config['preview.wwwroot']));
-		else
-			$config['preview.wwwroot'] = $this->getSiteRoot();
-
-		// Setup preview.urlprefix
-		if ($config["preview.urlprefix"]) {
-			if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on")
-				$config["preview.urlprefix"] = str_replace("{proto}", "https", $config["preview.urlprefix"]);
+			// Force absolute path
+			if ($config['filesystem.path'] == "")
+				$config['filesystem.path'] = $this->_rootPaths[0];
 			else
-				$config["preview.urlprefix"] = str_replace("{proto}", "http", $config["preview.urlprefix"]);
+				$config['filesystem.path'] = $this->removeTrailingSlash($this->toAbsPath($config['filesystem.path']));
 
-			$config["preview.urlprefix"] = str_replace("{host}", $_SERVER['HTTP_HOST'], $config["preview.urlprefix"]);
-			$config["preview.urlprefix"] = str_replace("{port}", $_SERVER['SERVER_PORT'], $config["preview.urlprefix"]);
+			// Check if path is within any of the roots
+			$found = false;
+			foreach ($this->_rootPaths as $root) {
+				if ($this->isChildPath($root, $config['filesystem.path'])) {
+					$found = true;
+					break;
+				}
+			}
+
+			// Path was not within any of the rootpaths use the first one
+			if (!$found)
+				$config['filesystem.path'] = $this->_rootPaths[0];
+
+			// Setup absolute wwwroot
+			if (isset($config['preview.wwwroot']) && $config['preview.wwwroot'])
+				$config['preview.wwwroot'] = $this->toUnixPath($this->toAbsPath($config['preview.wwwroot']));
+			else
+				$config['preview.wwwroot'] = $this->getSiteRoot();
+
+			// Setup preview.urlprefix
+			if ($config["preview.urlprefix"]) {
+				if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on")
+					$config["preview.urlprefix"] = str_replace("{proto}", "https", $config["preview.urlprefix"]);
+				else
+					$config["preview.urlprefix"] = str_replace("{proto}", "http", $config["preview.urlprefix"]);
+
+				$config["preview.urlprefix"] = str_replace("{host}", $_SERVER['HTTP_HOST'], $config["preview.urlprefix"]);
+				$config["preview.urlprefix"] = str_replace("{port}", $_SERVER['SERVER_PORT'], $config["preview.urlprefix"]);
+			}
 		}
 
 		$this->_config =& $config;
@@ -150,7 +166,7 @@ class Moxiecode_ManagerEngine {
 	 * @param Array $replace Name/Value array of variables to replace in language pack.
 	 * @return string Language pack string loaded from XML file.
 	 */
-	function getLangItem($group, $item, $replace=array()) {
+	function getLangItem($group, $item, $replace = array()) {
 		$pack =& $this->getLangPack();
 
 		$string = $pack->get($group, $item);
@@ -167,21 +183,21 @@ class Moxiecode_ManagerEngine {
 	 * @return Array Array of file paths to load.
 	 */
 	function getPluginPaths() {
-		global $basepath;
-
 		$config = $this->getConfig();
 		$plugins = array();
 
-		if (isset($config["general.plugins"]))
+		if (isset($config["general.plugins"]) && $config["general.plugins"])
 			$plugins = preg_split("/,/i", $config["general.plugins"]);
 
 		$out = array();
 		foreach($plugins as $plugin) {
-			// Check for single file plugins
-			if (file_exists($basepath . "../plugins/" . $plugin . ".php"))
-				$out[] = "plugins/" . $plugin . ".php";
-			else
-				$out[] = "plugins/" . $plugin . "/". $plugin . ".php";
+			if (!isset($this->_plugins[strtolower($plugin)])) {
+				// Check for single file plugins
+				if (file_exists(MCMANAGER_ABSPATH . "../plugins/" . $plugin . ".php"))
+					$out[] = "plugins/" . $plugin . ".php";
+				else
+					$out[] = "plugins/" . $plugin . "/". $plugin . ".php";
+			}
 		}
 
 		// Check the string first
@@ -196,23 +212,27 @@ class Moxiecode_ManagerEngine {
 		if (count($authenticators) != 0) {
 			foreach ($authenticators as $auth) {
 				// Check for single file plugins
-				if (file_exists($basepath . "../plugins/" . $auth . ".php"))
-					$out[] = "plugins/" . $auth . ".php";
-				else
-					$out[] = "plugins/" . $auth . "/". $auth . ".php";
+				if (!isset($this->_plugins[strtolower($auth)])) {
+					if (file_exists(MCMANAGER_ABSPATH . "../plugins/" . $auth . ".php"))
+						$out[] = "plugins/" . $auth . ".php";
+					else
+						$out[] = "plugins/" . $auth . "/". $auth . ".php";
+				}
 			}
 		} else {
-			if (file_exists($basepath . "Authenticators/" . $config["authenticator"] . ".php"))
-				$out[] = "classes/Authenticators/" . $config["authenticator"] . ".php";
-			else if (file_exists($basepath . "../plugins/" . $config["authenticator"] . ".php"))
-				$out[] = "plugins/" . $config["authenticator"] . ".php";
-			else
-				$out[] = "plugins/" . $config["authenticator"] . "/" . $config["authenticator"] . ".php";
+			if (!isset($this->_plugins[strtolower($config["authenticator"])])) {
+				if (file_exists(MCMANAGER_ABSPATH . "Authenticators/" . $config["authenticator"] . ".php"))
+					$out[] = "classes/Authenticators/" . $config["authenticator"] . ".php";
+				else if (file_exists(MCMANAGER_ABSPATH . "../plugins/" . $config["authenticator"] . ".php"))
+					$out[] = "plugins/" . $config["authenticator"] . ".php";
+				else
+					$out[] = "plugins/" . $config["authenticator"] . "/" . $config["authenticator"] . ".php";
+			}
 		}
 
 		// Check so that they all exists
 		foreach ($out as $path) {
-			if (!file_exists($basepath . "../" . $path))
+			if (!file_exists(MCMANAGER_ABSPATH . "../" . $path))
 				trigger_error("Plugin could not be found: " . $path, FATAL);
 		}
 
@@ -275,6 +295,7 @@ class Moxiecode_ManagerEngine {
 	 * @return SmallMCEPlugin The added plugin instance.
 	 */
 	function &registerPlugin($name, &$plugin, $prefix = false) {
+		$name = strtolower($name);
 		$this->_plugins[$name] =& $plugin;
 
 		if ($prefix != false)
@@ -396,69 +417,69 @@ class Moxiecode_ManagerEngine {
 	function isAuthenticated() {
 		$config = $this->getConfig();
 
-		$authenticators = $config["authenticator"];
+		$authenticators = strtolower($config["authenticator"]);
 
 		// Check the string first
-		if ($authenticators == "")
-			$authenticators = "BaseAuthenticator";
-
-		if (strpos($authenticators, "|") && strpos($authenticators, "+"))
-			trigger_error("You can not use both + and | at the same time for adding authenticators.", FATAL);
-
-		$pass = false;
-
-		// Check for AND authenticators
-		if (strpos($authenticators, "+")) {
-			$authArray = preg_split("/\+/i", $authenticators, -1, PREG_SPLIT_NO_EMPTY);
-
-			if (!$authArray)
-				trigger_error("No Authenticator could be used.", FATAL);
-
-			// Verify that all authenticators exists
-			foreach($authArray as $auth) {
-				if (!$this->hasPlugin($auth))
-					trigger_error("Authenticator \"". htmlentities($auth) ."\" was not found.", FATAL);
-			}
-
-			// Default to true
-			$pass = true;
-
-			// Send AND event
-			foreach ($authArray as $auth) {
-				$plugin = $this->getPlugin($auth);
-				if ($pass && !$plugin->onAuthenticate($this))
-					$pass = false;
-			}
-
-		// Check for OR authentocator string
-		} else if (strpos($authenticators, "|")) {
-			$authArray = preg_split("/\|/i", $authenticators, -1, PREG_SPLIT_NO_EMPTY);
-
-			if (!$authArray)
-				trigger_error("No Authenticator could be used.", FATAL);
-
-			// Verify that all authenticators exists
-			foreach ($authArray as $auth) {
-				if (!$this->hasPlugin($auth))
-					trigger_error("Authenticator \"". htmlentities($auth) ."\" was not found.", FATAL);
-			}
-
-			// Default to false
+		if ($authenticators != "" && $authenticators != "BaseAuthenticator") {
+			if (strpos($authenticators, "|") && strpos($authenticators, "+"))
+				trigger_error("You can not use both + and | at the same time for adding authenticators.", FATAL);
 
 			$pass = false;
-			// Send OR event
-			foreach ($authArray as $auth) {
-				$plugin = $this->getPlugin($auth);
+
+			// Check for AND authenticators
+			if (strpos($authenticators, "+")) {
+				$authArray = preg_split("/\+/i", $authenticators, -1, PREG_SPLIT_NO_EMPTY);
+
+				if (!$authArray)
+					trigger_error("No Authenticator could be used.", FATAL);
+
+				// Verify that all authenticators exists
+				foreach($authArray as $auth) {
+					if (!$this->hasPlugin($auth))
+						trigger_error("Authenticator \"". htmlentities($auth) ."\" was not found.", FATAL);
+				}
+
+				// Default to true
+				$pass = true;
+
+				// Send AND event
+				foreach ($authArray as $auth) {
+					$plugin = $this->getPlugin($auth);
+					if ($pass && !$plugin->onAuthenticate($this))
+						$pass = false;
+				}
+
+			// Check for OR authentocator string
+			} else if (strpos($authenticators, "|")) {
+				$authArray = preg_split("/\|/i", $authenticators, -1, PREG_SPLIT_NO_EMPTY);
+
+				if (!$authArray)
+					trigger_error("No Authenticator could be used.", FATAL);
+
+				// Verify that all authenticators exists
+				foreach ($authArray as $auth) {
+					if (!$this->hasPlugin($auth))
+						trigger_error("Authenticator \"". htmlentities($auth) ."\" was not found.", FATAL);
+				}
+
+				// Default to false
+
+				$pass = false;
+				// Send OR event
+				foreach ($authArray as $auth) {
+					$plugin = $this->getPlugin($auth);
+					if ($plugin->onAuthenticate($this))
+						$pass = true;
+				}
+
+			} else {
+				$plugin = $this->getPlugin($authenticators);
+
 				if ($plugin->onAuthenticate($this))
 					$pass = true;
 			}
-
-		} else {
-			$plugin = $this->getPlugin($authenticators);
-
-			if ($plugin->onAuthenticate($this))
-				$pass = true;
-		}
+		} else
+			$pass = true;
 
 		// Is authenticated, call onInit
 		if ($pass)
@@ -478,7 +499,7 @@ class Moxiecode_ManagerEngine {
 	 * @param Array $args Optional array with arguments.
 	 * @return Bool Returns true of a plugin returned true, false if not.
 	 */
-	function dispatchEvent($event, $args=false) {
+	function dispatchEvent($event, $args = false) {
 		// Setup event arguments
 		$keys = array_keys($this->_plugins);
 
@@ -593,6 +614,12 @@ class Moxiecode_ManagerEngine {
 						return false;
 
 					break;
+
+				case "onRequestResources":
+					if (!$plugin->onRequestResources($this, $args[0], $args[1], $args[2], $args[3], $args[4]))
+						return false;
+
+					break;
 			}
 		}
 
@@ -656,10 +683,6 @@ class Moxiecode_ManagerEngine {
 		if (isset($this->_config['preview.wwwroot']) && $this->_config['preview.wwwroot'])
 			return $this->toUnixPath(realpath($this->_config['preview.wwwroot']));
 
-		// Check document root
-		if (isset($_SERVER['DOCUMENT_ROOT']))
-			return $this->toUnixPath(realpath($_SERVER['DOCUMENT_ROOT']));
-
 		// Try script file
 		if (isset($_SERVER["SCRIPT_NAME"]) && isset($_SERVER["SCRIPT_FILENAME"])) {
 			$path = str_replace($this->toUnixPath($_SERVER["SCRIPT_NAME"]), "", $this->toUnixPath($_SERVER["SCRIPT_FILENAME"]));
@@ -676,6 +699,10 @@ class Moxiecode_ManagerEngine {
 				return $this->toUnixPath(realpath($path));
 		}
 
+		// Check document root
+		if (isset($_SERVER['DOCUMENT_ROOT']))
+			return $this->toUnixPath(realpath($_SERVER['DOCUMENT_ROOT']));
+
 		trigger_error("Could not resolve WWWROOT path, please set an absolute path in preview.wwwroot config option. Check the Wiki documentation for details.", FATAL);
 
 		return null;
@@ -686,10 +713,15 @@ class Moxiecode_ManagerEngine {
 	 * will be resolved to /www/mywwwroot/mydir/myfile.htm.
 	 *
 	 * @param String $uri Absolute URI path for example /mydir/myfile.htm
+	 * @param String $root Option site root to use.
 	 * @return String Absolute file system path or empty string on failure.
 	 */
-	function resolveURI($uri) {
-		return realpath($this->getSiteRoot() . $uri);
+	function resolveURI($uri, $root = false) {
+		// Use default root if not specified
+		if (!$root)
+			$root = $this->getSiteRoot();
+
+		return realpath($root . $uri);
 	}
 
 	/**
@@ -699,12 +731,15 @@ class Moxiecode_ManagerEngine {
 	 * @param String $abs_path Absolute path for example /mydir/myfile.htm
 	 * @return String Site absolute path (URI) or empty string on failure.
 	 */
-	function convertPathToURI($abs_path) {
+	function convertPathToURI($abs_path, $root = false) {
 		$log =& $this->getLogger();
-		$root = $this->getSiteRoot();
+
+		// No root defined use specified root
+		if (!$root)
+			$root = $this->getSiteRoot();
 
 		if (!$root) {
-			trigger_error("Could not resolve WWWROOT path, please set an absolute path in filesystem.wwwroot config option.", FATAL);
+			trigger_error("Could not resolve WWWROOT path, please set an absolute path in preview.wwwroot config option.", FATAL);
 			die();
 		}
 
@@ -727,15 +762,19 @@ class Moxiecode_ManagerEngine {
 	 * Converts a URI such as /somedir/somefile.gif to /system/path/somedir/somefile.gif
 	 *
 	 * @param String $uri URI to convert to path.
+	 * @param String $root Optional site root to use.
 	 * @return String Path out of URI.
 	 */
-	function convertURIToPath($uri) {
+	function convertURIToPath($uri, $root = false) {
 		$log =& $this->getLogger();
 
-		if ($log && $log->isDebugEnabled())
-			$log->info("ConvertURIToPath: SiteRoot=" . $this->getSiteRoot() . ", URI: " . $uri . " -> Path: " . $this->removeTrailingSlash($this->getSiteRoot()) . $uri);
+		if (!$root)
+			$root = $this->getSiteRoot();
 
-		return $this->removeTrailingSlash($this->getSiteRoot()) . $uri;
+		if ($log && $log->isDebugEnabled())
+			$log->info("ConvertURIToPath: SiteRoot=" . $root . ", URI: " . $uri . " -> Path: " . $this->removeTrailingSlash($root) . $uri);
+
+		return $this->removeTrailingSlash($root) . $uri;
 	}
 
 	/**
@@ -948,13 +987,15 @@ class Moxiecode_ManagerEngine {
 
 		if ($status != BASIC_FILEFILTER_ACCEPTED) {
 			if ($status == BASIC_FILEFILTER_INVALID_NAME) {
-				if ($file->isFile())
-					$this->_invalidFileMsg = $config[$action . '.invalid_file_name_msg'];
-				else
-					$this->_invalidFileMsg = $config[$action . '.invalid_directory_name_msg'];
+				$this->_invalidFileMsg = "{#error.invalid_filename}";
 
-				if (!$this->_invalidFileMsg)
-					$this->_invalidFileMsg = "{#error.invalid_filename}";
+				if ($file->isFile()) {
+					if (isset($config[$action . '.invalid_file_name_msg']))
+						$this->_invalidFileMsg = $config[$action . '.invalid_file_name_msg'];
+				} else {
+					if (isset($config[$action . '.invalid_directory_name_msg']))
+						$this->_invalidFileMsg = $config[$action . '.invalid_directory_name_msg'];
+				}
 			}
 
 			return $status;
@@ -988,7 +1029,7 @@ class Moxiecode_ManagerEngine {
 
 		// Filesystem wasn't found
 		if (!isset($this->_fileSystems[$fs])) {
-			trigger_error("{#error.no_filesystem}", FATAL);
+			trigger_error($this->getLangItem("error", "no_filesystem", array("path" => $path)), FATAL);
 			die();
 		}
 
@@ -1056,7 +1097,7 @@ class Moxiecode_ManagerEngine {
 			return $this->toUnixPath($path);
 		}
 
-		$path = $this->toUnixPath($this->addTrailingSlash(realpath($basepath)) . $path);
+		$path = $this->toUnixPath($this->addTrailingSlash($this->toUnixPath(realpath($basepath))) . $path);
 
 		// Local FS and exists remove any ../../
 		if (strpos($path, "://") === false && file_exists($path))

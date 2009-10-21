@@ -1,5 +1,5 @@
 <?php
-	require_once($basepath . "ImageManager/ImageManagerPlugin.php");
+	require_once(MCMANAGER_ABSPATH . "ImageManager/ImageManagerPlugin.php");
 
 	// * * * * ImageManager config
 
@@ -14,7 +14,7 @@
 	$mcImageManagerConfig['general.debug'] = false;
 	$mcImageManagerConfig['general.error_log'] = "";
 	$mcImageManagerConfig['general.language'] = "en"; // en, sv
-	$mcImageManagerConfig['general.remember_last_path'] = true;
+	$mcImageManagerConfig['general.remember_last_path'] = false;
 	$mcImageManagerConfig['general.allow_export'] = "demo,tools,disabled_tools,debug,plugins";
 	$mcImageManagerConfig['general.allow_override'] = "*";
 
@@ -27,13 +27,13 @@
 
 	// Create directory options
 	$mcImageManagerConfig['createdir.include_directory_pattern'] = '';
-	$mcImageManagerConfig['createdir.exclude_directory_pattern'] = '/[^a-z0-9_]/';
+	$mcImageManagerConfig['createdir.exclude_directory_pattern'] = '/[^a-z0-9_\.]/i';
 	$mcImageManagerConfig['createdir.allow_override'] = "*";
 
 	// General filesystem options
 	$mcImageManagerConfig['filesystem'] = "Moxiecode_LocalFileImpl";
 	$mcImageManagerConfig['filesystem.path'] = ''; // absolute or relative from this script path, optional.
-	$mcImageManagerConfig['filesystem.rootpath'] = '../../../../../../images/'; // absolute or relative from this script path, required.
+	$mcImageManagerConfig['filesystem.rootpath'] = '../../../../../../images'; // absolute or relative from this script path, required.
 	$mcImageManagerConfig['filesystem.datefmt'] = "Y-m-d H:i";
 	$mcImageManagerConfig['filesystem.include_directory_pattern'] = '';
 	$mcImageManagerConfig['filesystem.exclude_directory_pattern'] = '/^mcith$/i';
@@ -48,7 +48,9 @@
 	$mcImageManagerConfig['filesystem.directory_templates'] = '${rootpath}/templates/directory,${rootpath}/templates/another_directory';
 	$mcImageManagerConfig['filesystem.force_directory_template'] = false;
 	$mcImageManagerConfig['filesystem.list_directories'] = false;
-	$mcImageManagerConfig['filesystem.allow_export'] = "extensions,readable,writable,directory_templates,force_directory_template";
+	$mcImageManagerConfig['filesystem.clean_names'] = true;
+	$mcImageManagerConfig['filesystem.delete_format_images'] = true;
+	$mcImageManagerConfig['filesystem.allow_export'] = "extensions,readable,writable,directory_templates,force_directory_template,clean_names";
 	$mcImageManagerConfig['filesystem.allow_override'] = "*";
 
 	// Thumbnail options
@@ -81,13 +83,15 @@
 	$mcImageManagerConfig['upload.autoresize_jpeg_quality'] = 75; // Force max width/height, IM will rescale uploaded images.
 	$mcImageManagerConfig['upload.max_width'] = "800"; // Only if force_width_height is true
 	$mcImageManagerConfig['upload.max_height'] = "600"; // Only if force_width_height is true
-	$mcImageManagerConfig['upload.use_flash'] = false;
+	$mcImageManagerConfig['upload.multiple_upload'] = true;
+	$mcImageManagerConfig['upload.chunk_size'] = '1mb';
 	$mcImageManagerConfig['upload.format'] = "";
-	$mcImageManagerConfig['upload.allow_export'] = "maxsize,use_flash,overwrite,extensions";
+	$mcImageManagerConfig['upload.allow_export'] = "maxsize,multiple_upload,chunk_size,overwrite,extensions";
 	$mcImageManagerConfig['upload.allow_override'] = "*";
 
 	// Edit image options
 	$mcImageManagerConfig['edit.jpeg_quality'] = "90";
+	$mcImageManagerConfig['edit.format'] = "";
 
 	// Authenication
 	$mcImageManagerConfig['authenticator'] = "BaseAuthenticator";

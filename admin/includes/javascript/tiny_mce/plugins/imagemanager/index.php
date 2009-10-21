@@ -22,6 +22,8 @@ set_error_handler("HTMLErrorHandler");
 
 // NOTE: Remove default value
 $type = getRequestParam("type");
+$page = getRequestParam("page", "index.html");
+$domain = getRequestParam("domain");
 
 // Clean up type, only a-z stuff.
 $type = preg_replace ("/[^a-z]/i", "", $type);
@@ -34,7 +36,7 @@ if (!$type) {
 // Include Base and Core and Config.
 $man = new Moxiecode_ManagerEngine($type);
 
-require_once($basepath ."CorePlugin.php");
+require_once(MCMANAGER_ABSPATH ."CorePlugin.php");
 require_once("config.php");
 
 $man->dispatchEvent("onPreInit", array($type));
@@ -47,11 +49,15 @@ foreach ($pluginPaths as $path)
 
 $config = $man->getConfig();
 
-// Dispatch onInit event
+$suffix = "";
 
+if ($domain)
+	$suffix .= "?domain=" . $domain;
+
+// Dispatch onInit event
 if ($man->isAuthenticated()) {
 	$man->dispatchEvent("onInit");
-	header("Location: pages/". $config["general.theme"] ."/index.html");
+	header("Location: pages/". $config["general.theme"] ."/" . $page . $suffix);
 	die();
 } else {
 	header("Location: ". $config["authenticator.login_page"] . "?return_url=" . urlencode($_SERVER['REQUEST_URI']));

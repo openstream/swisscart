@@ -35,8 +35,13 @@ class Moxiecode_ExternalAuthenticator extends Moxiecode_ManagerPlugin {
 		$dir = basename(dirname($_SERVER["PHP_SELF"]));
 
 		// Always allow language packs to be loaded
-		if ($dir == "language")
+		if ($dir == "language") {
+			// Override language key
+			if (isset($_SESSION[$prefix . "ExternalAuthenticator_general__language"]))
+				$config["general.language"] = $_SESSION[$prefix . "ExternalAuthenticator_general__language"];
+
 			return true;
+		}
 
 		// Check local session if authenticated
 		if ($dir == "rpc" || $dir  == "stream") {
@@ -110,14 +115,14 @@ class Moxiecode_ExternalAuthenticator extends Moxiecode_ManagerPlugin {
 
 		// Setup return URL
 		$prot = "http";
-		$port = "";
+		//$port = "";
 
 		if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on")
 			$prot = "https";
 
 		// Non default port
-		if ($_SERVER['SERVER_PORT'] != "80" && $_SERVER['SERVER_PORT'] != "443")
-			$port = ":" . $_SERVER['SERVER_PORT'];
+		//if ($_SERVER['SERVER_PORT'] != "80" && $_SERVER['SERVER_PORT'] != "443")
+		//	$port = ":" . $_SERVER['SERVER_PORT'];
 
 		// If RPC or stream then return it using config
 		if ($dir == "rpc" || $dir  == "stream") {
@@ -125,15 +130,15 @@ class Moxiecode_ExternalAuthenticator extends Moxiecode_ManagerPlugin {
 
 			// Make it absolute
 			if (strpos($authURL, "/") === 0)
-				$authURL = $prot . "://" . $_SERVER['HTTP_HOST'] . $port . $authURL;
+				$authURL = $prot . "://" . $_SERVER['HTTP_HOST'] . $authURL;
 
-			$returnURL = $prot . "://" . $_SERVER['HTTP_HOST'] . $port . dirname(dirname($_SERVER['PHP_SELF'])) . "/index.php?type=" . $man->getType();
+			$returnURL = $prot . "://" . $_SERVER['HTTP_HOST'] . dirname(dirname($_SERVER['PHP_SELF'])) . "/index.php?type=" . $man->getType();
 			$config['authenticator.login_page'] = $authURL . "?return_url=" . urlencode($returnURL);
 			return false;
 		}
 
 		// Not logged redirect to External backend
-		$returnURL = $prot . "://" . $_SERVER['HTTP_HOST'] . $port . $_SERVER['PHP_SELF'] . "?type=" . $man->getType();
+		$returnURL = $prot . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . "?type=" . $man->getType();
 		header('location: ' . $authURL . "?return_url=" . urlencode($returnURL));
 		die();
 	}

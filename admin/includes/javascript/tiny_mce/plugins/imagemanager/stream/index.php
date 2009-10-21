@@ -1,3 +1,3 @@
 <?php
-	require_once("stream.php");
+	require_once("./stream.php");
 ?>

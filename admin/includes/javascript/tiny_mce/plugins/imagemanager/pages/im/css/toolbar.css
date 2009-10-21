@@ -21,9 +21,7 @@
 	background:#fff; 
 	padding:4px; 
 	border:1px solid #959595; 
-	-moz-opacity:0.9; 
-	opacity:0.9; 
-	filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=90); 
+	opacity:0.9; -ms-filter:'alpha(opacity=90)'; filter:alpha(opacity=90);
 	z-index:100;
 }
 
@@ -40,7 +38,8 @@
 	font:90% tahoma, arial, sans-serif; 
 }
 
-.toolbar {
+#tools li a {
+	font-size:11px;
 }
 
 .toolbar div.filter {
@@ -70,6 +69,8 @@
 
 .navigation .path { 
 	margin-bottom:5px;
+	width:260px;
+	overflow:hidden;
 }
 
 .toolbar .icons	{ 
@@ -86,7 +87,7 @@
 }
 
 .toolbar .disabled img {
-	-moz-opacity:0.3; opacity:0.3; filter:alpha(opacity='30');
+	opacity:0.3; -ms-filter:'alpha(opacity=30)'; filter:alpha(opacity=30);
 }
 
 .toolbar .disabled a {

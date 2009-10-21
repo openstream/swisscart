@@ -24,7 +24,6 @@
 .clearlooks2_progress .message {
 	padding-left: 30px;
 	padding-right: 10px;
-
 	font-family: Arial, Verdana;
 	font-weight: bold;
 	line-height: 30px;
@@ -34,13 +33,12 @@
 	position: absolute;
 	left: 0; top: 0;
 	width: 100%; height: 100%;
-	display: none;
 	z-index: 100001;
 	background-image: url('../img/clearlooks2/transparent.gif');
 }
 
 .clearlooks2_visible_event_blocker {
-	opacity: 0.7; -moz-opacity: 0.7; filter:progid:DXImageTransform.Microsoft.Alpha(opacity=70);
+	opacity:0.7; -ms-filter:'alpha(opacity=70)'; filter:alpha(opacity=70);
 	background: #FFF;
 }
 
@@ -50,11 +48,6 @@
 	border: 1px dotted black;
 	display: none;
 	z-index: 100002;
-}
-
-.clearlooks2 input.action {
-	border: 0; padding: 0; margin: 0;
-	clip: rect(auto auto auto 1px); -moz-opacity:0; opacity:0; filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
 }
 
 /* Alert */
@@ -96,7 +89,7 @@
 	background-image: url('../img/clearlooks2/alert_error.gif');
 }
 
-.clearlooks2 .alert .message, .clearlooks2 .confirm .message, .clearlooks2 .status .message {
+.clearlooks2 .alert .message, .clearlooks2 .confirm .message {
 	position: absolute;
 	left: 55px; top: 15px;
 	width: 325px; height: 40px;
@@ -160,12 +153,12 @@
 }
 
 .clearlooks2 .status .ok {
-	top: 235px;
+	top: 178px;
 }
 
 .clearlooks2 .status .statustext {
 	position: absolute;
-	left: 10px; top: 65px;
+	left: 10px; top: 8px;
 	width: 360px; height: 150px;
 	border: 1px solid gray;
 	overflow: auto;
@@ -192,7 +185,10 @@
 
 .clearlooks2 .chromeless .resize, .clearlooks2 .chromeless .action, .clearlooks2 .chromeless .statusbarbottom {
 	display: none;
-	visibility: hidden;
+}
+
+.clearlooks2 .chromeless .middle .action {
+	display: block;
 }
 
 .clearlooks2 .chromeless .windowtop, .clearlooks2 .chromeless .window {
@@ -263,7 +259,6 @@
 	position: absolute;
 	left: 0; top: 0;
 	width: 100%; height: 19px;
-
 	text-align: center;
 	vertical-align: middle;
 	font-family: Arial, Verdana;
@@ -296,7 +291,7 @@
 .clearlooks2 .windowmiddle {
 	position: absolute;
 	top: 23px;
-	width: 100%; height: 100%;
+	width: 100%;
 	z-index: 5;
 }
 
@@ -393,7 +388,6 @@
 	display: block;
 	position: absolute;
 	left: 6px; bottom: 0;
-
 	font-family: Arial, Verdana;
 	font-size: 11px;
 	color: #000;
@@ -413,14 +407,8 @@
 	overflow: hidden;
 }
 
-.clearlooks2 .close, .clearlooks2 .min, .clearlooks2 .max {
+.clearlooks2 .close, .clearlooks2 .min, .clearlooks2 .med, .clearlooks2 .max {
 	z-index: 3;
-}
-
-.clearlooks2 .close {
-	right: 6px; top: 3px;
-	width: 29px; height: 16px;
-	background: transparent url('../img/clearlooks2/buttons.gif') no-repeat -58px 0;
 }
 
 .clearlooks2 .resizable .min {
@@ -430,39 +418,60 @@
 	background-repeat: no-repeat;
 }
 
-.clearlooks2 .resizable .max {
+.clearlooks2 .resizable .med {
 	right: 37px; top: 3px;
 	width: 29px; height: 16px;
 	background: transparent url('../img/clearlooks2/buttons.gif') no-repeat -29px 0;
 	background-repeat: no-repeat;
 }
 
-/* Actions - Focus */
-
-.clearlooks2 .focustop .close {
-	background: transparent url('../img/clearlooks2/buttons.gif') no-repeat -58px -16px;
+.clearlooks2 .resizable .max {
+	right: 37px; top: 3px;
+	width: 29px; height: 16px;
+	background: transparent url('../img/clearlooks2/buttons.gif') no-repeat -58px 0;
+	background-repeat: no-repeat;
 }
+
+.clearlooks2 .close {
+	right: 6px; top: 3px;
+	width: 29px; height: 16px;
+	background: transparent url('../img/clearlooks2/buttons.gif') no-repeat -87px 0;
+}
+
+/* Actions - Focus */
 
 .clearlooks2 .focustop .min {
 	background: transparent url('../img/clearlooks2/buttons.gif') no-repeat 0 -16px;
 }
 
-.clearlooks2 .focustop .max {
+.clearlooks2 .focustop .med {
 	background: transparent url('../img/clearlooks2/buttons.gif') no-repeat -29px -16px;
 }
 
-/* Actions - Hover */
-
-.clearlooks2 .focustop .close:hover {
-	background: transparent url('../img/clearlooks2/buttons.gif') no-repeat -58px -32px;
+.clearlooks2 .focustop .max {
+	background: transparent url('../img/clearlooks2/buttons.gif') no-repeat -58px -16px;
 }
+
+.clearlooks2 .focustop .close {
+	background: transparent url('../img/clearlooks2/buttons.gif') no-repeat -87px -16px;
+}
+
+/* Actions - Hover */
 
 .clearlooks2 .focustop .min:hover {
 	background: transparent url('../img/clearlooks2/buttons.gif') no-repeat 0 -32px;
 }
 
-.clearlooks2 .focustop .max:hover {
+.clearlooks2 .focustop .med:hover {
 	background: transparent url('../img/clearlooks2/buttons.gif') no-repeat -29px -32px;
+}
+
+.clearlooks2 .focustop .max:hover {
+	background: transparent url('../img/clearlooks2/buttons.gif') no-repeat -58px -32px;
+}
+
+.clearlooks2 .focustop .close:hover {
+	background: transparent url('../img/clearlooks2/buttons.gif') no-repeat -87px -32px;
 }
 
 /* Move and resize handles */
@@ -470,14 +479,12 @@
 .clearlooks2 .move {
 	top: 0; left: 0;
 	width: 100%; height: 19px;
-	cursor: move;
-	z-index: 1;
+	cursor: move; z-index: 1;
 	background-image: url('../img/clearlooks2/transparent.gif');
 }
 
 .clearlooks2 .resize {
-	display: none;
-	z-index: 4;
+	display: none; z-index: 4;
 }
 
 .clearlooks2 .resizable .resize {

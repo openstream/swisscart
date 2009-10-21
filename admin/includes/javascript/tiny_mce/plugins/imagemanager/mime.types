@@ -14,6 +14,7 @@ application/zip					zip
 application/x-java-archive			jar
 application/x-javascript			js
 application/x-shockwave-flash			swf swfl
+application/vnd.openxmlformats			docx pptx xlsx
 audio/x-pn-realaudio                            ra rm ram
 audio/mpeg					mpga mpega mp2 mp3
 audio/x-wav					wav

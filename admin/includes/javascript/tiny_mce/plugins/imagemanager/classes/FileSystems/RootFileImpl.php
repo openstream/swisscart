@@ -1,13 +1,13 @@
 <?php
 /**
- * $Id: RootFileImpl.php 10 2007-05-27 10:55:12Z spocke $
+ * $Id: RootFileImpl.php 751 2009-10-20 12:05:36Z spocke $
  *
  * @package MCFileManager.filesystems
  * @author Moxiecode
  * @copyright Copyright © 2005, Moxiecode Systems AB, All rights reserved.
  */
 
-require_once($basepath . "FileSystems/BaseFileImpl.php");
+require_once(MCMANAGER_ABSPATH . "FileSystems/BaseFileImpl.php");
 
 /**
  * Implementation of the root file system. The root file system lists the available roots the user can access.

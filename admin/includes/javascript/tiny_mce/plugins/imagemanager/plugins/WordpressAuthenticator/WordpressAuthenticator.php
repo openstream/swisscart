@@ -8,7 +8,7 @@
  */
 
 $mcOldCWD = getcwd();
-chdir($basepath . "../../../../../wp-admin/");
+chdir(MCMANAGER_ABSPATH . "../../../../../wp-admin/");
 require_once("admin.php");
 chdir($mcOldCWD);
 

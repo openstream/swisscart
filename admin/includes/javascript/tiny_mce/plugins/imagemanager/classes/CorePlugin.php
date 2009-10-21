@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: CorePlugin.php 149 2007-11-06 11:24:58Z spocke $
+ * $Id: CorePlugin.php 751 2009-10-20 12:05:36Z spocke $
  *
  * @package MCManagerCore
  * @author Moxiecode
@@ -8,8 +8,8 @@
  */
 
 // Load local file system
-require_once($basepath . "FileSystems/LocalFileImpl.php");
-require_once($basepath . "FileSystems/RootFileImpl.php");
+require_once(MCMANAGER_ABSPATH . "FileSystems/LocalFileImpl.php");
+require_once(MCMANAGER_ABSPATH . "FileSystems/RootFileImpl.php");
 
 /**
  * This plugin contains the Core logic shared between manager products.
@@ -94,11 +94,17 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 				$file =& $man->getFile($input["path"]);
 				$config = $file->getConfig();
 
-				if (($man->verifyFile($file, "download") > 0) && ($file->exists())) {
+				if ($man->verifyFile($file, "download") > 0 && $file->exists()) {
 					// Get the mimetype, need to go to ../ parent folder cause... well we have to.
 					//$mimeType = mapMimeTypeFromUrl($file->getAbsolutePath(), "../". $config['stream.mimefile']);
+
+					// These seems to be needed for some IE proxies
+					header("Expires: 0");
+					header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+					header("Cache-Control: private", false);
+
 					header("Content-type: application/octet-stream");
-					header("Content-Disposition: attachment; filename=" . $file->getName());
+					header("Content-Disposition: attachment; filename=\"" . $file->getName() . "\"");
 
 					// Stream data
 					$stream =& $file->open('rb');
@@ -139,7 +145,7 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 			} else {
 				if (getClassName($file) == 'moxiecode_localfileimpl') {
 					// Redirect to data
-					$url = $man->removeTrailingSlash($config['preview.urlprefix']) . $man->convertPathToURI($file->getParent() . "/" . str_replace("+", "%20", urlencode($file->getName()))) . $config['preview.urlsuffix'];
+					$url = $man->removeTrailingSlash($config['preview.urlprefix']) . $man->convertPathToURI($file->getParent() . "/" . str_replace("+", "%20", urlencode($file->getName())), $config["preview.wwwroot"]) . $config['preview.urlsuffix'];
 
 					// Passthrough rnd
 					if (isset($input["rnd"]))
@@ -194,9 +200,8 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 				$data = ini_get_all();
 
 				// Setup all headers
-				header("Content-type: text/plain");
+				header("Content-type: text/plain; charset=UTF-8");
 				header("Content-Disposition: attachment; filename=dump.txt");
-				header('Content-Encoding: UTF-8');
 				header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 				header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 				header("Cache-Control: no-store, no-cache, must-revalidate");
@@ -300,18 +305,6 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 			$path = $man->decryptPath($input["path"]);
 			$config = $man->getConfig();
 
-			// Check for flash upload
-			if (isset($_FILES["Filedata"])) {
-				$_FILES["file0"]["name"] = $_FILES["Filedata"]["name"];
-				$_FILES["file0"]["type"] = $_FILES["Filedata"]["type"];
-				$_FILES["file0"]["tmp_name"] = $_FILES["Filedata"]["tmp_name"];
-				$_FILES["file0"]["error"] = $_FILES["Filedata"]["error"];
-				$_FILES["file0"]["size"] = $_FILES["Filedata"]["size"];
-
-				// Remove extension, will be added later.
-				$input["name0"] = substr($_FILES["Filedata"]["name"], 0, strrpos($_FILES["Filedata"]["name"], "."));
-			}
-
 			if ($man->verifyPath($path)) {
 				$file =& $man->getFile($path);
 				$config = $file->getConfig();
@@ -324,70 +317,57 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 				if (strpos((strtolower($config["upload.maxsize"])), "m") > 0)
 					$maxSizeBytes *= (1024 * 1024);
 
-				// Ok lets check the files array out.
-				for ($i=0; isset($_FILES['file' . $i]['tmp_name']); $i++) {
-					$filename = utf8_encode($input["name" . $i]);
-
-					// Do nothing in demo mode
-					if (checkBool($config['general.demo'])) {
-						$result->add("DEMO_ERROR", $man->encryptPath($file->getAbsolutePath()), "{#error.demo}");
-						continue;
-					}
+				// Is chunked upload
+				if (isset($input["chunk"])) {
+					$filename = $input["name"];
+					$chunk = intval($input["chunk"]);
+					$chunks = intval($input["chunks"]);
 
 					// No access, tool disabled
 					if (in_array("upload", explode(',', $config['general.disabled_tools'])) || !$file->canWrite() || !checkBool($config["filesystem.writable"])) {
 						$result->add("ACCESS_ERROR", $man->encryptPath($file->getAbsolutePath()), "{#error.no_access}");
-						continue;
+						return $result;
 					}
 
-					// Get ext to glue back on
-					$ext = "";
-					if (strpos(basename($_FILES['file' . $i]['name']), ".") > 0) {
-						$ar = explode('.', basename($_FILES['file' . $i]['name']));
-						$ext = array_pop($ar);
-					}
-
-					$file =& $man->getFile($path, $filename . "." . $ext, "", MC_IS_FILE);
+					$file =& $man->getFile($path, $filename, MC_IS_FILE);
 					if ($man->verifyFile($file, "upload") < 0) {
 						$result->add("ACCESS_ERROR", $man->encryptPath($file->getAbsolutePath()), $man->getInvalidFileMsg());
-						continue;
+						return $result;
 					}
 
-					$config = $file->getConfig();
+					// Hack attempt
+					if ($filename == $config['filesystem.local.access_file_name']) {
+						$result->add("MCACCESS_ERROR", $man->encryptPath($file->getAbsolutePath()), "{#error.no_access}");
+						return $result;
+					}
 
-					if (is_uploaded_file($_FILES['file' . $i]['tmp_name'])) {
-						// Hack attempt
-						if ($filename == $config['filesystem.local.access_file_name']) {
-							@unlink($_FILES['file' . $i]['tmp_name']);
-							$result->add("MCACCESS_ERROR", $man->encryptPath($file->getAbsolutePath()), "{#error.no_access}");
-							continue;
-						}
-
-						if ($file->exists() && (!isset($config["upload.overwrite"]) || $config["upload.overwrite"] == false)) {
-							@unlink($_FILES['file' . $i]['tmp_name']);
+					// Only peform IO when not in demo mode
+					if (!checkBool($config['general.demo'])) {
+						if ($chunk == 0 && $file->exists() && (!isset($config["upload.overwrite"]) || $config["upload.overwrite"] == false)) {
 							$result->add("OVERWRITE_ERROR", $man->encryptPath($file->getAbsolutePath()), "{#error.file_exists}");
-							continue;
+							return $result;
 						}
 
-						if ($file->exists() && $config["upload.overwrite"] == true) {
+						if ($chunk == 0 && $file->exists() && $config["upload.overwrite"] == true)
 							$file->delete();
-						}
 
-						if (getClassName($file) == 'moxiecode_localfileimpl') {
-							if (!move_uploaded_file($_FILES['file' . $i]['tmp_name'], $file->getAbsolutePath())) {
-								$result->add("RW_ERROR", $man->encryptPath($file->getAbsolutePath()), "{#error.upload_failed}");
-								continue;
+						// Write file
+						$stream =& $file->open($chunk == 0 ? 'wb' : 'ab');
+						if ($stream) {
+							$in = fopen("php://input", "rb");
+							if ($in) {
+								while ($buff = fread($in, 4096))
+									$stream->write($buff);
 							}
 
-							// Dispatch add event
-							$file->importFile();
-						} else
-							$file->importFile($_FILES['file' . $i]['tmp_name']);
+							$stream->close();
+						}
 
+						// Check file size
 						if ($file->getLength() > $maxSizeBytes) {
 							$file->delete();
 							$result->add("SIZE_ERROR", $man->encryptPath($file->getAbsolutePath()), "{#error.error_to_large}");
-							continue;
+							return $result;
 						}
 
 						// Verify uploaded file, if it fails delete it
@@ -395,16 +375,101 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 						if ($status < 0) {
 							$file->delete();
 							$result->add("FILTER_ERROR", $man->encryptPath($file->getAbsolutePath()), $man->getInvalidFileMsg());
+							return $result;
+						}
+
+						// Import file when all chunks are complete
+						if ($chunk == $chunks - 1) {
+							clearstatcache();
+							debug($chunk, $chunks, filesize($file->getAbsolutePath()), $chunk == 0 ? 'wb' : 'ab');
+							$file->importFile();
+						}
+					}
+
+					$result->add("OK", $man->encryptPath($file->getAbsolutePath()), "{#message.upload_ok}");
+
+					return $result;
+				} else {
+					// Ok lets check the files array out.
+					for ($i=0; isset($_FILES['file' . $i]['tmp_name']); $i++) {
+						$filename = utf8_encode($input["name" . $i]);
+
+						// Do nothing in demo mode
+						if (checkBool($config['general.demo'])) {
+							$result->add("DEMO_ERROR", $man->encryptPath($file->getAbsolutePath()), "{#error.demo}");
 							continue;
 						}
 
-						$result->add("OK", $man->encryptPath($file->getAbsolutePath()), "{#message.upload_ok}");
-					} else
-						$result->add("GENERAL_ERROR", $man->encryptPath($file->getAbsolutePath()), "{#error.upload_failed}");
+						// No access, tool disabled
+						if (in_array("upload", explode(',', $config['general.disabled_tools'])) || !$file->canWrite() || !checkBool($config["filesystem.writable"])) {
+							$result->add("ACCESS_ERROR", $man->encryptPath($file->getAbsolutePath()), "{#error.no_access}");
+							continue;
+						}
+
+						// Get ext to glue back on
+						$ext = "";
+						if (strpos(basename($_FILES['file' . $i]['name']), ".") > 0) {
+							$ar = explode('.', basename($_FILES['file' . $i]['name']));
+							$ext = array_pop($ar);
+						}
+
+						$file =& $man->getFile($path, $filename . "." . $ext, "", MC_IS_FILE);
+						if ($man->verifyFile($file, "upload") < 0) {
+							$result->add("ACCESS_ERROR", $man->encryptPath($file->getAbsolutePath()), $man->getInvalidFileMsg());
+							continue;
+						}
+
+						$config = $file->getConfig();
+
+						if (is_uploaded_file($_FILES['file' . $i]['tmp_name'])) {
+							// Hack attempt
+							if ($filename == $config['filesystem.local.access_file_name']) {
+								@unlink($_FILES['file' . $i]['tmp_name']);
+								$result->add("MCACCESS_ERROR", $man->encryptPath($file->getAbsolutePath()), "{#error.no_access}");
+								continue;
+							}
+
+							if ($file->exists() && (!isset($config["upload.overwrite"]) || $config["upload.overwrite"] == false)) {
+								@unlink($_FILES['file' . $i]['tmp_name']);
+								$result->add("OVERWRITE_ERROR", $man->encryptPath($file->getAbsolutePath()), "{#error.file_exists}");
+								continue;
+							}
+
+							if ($file->exists() && $config["upload.overwrite"] == true)
+								$file->delete();
+
+							if (getClassName($file) == 'moxiecode_localfileimpl') {
+								if (!move_uploaded_file($_FILES['file' . $i]['tmp_name'], $file->getAbsolutePath())) {
+									$result->add("RW_ERROR", $man->encryptPath($file->getAbsolutePath()), "{#error.upload_failed}");
+									continue;
+								}
+
+								// Dispatch add event
+								$file->importFile();
+							} else
+								$file->importFile($_FILES['file' . $i]['tmp_name']);
+
+							if ($file->getLength() > $maxSizeBytes) {
+								$file->delete();
+								$result->add("SIZE_ERROR", $man->encryptPath($file->getAbsolutePath()), "{#error.error_to_large}");
+								continue;
+							}
+
+							// Verify uploaded file, if it fails delete it
+							$status = $man->verifyFile($file, "upload");
+							if ($status < 0) {
+								$file->delete();
+								$result->add("FILTER_ERROR", $man->encryptPath($file->getAbsolutePath()), $man->getInvalidFileMsg());
+								continue;
+							}
+
+							$result->add("OK", $man->encryptPath($file->getAbsolutePath()), "{#message.upload_ok}");
+						} else
+							$result->add("GENERAL_ERROR", $man->encryptPath($file->getAbsolutePath()), "{#error.upload_failed}");
+					}
 				}
-			} else {
+			} else
 				$result->add("PATH_ERROR", $man->encryptPath($path), "{#error.upload_failed}");
-			}
 
 			return $result;
 		}
@@ -480,7 +545,8 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 			$config = $file->getConfig();
 
 			$attribs = ($file->canRead() && checkBool($config["filesystem.readable"]) ? "R" : "-") . ($file->canWrite() && checkBool($config["filesystem.writable"]) ? "W" : "-");
-			$url = $man->removeTrailingSlash($config['preview.urlprefix']) . $man->convertPathToURI($file->getAbsolutePath());
+			$url = $man->removeTrailingSlash($config['preview.urlprefix']) . $man->convertPathToURI($file->getAbsolutePath(), $config["preview.wwwroot"]);
+
 			$result->add($file->getName(), $man->encryptPath($file->getAbsolutePath()), utf8_encode($url), $file->getLength(), $ext, $file->getCreationDate(), $file->getLastModified(), $attribs, $custom);
 		}
 
@@ -489,6 +555,24 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 
 	function _listDefault(&$man, $file, $input, &$result, $filter_root_path) {
 		$config = $man->getConfig();
+
+		// Setup input file filter
+		$inputFileFilter = new Moxiecode_BasicFileFilter();
+
+		if (isset($input['include_directory_pattern']) && $input['include_directory_pattern'])
+			$inputFileFilter->setIncludeDirectoryPattern($input['include_directory_pattern']);
+
+		if (isset($input['exclude_directory_pattern']) && $input['exclude_directory_pattern'])
+			$inputFileFilter->setExcludeDirectoryPattern($input['exclude_directory_pattern']);
+
+		if (isset($input['include_file_pattern']) && $input['include_file_pattern'])
+			$inputFileFilter->setIncludeFilePattern($input['include_file_pattern']);
+
+		if (isset($input['exclude_file_pattern']) && $input['exclude_file_pattern'])
+			$inputFileFilter->setExcludeFilePattern($input['exclude_file_pattern']);
+
+		if (isset($input['extensions']) && $input['extensions'])
+			$inputFileFilter->setIncludeExtensions($input['extensions']);
 
 		// If file doesn't exists use default path
 		if (!$file->exists()) {
@@ -511,6 +595,14 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 			$fileFilter->setExcludeFilePattern($config['filesystem.exclude_file_pattern']);
 			$fileFilter->setIncludeExtensions($config['filesystem.extensions']);
 
+			// If file is hidden then try the parent
+			if ($fileFilter->accept($file) <= 0) {
+				$file = $file->getParentFile();
+
+				$result->setHeader("path", $man->encryptPath($file->getAbsolutePath()));
+				$result->setHeader("visual_path", checkBool($config['general.user_friendly_paths']) ? $man->toVisualPath($file->getAbsolutePath()) : $man->encryptPath($file->getAbsolutePath()));
+			}
+
 			if (isset($input["filter"]) && $input["filter"] != null)
 				$fileFilter->setIncludeWildcardPattern($input["filter"]);
 
@@ -520,7 +612,11 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 				$fileFilter->setOnlyFiles(true);
 
 			// List files
-			$files =& $file->listFilesFiltered($fileFilter);
+			$combinedFilter = new Moxiecode_CombinedFileFilter();
+			$combinedFilter->addFilter($fileFilter);
+			$combinedFilter->addFilter($inputFileFilter);
+
+			$files =& $file->listFilesFiltered($combinedFilter);
 
 			$showparent = isset($input["no_parent"]) ? checkBool($input["no_parent"]) : true;
 			$showparent = $showparent && $man->verifyPath($file->getParent());
@@ -537,10 +633,10 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 				}
 
 				if ($file->getAbsolutePath() != $filter_root_path)
-					$result->add("..", $man->encryptPath($file->getParent()), 0, "parent", "", "", "", array());
+					$result->add("..", $man->encryptPath($file->getParent()), -1, "parent", "", "", "", array());
 			}
 		} else
-			trigger_error("Not a directory.", FATAL);
+			trigger_error("The specified path is not a directory. Probably an incorrect setting for the filesystem.rootpath option.", FATAL);
 
 		return $files;
 	}
@@ -552,7 +648,6 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 		$result = new Moxiecode_ResultSet("name,path,size,type,created,modified,attribs,custom");
 		$config = $man->getConfig();
 		$files = array();
-		$refilter = false;
 		$rootNames = $man->_getRootNames();
 		$filterRootPath = isset($input["root_path"]) && $input["root_path"] != null ? $man->toAbsPath($man->decryptPath($input["root_path"])) : null;
 
@@ -562,7 +657,7 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 				$input["path"] = $man->convertURIToPath($input["url"]);
 
 			if (isset($input['remember_last_path'])) {
-				if ($input['remember_last_path'] != 'auto')
+				if ($input['remember_last_path'] !== 'auto')
 					$remember = checkBool($input['remember_last_path']);
 				else
 					$remember = checkBool($config['general.remember_last_path']);
@@ -614,7 +709,12 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 		}
 
 		if (isset($input["page_size"])) {
-			$pages = ceil(count($files) / $input["page_size"]);
+			if ($file->getAbsolutePath() != $filterRootPath && $man->verifyPath($file->getParent()))
+				$pageSize = $input["page_size"] - 1;
+			else
+				$pageSize = $input["page_size"];
+
+			$pages = ceil(count($files) / $pageSize);
 
 			// Setup response
 			$result->setHeader("pages", $pages > 1 ? $pages : 1);
@@ -624,7 +724,7 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 				$input["page"] = 0;
 
 			// Remove non visible files
-			$files = array_slice($files, ($input["page"] * $input["page_size"]), $input["page_size"]);
+			$files = array_slice($files, ($input["page"] * $pageSize), $pageSize);
 		}
 
 		// Add directories
@@ -644,14 +744,10 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 			$mdate = date($config['filesystem.datefmt'], $file->getLastModified());
 			$filePath = $man->encryptPath($file->getAbsolutePath());
 
-			if ($file->isFile()) {
+			if ($file->isFile())
 				$type = getFileExt($file->getName());
-			} else {
-				if (isset($input["count_children"]) && checkBool($input["count_children"]))
-					$this->_countChildren($file, $custom);
-
+			else
 				$type = "folder";
-			}
 
 			$man->dispatchEvent("onCustomInfo", array(&$file, "list", &$custom));
 
@@ -666,7 +762,7 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 				}
 			}
 
-			$result->add(utf8_encode($name), $filePath, $file->getLength(), $type, $cdate, $mdate, $attribs, $custom);
+			$result->add(utf8_encode($name), $filePath, $file->isFile() ? $file->getLength() : -1, $type, $cdate, $mdate, $attribs, $custom);
 		}
 
 		if (isset($input["config"]))
@@ -691,32 +787,6 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 			$fileFilter->setOnlyDirs(true);
 
 		return ($fileFilter->accept($file) > 0);
-	}
-
-	function _countChildren(&$file, &$custom) {
-		$config = $file->getConfig();
-
-		// Setup file filter
-		$fileFilter = new Moxiecode_BasicFileFilter();
-		//$fileFilter->setDebugMode(true);
-		$fileFilter->setIncludeDirectoryPattern($config['filesystem.include_directory_pattern']);
-		$fileFilter->setExcludeDirectoryPattern($config['filesystem.exclude_directory_pattern']);
-		$fileFilter->setIncludeFilePattern($config['filesystem.include_file_pattern']);
-		$fileFilter->setExcludeFilePattern($config['filesystem.exclude_file_pattern']);
-		$fileFilter->setIncludeExtensions($config['filesystem.extensions']);
-
-		$subfiles =& $file->listFilesFiltered($fileFilter);
-		$filecount = $dircount = 0;
-
-		foreach($subfiles as $subfile) {
-			if ($subfile->isFile())
-				$filecount++;
-			else
-				$dircount++;
-		}
-
-		$custom["filecount"] = $filecount;
-		$custom["dircount"] = $dircount;
 	}
 
 	function _createDirs(&$man, $input) {
@@ -749,6 +819,12 @@ class Moxiecode_CorePlugin extends Moxiecode_ManagerPlugin {
 			$file =& $man->getFile($path, $name, MC_IS_DIRECTORY);
 			if ($man->verifyFile($file, "createdir") < 0) {
 				$result->add("ACCESS_ERROR", $man->encryptPath($file->getAbsolutePath()), $man->getInvalidFileMsg());
+				continue;
+			}
+
+			// Check write access
+			if (!checkBool($config["filesystem.writable"])) {
+				$result->add("FAILED", $man->encryptPath($file->getAbsolutePath()), "{#error.no_write_access}");
 				continue;
 			}
 

@@ -3,43 +3,40 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>{#createdir.title}</title>
-<script type="text/javascript" src="js/fixpng.js"></script>
-<link rel="stylesheet" type="text/css" media="all" href="css/imagemanager.css" />
-<script type="text/javascript" src="../../js/index.php"></script>
-<script type="text/javascript" src="../../language/index.php?type=im"></script>
-<script type="text/javascript" src="js/createdir_dialog.js"></script>
+<!--[if IE]><script type="text/javascript" src="js/utils/fixpng.js"></script><![endif]-->
+<link rel="stylesheet" type="text/css" href="../../css/index.php?type=im&theme=im&package=core_css" />
 </head>
 <body id="createdir">
 
 <div class="dialog">
 	<div class="top">
-		<div class="headline upload">
+		<div class="headline createdir">
 			<h2>{#createdir.title}</h2>
 			<p class="description">{#createdir.description}</p>
 		</div>
 	</div>
 
 	<div id="content" class="body">
-		<form method="get" action="#" onsubmit="return CreateDirDialog.createDirAction(this);">
+		<form method="get" action="#action">
 			<div>
 				<table>
 					<tbody>
 						<tr id="templaterow">
 							<td><label for="template">{#createdir.template}</label></td>
 							<td>
-								<select id="template" name="template">
+								<select id="template" name="template" style="width:200px">
 									<option value="">{#createdir.select_template}</option>
 								</select>
 
 								<script id="template_template" type="text/moxiecode-template"><![CDATA[
-									<option value="{$value}">{$name}</option>
+									<option value="{value}">{name}</option>
 								]]></script>
 							</td>
 						</tr>
 
 						<tr>
 							<td><label for="dirname">{#createdir.directory_name}</label></td>
-							<td><input id="dirname" name="dirname" type="text" class="required" /></td>
+							<td><input id="dirname" name="dirname" type="text" class="required" style="width:200px" /></td>
 						</tr>
 
 						<tr>
@@ -54,19 +51,15 @@
 				<!-- Will be filled by the thumbs_template template -->
 			</div>
 
-			<script id="result_template" type="text/moxiecode-template">
-				<![CDATA[
-					{$status|fatal} {$file} {$message|translate}<br />
-				]]>
-			</script>
-
 			<input type="submit" name="createdir" value="{#button.create}" class="submit default" />
 			<input id="cancel" type="button" name="cancel" value="{#button.cancel}" class="button cancel" />
 		</form>
 	</div>
 </div>
 
-<script type="text/javascript">translatePage();</script>
+<script type="text/javascript" src="../../language/index.php?type=im"></script>
+<script type="text/javascript" src="../../js/index.php?type=im&theme=im&package=core"></script>
+<script type="text/javascript" src="../../js/index.php?type=im&theme=im&package=createdir"></script>
 
 </body>
 </html>

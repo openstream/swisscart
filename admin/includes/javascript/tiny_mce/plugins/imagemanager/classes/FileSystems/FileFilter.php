@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: FileFilter.php 10 2007-05-27 10:55:12Z spocke $
+ * $Id: FileFilter.php 539 2008-10-30 13:16:58Z spocke $
  *
  * @package MCFileManager.filesystems
  * @author Moxiecode
@@ -19,8 +19,50 @@ class Moxiecode_FileFilter {
 	 * @param MCE_File $file File to grant or deny.
 	 * @return boolean true or false if the file is accepted or not.
 	 */
-	function accept($file) {
+	function accept(&$file) {
 		// code here...
+	}
+}
+
+/**
+ * Combines multiple filters into one filter.
+ *
+ * @package mce.core
+ */
+class Moxiecode_CombinedFileFilter {
+	var $_filters;
+
+	/**
+	 * Constructs a new combined filer.
+	 */
+	function Moxiecode_CombinedFileFilter() {
+		$this->_filters = array();
+	}
+
+	/**
+	 * Adds a new filter to check.
+	 *
+	 * @param Moxiecode_FileFilter $file_filter Filter to add.
+	 */
+	function addFilter(&$file_filter) {
+		$this->_filters[] = $file_filter;
+	}
+
+	/**
+	 * Returns true or false if the file is accepted or not.
+	 * 
+	 * @param MCE_File $file File to grant or deny.
+	 * @return boolean true or false if the file is accepted or not.
+	 */
+	function accept(&$file) {
+		for ($i = 0; $i < count($this->_filters); $i++) {
+			$state = $this->_filters[$i]->accept($file);
+
+			if ($state < 0)
+				return $state;
+		}
+
+		return 1;
 	}
 }
 
@@ -237,12 +279,16 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 	 * @return boolean true or false if the file is accepted or not.
 	 */
 	function accept(&$file) {
+		$name = $file->getName();
+		$absPath = $file->getAbsolutePath();
+		$isFile = $file->isFile();
+
 		// Handle exclude folders
 		if (is_array($this->_excludeFolders)) {
 			foreach ($this->_excludeFolders as $folder) {
-				if (strpos($file->getAbsolutePath(), $folder) != "") {
+				if (strpos($absPath, $folder) != "") {
 					if ($this->_debug)
-						debug("File denied \"" . $file->getAbsolutePath() . "\" by \"excludeFolders\".");
+						debug("File denied \"" . $absPath . "\" by \"excludeFolders\".");
 
 					return BASIC_FILEFILTER_INVALID_NAME;
 				}
@@ -254,7 +300,7 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 			$state = false;
 
 			foreach ($this->_includeFolders as $folder) {
-				if (strpos($file->getAbsolutePath(), $folder) != "") {
+				if (strpos($absPath, $folder) != "") {
 					$state = true;
 					break;
 				}
@@ -262,18 +308,18 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 
 			if (!$state) {
 				if ($this->_debug)
-					debug("File \"" . $file->getAbsolutePath() . "\" denied by \"includeFolders\".");
+					debug("File \"" . $absPath . "\" denied by \"includeFolders\".");
 
 				return BASIC_FILEFILTER_INVALID_NAME;
 			}
 		}
 
 		// Handle exclude files
-		if (is_array($this->_excludeFiles) && $file->isFile()) {
+		if (is_array($this->_excludeFiles) && $isFile) {
 			foreach ($this->_excludeFiles as $fileName) {
-				if ($file->getName() == $fileName) {
+				if ($name == $fileName) {
 					if ($this->_debug)
-						debug("File \"" . $file->getAbsolutePath() . "\" denied by \"excludeFiles\".");
+						debug("File \"" . $absPath . "\" denied by \"excludeFiles\".");
 
 					return BASIC_FILEFILTER_INVALID_NAME;
 				}
@@ -281,11 +327,11 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 		}
 
 		// Handle include files
-		if (is_array($this->_includeFiles) && $file->isFile()) {
+		if (is_array($this->_includeFiles) && $isFile) {
 			$state = false;
 
 			foreach ($this->_includeFiles as $fileName) {
-				if ($file->getName() == $fileName) {
+				if ($name == $fileName) {
 					$state = true;
 					break;
 				}
@@ -293,80 +339,80 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 
 			if (!$state) {
 				if ($this->_debug)
-					debug("File \"" . $file->getAbsolutePath() . "\" denied by \"includeFiles\".");
+					debug("File \"" . $absPath . "\" denied by \"includeFiles\".");
 
 				return BASIC_FILEFILTER_INVALID_NAME;
 			}
 		}
 
 		// Handle file patterns
-		if ($file->isFile()) {
+		if ($isFile) {
 			if ($this->_dirsOnly) {
 				if ($this->_debug)
-					debug("File denied \"" . $file->getAbsolutePath() . "\" by \"dirsOnly\".");
+					debug("File denied \"" . $absPath . "\" by \"dirsOnly\".");
 
 				return BASIC_FILEFILTER_INVALID_NAME;
 			}
 
 			// Handle exclude pattern
-			if ($this->_excludeFilePattern && preg_match($this->_excludeFilePattern, $file->getName())) {
+			if ($this->_excludeFilePattern && preg_match($this->_excludeFilePattern, $name)) {
 				if ($this->_debug)
-					debug("File \"" . $file->getAbsolutePath() . "\" denied by \"excludeFilePattern\".");
+					debug("File \"" . $absPath . "\" denied by \"excludeFilePattern\".");
 
 				return BASIC_FILEFILTER_INVALID_NAME;
 			}
 
 			// Handle include pattern
-			if ($this->_includeFilePattern && !preg_match($this->_includeFilePattern, $file->getName())) {
+			if ($this->_includeFilePattern && !preg_match($this->_includeFilePattern, $name)) {
 				if ($this->_debug)
-					debug("File \"" . $file->getAbsolutePath() . "\" denied by \"includeFilePattern\".");
+					debug("File \"" . $absPath . "\" denied by \"includeFilePattern\".");
 
 				return BASIC_FILEFILTER_INVALID_NAME;
 			}
 		} else {
 			if ($this->_filesOnly) {
 				if ($this->_debug)
-					debug("Dir denied \"" . $file->getAbsolutePath() . "\" by \"filesOnly\".");
+					debug("Dir denied \"" . $absPath . "\" by \"filesOnly\".");
 
 				return BASIC_FILEFILTER_INVALID_NAME;
 			}
 
 			// Handle exclude pattern
-			if ($this->_excludeDirectoryPattern && preg_match($this->_excludeDirectoryPattern, $file->getName())) {
+			if ($this->_excludeDirectoryPattern && preg_match($this->_excludeDirectoryPattern, $name)) {
 				if ($this->_debug)
-					debug("File \"" . $file->getAbsolutePath() . "\" denied by \"excludeDirectoryPattern\".");
+					debug("File \"" . $absPath . "\" denied by \"excludeDirectoryPattern\".");
 
 				return BASIC_FILEFILTER_INVALID_NAME;
 			}
 
 			// Handle include pattern
-			if ($this->_includeDirectoryPattern && !preg_match($this->_includeDirectoryPattern, $file->getName())) {
+			if ($this->_includeDirectoryPattern && !preg_match($this->_includeDirectoryPattern, $name)) {
 				if ($this->_debug)
-					debug("File \"" . $file->getAbsolutePath() . "\" denied by \"includeDirectoryPattern\".");
+					debug("File \"" . $absPath . "\" denied by \"includeDirectoryPattern\".");
 
 				return BASIC_FILEFILTER_INVALID_NAME;
 			}
 		}
 
 		// Handle include wildcard pattern
-		if ($this->_includeWildcardPattern && !$this->_fnmatch($this->_includeWildcardPattern, $file->getName())) {
+		if ($this->_includeWildcardPattern && !$this->_fnmatch($this->_includeWildcardPattern, $name)) {
 			if ($this->_debug)
-				debug("File \"" . $file->getAbsolutePath() . "\" denied by \"includeWildcardPattern\".");
+				debug("File \"" . $absPath . "\" denied by \"includeWildcardPattern\".");
 
 			return BASIC_FILEFILTER_INVALID_NAME;
 		}
 
 		// Handle exclude wildcard pattern
-		if ($this->_excludeWildcardPattern && $this->_fnmatch($this->_excludeWildcardPattern, $file->getName())) {
+		if ($this->_excludeWildcardPattern && $this->_fnmatch($this->_excludeWildcardPattern, $name)) {
 			if ($this->_debug)
-				debug("File \"" . $file->getAbsolutePath() . "\" denied by \"excludeWildcardPattern\".");
+				debug("File \"" . $absPath . "\" denied by \"excludeWildcardPattern\".");
 
 			return BASIC_FILEFILTER_INVALID_NAME;
 		}
 
 		// Handle file exntetion pattern
-		if (is_array($this->_extensions) && $file->isFile()) {
-			$ar = explode('.', $file->getAbsolutePath());
+		if (is_array($this->_extensions) && $isFile) {
+			$ar = explode('.', $absPath);
 			$ext = strtolower(array_pop($ar));
 			$valid = false;
 
@@ -385,7 +431,7 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 	}
 
 	function _fnmatch($pattern, $file) {
-		return ereg($this->_fnmatch2regexp($pattern), $file);
+		return ereg($this->_fnmatch2regexp(strtolower($pattern)), strtolower($file));
 	}
 
 	function _fnmatch2regexp($str) {

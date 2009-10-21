@@ -31,8 +31,9 @@
 }
 
 .pic { 
+	display: block;
 	position:relative;
-	margin:0px auto 0px;
+	margin: 0 auto;
 }
 
 .pic[class] { 
@@ -47,7 +48,7 @@
 	left:50%;
 } 					/* ie6 */
 
-.mid a { 
+.mid .mid2 { 
 	position:relative;
 	top:-50%; 
 	left:-50%; 
@@ -58,7 +59,7 @@ html>body .mid {
 	top:50%;
 	left:50%;
 } 					/* ie7 */
-html>body .mid a { 
+html>body .mid .mid2 { 
 	position:relative;
 	top:-60%;
 	left:-50%;
@@ -70,7 +71,7 @@ html:not([dummy]) .mid[class] {
 	position:static; 
 } 					/* ff + safari */
 
-html:not([dummy]) .mid a { 
+html:not([dummy]) .mid .mid2 { 
 	position:static;
 } 					/* ff + safari */
 
@@ -79,7 +80,7 @@ html:not([dummy]) .mid a {
 	vertical-align:middle;
 	position:static; } 
 } 					/* opera */
-@media all and (min-width:0px) { html>body .mid a { 
+@media all and (min-width:0px) { html>body .mid .mid2 { 
 	position:static; } 
 } 					/* opera */
 
@@ -141,6 +142,9 @@ html:not([dummy]) .mid a {
 	text-align:left; 
 	width:100px;
 }
+
+.listview .name {width:75px}
+
 .listview .wrap { 
 	width:15px;
 	height:2px;

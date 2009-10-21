@@ -1,13 +1,13 @@
 <?php
 /**
- * $Id: ImageManagerPlugin.php 149 2007-11-06 11:24:58Z spocke $
+ * $Id: ImageManagerPlugin.php 751 2009-10-20 12:05:36Z spocke $
  *
  * @package MCImageManager
  * @author Moxiecode
  * @copyright Copyright © 2007, Moxiecode Systems AB, All rights reserved.
  */
 
-require_once($basepath . "ImageManager/Utils/MCImageToolsGD.php");
+require_once(MCMANAGER_ABSPATH . "ImageManager/Utils/MCImageToolsGD.php");
 
 /**
  * This plugin class contans the core logic of the MCImageManager application.
@@ -29,7 +29,7 @@ class Moxiecode_ImageManagerPlugin extends Moxiecode_ManagerPlugin {
 		global $mcImageManagerConfig;
 
 		if ($prefix == "im") {
-			$man->setConfig($mcImageManagerConfig);
+			$man->setConfig($mcImageManagerConfig, false);
 			$man->setLangPackPath("im");
 			return false;
 		}
@@ -189,6 +189,30 @@ class Moxiecode_ImageManagerPlugin extends Moxiecode_ManagerPlugin {
 	}
 
 	/**
+	 * Gets called before a file action occurs for example before a rename or copy.
+	 *
+	 * @param ManagerEngine $man ManagerEngine reference that the plugin is assigned to.
+	 * @param int $action File action constant for example DELETE_ACTION.
+	 * @param BaseFile $file1 File object 1 for example from in a copy operation.
+	 * @param BaseFile $file2 File object 2 for example to in a copy operation. Might be null in for example a delete.
+	 * @return bool true/false if the execution of the event chain should continue.
+	 */
+	function onBeforeFileAction(&$man, $action, $file1, $file2) {
+		if ($action == DELETE_ACTION) {
+			// Delete format images
+			$config = $file1->getConfig();
+
+			if (checkBool($config['filesystem.delete_format_images'])) {
+				$imageutils = new $config['thumbnail'];
+				$imageutils->deleteFormatImages($file1->getAbsolutePath(), $config["upload.format"]);
+				$imageutils->deleteFormatImages($file1->getAbsolutePath(), $config["edit.format"]);
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Gets called after a file action was perforem for example after a rename or copy.
 	 *
 	 * @param MCManager $man MCManager reference that the plugin is assigned to.
@@ -197,7 +221,7 @@ class Moxiecode_ImageManagerPlugin extends Moxiecode_ManagerPlugin {
 	 * @param string $file2 File object 2 for example to in a copy operation. Might be null in for example a delete.
 	 * @return bool true/false if the execution of the event chain should continue.
 	 */
-	function onFileAction($man, $action, $file1, $file2) {
+	function onFileAction(&$man, $action, $file1, $file2) {
 		switch ($action) {
 			case ADD_ACTION:
 				$config = $file1->getConfig();
@@ -221,18 +245,7 @@ class Moxiecode_ImageManagerPlugin extends Moxiecode_ManagerPlugin {
 					$fileHeight = $imageInfo[1];
 
 					$imageutils = new $config['thumbnail'];
-
-					if ($config['upload.max_height'] > $config['upload.max_width'])
-						$target = $config['upload.max_height'];
-					else
-						$target = $config['upload.max_width'];
-
-					$percentage = 0;
-
-					if ($fileWidth > $fileHeight)
-						$percentage = ($target / $fileWidth);
-					else
-						$percentage = ($target / $fileHeight);
+					$percentage = min($config['upload.max_width'] / $fileWidth, $config['upload.max_height'] / $fileHeight);
 
 					if ($percentage <= 1)
 						$result = $imageutils->resizeImage($file1->getAbsolutePath(), $file1->getAbsolutePath(), round($fileWidth * $percentage), round($fileHeight * $percentage), $ext, $config['upload.autoresize_jpeg_quality']);
@@ -249,7 +262,16 @@ class Moxiecode_ImageManagerPlugin extends Moxiecode_ManagerPlugin {
 
 					if ($thumbnail->exists())
 						$thumbnail->delete();
+
+					// Check if thumbnail directory should be deleted
+					if ($thumbnailFolder->exists()) {
+						$files = $thumbnailFolder->listFiles();
+
+						if (count($files) == 0)
+							$thumbnailFolder->delete();
+					}
 				}
+
 				break;
 		}
 
@@ -292,17 +314,7 @@ class Moxiecode_ImageManagerPlugin extends Moxiecode_ManagerPlugin {
 
 			// Check thumnail size
 			if ($config['thumbnail.scale_mode'] == "percentage") {
-				if ($config['thumbnail.height'] > $config['thumbnail.width'])
-					$target = $config['thumbnail.width'];
-				else
-					$target = $config['thumbnail.height'];
-
-				$percentage = 0;
-
-				if ($fileWidth > $fileHeight)
-					$percentage = ($target / $fileWidth);
-				else
-					$percentage = ($target / $fileHeight);
+				$percentage = min($config['thumbnail.width'] / $fileWidth, $config['thumbnail.height'] / $fileHeight);
 
 				if ($percentage <= 1) {
 					$targetWidth = round($fileWidth * $percentage);
@@ -328,7 +340,7 @@ class Moxiecode_ImageManagerPlugin extends Moxiecode_ManagerPlugin {
 				$thumbFile = $man->getFile($file->getParent() . "/" . $config['thumbnail.folder'] . "/" . $config['thumbnail.prefix'] . $file->getName());
 
 				if ($thumbFile->exists())
-					$input["thumbnail_url"] = $man->convertPathToURI($thumbFile->getAbsolutePath());
+					$input["thumbnail_url"] = $man->removeTrailingSlash($config['preview.urlprefix']) . $man->convertPathToURI($thumbFile->getAbsolutePath(), $config["preview.wwwroot"]);
 			}
 
 			$input["width"] = $fileWidth;
@@ -384,6 +396,11 @@ class Moxiecode_ImageManagerPlugin extends Moxiecode_ManagerPlugin {
 			if ($filedata["target"] != "") {
 				$targetfile = $man->getFile($filedata["target"]);
 
+				// Delete format images
+				$config = $targetfile->getConfig();
+				$imageutils = new $config['thumbnail'];
+				$imageutils->deleteFormatImages($targetfile->getAbsolutePath(), $config["upload.format"]);
+
 				// Just ignore it if it's the same file
 				if ($tempFile->getAbsolutePath() != $targetfile->getAbsolutePath()) {
 					if ($man->verifyFile($targetfile, "edit") < 0) {
@@ -396,6 +413,12 @@ class Moxiecode_ImageManagerPlugin extends Moxiecode_ManagerPlugin {
 
 					$tempFile->renameTo($targetfile);
 					$targetfile->importFile();
+
+					// Reformat
+					if ($config["edit.format"]) {
+						$imageutils = new $config['thumbnail'];
+						$imageutils->formatImage($targetfile->getAbsolutePath(), $config["edit.format"], $config['edit.jpeg_quality']);
+					}
 				}
 
 				$result->add("OK", $man->encryptPath($targetfile->getAbsolutePath()), "{#message.save_success}");
@@ -725,6 +748,15 @@ class Moxiecode_ImageManagerPlugin extends Moxiecode_ManagerPlugin {
 	 * Lists file.
 	 */
 	function _getMediaInfo(&$man, $input) {
+		// Convert URL to path
+		if (isset($input["url"])) {
+			$url = parse_url($input["url"]);
+			$input["path"] = $man->resolveURI($url["path"]);
+
+			if (!$man->verifyPath($input["path"]))
+				trigger_error(sprintf("Could not resolve URL: %s to a filesystem path. Could be that the image is outside the configured filesystem.rootpath.", $input["url"]), FATAL);
+		}
+
 		$file =& $man->getFile($input["path"]);
 		$config = $file->getConfig();
 		$parent =& $file->getParentFile();
@@ -784,7 +816,7 @@ class Moxiecode_ImageManagerPlugin extends Moxiecode_ManagerPlugin {
 		$custom = array();
 		$man->dispatchEvent("onCustomInfo", array(&$file, "info", &$custom));
 		$attribs = ($file->canRead() && checkBool($config["filesystem.readable"]) ? "R" : "-") . ($file->canWrite() && checkBool($config["filesystem.writable"]) ? "W" : "-");
-		$url = $man->removeTrailingSlash($config['preview.urlprefix']) . $man->convertPathToURI($file->getAbsolutePath());
+		$url = $man->removeTrailingSlash($config['preview.urlprefix']) . $man->convertPathToURI($file->getAbsolutePath(), $config['preview.wwwroot']);
 
 		$result->add(
 			utf8_encode($file->getName()),
@@ -805,7 +837,7 @@ class Moxiecode_ImageManagerPlugin extends Moxiecode_ManagerPlugin {
 	}
 
 	function _createThumb(&$man, &$file) {
-		$config = $man->getConfig();
+		$config = $file->getConfig();
 		$imageutils = new $config['thumbnail'];
 		$ext = getFileExt($file->getName());
 		$canEdit = $imageutils->canEdit($ext);
@@ -864,17 +896,7 @@ class Moxiecode_ImageManagerPlugin extends Moxiecode_ManagerPlugin {
 		$targetHeight = $config['thumbnail.height'];
 
 		if ($config['thumbnail.scale_mode'] == "percentage") {
-			if ($config['thumbnail.height'] > $config['thumbnail.width'])
-				$target = $config['thumbnail.width'];
-			else
-				$target = $config['thumbnail.height'];
-
-			$percentage = 0;
-
-			if ($fileWidth > $fileHeight)
-				$percentage = ($target / $fileWidth);
-			else
-				$percentage = ($target / $fileHeight);
+			$percentage = min($config['thumbnail.width'] / $fileWidth, $config['thumbnail.height'] / $fileHeight);
 
 			if ($percentage <= 1) {
 				$targetWidth = round($fileWidth * $percentage);
@@ -909,11 +931,11 @@ class Moxiecode_ImageManagerPlugin extends Moxiecode_ManagerPlugin {
 		
 		} else if ((!$thumbnail->exists()) && ($config['thumbnail.auto_generate'] == true)) {
 			$thumbnailResult = $imageutils->resizeImage($file->getAbsolutePath(), $thumbnail->getAbsolutePath(), $targetWidth, $targetHeight, $ext, $thumbnailQuality);
-
-			if ($thumbnailResult && $thumbnail->exists()) {
+			if ($thumbnailResult) {
 				$thumbnailInfo = @getimagesize($thumbnail->getAbsolutePath());
 				$thumbnailType = $thumbnailInfo[2];
 				$thumbnail->setLastModified($file->getLastModified());
+				$thumbnail->importFile();
 			}
 		}
 
@@ -965,12 +987,12 @@ class Moxiecode_ImageManagerPlugin extends Moxiecode_ManagerPlugin {
 			header('Content-type: ' . mapMimeTypeFromUrl($thumbnail->getName(), "../" . $config['stream.mimefile']));
 
 			if (!readfile($thumbnail->getAbsolutePath()))
-				header("Location: ". $urlprefix . $man->convertPathToURI($thumbnail->getAbsolutePath()) . $urlsuffix);
+				header("Location: ". $urlprefix . $man->convertPathToURI($thumbnail->getAbsolutePath(), $config['preview.wwwroot']) . $urlsuffix);
 		} else {
 			header('Content-type: ' . mapMimeTypeFromUrl($file->getName(), "../" . $config['stream.mimefile']));
 
 			if (!readfile($file->getAbsolutePath()))
-				header("Location: " . $urlprefix . $man->convertPathToURI($file->getAbsolutePath()) . $urlsuffix);
+				header("Location: " . $urlprefix . $man->convertPathToURI($file->getAbsolutePath(), $config['preview.wwwroot']) . $urlsuffix);
 		}
 
 		return null;

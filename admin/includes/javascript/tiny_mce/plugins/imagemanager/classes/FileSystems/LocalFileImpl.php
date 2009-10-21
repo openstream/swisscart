@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: LocalFileImpl.php 149 2007-11-06 11:24:58Z spocke $
+ * $Id: LocalFileImpl.php 547 2008-10-31 14:05:36Z spocke $
  *
  * @package MCFileManager.filesystems
  * @author Moxiecode
@@ -19,6 +19,7 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 	var $_config;
 	var $_type;
 	var $_events = true;
+	var $_statCache = array();
 
 	/**
 	 * Creates a new absolute file.
@@ -109,6 +110,8 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 	 * @param String $local_absolute_path Absolute path to local file to import.
 	 */
 	function importFile($local_absolute_path = "") {
+		$this->_clearCache();
+
 		// Add action
 		if ($this->_events) {
 			if ($this->isFile()) {
@@ -135,8 +138,11 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 	 * @return boolean true if the file exists.
 	 */
 	function exists() {
+		if (isset($this->_statCache['exists']))
+			return $this->_statCache['exists'];
+
 		// Returns false if safe mode is on and the user/group is not the same as apache
-		return file_exists($this->_manager->toOSPath($this->_absPath));
+		return ($this->_statCache['exists'] = file_exists($this->_manager->toOSPath($this->_absPath)));
 	}
 
 	/**
@@ -148,7 +154,10 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 		if (!$this->exists())
 			return $this->_type == MC_IS_DIRECTORY;
 
-		return is_dir($this->_manager->toOSPath($this->_absPath));
+		if (isset($this->_statCache['is_dir']))
+			return $this->_statCache['is_dir'];
+
+		return ($this->_statCache['is_dir'] = is_dir($this->_manager->toOSPath($this->_absPath)));
 	}
 
 	/**
@@ -160,7 +169,10 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 		if (!$this->exists())
 			return $this->_type == MC_IS_FILE;
 
-		return is_file($this->_manager->toOSPath($this->_absPath));
+		if (isset($this->_statCache['is_file']))
+			return $this->_statCache['is_file'];
+
+		return ($this->_statCache['is_file'] = is_file($this->_manager->toOSPath($this->_absPath)));
 	}
 
 	/**
@@ -169,8 +181,10 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 	 * @return long last modification date in ms as an long.
 	 */
 	function getLastModified() {
-		$details = @stat($this->_manager->toOSPath($this->_absPath));
-		return $details[9];
+		if (!isset($this->_statCache['stat']))
+			$this->_statCache['stat'] = @stat($this->_manager->toOSPath($this->_absPath));
+
+		return $this->_statCache['stat'][9];
 	}
 
 	/**
@@ -179,8 +193,10 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 	 * @return long creation date in ms as an long.
 	 */
 	function getCreationDate() {
-		$details = @stat($this->_manager->toOSPath($this->_absPath));
-		return $details[10];
+		if (!isset($this->_statCache['stat']))
+			$this->_statCache['stat'] = @stat($this->_manager->toOSPath($this->_absPath));
+
+		return $this->_statCache['stat'][10];
 	}
 
 	/**
@@ -189,7 +205,10 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 	 * @return boolean true if the files is readable.
 	 */
 	function canRead() {
-		return is_readable($this->_manager->toOSPath($this->_absPath));
+		if (isset($this->_statCache['is_readable']))
+			return $this->_statCache['is_readable'];
+
+		return ($this->_statCache['is_readable'] = is_readable($this->_manager->toOSPath($this->_absPath)));
 	}
 
 	/**
@@ -207,6 +226,9 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 
 			return $file->canWrite();
 		}
+
+		if (isset($this->_statCache['is_writeable']))
+			return $this->_statCache['is_writeable'];
 
 		// Is windows
 		if (DIRECTORY_SEPARATOR == "\\") {
@@ -232,7 +254,7 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 		}
 
 		// Other OS:es
-		return is_writeable($this->_manager->toOSPath($this->_absPath));
+		return ($this->_statCache['is_writeable'] = is_writeable($this->_manager->toOSPath($this->_absPath)));
 	}
 
 	/**
@@ -241,8 +263,10 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 	 * @return long file size as an long.
 	 */
 	function getLength() {
-		$details = @stat($this->_manager->toOSPath($this->_absPath));
-		return $details[7];
+		if (!isset($this->_statCache['stat']))
+			$this->_statCache['stat'] = @stat($this->_manager->toOSPath($this->_absPath));
+
+		return $this->_statCache['stat'][7];
 	}
 
 	/**
@@ -252,6 +276,8 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 	 * @return boolean true - success, false - failure
 	 */
 	function copyTo(&$dest) {
+		$this->_clearCache();
+
 		if ($dest->exists())
 			return false;
 
@@ -262,6 +288,8 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 		// Different file system then import
 		if (getClassName($dest) != 'moxiecode_localfileimpl')
 			return $dest->importFile($this->getAbsolutePath());
+
+		$dest->_clearCache();
 
 		if ($this->isDirectory()) {
 			$handle_as_add_event = true;
@@ -300,6 +328,8 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 	function delete($deep = false) {
 		if (!$this->exists())
 			return false;
+
+		$this->_clearCache();
 
 		if (is_dir($this->_manager->toOSPath($this->_absPath))) {
 			if ($this->_events)
@@ -353,6 +383,7 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 	 	$files = array();
 	 	$dirs = array();
 		$fileArray = array();
+		$dirArray = array();
 
 		if ($fHnd = opendir($this->_manager->toOSPath($dir))) {
 			// Is there a trailing slash on the dir? Get rid of it
@@ -364,39 +395,47 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 					continue;
 
 				// Returns false if safe mode is on and the user/group is not the same as apache
-				if (file_exists($dir . "/" . $file)) {
+				$path = $dir . "/" . $file;
+				if (file_exists($path)) {
 					// We are at root!
 					if ($dir == "/")
 						$dir = "";
 
-					$fileArray[] = $dir . "/" . $file;
+					if (is_file($path))
+						$fileArray[] = $file;
+					else
+						$dirArray[] = $file;
 				}
 			}
 
 			// Close handle
 			closedir($fHnd);
 
-			// Build object filearray
-			foreach ($fileArray as $afile) {
-				$file = new Moxiecode_LocalFileImpl($this->_manager, $afile);
+			sort($dirArray);
+			sort($fileArray);
+
+			// Add dirs
+			foreach ($dirArray as $adir) {
+				$file = new Moxiecode_LocalFileImpl($this->_manager, $dir . "/" . $adir);
 
 				if ($filter->accept($file) < 0)
 					continue;
 
-				if ($file->isFile())
-					array_push($files, $file);
-				else
-					array_push($dirs, $file);
+				array_push($files, $file);
 			}
 
-			// Sort them by name
-			usort($dirs, array($this, '_cmpByName'));
-			usort($files, array($this, '_cmpByName'));
+			// Add files
+			foreach ($fileArray as $afile) {
+				$file = new Moxiecode_LocalFileImpl($this->_manager, $dir . "/" . $afile);
+
+				if ($filter->accept($file) < 0)
+					continue;
+
+				array_push($files, $file);
+			}
 		}
 
-		$ar = array_merge($dirs, $files);
-
-		return $ar;
+		return $files;
 	}
 
 	/**
@@ -425,6 +464,8 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 	 * @return boolean true- success, false - failure
 	 */
 	function mkdir() {
+		$this->_clearCache();
+
 		if ($this->_events)
 			$this->_manager->dispatchEvent("onBeforeFileAction", array(MKDIR_ACTION, &$this));
 
@@ -456,6 +497,8 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 	 * @return boolean true- success, false - failure
 	 */
 	function renameTo(&$dest) {
+		$this->_clearCache();
+
 		// Already exists
 		if ($dest->exists())
 			return false;
@@ -489,6 +532,7 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 	 * @return boolean true- success, false - failure
 	 */
 	function setLastModified($datetime) {
+		$this->_clearCache();
 		return touch($this->_manager->toOSPath($this->_absPath), $datetime);
 	}
 
@@ -499,12 +543,17 @@ class Moxiecode_LocalFileImpl extends Moxiecode_BaseFile {
 	 * @return FileStream File stream implementation for the file system.
 	 */
 	function &open($mode = 'rb') {
+		$this->_clearCache();
 		$stream = new Moxiecode_LocalFileStream($this, $mode);
 
 		return $stream;
 	}
 
 	// * * Private methods
+
+	function _clearCache() {
+		$this->_statCache = array();
+	}
 
 	/**
 	 * Lists files recursive, and places the files in the specified array.
@@ -853,8 +902,10 @@ class _LocalDeleteDirTreeHandler extends Moxiecode_FileTreeHandler {
 
 class Moxiecode_LocalFileStream extends Moxiecode_FileStream {
 	var $_fp;
+	var $_file;
 
-	function Moxiecode_LocalFileStream($file, $mode) {
+	function Moxiecode_LocalFileStream(&$file, $mode) {
+		$this->_file = $file;
 		$this->_fp = fopen($file->getAbsolutePath(), $mode);
 	}
 
@@ -887,6 +938,7 @@ class Moxiecode_LocalFileStream extends Moxiecode_FileStream {
 	}
 
 	function close() {
+		$this->_file->_clearCache();
 		@fclose($this->_fp);
 		$this->_fp = null;
 	}

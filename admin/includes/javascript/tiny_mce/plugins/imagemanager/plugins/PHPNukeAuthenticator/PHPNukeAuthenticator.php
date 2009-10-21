@@ -10,7 +10,7 @@
 // Include PHPNuke logic
 @session_destroy();
 $mcOldCWD = getcwd();
-chdir($basepath . "../../../../../");
+chdir(MCMANAGER_ABSPATH . "../../../../../");
 require_once("mainfile.php");
 chdir($mcOldCWD);
 

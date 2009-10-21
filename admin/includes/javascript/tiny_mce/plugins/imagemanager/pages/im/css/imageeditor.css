@@ -31,8 +31,11 @@ label { vertical-align: middle; line-height: 20px; }
 .icons	{ margin:14px 0px 0px 0px; float:left; }
 .icon	{ margin:0px 2px 0px 1px; padding:0px; float:left; line-height:0px; position:relative; }
 
-.icon a			{ text-decoration:none; padding:2px; display:block; }
-.icon a:hover	{ background:#d3d0ce; }
+.icon a { text-decoration:none; padding:2px; display:block; }
+.icon a:hover, .active { background:#d3d0ce; }
+.disabled img { opacity:0.3; -ms-filter:'alpha(opacity=30)'; filter:alpha(opacity=30); }
+.disabled span { color:gray }
+a.disabled:hover { background:transparent; }
 
 .icon .caption	{ display:none; padding:0px 4px 0px 4px; position:relative; top:-4px; }
 
@@ -58,22 +61,36 @@ label { vertical-align: middle; line-height: 20px; }
 .selection-corner-br { cursor: se-resize; }
 
 div.selection {
+	display:none;
 	z-index: 1000;
 	cursor: move;
 	line-height: 1px;
 	overflow: hidden;
+	position:absolute;
+	border:1px solid gray;
+}
+
+.resize div.selection {
+	border: 0;
+}
+
+div.selection img {
+	position:absolute;
 }
 
 .selection-corner {
 	position: absolute;
 	left: 1px; top: 1px;
-	width: 8px; height: 7px;
+	width: 8px; height: 8px;
 	border: 0; margin: 0; padding: 0;
-	background: transparent url('../img/selection_corner.gif') 1px 0 no-repeat;
-	clip: rect(auto auto auto 1px);
+	background: transparent url('../img/selection_corner.gif') top left no-repeat;
 	z-index: 1001;
-	visibility: hidden;
+	display:none;
 }
+
+/*a.selection-corner:hover {
+	background-position: -8px 0px;
+}*/
 
 #editArea {
 	position: absolute;
@@ -103,31 +120,17 @@ div.selection {
 }
 
 #marginWrapper {
-	position: relative;
-	left: 10px; top: 10px;
-	width: 1px;
-}
-
-img.crop {
-	opacity: 0.50;
-	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);
-}
-
-#sel {
-	position: absolute;
-	left: 100px; top: 100px;
-	width: 100px; height: 100px;
-	border: 1px solid gray;
-	z-index: 1000;
-	visibility: hidden;
-	margin: 0;
-}
-
-#sel img {
-	position: absolute;
-	left: 0; top: 0;
+	padding: 10px;
 }
 
 td {
 	vertical-align: middle;
+}
+
+img.crop, .resize .selimage, .crop .mainimage {
+	opacity:0.5; -ms-filter:'alpha(opacity=50)'; filter:alpha(opacity=50);
+}
+
+.resize div.selection {
+	cursor: default;
 }

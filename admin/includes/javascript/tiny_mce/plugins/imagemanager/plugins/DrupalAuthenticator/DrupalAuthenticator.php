@@ -10,7 +10,7 @@
 // Store away important references
 $access_check = array(
 	"manager" => $man,
-	"basepath" => $basepath,
+	"basepath" => MCMANAGER_ABSPATH,
 	"json" => $json,
 	"input" => $input,
 	"cmd" => $cmd,
@@ -18,20 +18,35 @@ $access_check = array(
 	"MCErrorHandler" => $MCErrorHandler
 );
 
+define('MC_TYPE', $man->getType());
+
 // Bootstap drupal
 @session_destroy();
-chdir($basepath . "../../../../../../../../");
+chdir(MCMANAGER_ABSPATH . "../../../../../");
 require_once("includes/bootstrap.inc");
-require_once("includes/common.inc");
 
-// Setup session level
+global $base_url, $base_root, $base_path;
+
+// Setup base_root, base_url and base_path so the sessions will work correctly
+$base_root = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http';
+$base_url = $base_root .= '://'. preg_replace('/[^a-z0-9-:._]/i', '', $_SERVER['HTTP_HOST']);
+$base_path = '/' . trim(dirname($_SERVER['SCRIPT_NAME']), '\,/');
+$base_path = substr($base_path, 0, strpos($base_path, '/sites/all/modules/'));
+$base_url .= $base_path;
+
 drupal_bootstrap(DRUPAL_BOOTSTRAP_SESSION);
 $isDrupalAuth = false;
 
 if (!isset($_SESSION['mc_drupal_auth']) || !$_SESSION['mc_drupal_auth']) {
 	// Not cached in session check agains API
 	drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
-	$isDrupalAuth = user_access('access tinymce');
+
+	if (MC_TYPE == "fm")
+		$type = "filemanager";
+	else
+		$type = "imagemanager";
+
+	$isDrupalAuth = user_access('access tinymce ' . $type);
 	$_SESSION['mc_drupal_auth'] = $isDrupalAuth;
 } else
 	$isDrupalAuth = $_SESSION['mc_drupal_auth'];
@@ -43,7 +58,6 @@ $man = $access_check['manager'];
 $json = $access_check['json'];
 $cmd = $access_check['cmd'];
 $input = $access_check['input'];
-$basepath = $access_check['basepath'];
 
 /**
  * This class is a Drupal CMS authenticator implementation.

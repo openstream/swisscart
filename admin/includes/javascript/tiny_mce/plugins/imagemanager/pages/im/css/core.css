@@ -2,7 +2,7 @@
 /* core stuff */
 /* ########################################################## */
 
-body { 
+body {
 	background:#fff; 
 	color:#000;
 	margin:0 0;
@@ -15,12 +15,12 @@ td {
 	font-size: 11px;
 }
 
-img	{ 
+img	{
 	behavior:expression(PNG.fix(this));
 	border: 0;
 }
 
-hr { 
+hr {
 	clear:both; 
 	border:0; 
 	color:#e5e5e5; 
@@ -34,13 +34,13 @@ div {
 
 /* Lists */
 
-ul { 
+ul {
 	margin:0; 
 	padding:0; 
 	list-style:none;
 }
 
-ul li { 
+ul li {
 	margin:0; 
 	padding:0; 
 }
@@ -48,7 +48,7 @@ ul li {
 
 /* Layout */
 
-#center	{ 
+#center	{
 	width:auto; 
 	max-width:1200px; 
 	margin:0 auto; 
@@ -57,19 +57,19 @@ ul li {
 
 /* Links */
 
-a				{ background:transparent; }
-a:link 			{ color:#000; }
-a:visited 		{ color:#000; }
-a:visited:hover { color:#000; }
-a:hover 		{ color:#000; }
-a:active 		{ color:#000; }
+a				{background:transparent; }
+a:link 			{color:#000; }
+a:visited 		{color:#000; }
+a:visited:hover {color:#000; }
+a:hover 		{color:#000; }
+a:active 		{color:#000; }
 
 
-#thearea { 
+#thearea {
 	position:relative;
 }
 
-#secondarea { 
+#secondarea {
 	position:absolute;
 	left:200px;
 }
@@ -77,20 +77,20 @@ a:active 		{ color:#000; }
 /* Page navigation */
 /* ########################################################## */
 
-.pagenav { 
+.pagenav {
 	float: left;
 	color: #484848;
-	display: inline;
+	display: none;
 	line-height: 16px;
 	height: 16px;
 	z-index:1;
 }
 
-* html .pagenav { /* double margin ie6 bug fix */
+* html .pagenav {/* double margin ie6 bug fix */
 	display:inline;
 }
 
-.pagenav a, .pagenav a:visited	{ 
+.pagenav a, .pagenav a:visited	{
 	font-weight:bold;
 	color:#484848;
 	text-decoration:none;
@@ -100,9 +100,16 @@ a:active 		{ color:#000; }
 	color:#2e4e8c;
 }
 
-.pagenav select	{ 
+.pagenav select	{
 	margin:0 2px;
 }
+
+.pagenav * {float:left; display:block}
+.pagenav a {outline:0 }
+.pagenav .prev {background:url('../img/left.gif') no-repeat left; width:20px; height:16px; text-decoration:none; behavior:expression(PNG.fix(this));}
+.pagenav .next {background:url('../img/right.gif') no-repeat right; width:20px; height:16px; text-decoration:none; behavior:expression(PNG.fix(this));}
+.pagenav input {padding:0; width:20px; text-align:center; font-size:10px; margin:0 4px 0 4px }
+.pagenav .disabled {opacity:0.5; -ms-filter:'alpha(opacity=50)'; filter:alpha(opacity=50); cursor:default}
 
 #progress {
 	background: url('../img/loading.gif') no-repeat;
@@ -112,7 +119,7 @@ a:active 		{ color:#000; }
 /* View mode */
 /* ########################################################## */
 
-.viewmode { 
+.viewmode {
 	float:right;
 	margin:0 25px 0 0;
 	display:inline;
@@ -122,44 +129,42 @@ a:active 		{ color:#000; }
 	white-space:nowrap;
 }
 
-.viewmode .desc	{ 
+.viewmode .desc	{
 	float:left;
 	margin:3px 4px 0 0; 
 }
 
-.viewmode a img { 
+.viewmode a img {
 	margin-bottom:-5px;
-	-moz-opacity:0.5; 
-	opacity:0.5; 
-	filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=50); 
+	opacity:0.5; -ms-filter:'alpha(opacity=50)'; filter:alpha(opacity=50);
 }
 
-.viewmode a.listactive img { 
-	-moz-opacity:1;
-	opacity:1;
-	filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=100); 
+.viewmode a.listactive img {
+	opacity:1; -ms-filter:'alpha(opacity=100)'; filter:alpha(opacity=100);
 }
 
-.viewmode a.listactive { 
+.viewmode a.listactive {
 	font-weight:bold;
+}
+
+#viewcontainer #filelist {
+	position:relative;
 }
 
 /* List container */
 
-#listcontainer { 
+#listcontainer {
 	position:relative;
-	
 }
 
-* html #listcontainer { /* double margin ie6 bug fix */
+* html #listcontainer {/* double margin ie6 bug fix */
 	display:inline;
 }
-
 
 /* Left side folders */
 /* ########################################################## */
 
-#folders { 
+#folders {
 	position:absolute;
 	top:0;
 	left:2px;
@@ -169,7 +174,7 @@ a:active 		{ color:#000; }
 	z-index:1;
 }
 
-#folders h2	{ 
+#folders h2	{
 	margin:0;
 	padding:20px 10px 10px 10px;
 	background:url(../img/folder-top-bg.png) top left;
@@ -177,7 +182,7 @@ a:active 		{ color:#000; }
 	color:#7791c4;
 }
 
-#folders h3	{ 
+#folders h3	{
 	margin:10px 2px 0 2px;
 	padding:10px 8px 10px 8px;
 	font-size:100%;
@@ -185,52 +190,40 @@ a:active 		{ color:#000; }
 	border-top:1px solid #9ab0d7;
 }
 
-#folders a { 
+#folders a {
 	text-decoration:none;
 	behavior:expression(PNG.fix(this));
 }
 
-#folders .categories { 
+#folders .categories {
 	margin:0 6px 0 10px;
 }
 
-#folders .categories li a { 
+#folders .categories li a {
 	background:url(../img/icons/category-closed.png) no-repeat; 
 	padding:2px 2px 0 24px; 
 	display:block; 
 	min-height:16px; 
 }
 
-#folders .categories li.current a { 
+#folders .categories li.current a {
 	background:url(../img/icons/category-open.png) no-repeat; 
 	font-weight:bold;
 }
 
-#folders .special { 
+#folders .special {
 	margin:5px 6px 0 10px;
 }
 
-#folders .special li a.favorites, #folders .special li a.history, #folders .special li a.trash { 
-	padding:2px 2px 0 24px;
-	display:block;
-	min-height:16px; 
-	height:16px;
-	line-height:16px; 
+#folders .special li a {
+	padding: 2px 2px 0 24px;
+	display: block;
+	min-height: 16px; 
+	height: 16px;
+	line-height: 16px; 
 }
 
-#folders .special li a.favorites { 
-	background:url(../img/icons/favorites.png) no-repeat;
-}
-
-#folders .special li a.history { 
-	background:url(../img/icons/clock.png) no-repeat; 
-}
-	
-#folders .special li a.trash { 
-	background:url(../img/icons/trash.png) no-repeat;
-}
-
-#folders .folders { 
+#folders .folders {
 	margin:0 6px 0 10px;
 }
 
@@ -242,7 +235,7 @@ a:active 		{ color:#000; }
 	padding:0 0 20px 0;
 }
 
-#folders .folders li a { 
+#folders .folders li a {
 	background:url(../img/folder.png) no-repeat; 
 	padding:2px 2px 0 24px; 
 	display:block; 
@@ -253,64 +246,31 @@ a:active 		{ color:#000; }
 	background:url(../img/icons/up.png) no-repeat;
 }
 
-#folders .folders li.current a { 
+#folders .folders li.current a {
 	background:url(../img/icons/folders-open.png) no-repeat;
 	font-weight:bold;
 }
 
-#folders .preview { 
+#folders .preview {
 	margin:0 0 4px 10px;
 }
 
-#folders .previewact { 
+#folders .previewact {
 	padding:0 0 20px 10px;
 }
 
-#folders a:hover { 
+#folders a:hover {
 	color:#2e4e8c;
 }
 
-#folders .folders li.progress { 
+#folders .folders li.progress {
 	background: url('../img/loading.gif') no-repeat;
 	height: 16px;
 	line-height: 16px;
 	padding-left: 20px;
 }
 
-/* Edit menu */
-/* ########################################################## */
-
-.Menu { 
-	position:absolute;
-	left:0;
-	top:0;
-	z-index:100;
-	display:none; 
-	background:#eae9e5; 
-	border:1px solid #cac6bb; 
-	text-align:left; 
-}
-
-.Menu li a { 
-	display:block;
-	padding:2px 8px;
-	text-decoration:none; 
-}
-
-.Menu li a:hover {
-	color:#2e4e8c; 
-}
-
-.Menu li.hidden {
-	display: none;
-}
-
-*html .Menu li a { 
-	display:inline; 
-	width:auto;
-}
-
-.folder .name, .parent .name { 
+.folder .name, .parent .name {
 	font-weight:bold;
 }
 
@@ -321,26 +281,24 @@ a:active 		{ color:#000; }
 	display: inline;
 }
 
-#tools .hidden {
-	display: none;
-}
+#toolbar a {outline:0 }
 
 /* Validation classes */
 
-label.msg { 
+label.msg {
 	display:none;
 }
 
-label.invalid { 
+label.invalid {
 	color:#aa0000;
 	display:inline;
 }
 
-input.invalid { 
+input.invalid {
 	background-color:#d63232;
 }
 
-div label.invalid { 
+div label.invalid {
 	display:block;
 }
 

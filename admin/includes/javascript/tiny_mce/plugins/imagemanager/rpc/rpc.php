@@ -8,8 +8,7 @@
  */
 
 // Set RPC response headers
-header('Content-Type: text/plain');
-header('Content-Encoding: UTF-8');
+header('Content-Type: text/plain; charset=UTF-8');
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 header("Cache-Control: no-store, no-cache, must-revalidate");
@@ -86,11 +85,11 @@ if ($type == "")
 // Include Base and Core and Config.
 $man = new Moxiecode_ManagerEngine($type);
 
-require_once($basepath ."CorePlugin.php");
+require_once(MCMANAGER_ABSPATH ."CorePlugin.php");
 require_once("../config.php");
 
 $man->dispatchEvent("onPreInit", array($type));
-$config =& $man->getConfig();
+$mcConfig =& $man->getConfig();
 
 // Include all plugins
 $pluginPaths = $man->getPluginPaths();
@@ -109,8 +108,8 @@ if ($man->isAuthenticated()) {
 
 	$data = $json->encode($result);
 
-	header('Content-Length: ' . strlen($data));
+	//header('Content-Length: ' . strlen($data));
 	die($data);
 } else
-	die('{"result":{"login_url":"' . addslashes($config["authenticator.login_page"]) . '"},"id":null,"error":{"errstr":"Access denied by authenicator.","errfile":"","errline":null,"errcontext":"","level":"AUTH"}}');
+	die('{"result":{"login_url":"' . addslashes($mcConfig["authenticator.login_page"]) . '"},"id":null,"error":{"errstr":"Access denied by authenicator.","errfile":"","errline":null,"errcontext":"","level":"AUTH"}}');
 ?>

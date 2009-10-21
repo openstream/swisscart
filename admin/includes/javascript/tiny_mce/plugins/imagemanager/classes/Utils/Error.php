@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: Error.php 124 2007-10-12 16:54:17Z spocke $
+ * $Id: Error.php 624 2008-12-02 17:44:39Z spocke $
  *
  * @package MCManager.utils
  * @author Moxiecode
@@ -32,7 +32,7 @@ class Moxiecode_Error {
 	}
 
 	function handleError($errno, $errstr, $errfile, $errline, $errcontext) {
-		global $man, $config;
+		global $man;
 
 		$error = array();
 		$log = false;
@@ -47,10 +47,10 @@ class Moxiecode_Error {
 
 		// Add file and line only in debug mode
 		if (isset($man)) {
-			$config = $man->getConfig();
+			$mcConfig = $man->getConfig();
 			$log = $man->getLogger();
 
-			if (checkBool($config['general.debug'])) {
+			if (checkBool($mcConfig['general.debug'])) {
 				$error['errfile'] = $errfile;
 				$error['errline'] = $errline;
 			}

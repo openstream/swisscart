@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: SessionAuthenticator.php 26 2007-06-05 11:03:07Z spocke $
+ * $Id: SessionAuthenticator.php 642 2009-01-19 13:49:06Z spocke $
  *
  * @package SessionAuthenticator
  * @author Moxiecode
@@ -69,6 +69,9 @@ class Moxiecode_SessionAuthenticator extends Moxiecode_ManagerPlugin {
 			$value = str_replace('${user}', $user, $value);
 			$config[$key] = $value;
 		}
+
+		// Force update of internal state
+		$man->setConfig($config);
 
 		return isset($_SESSION[$loggedInKey]) && checkBool($_SESSION[$loggedInKey]);
 	}

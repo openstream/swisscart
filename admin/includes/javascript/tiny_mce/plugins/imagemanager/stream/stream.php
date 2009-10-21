@@ -25,6 +25,39 @@ require_once("../includes/general.php");
 require_once("../classes/ManagerEngine.php");
 
 $cmd = getRequestParam("cmd", "");
+$theme = getRequestParam("theme", "", true);
+$package = getRequestParam("package", "", true);
+$type = getRequestParam("type", "", true);
+$file = getRequestParam("file", "", true);
+
+if ($package) {
+	require_once('../classes/Utils/ClientResources.php');
+
+	$resources = new Moxiecode_ClientResources();
+	$resources->load('../pages/' . $theme . '/resources.xml');
+
+	if ($type) {
+		$man = new Moxiecode_ManagerEngine($type);
+
+		require_once(MCMANAGER_ABSPATH ."CorePlugin.php");
+		require_once("../config.php");
+
+		$man->dispatchEvent("onPreInit", array($type));
+		$mcConfig = $man->getConfig();
+
+		// Load plugin resources
+		$plugins = explode(',', $mcConfig["general.plugins"]);
+		foreach ($plugins as $plugin)
+			$resources->load('../plugins/' . $plugin . '/resources.xml');
+	}
+
+	$file = $resources->getFile($package, $file);
+
+	header('Content-type: ' . $file->getContentType());
+	readfile($file->getPath());
+
+	die();
+}
 
 if ($cmd == "")
 	die("No command.");
@@ -43,11 +76,11 @@ if ($type == "")
 // Include Base and Core and Config.
 $man = new Moxiecode_ManagerEngine($type);
 
-require_once($basepath ."CorePlugin.php");
+require_once(MCMANAGER_ABSPATH ."CorePlugin.php");
 require_once("../config.php");
 
 $man->dispatchEvent("onPreInit", array($type));
-$config = $man->getConfig();
+$mcConfig = $man->getConfig();
 
 // Include all plugins
 $pluginPaths = $man->getPluginPaths();
@@ -77,50 +110,19 @@ if ($man->isAuthenticated()) {
 
 		// Check command, do command, stream file.
 		$result = $man->executeEvent("onUpload", array($cmd, &$args));
+		$data = $result->toArray();
 
-		// Flash can't get our nice JSON output, so we need to return something... weird.
-		if (isset($_GET["format"]) && ($_GET["format"] == "flash")) {
-			if ($result->getRowCount() > 0) {
-				$row = $result->getRow(0);
-
-				switch ($row["status"]) {
-					case "OK":
-						// No header needed, 200 OK!
-					break;
-
-					case "DEMO_ERROR":
-					case "ACCESS_ERROR":
-					case "MCACCESS_ERROR":
-					case "FILTER_ERROR":
-						header("HTTP/1.1 405 Method Not Allowed");
-						die('status=' . $row["status"]);
-					break;
-
-					case "OVERWRITE_ERROR":
-						header("HTTP/1.1 409 Conflict");
-						die('status=' . $row["status"]);
-					break;
-
-					case "RW_ERROR":
-						header("HTTP/1.1 412 Precondition Failed");
-						die('status=' . $row["status"]);
-					break;
-
-					case "SIZE_ERROR":
-						header("HTTP/1.1 414 Request-URI Too Long");
-						die('status=' . $row["status"]);
-					break;
-
-					default:
-						header("HTTP/1.1 501 Not Implemented");
-						die('status=' . $row["status"]);
-				}
-			}
-
+		if (isset($args["chunk"])) {
+			// Output JSON response to multiuploader
+			die('{method:\'' . $method . '\',result:' . $json->encode($data) . ',error:null,id:\'m0\'}');
 		} else {
 			// Output JSON function
-			$data = $result->toArray();
-			echo '<html><body><script type="text/javascript">parent.handleJSON({method:\'' . $method . '\',result:' . $json->encode($data) . ',error:null,id:\'m0\'});</script></body></html>';
+			echo '<html><body><script type="text/javascript">';
+
+			if (isset($args["domain"]) && $args["domain"])
+				echo 'document.domain="' . $args["domain"] . '";';
+
+			echo 'parent.handleJSON({method:\'' . $method . '\',result:' . $json->encode($data) . ',error:null,id:\'m0\'});</script></body></html>';
 		}
 
 		// Dispatch event after stream
@@ -130,6 +132,6 @@ if ($man->isAuthenticated()) {
 	if (isset($_GET["format"]) && ($_GET["format"] == "flash"))
 		header("HTTP/1.1 405 Method Not Allowed");
 
-	die('{"result":{login_url:"' . addslashes($config["authenticator.login_page"]) . '"},"id":null,"error":{"errstr":"Access denied by authenicator.","errfile":"","errline":null,"errcontext":"","level":"AUTH"}}');
+	die('{"result":{login_url:"' . addslashes($mcConfig["authenticator.login_page"]) . '"},"id":null,"error":{"errstr":"Access denied by authenicator.","errfile":"","errline":null,"errcontext":"","level":"AUTH"}}');
 }
 ?>

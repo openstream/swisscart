@@ -4,9 +4,12 @@
 	$username = "demo";
 	$password = ""; // Change the password to something suitable
 
+	if (!$password)
+		$msg = 'You must set a password in the file "login_session_auth.php" inorder to login using this page or reconfigure it the authenticator config options to fit your needs. Consult the <a href="http://wiki.moxiecode.com/index.php/Main_Page" target="_blank">Wiki</a> for more details.';
+
 	if (isset($_POST['submit_button'])) {
 		// If password match, then set login
-		if ($_POST['login'] == $username && $_POST['password'] == $password && $password != "") {
+		if ($_POST['login'] == $username && $_POST['password'] == $password && $password) {
 			// Set session
 			session_start();
 			$_SESSION['isLoggedIn'] = true;
@@ -56,7 +59,7 @@ h1 { font-size: 14px; }
 
 			<div>
 				<label>Password:</label>
-				<input type="password" name="password" class="text" value="<?php isset($_POST['password']) ? htmlentities($_POST['password']) : ""; ?>" />
+				<input type="password" name="password" class="text" value="<?php echo isset($_POST['password']) ? htmlentities($_POST['password']) : ""; ?>" />
 			</div>
 
 			<div class="last">

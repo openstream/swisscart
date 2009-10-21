@@ -7,10 +7,12 @@
  * @copyright Copyright © 2007, Moxiecode Systems AB, All rights reserved.
  */
 
-@error_reporting(E_ALL ^ E_NOTICE);
+@error_reporting(E_ERROR | E_WARNING | E_PARSE);
+@set_magic_quotes_runtime(false);
 
 // Load logger class
 require_once(dirname(__FILE__) . "/../classes/Utils/Logger.class.php");
+$httpRequestInput = array_merge($_GET, $_POST);
 
 /**
  * Returns an request value by name without magic quoting.
@@ -20,19 +22,21 @@ require_once(dirname(__FILE__) . "/../classes/Utils/Logger.class.php");
  * @return String request value by name without magic quoting or default value.
  */
 function getRequestParam($name, $default_value = false, $sanitize = false) {
-	if (!isset($_REQUEST[$name]))
+	global $httpRequestInput;
+
+	if (!isset($httpRequestInput[$name]))
 		return $default_value;
 
-	if (is_array($_REQUEST[$name])) {
+	if (is_array($httpRequestInput[$name])) {
 		$newarray = array();
 
-		foreach ($_REQUEST[$name] as $name => $value)
+		foreach ($httpRequestInput[$name] as $name => $value)
 			$newarray[formatParam($name, $sanitize)] = formatParam($value, $sanitize);
 
 		return $newarray;
 	}
 
-	return formatParam($_REQUEST[$name], $sanitize);
+	return formatParam($httpRequestInput[$name], $sanitize);
 }
 
 function formatParam($str, $sanitize = false) {
