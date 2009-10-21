@@ -11,6 +11,7 @@
 */
 
   require('includes/application_top.php');
+  require('includes/functions/categories_description.php'); 
 
   require(DIR_WS_CLASSES . 'currencies.php');
   $currencies = new currencies();
@@ -49,9 +50,19 @@
 
         tep_redirect(tep_href_link(FILENAME_CATEGORIES, 'cPath=' . $HTTP_GET_VARS['cPath'] . '&pID=' . $HTTP_GET_VARS['pID']));
         break;
+	  case 'new_category':
+      case 'edit_category':
+        $HTTP_GET_VARS['action']=$HTTP_GET_VARS['action'] . '_ACD';
+        break;		
       case 'insert_category':
       case 'update_category':
+	    if ( ($HTTP_POST_VARS['edit_x']) || ($HTTP_POST_VARS['edit_y']) ) {
+          $HTTP_GET_VARS['action'] = 'edit_category_ACD';
+        } else {	  	
         if (isset($HTTP_POST_VARS['categories_id'])) $categories_id = tep_db_prepare_input($HTTP_POST_VARS['categories_id']);
+		if ($categories_id == '') {
+           $categories_id = tep_db_prepare_input($HTTP_GET_VARS['cID']);
+         }		
         $sort_order = tep_db_prepare_input($HTTP_POST_VARS['sort_order']);
 
         $sql_data_array = array('sort_order' => $sort_order);
@@ -85,6 +96,8 @@
           $language_id = $languages[$i]['id'];
 
           $sql_data_array = array('categories_name' => tep_db_prepare_input($categories_name_array[$language_id]),
+                                  'categories_heading_title' => tep_db_prepare_input($HTTP_POST_VARS['categories_heading_title'][$language_id]),
+                                  'categories_description' => tep_db_prepare_input($HTTP_POST_VARS['categories_description'][$language_id]),		  
 								  'categories_htc_title_tag' => (tep_not_null($categories_htc_title_array[$language_id]) ? tep_db_prepare_input($categories_htc_title_array[$language_id]) :  tep_db_prepare_input($categories_name_array[$language_id])),
 								  'categories_htc_desc_tag' => (tep_not_null($categories_htc_desc_array[$language_id]) ? tep_db_prepare_input($categories_htc_desc_array[$language_id]) :  tep_db_prepare_input($categories_name_array[$language_id])),
 								  'categories_htc_keywords_tag' => (tep_not_null($categories_htc_keywords_array[$language_id]) ? tep_db_prepare_input($categories_htc_keywords_array[$language_id]) :  tep_db_prepare_input($categories_name_array[$language_id])),
@@ -115,6 +128,7 @@
         }
 
         tep_redirect(tep_href_link(FILENAME_CATEGORIES, 'cPath=' . $cPath . '&cID=' . $categories_id));
+		}
         break;
       case 'delete_category_confirm':
         if (isset($HTTP_POST_VARS['categories_id'])) {
@@ -453,12 +467,12 @@ if($_GET['action'] != 'new_product_preview') { // prevent hidden fields to be re
 	echo '",
 	language : "' . $languages_selected . '",
 	theme : "' . TINYMCE_THEME . '",
-	plugins : "table,advhr,advimage,advlink,emotions,flash,contextmenu' . $tinymce_imagemanager . '",';
+	plugins : "table,advhr,advimage,advlink,emotions,flash,contextmenu,media,filemanager,' . $tinymce_imagemanager . '",';
 	// theme_advanced_buttons1_add : "fontselect,fontsizeselect",
 	echo 'theme_advanced_buttons2_add : "separator,forecolor",
 	theme_advanced_buttons2_add_before: "cut,copy,paste,separator",
 	theme_advanced_buttons3_add_before : "tablecontrols,separator",
-	theme_advanced_buttons3_add : "emotions,flash,advhr",
+	theme_advanced_buttons3_add : "emotions,flash,advhr,media",
 	theme_advanced_toolbar_location : "top",
 	theme_advanced_toolbar_align : "left",
 	theme_advanced_path_location : "bottom",
@@ -487,9 +501,234 @@ if($_GET['action'] != 'new_product_preview') { // prevent hidden fields to be re
 <!-- left_navigation_eof //-->
     </table></td>
 <!-- body_text //-->
-    <td width="100%" valign="top">
+	     <td width="100%" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
+	<?php
+	
+  //----- new_category / edit_category (when ALLOW_CATEGORY_DESCRIPTIONS is 'true') -----
+  if ($HTTP_GET_VARS['action'] == 'new_category_ACD' || $HTTP_GET_VARS['action'] == 'edit_category_ACD') {
+    if ( ($HTTP_GET_VARS['cID']) && (!$HTTP_POST_VARS) ) {
+      $categories_query = tep_db_query("select c.categories_id, cd.categories_name, cd.categories_heading_title, cd.categories_description, c.categories_image, c.parent_id, c.sort_order, c.date_added, c.last_modified from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.categories_id = '" . $HTTP_GET_VARS['cID'] . "' and c.categories_id = cd.categories_id and cd.language_id = '" . $languages_id . "' order by c.sort_order, cd.categories_name");
+      $category = tep_db_fetch_array($categories_query);
+
+      $cInfo = new objectInfo($category);
+    } elseif ($HTTP_POST_VARS) {
+      $cInfo = new objectInfo($HTTP_POST_VARS);
+      $categories_name = $HTTP_POST_VARS['categories_name'];
+      $categories_heading_title = $HTTP_POST_VARS['categories_heading_title'];
+      $categories_description = $HTTP_POST_VARS['categories_description'];
+      $categories_url = $HTTP_POST_VARS['categories_url'];
+    } else {
+      $cInfo = new objectInfo(array());
+    }
+
+    $languages = tep_get_languages();
+
+    $text_new_or_edit = ($HTTP_GET_VARS['action']=='new_category_ACD') ? TEXT_INFO_HEADING_NEW_CATEGORY : TEXT_INFO_HEADING_EDIT_CATEGORY;
+?>
+      <tr>
+        <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
+          <tr>
+            <td class="pageHeading"><?php echo sprintf($text_new_or_edit, tep_output_generated_category_path($current_category_id)); ?></td>
+            <td class="pageHeading" align="right"><?php echo tep_draw_separator('pixel_trans.gif', HEADING_IMAGE_WIDTH, HEADING_IMAGE_HEIGHT); ?></td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+      </tr>
+      <tr><?php echo tep_draw_form('new_category', FILENAME_CATEGORIES, 'cPath=' . $cPath . '&cID=' . $HTTP_GET_VARS['cID'] . '&action=new_category_preview', 'post', 'enctype="multipart/form-data"'); ?>
+        <td><table border="0" cellspacing="0" cellpadding="2">
 <?php
-  if ($action == 'new_product') {
+    for ($i=0; $i<sizeof($languages); $i++) {
+?>
+          <tr>
+            <td class="main"><?php if ($i == 0) echo TEXT_EDIT_CATEGORIES_NAME; ?></td>
+            <td class="main"><?php echo tep_image(DIR_WS_CATALOG_LANGUAGES . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], $languages[$i]['name']) . '&nbsp;' . tep_draw_input_field('categories_name[' . $languages[$i]['id'] . ']', (($categories_name[$languages[$i]['id']]) ? stripslashes($categories_name[$languages[$i]['id']]) : tep_get_category_name($cInfo->categories_id, $languages[$i]['id']))); ?></td>
+          </tr>
+<?php
+    }
+?>
+          <tr>
+            <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+          </tr>
+<?php
+    for ($i=0; $i<sizeof($languages); $i++) {
+?>
+          <tr>
+            <td class="main"><?php if ($i == 0) echo TEXT_EDIT_CATEGORIES_HEADING_TITLE; ?></td>
+            <td class="main"><?php echo tep_image(DIR_WS_CATALOG_LANGUAGES . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], $languages[$i]['name']) . '&nbsp;' . tep_draw_input_field('categories_heading_title[' . $languages[$i]['id'] . ']', (($categories_name[$languages[$i]['id']]) ? stripslashes($categories_name[$languages[$i]['id']]) : tep_get_category_heading_title($cInfo->categories_id, $languages[$i]['id']))); ?></td>
+          </tr>
+<?php
+    }
+?>
+          <tr>
+            <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+          </tr>
+<?php
+    for ($i=0; $i<sizeof($languages); $i++) {
+?>
+          <tr>
+            <td class="main" valign="top"><?php if ($i == 0) echo TEXT_EDIT_CATEGORIES_DESCRIPTION; ?></td>
+            <td>
+				<table border="0" cellspacing="0" cellpadding="0">
+              	  <tr>
+                	<td class="main" valign="top"><?php echo tep_image(DIR_WS_CATALOG_LANGUAGES . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], $languages[$i]['name']); ?>&nbsp;</td>
+					<?php if (WYSIWYG_FCK_EDITOR == 'Enable') { ?>
+                	<td class="main"><?php echo tep_draw_fckeditor('categories_description[' . $languages[$i]['id'] . ']','650','300',(isset($categories_description[$languages[$i]['id']]) ? stripslashes($categories_description[$languages[$i]['id']]) : tep_get_category_description($cInfo->categories_id, $languages[$i]['id']))); ?></td>
+					<?php } else { ?>
+                	<td class="main"><?php echo tep_draw_textarea_field('categories_description[' . $languages[$i]['id'] . ']', 'soft', '70', '15', (($categories_description[$languages[$i]['id']]) ? stripslashes($categories_description[$languages[$i]['id']]) : tep_get_category_description($cInfo->categories_id, $languages[$i]['id']))); ?></td>
+					<?php }	?>
+	              </tr>
+            	</table>
+			</td>
+          </tr>
+<?php
+    }
+?>
+          <tr>
+            <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+          </tr>
+          <tr>
+          <tr>
+            <td class="main"><?php echo TEXT_EDIT_CATEGORIES_IMAGE; ?></td>
+            <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_file_field('categories_image') . '<br>' . tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . $cInfo->categories_image . tep_draw_hidden_field('categories_previous_image', $cInfo->categories_image); ?></td>
+          </tr>
+          <tr>
+            <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+          </tr>
+          <tr>
+            <td class="main"><?php echo TEXT_EDIT_SORT_ORDER; ?></td>
+            <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_input_field('sort_order', $cInfo->sort_order, 'size="2"'); ?></td>
+          </tr>
+          <tr>
+            <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+      </tr>
+      <tr>
+        <td class="main" align="right"><?php echo tep_draw_hidden_field('categories_date_added', (($cInfo->date_added) ? $cInfo->date_added : date('Y-m-d'))) . tep_draw_hidden_field('parent_id', $cInfo->parent_id) . tep_image_submit('button_preview.gif', IMAGE_PREVIEW) . '&nbsp;&nbsp;<a href="' . tep_href_link(FILENAME_CATEGORIES, 'cPath=' . $cPath . '&cID=' . $HTTP_GET_VARS['cID']) . '">' . tep_image_button('button_cancel.gif', IMAGE_CANCEL) . '</a>'; ?></td>
+      </form></tr>
+<?php
+  //----- new_category_preview (active when ALLOW_CATEGORY_DESCRIPTIONS is 'true') -----
+  } elseif ($HTTP_GET_VARS['action'] == 'new_category_preview') {
+    if ($HTTP_POST_VARS) {
+      $cInfo = new objectInfo($HTTP_POST_VARS);
+      $categories_name = $HTTP_POST_VARS['categories_name'];
+      $categories_heading_title = $HTTP_POST_VARS['categories_heading_title'];
+      $categories_description = $HTTP_POST_VARS['categories_description'];
+
+// copy image only if modified
+        $categories_image = new upload('categories_image');
+        $categories_image->set_destination(DIR_FS_CATALOG_IMAGES);
+        if ($categories_image->parse() && $categories_image->save()) {
+          $categories_image_name = $categories_image->filename;
+        } else {
+        $categories_image_name = $HTTP_POST_VARS['categories_previous_image'];
+      }
+#     if ( ($categories_image != 'none') && ($categories_image != '') ) {
+#       $image_location = DIR_FS_CATALOG_IMAGES . $categories_image_name;
+#       if (file_exists($image_location)) @unlink($image_location);
+#       copy($categories_image, $image_location);
+#     } else {
+#       $categories_image_name = $HTTP_POST_VARS['categories_previous_image'];
+#     }
+    } else {
+      $category_query = tep_db_query("select c.categories_id, cd.language_id, cd.categories_name, cd.categories_heading_title, cd.categories_description, c.categories_image, c.sort_order, c.date_added, c.last_modified from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.categories_id = cd.categories_id and c.categories_id = '" . $HTTP_GET_VARS['cID'] . "'");
+      $category = tep_db_fetch_array($category_query);
+
+      $cInfo = new objectInfo($category);
+      $categories_image_name = $cInfo->categories_image;
+    }
+
+    $form_action = ($HTTP_GET_VARS['cID']) ? 'update_category' : 'insert_category';
+
+    echo tep_draw_form($form_action, FILENAME_CATEGORIES, 'cPath=' . $cPath . '&cID=' . $HTTP_GET_VARS['cID'] . '&action=' . $form_action, 'post', 'enctype="multipart/form-data"');
+
+    $languages = tep_get_languages();
+    for ($i=0; $i<sizeof($languages); $i++) {
+      if ($HTTP_GET_VARS['read'] == 'only') {
+        $cInfo->categories_name = tep_get_category_name($cInfo->categories_id, $languages[$i]['id']);
+        $cInfo->categories_heading_title = tep_get_category_heading_title($cInfo->categories_id, $languages[$i]['id']);
+        $cInfo->categories_description = tep_get_category_description($cInfo->categories_id, $languages[$i]['id']);
+      } else {
+        $cInfo->categories_name = tep_db_prepare_input($categories_name[$languages[$i]['id']]);
+        $cInfo->categories_heading_title = tep_db_prepare_input($categories_heading_title[$languages[$i]['id']]);
+        $cInfo->categories_description = tep_db_prepare_input($categories_description[$languages[$i]['id']]);
+      }
+?>
+      <tr>
+        <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
+          <tr>
+            <td class="pageHeading"><?php echo tep_image(DIR_WS_CATALOG_LANGUAGES . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], $languages[$i]['name']) . '&nbsp;' . $cInfo->categories_heading_title; ?></td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+      </tr>
+      <tr>
+        <td class="main"><?php echo tep_image(DIR_WS_CATALOG_IMAGES . $categories_image_name, $cInfo->categories_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'align="right" hspace="5" vspace="5"') . $cInfo->categories_description; ?></td>
+      </tr>
+
+<?php
+    }
+    if ($HTTP_GET_VARS['read'] == 'only') {
+      if ($HTTP_GET_VARS['origin']) {
+        $pos_params = strpos($HTTP_GET_VARS['origin'], '?', 0);
+        if ($pos_params != false) {
+          $back_url = substr($HTTP_GET_VARS['origin'], 0, $pos_params);
+          $back_url_params = substr($HTTP_GET_VARS['origin'], $pos_params + 1);
+        } else {
+          $back_url = $HTTP_GET_VARS['origin'];
+          $back_url_params = '';
+        }
+      } else {
+        $back_url = FILENAME_CATEGORIES;
+        $back_url_params = 'cPath=' . $cPath . '&cID=' . $cInfo->categories_id;
+      }
+?>
+      <tr>
+        <td align="right"><?php echo '<a href="' . tep_href_link($back_url, $back_url_params, 'NONSSL') . '">' . tep_image_button('button_back.gif', IMAGE_BACK) . '</a>'; ?></td>
+      </tr>
+<?php
+    } else {
+?>
+      <tr>
+        <td align="right" class="smallText">
+<?php
+/* Re-Post all POST'ed variables */
+      reset($HTTP_POST_VARS);
+      while (list($key, $value) = each($HTTP_POST_VARS)) {
+        if (!is_array($HTTP_POST_VARS[$key])) {
+          echo tep_draw_hidden_field($key, htmlspecialchars(stripslashes($value)));
+        }
+      }
+      $languages = tep_get_languages();
+      for ($i=0; $i<sizeof($languages); $i++) {
+        echo tep_draw_hidden_field('categories_name[' . $languages[$i]['id'] . ']', htmlspecialchars(stripslashes($categories_name[$languages[$i]['id']])));
+        echo tep_draw_hidden_field('categories_heading_title[' . $languages[$i]['id'] . ']', htmlspecialchars(stripslashes($categories_heading_title[$languages[$i]['id']])));
+        echo tep_draw_hidden_field('categories_description[' . $languages[$i]['id'] . ']', htmlspecialchars(stripslashes($categories_description[$languages[$i]['id']])));
+      }
+      echo tep_draw_hidden_field('X_categories_image', stripslashes($categories_image_name));
+      echo tep_draw_hidden_field('categories_image', stripslashes($categories_image_name));
+
+      echo tep_image_submit('button_back.gif', IMAGE_BACK, 'name="edit"') . '&nbsp;&nbsp;';
+
+      if ($HTTP_GET_VARS['cID']) {
+        echo tep_image_submit('button_update.gif', IMAGE_UPDATE);
+      } else {
+        echo tep_image_submit('button_insert.gif', IMAGE_INSERT);
+      }
+      echo '&nbsp;&nbsp;<a href="' . tep_href_link(FILENAME_CATEGORIES, 'cPath=' . $cPath . '&cID=' . $HTTP_GET_VARS['cID']) . '">' . tep_image_button('button_cancel.gif', IMAGE_CANCEL) . '</a>';
+?></td>
+      </form></tr>
+<?php
+    }	
+	
+  } elseif ($action == 'new_product') {	
     $parameters = array('products_name' => '',
                        'products_description' => '',
                        'products_url' => '',
