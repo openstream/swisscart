@@ -151,10 +151,19 @@ for ($i=0, $n=sizeof($languages); $i<$n; $i++) echo 'products_description[' . $l
 echo '",
 language : "' . $languages_selected . '",
 theme : "' . TINYMCE_THEME . '",
-plugins : "table,advhr,advimage,advlink,emotions,preview,flash,print,contextmenu,media,filemanager,' . $tinymce_imagemanager . '",';
+plugins : "table,advhr,advimage,advlink,emotions,preview,flash,print,contextmenu,media,filemanager,paste,' . $tinymce_imagemanager . '",
+paste_auto_cleanup_on_paste : true,
+paste_preprocess : function(pl, o) {
+    // Content string containing the HTML from the clipboard
+    alert(o.content);
+},
+paste_postprocess : function(pl, o) {
+    // Content DOM node containing the DOM structure of the clipboard
+    alert(o.node.innerHTML);
+},';
 // theme_advanced_buttons1_add : "fontselect,fontsizeselect",
 echo 'theme_advanced_buttons2_add : "separator,preview,separator,forecolor,backcolor",
-theme_advanced_buttons2_add_before: "cut,copy,paste,separator",
+theme_advanced_buttons2_add_before: "cut,copy,pastetext,pasteword,separator",
 theme_advanced_buttons3_add_before : "tablecontrols,separator",
 theme_advanced_buttons3_add : "emotions,flash,advhr,separator,print,media",
 theme_advanced_toolbar_location : "top",

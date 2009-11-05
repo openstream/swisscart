@@ -449,8 +449,7 @@
 // Tiny MCE WYISIWYG detection and include
 $tinymce_imagemanager = (TINYMCE_IMAGEMANAGER_ENABLED == 'true') ? ',imagemanager':'';
 if($_GET['action'] != 'new_product_preview') { // prevent hidden fields to be rendered by TinyMCE in preview
-	if (file_exists("tiny_mce/tiny_mce.js")) { $tiny_mce = "tiny_mce/tiny_mce.js"; }
-	elseif (file_exists("includes/javascript/tiny_mce/tiny_mce.js")) { $tiny_mce = "includes/javascript/tiny_mce/tiny_mce.js"; }
+	if (file_exists("includes/javascript/tiny_mce/tiny_mce.js")) { $tiny_mce = "includes/javascript/tiny_mce/tiny_mce.js"; }
 	else $tiny_mce = '';
 	if($tiny_mce) {
 	echo '<script language="javascript" type="text/javascript" src="' . $tiny_mce . '"></script>
@@ -467,10 +466,19 @@ if($_GET['action'] != 'new_product_preview') { // prevent hidden fields to be re
 	echo '",
 	language : "' . $languages_selected . '",
 	theme : "' . TINYMCE_THEME . '",
-	plugins : "table,advhr,advimage,advlink,emotions,flash,contextmenu,media,filemanager,' . $tinymce_imagemanager . '",';
+	plugins : "table,advhr,advimage,advlink,emotions,flash,contextmenu,media,filemanager,paste,' . $tinymce_imagemanager . '",
+        paste_auto_cleanup_on_paste : true,
+        paste_preprocess : function(pl, o) {
+            // Content string containing the HTML from the clipboard
+            alert(o.content);
+        },
+        paste_postprocess : function(pl, o) {
+            // Content DOM node containing the DOM structure of the clipboard
+            alert(o.node.innerHTML);
+        },';
 	// theme_advanced_buttons1_add : "fontselect,fontsizeselect",
 	echo 'theme_advanced_buttons2_add : "separator,forecolor",
-	theme_advanced_buttons2_add_before: "cut,copy,paste,separator",
+	theme_advanced_buttons2_add_before: "cut,copy,pastetext,pasteword,separator",
 	theme_advanced_buttons3_add_before : "tablecontrols,separator",
 	theme_advanced_buttons3_add : "emotions,flash,advhr,media",
 	theme_advanced_toolbar_location : "top",
