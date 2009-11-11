@@ -106,7 +106,7 @@ define ('EP_SHOW_EP_SETTINGS', true); // default is: false
 
 ////////////////////////////////////////////////////////////////////////// */
 // **** Temp directory **** 
-define ('EP_TEMP_DIRECTORY', DIR_FS_CATALOG . '../../tmp/'); 
+define ('EP_TEMP_DIRECTORY', DIR_FS_CATALOG . '../tmp/'); 
 
 
 //**** File Splitting Configuration ****
