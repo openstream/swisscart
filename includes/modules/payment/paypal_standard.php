@@ -502,7 +502,7 @@
       $email_order = STORE_NAME . "\n" .
                      EMAIL_SEPARATOR . "\n" .
                      EMAIL_TEXT_ORDER_NUMBER . ' ' . $order_id . "\n" .
-                     EMAIL_TEXT_INVOICE_URL . ' ' . tep_href_link(FILENAME_ACCOUNT_HISTORY_INFO, 'order_id=' . $order_id, 'SSL', false) . "\n" .
+                     html_entity_decode(EMAIL_TEXT_INVOICE_URL) . ' ' . tep_href_link(FILENAME_ACCOUNT_HISTORY_INFO, 'order_id=' . $order_id, 'SSL', false) . "\n" .
                      EMAIL_TEXT_DATE_ORDERED . ' ' . strftime(DATE_FORMAT_LONG) . "\n\n";
       if ($order->info['comments']) {
         $email_order .= tep_db_output($order->info['comments']) . "\n\n";
@@ -535,6 +535,8 @@
           $email_order .= $payment_class->email_footer . "\n\n";
         }
       }
+
+      $email_order .= "\n\n" . EMAIL_SIGNATURE;
 
       tep_mail($order->customer['firstname'] . ' ' . $order->customer['lastname'], $order->customer['email_address'], EMAIL_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
 
