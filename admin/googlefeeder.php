@@ -5,12 +5,14 @@
 //	Organization: Conceptual Networking
 //  Last Update: 07/15/09 by Jack_mcs at oscommerce-solution.com
 
+require('includes/configure.php');
+require(DIR_WS_FUNCTIONS . 'database.php');
  
 /*************** BEGIN MASTER SETTINGS ******************/
 
 define('SEO_ENABLED','false');    //Change to 'false' to disable if Ultimate SEO URLs is not installed
 define('FEEDNAME', 'froogle.txt');       //from your googlebase account
-define('DOMAIN_NAME', 'www.yourwebsite.com'); //your correct domain name (don't include www unless it is used)
+define('DOMAIN_NAME', HTTP_CATALOG_SERVER); //your correct domain name (don't include www unless it is used)
 define('FTP_USERNAME', 'googleFTP-username'); //created from within your googlebase account
 define('FTP_PASSWORD', 'googleFTP-password'); //created from within your googlebase account
 define('FTP_ENABLED', '0');      //set to 0 to disable
@@ -97,12 +99,12 @@ $stimer = $stimer[1] + $stimer[0];
 $OutFile = "../pub/feeds/" . FEEDNAME; 
 $destination_file = FEEDNAME;   
 $source_file = $OutFile;
-$imageURL = 'http://' . DOMAIN_NAME . '/images/';
+$imageURL = DOMAIN_NAME . '/images/';
 if(SEO_ENABLED=='true'){
    $productURL = 'product_info.php'; // ***** Revised for SEO
    $productParam = "products_id=";   // ***** Added for SEO
 }else{
-   $productURL = 'http://' . DOMAIN_NAME . '/product_info.php?products_id=';
+   $productURL = DOMAIN_NAME . '/product_info.php?products_id=';
 }
 
 $already_sent = array();
@@ -114,7 +116,7 @@ if(CONVERT_CURRENCY)
    if(SEO_ENABLED=='true'){
        $productParam="currency=" . CURRENCY_TYPE . "&products_id=";
    }else{
-       $productURL = "http://" . DOMAIN_NAME . "/product_info.php?currency=" . CURRENCY_TYPE . "&products_id=";  //where CURRENCY_TYPE is your currency type (eg. USD, EUR, GBP)
+       $productURL = DOMAIN_NAME . "/product_info.php?currency=" . CURRENCY_TYPE . "&products_id=";  //where CURRENCY_TYPE is your currency type (eg. USD, EUR, GBP)
    }
 }
 
