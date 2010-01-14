@@ -91,7 +91,7 @@
                      'text'  => 'Support');
 
   $contents[] = array('params' => 'class="infoBox"',
-                      'text'  => '<a href="http://docu.swisscart-com" target="_blank">' . BOX_ENTRY_DOCUMENTATION . '</a><br>' .
+                      'text'  => '<a href="http://docu.swisscart.com" target="_blank">' . BOX_ENTRY_DOCUMENTATION . '</a><br>' .
 					  			 '<a href="http://www.swisscart-webshop.ch" target="_blank">' . BOX_ENTRY_SUPPORT_SITE . '</a><br>' .
                                  '<a href="http://www.oscommerce.info/" target="_blank">' . BOX_ENTRY_KNOWLEDGE_BASE . '</a><br>' .
                                  '<a href="http://forums.oscommerce.com" target="_blank">' . BOX_ENTRY_SUPPORT_FORUMS . '</a><br>' .								 
