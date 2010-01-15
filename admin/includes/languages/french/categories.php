@@ -40,6 +40,7 @@ define('TEXT_PRODUCT_DATE_AVAILABLE', 'Ce produit sera en stock le %s.');
 define('TEXT_EDIT_INTRO', 'Veuillez effectuer ici tous changements n&eacute;cessaires');
 define('TEXT_EDIT_CATEGORIES_ID', 'ID de la cat&eacute;gorie&nbsp;:');
 define('TEXT_EDIT_CATEGORIES_NAME', 'Nom de la cat&eacute;gorie&nbsp;:');
+define('TEXT_EDIT_CATEGORIES_DESCRIPTION', 'Description de la cat&eacute;gorie:');
 define('TEXT_EDIT_CATEGORIES_IMAGE', 'Image de la cat&eacute;gorie&nbsp;:');
 define('TEXT_EDIT_SORT_ORDER', 'Ordre de tri&nbsp;:');
 

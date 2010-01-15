@@ -40,6 +40,7 @@ define('TEXT_PRODUCT_DATE_AVAILABLE', 'Questo prodotto sarà disponibile il%s.');
 define('TEXT_EDIT_INTRO', 'Eseguire i cambiamenti necessari');
 define('TEXT_EDIT_CATEGORIES_ID', 'ID categoria:');
 define('TEXT_EDIT_CATEGORIES_NAME', 'Nome categoria:');
+define('TEXT_EDIT_CATEGORIES_DESCRIPTION', 'Descrizione categoria:');
 define('TEXT_EDIT_CATEGORIES_IMAGE', 'Immagine per la categoria:');
 define('TEXT_EDIT_SORT_ORDER', 'Categoria num.:');
 

@@ -263,7 +263,7 @@
 					echo $category['manufacturers_name'];			
 				} else { echo HEADING_TITLE;}
 			  } else { 
-				$category_query = tep_db_query("select cd.categories_name from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.categories_id = '" . (int)$current_category_id . "' and cd.categories_id = '" . (int)$current_category_id . "' and cd.language_id = '" . (int)$languages_id . "'");
+				$category_query = tep_db_query("select cd.categories_name, cd.categories_description from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.categories_id = '" . (int)$current_category_id . "' and cd.categories_id = '" . (int)$current_category_id . "' and cd.language_id = '" . (int)$languages_id . "'");
 				$category = tep_db_fetch_array($category_query);
 				if ($category['categories_name'] != "") {echo $category['categories_name'];} else { echo HEADING_TITLE;}
 			  }
@@ -331,6 +331,12 @@
             }
         ?></td></tr>
         </table></td>
+      </tr>
+      <tr>
+        <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
+      </tr>      
+      <tr>
+        <td class="main"><?php echo $category['categories_description'] ?></td>
       </tr>
       <tr>
         <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>

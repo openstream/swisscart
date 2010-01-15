@@ -23,14 +23,13 @@ define('TEXT_ALL_CUSTOMERS', 'All customers');
 define('TEXT_NEWSLETTER_CUSTOMERS', 'To all newsletter abonnents');
 
 define('TEXT_SUBJECT_VALUE', 'Coupon from XXX');
-define('TEXT_MESSAGE_VALUE', 'Dear Ladies and Gentlemen,
+define('TEXT_MESSAGE_VALUE', 'Hi there,
 
 With this mail you receive a coupon from XXX with a value of <!WERT>.
 
 Coupon code: <!CODE>
 
-To redeem the coupon, please visit our web store at XXX!
-On the right panel you got the possibility to enter the code listed above.
+To redeem the coupon, please visit our web store at XXX and enter the coupon code during checkout!
 
 Kindest regards,');
 

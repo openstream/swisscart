@@ -23,20 +23,18 @@ define('TEXT_ALL_CUSTOMERS', 'Alle Kunden');
 define('TEXT_NEWSLETTER_CUSTOMERS', 'An alle Newsletter-Abonnenten');
 
 define('TEXT_SUBJECT_VALUE', 'Gutschein von XXX');
-define('TEXT_MESSAGE_VALUE', 'Sehr geehrte Damen und Herren,
+define('TEXT_MESSAGE_VALUE', 'Guten Tag
 
-mit dieser eMail erhalten Sie einen Gutschein von XXX im
-Wert von <!WERT>.
+Mit dieser E-Mail erhalten Sie einen Gutschein von XXX im Wert von <!WERT>.
 
 Gutscheincode: <!CODE>
 
-Um diesen einzulösen besuchen Sie bitte unseren Online-Shop unter XXX!
-Auf der rechten Seite haben Sie die Möglichkeit den oben geannten Code einzugeben.
+Um diesen einzulösen besuchen Sie bitte unseren Online-Shop unter XXX und geben Sie den Gutscheincode während des Bestellvorgangs ein.
 
-Mit freundlichen Grüßen');
+Mit freundlichen Grüssen');
 
-define('NOTICE_EMAIL_SENT_TO', 'Hinweis: eMail wurde versendet an: %s');
+define('NOTICE_E-Mail_SENT_TO', 'Hinweis: E-Mail wurde versendet an: %s');
 define('ERROR_NO_CUSTOMER_SELECTED', 'Fehler: Es wurde kein Kunde ausgew&auml;hlt.');
 
-define('TEXT_INFO_VARIABLES', 'Es können folgende zwei Variablen im eMail-Text verwendet werden: <ul><li><strong>&lt;!WERT&gt;</strong> (Anzeige des Gutscheinwertes)</strong></li><li><strong>&lt;!CODE&gt;</strong> (Anzeige des Gutscheincodes)</li></ul>');
+define('TEXT_INFO_VARIABLES', 'Es können folgende zwei Variablen im E-Mail-Text verwendet werden: <ul><li><strong>&lt;!WERT&gt;</strong> (Anzeige des Gutscheinwertes)</strong></li><li><strong>&lt;!CODE&gt;</strong> (Anzeige des Gutscheincodes)</li></ul>');
 ?>
