@@ -28,4 +28,5 @@ define('TABLE_HEADING_COMMENTS', 'Aggiungi commenti riguardo il tuo ordine');
 
 define('TITLE_CONTINUE_CHECKOUT_PROCEDURE', 'Continua la procedura di acquisto');
 define('TEXT_CONTINUE_CHECKOUT_PROCEDURE', 'per confemare quest\' ordine.');
+define('TEXT_COUPON_HEADING', 'Coupon');
 ?>

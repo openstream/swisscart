@@ -28,4 +28,5 @@ define('TABLE_HEADING_COMMENTS', 'Ajouter un commentaire &agrave; propos de votr
 
 define('TITLE_CONTINUE_CHECKOUT_PROCEDURE', 'Continuer l\'enregistrement de la commande');
 define('TEXT_CONTINUE_CHECKOUT_PROCEDURE', 'pour valider cette commande.');
+define('TEXT_COUPON_HEADING', 'Coupon / Bon');
 ?>
