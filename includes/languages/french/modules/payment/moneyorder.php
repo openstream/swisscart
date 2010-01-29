@@ -11,6 +11,6 @@
 */
 
   define('MODULE_PAYMENT_MONEYORDER_TEXT_TITLE', 'Paiement &agrave; la commande / virement');
-  define('MODULE_PAYMENT_MONEYORDER_TEXT_DESCRIPTION', 'Payable A&nbsp;:&nbsp;' . MODULE_PAYMENT_MONEYORDER_PAYTO . '<br><br>Envoyer A&nbsp;:<br>' . nl2br(STORE_NAME_ADDRESS) . '<br><br>' . 'Votre commande sera exp&eacute;di&eacute;e d&egrave;s r&eacute;ception de votre paiement.');
-  define('MODULE_PAYMENT_MONEYORDER_TEXT_EMAIL_FOOTER', "Payable A&nbsp;: ". MODULE_PAYMENT_MONEYORDER_PAYTO . "\n\nEnvoyer A&nbsp;:\n" . STORE_NAME_ADDRESS . "\n\n" . 'Votre commande sera exp&eacute;di&eacute;e d&egrave;s r&eacute;ception de votre paiement.');
+  define('MODULE_PAYMENT_MONEYORDER_TEXT_DESCRIPTION', nl2br(BANKDETAILS));
+  define('MODULE_PAYMENT_MONEYORDER_TEXT_EMAIL_FOOTER', BANKDETAILS);
 ?>
