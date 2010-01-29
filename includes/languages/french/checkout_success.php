@@ -15,7 +15,7 @@ define('NAVBAR_TITLE_2', 'Succ&egrave;s');
 
 define('HEADING_TITLE', 'Votre commande a &eacute;t&eacute; valid&eacute;e&nbsp;!');
 
-define('TEXT_SUCCESS', 'Votre commande a &eacute;t&eacute; enregistr&eacute;e avec succ&egrave;s&nbsp;! Vos produits arriveront &agrave; destination d\'ici 2 &agrave; 5 jours ouvrables.');
+define('TEXT_SUCCESS', 'Votre commande a &eacute;t&eacute; enregistr&eacute;e avec succ&egrave;s&nbsp;!');
 define('TEXT_NOTIFY_PRODUCTS', 'Veuillez m\'avertir des mises &agrave; jour des produits que j\'ai s&eacute;lectionn&eacute;s ci-dessous&nbsp;:');
 define('TEXT_SEE_ORDERS', 'Vous pouvez consulter l\'historique de vos commandes en allant &agrave; la page <a href="' . tep_href_link(FILENAME_ACCOUNT, '', 'SSL') . '">\'Mon compte\'</a> et en cliquant sur <a href="' . tep_href_link(FILENAME_ACCOUNT_HISTORY, '', 'SSL') . '">\'Historique\'</a>.');
 define('TEXT_CONTACT_STORE_OWNER', 'Pour toutes questions, veuillez vous adresser au <a href="' . tep_href_link(FILENAME_CONTACT_US) . '">responsable de la boutique en ligne</a>.');
