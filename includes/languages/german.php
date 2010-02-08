@@ -320,7 +320,7 @@ define('TEXT_CCVAL_ERROR_INVALID_DATE', 'Das "Gültig bis" Datum ist ungültig. Bi
 define('TEXT_CCVAL_ERROR_INVALID_NUMBER', 'Die "Kreditkartennummer", die Sie angegeben haben, ist ungültig.<br>Bitte korrigieren Sie Ihre Angaben.');
 define('TEXT_CCVAL_ERROR_UNKNOWN_CARD', 'Die ersten 4 Ziffern Ihrer Kreditkarte sind: %s. Wenn diese Angaben stimmen, wird dieser Kartentyp leider nicht akzeptiert.<br>Bitte korrigieren Sie Ihre Angaben gegebenfalls.');
 
-define('FOOTER_TEXT_BODY', 'Copyright &copy; ' . date('Y') . ' <a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . STORE_NAME . '</a>&nbsp;|&nbsp;powered by <a href="http://www.swisscart.com" target="_blank">swisscart&reg;</a>');
+define('FOOTER_TEXT_BODY', 'Copyright &copy; ' . date('Y') . ' <a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . STORE_NAME . '</a>&nbsp;|&nbsp;powered by <a href="http://www.swisscart-webshop.ch" target="_blank">swisscart&reg;</a>');
 
 define('TEXT_XSELL_PRODUCTS', 'Verwandte Produkte');
 
