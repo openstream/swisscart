@@ -17,7 +17,7 @@
  if(FEATURED_PRODUCTS_DISPLAY == 'true')
  {
   $featured_products_category_id = $new_products_category_id;
-  $cat_name_query = tep_db_query("select categories_name from " . TABLE_CATEGORIES_DESCRIPTION . " where categories_id = '" . $featured_products_category_id . "' limit 1");
+  $cat_name_query = tep_db_query("select categories_name from " . TABLE_CATEGORIES_DESCRIPTION . " where categories_id = '" . $featured_products_category_id . "' and language_id = '" . $languages_id . "' limit 1");
   $cat_name_fetch = tep_db_fetch_array($cat_name_query);
   $cat_name = $cat_name_fetch['categories_name'];
   $info_box_contents = array();
