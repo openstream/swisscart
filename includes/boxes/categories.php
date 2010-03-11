@@ -176,7 +176,8 @@ $output .= '</ul></li></ul></li></ul></li></ul></li>'."\n";
         }
 	
         if (tep_has_category_subcategories($key) && $classname_for_parent) {
-            $this_parent_class = ' class="'.$classname_for_parent.'"';
+            // disabled because it's not generating valid markup
+			//$this_parent_class = ' class="'.$classname_for_parent.'"';
         } else {
             $this_parent_class = '';		
 		    }				
@@ -186,7 +187,7 @@ $output .= '</ul></li></ul></li></ul></li></ul></li>'."\n";
         if (SHOW_COUNTS == 'true') {
             $products_in_category = tep_count_products_in_category($key);
             if ($products_in_category > 0) {
-                $output .= '&nbsp;' .'</a>'. '(' . $products_in_category . ')';
+                $output .= '&nbsp;(' . $products_in_category . ')';
             }
         }
 		
