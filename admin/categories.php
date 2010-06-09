@@ -468,7 +468,7 @@ if($_GET['action'] != 'new_product_preview') { // prevent hidden fields to be re
 	echo '",
 	language : "' . $languages_selected . '",
 	theme : "' . TINYMCE_THEME . '",
-	plugins : "table,advhr,advimage,advlink,emotions,flash,contextmenu,media,filemanager,paste,' . $tinymce_imagemanager . '",
+	plugins : "table,advhr,advimage,advlink,flash,contextmenu,media,filemanager,paste,' . $tinymce_imagemanager . '",
         paste_auto_cleanup_on_paste : true,
         paste_preprocess : function(pl, o) {
             // Content string containing the HTML from the clipboard

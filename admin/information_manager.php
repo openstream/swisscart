@@ -165,7 +165,7 @@ paste_postprocess : function(pl, o) {
 echo 'theme_advanced_buttons2_add : "separator,preview,separator,forecolor,backcolor",
 theme_advanced_buttons2_add_before: "cut,copy,pastetext,pasteword,separator",
 theme_advanced_buttons3_add_before : "tablecontrols,separator",
-theme_advanced_buttons3_add : "emotions,flash,advhr,separator,print,media",
+theme_advanced_buttons3_add : "flash,advhr,separator,print,media",
 theme_advanced_toolbar_location : "top",
 theme_advanced_toolbar_align : "left",
 theme_advanced_path_location : "bottom",
