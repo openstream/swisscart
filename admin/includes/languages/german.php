@@ -77,7 +77,7 @@ define('BOX_CATALOG_CATEGORIES_PRODUCTS_ATTRIBUTES', 'Produktoptionen');
 define('BOX_CATALOG_MANUFACTURERS', 'Hersteller');
 define('BOX_CATALOG_REVIEWS', 'Produktbewertungen');
 define('BOX_CATALOG_SPECIALS', 'Sonderangebote');
-define('BOX_CATALOG_FEATURED_PRODUCTS', 'Empfohlene Artikel');
+define('BOX_CATALOG_FEATURED_PRODUCTS', 'Aktionen');
 define('BOX_CATALOG_XSELL', 'Cross-Selling');
 define('BOX_CATALOG_PRODUCTS_EXPECTED', 'erwartete Artikel');
 
@@ -311,4 +311,7 @@ define('WARNING_FILE_UPLOADS_DISABLED', 'Warning: File uploads are disabled in t
 
 define('BOX_MODULES_STS', 'STS');
 define('BOX_CATALOG_COUPONS', 'Coupons');
-?>
+define('BOX_FLASH_CAROUSEL_PRODUCTS', 'Flash Produkte');
+
+define('TEXT_SEARCH_FILTER', 'Suchen: ');
+

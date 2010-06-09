@@ -1,26 +1,28 @@
 <?php
-/* $Id$ 
-osCommerce, Open Source E-Commerce Solutions 
-http://www.oscommerce.com 
-Copyright (c) 2002 osCommerce 
+/* $Id$
+osCommerce, Open Source E-Commerce Solutions
+http://www.oscommerce.com
+Copyright (c) 2002 osCommerce
 
-Released under the GNU General Public License 
+Released under the GNU General Public License
 xsell.php
-Original Idea From Isaac Mualem im@imwebdesigning.com <mailto:im@imwebdesigning.com> 
+Original Idea From Isaac Mualem im@imwebdesigning.com <mailto:im@imwebdesigning.com>
 Complete Recoding From Stephen Walker admin@snjcomputers.com
-*/ 
+*/
 
   require('includes/application_top.php');
-  require(DIR_WS_CLASSES . 'currencies.php'); 
-   $currencies = new currencies(); 
+  require(DIR_WS_CLASSES . 'currencies.php');
+   $currencies = new currencies();
+  define('CURRENT_PAGE', basename($PHP_SELF));
+
   switch($_GET['action']){
 	  case 'update_cross' :
 		if ($_POST['product']){
 	    foreach ($_POST['product'] as $temp_prod){
-          tep_db_query('delete from ' . TABLE_PRODUCTS_XSELL . ' where xsell_id = "'.$temp_prod.'" and products_id = "'.$_GET['add_related_product_ID'].'"'); 
+          tep_db_query('delete from ' . TABLE_PRODUCTS_XSELL . ' where xsell_id = "'.$temp_prod.'" and products_id = "'.$_GET['add_related_product_ID'].'"');
 	    }
 	  }
-	  
+
 		$sort_start_query = tep_db_query('select sort_order from ' . TABLE_PRODUCTS_XSELL . ' where products_id = "'.$_GET['add_related_product_ID'].'" order by sort_order desc limit 1');
         $sort_start = tep_db_fetch_array($sort_start_query);
 
@@ -32,14 +34,14 @@ Complete Recoding From Stephen Walker admin@snjcomputers.com
 			$insert_array = array('products_id' => $_GET['add_related_product_ID'],
 				                  'xsell_id' => $temp,
 				                  'sort_order' => $sort);
-              tep_db_perform(TABLE_PRODUCTS_XSELL, $insert_array); 
+              tep_db_perform(TABLE_PRODUCTS_XSELL, $insert_array);
 		}
 		}
         $messageStack->add(CROSS_SELL_SUCCESS, 'success');
 	   break;
 	  case 'update_sort' :
-        foreach ($_POST as $key_a => $value_a){ 
-         tep_db_query('update ' . TABLE_PRODUCTS_XSELL . ' set sort_order = "' . $value_a . '" where xsell_id = "' . $key_a . '"'); 
+        foreach ($_POST as $key_a => $value_a){
+         tep_db_query('update ' . TABLE_PRODUCTS_XSELL . ' set sort_order = "' . $value_a . '" where xsell_id = "' . $key_a . '"');
 	    }
         $messageStack->add(SORT_CROSS_SELL_SUCCESS, 'success');
 	   break;
@@ -79,31 +81,31 @@ text-align:center;
 /*/*/border:1px solid #000000;/* */
 }
 </style>
-<script language="JavaScript1.2"> 
+<script language="JavaScript1.2">
 
-function cOn(td) 
-{ 
-if(document.getElementById||(document.all && !(document.getElementById))) 
-{ 
-td.style.backgroundColor="#CCCCCC"; 
-} 
-} 
+function cOn(td)
+{
+if(document.getElementById||(document.all && !(document.getElementById)))
+{
+td.style.backgroundColor="#CCCCCC";
+}
+}
 
-function cOnA(td) 
-{ 
-if(document.getElementById||(document.all && !(document.getElementById))) 
-{ 
-td.style.backgroundColor="#CCFFFF"; 
-} 
-} 
+function cOnA(td)
+{
+if(document.getElementById||(document.all && !(document.getElementById)))
+{
+td.style.backgroundColor="#CCFFFF";
+}
+}
 
-function cOut(td) 
-{ 
-if(document.getElementById||(document.all && !(document.getElementById))) 
-{ 
-td.style.backgroundColor="DFE4F4"; 
-} 
-} 
+function cOut(td)
+{
+if(document.getElementById||(document.all && !(document.getElementById)))
+{
+td.style.backgroundColor="DFE4F4";
+}
+}
 </script>
 </head>
 <body marginwidth="0" marginheight="0" topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0" bgcolor="#FFFFFF">
@@ -131,21 +133,83 @@ td.style.backgroundColor="DFE4F4";
    <tr>
     <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '15');?></td>
    </tr>
-  </table>  
+  </table>
 
 <?php
   if ($_GET['add_related_product_ID'] == ''){
 ?>
+  <table border="0" cellpadding="0" cellspacing="0">
+       <tr>
+         <td align="left" colspan="2" class="main searchfields"><?php
+          // search filter begin
+            $search_terms = $_REQUEST['search_terms'];
+            $search_params = $pr_name = $pr_model = '';
+            $temp = preg_split ('/[\s,]/', trim($search_terms));
+            if (count($temp)>0){
+              foreach ($temp as $word){
+                if (tep_not_null($word)){
+                  $pr_name .= 'pd.products_name like "%'.$word.'%" and ';
+                  $pr_model .= 'p.products_model like "%'.$word.'%" and ';
+                }
+              }
+            }
+            if (tep_not_null($pr_name)){
+              $search_params .= ' and ('.substr($pr_name, 0, strlen($pr_name)-4).') or ('.substr($pr_model, 0, strlen($pr_model)-4).')';
+            }
+           echo tep_draw_form('search_cross', FILENAME_XSELL_PRODUCTS, '', 'get');
+           foreach($_GET as $name => $value){
+             if(!in_array($name, array('action', 'search_terms','x', 'y') )){
+               echo tep_draw_hidden_field($name, $value)."\n";
+             }
+           }
+           echo '<table border="0" cellpadding="0" cellspacing="0" width="100%">'.
+                  '<tr>'.
+                    '<td class="main" style="text-align: right; vertical-align: middle;">'. TEXT_SEARCH_FILTER. tep_draw_input_field('search_terms', '', 'size="65"'). '</td>'.
+                    '<td class="main" style="padding-left: 5px;">'. tep_image_submit('button_search.gif', IMAGE_SEARCH) . '</td>'.
+                '</table> ';
+           echo '</form>';
+           // search filter end
+         ?></td>
+       </tr>
+  </table>
+<?php
+  // process sort order:
+  $listing = $_GET['listing'];
+  switch($listing){
+    case 'id':
+      $order = 'p.products_id';
+      break;
+    case 'productname':
+      $order = 'pd.products_name';
+      break;
+    case 'model':
+    default:
+      $listing = 'model';
+      $order = 'p.products_model asc';
+  }
+?>
   <table border="0" cellspacing="1" cellpadding="2" align="left">
    <tr class="dataTableHeadingRow">
-    <td class="dataTableHeadingContent" width="75"><?php echo TABLE_HEADING_PRODUCT_ID;?></td>
-    <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_PRODUCT_MODEL;?></td>
-    <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_PRODUCT_NAME;?></td>
+    <td class="dataTableHeadingContent" width="75" style="white-space: nowrap; padding: 0 5px 0 5px;"><?php
+      echo ($listing=='id' ? tep_image(DIR_WS_IMAGES.'icons/arrow_down.gif', '', '', '', 'style="display: table-cell;vertical-align: middle; padding-right: 3px;"').TABLE_HEADING_PRODUCT_ID
+                           : tep_image(DIR_WS_IMAGES.'icons/arrow_down_grey.png', '', '', '', 'style="display: table-cell;vertical-align: middle; padding-right: 3px; white-space: nowrap;"').'<a href="'.tep_href_link(CURRENT_PAGE, tep_get_all_get_params(array('listing')).'listing=id').'">'.  TABLE_HEADING_PRODUCT_ID . '</a>');
+    ?></td>
+    <td class="dataTableHeadingContent" style="white-space: nowrap; padding: 0 5px 0 5px;"><?php
+      echo ($listing=='model'?tep_image(DIR_WS_IMAGES.'icons/arrow_down.gif', '', '', '', 'style="display: table-cell;vertical-align: middle; padding-right: 3px;"').TABLE_HEADING_PRODUCT_MODEL
+                             :tep_image(DIR_WS_IMAGES.'icons/arrow_down_grey.png', '', '', '', 'style="display: table-cell;vertical-align: middle; padding-right: 3px; white-space: nowrap;"').'<a href="'.tep_href_link(CURRENT_PAGE, tep_get_all_get_params(array('listing')).'listing=model').'">'. TABLE_HEADING_PRODUCT_MODEL . '</a>');
+    ?></td>
+    <td class="dataTableHeadingContent">&nbsp;<?php
+      echo ($listing=='productname'?tep_image(DIR_WS_IMAGES.'icons/arrow_down.gif', '', '', '', 'style="display: table-cell;vertical-align: middle; padding-right: 3px;"') . TABLE_HEADING_PRODUCT_NAME
+                                   :tep_image(DIR_WS_IMAGES.'icons/arrow_down_grey.png', '', '', '', 'style="display: table-cell;vertical-align: middle; padding-right: 3px; white-space: nowrap;"').'<a href="'.tep_href_link(CURRENT_PAGE, tep_get_all_get_params(array('listing')).'listing=productname').'">'. TABLE_HEADING_PRODUCT_NAME . '</a>') ;
+    ?></td>
     <td class="dataTableHeadingContent" nowrap><?php echo TABLE_HEADING_CURRENT_SELLS;?></td>
     <td class="dataTableHeadingContent" colspan="2" nowrap align="center"><?php echo TABLE_HEADING_UPDATE_SELLS;?></td>
    </tr>
-<?php 
-    $products_query_raw = 'select p.products_id, p.products_model, pd.products_name, p.products_id from '.TABLE_PRODUCTS.' p, '.TABLE_PRODUCTS_DESCRIPTION.' pd where p.products_id = pd.products_id and pd.language_id = "'.(int)$languages_id.'" order by p.products_id asc';
+<?php
+    $products_query_raw = 'select p.products_id, p.products_model, pd.products_name, p.products_id '.
+                          ' from '.TABLE_PRODUCTS.' p, '.TABLE_PRODUCTS_DESCRIPTION.' pd '.
+                          ' where p.products_id = pd.products_id and pd.language_id = "'.(int)$languages_id.'" '.$search_params.
+                          ' order by '. $order;
     $products_split = new splitPageResults($HTTP_GET_VARS['page'], MAX_DISPLAY_SEARCH_RESULTS, $products_query_raw, $products_query_numrows);
     $products_query = tep_db_query($products_query_raw);
     while ($products = tep_db_fetch_array($products_query)) {
@@ -203,32 +267,87 @@ td.style.backgroundColor="DFE4F4";
 ?>
   <table border="0" cellspacing="0" cellpadding="0" align="left">
    <tr>
-    <td><?php echo tep_draw_form('update_cross', FILENAME_XSELL_PRODUCTS, tep_get_all_get_params(array('action')) . 'action=update_cross', 'post');?><table cellpadding="1" cellspacing="1" border="0">
-	 <tr>
-	  <td colspan="6"><table cellpadding="3" cellspacing="0" border="0" width="100%">
-	   <tr>
-	    <td valign="top" align="left" colspan="2"><span class="main"><?php echo TEXT_SETTING_SELLS.': <strong>'.$products_name['products_name'].'</strong> ('.TEXT_MODEL.': '.$products_name['products_model'].') ('.TEXT_PRODUCT_ID.': '.$_GET['add_related_product_ID'].')';?>	</span></td>
-	   </tr>
-	   <tr>
-	    <td align="right"><?php echo tep_image('../images/'.$products_name['products_image'], $products_name['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT);?></td>
-	    <td align="right" valign="bottom"><?php echo tep_image_submit('button_update.gif') . '&nbsp;<a href="'.tep_href_link(FILENAME_XSELL_PRODUCTS, 'men_id=catalog').'">' . tep_image_button('button_cancel.gif') . '</a>';?></td>
-	   </tr>
-	   <tr>
-	     <td align="right">&nbsp;</td>
-	     <td align="right" valign="bottom">&nbsp;</td>
-	     </tr>
-	  </table></td>
-	 </tr>
+    <td>
+      <table cellpadding="3" cellspacing="0" border="0" width="100%">
+       <tr>
+        <td valign="top" align="left" colspan="2"><span class="main"><?php echo TEXT_SETTING_SELLS.': <strong>'.$products_name['products_name'].'</strong> ('.TEXT_MODEL.': '.$products_name['products_model'].') ('.TEXT_PRODUCT_ID.': '.$_GET['add_related_product_ID'].')';?>  </span></td>
+       </tr>
+       <tr>
+        <td align="right" colspan="2"><?php echo tep_image('../images/'.$products_name['products_image'], $products_name['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT);?></td>
+       </tr>
+       <tr>
+         <td align="left" colspan="2" class="main searchfields"><?php
+          // search filter begin
+            $search_terms = $_REQUEST['search_terms'];
+            $search_params = $pr_name = $pr_model = '';
+            $temp = preg_split ('/[\s,]/', trim($search_terms));
+            if (count($temp)>0){
+              foreach ($temp as $word){
+                if (tep_not_null($word)){
+                  $pr_name .= 'pd.products_name like "%'.$word.'%" and ';
+                  $pr_model .= 'p.products_model like "%'.$word.'%" and ';
+                }
+              }
+            }
+            if (tep_not_null($pr_name)){
+              $search_params .= ' and ('.substr($pr_name, 0, strlen($pr_name)-4).') or ('.substr($pr_model, 0, strlen($pr_model)-4).')';
+            }
+           echo tep_draw_form('search_cross', FILENAME_XSELL_PRODUCTS, '', 'get');
+           foreach($_GET as $name => $value){
+             if(!in_array($name, array('action', 'search_terms','x', 'y') )){
+               echo tep_draw_hidden_field($name, $value)."\n";
+             }
+           }
+           echo '<table border="0" cellpadding="0" cellspacing="0" width="100%">'.
+                  '<tr>'.
+                    '<td class="main" style="text-align: right; vertical-align: middle;">'. TEXT_SEARCH_FILTER. tep_draw_input_field('search_terms', '', 'size="65"'). '</td>'.
+                    '<td class="main" style="padding-left: 5px;">'. tep_image_submit('button_search.gif', IMAGE_SEARCH) . '</td>'.
+                '</table> ';
+           echo '</form>';
+           // search filter end
+         ?></td>
+       </tr>
+      </table>
+<?php echo tep_draw_form('update_cross', FILENAME_XSELL_PRODUCTS, tep_get_all_get_params(array('action')) . 'action=update_cross', 'post');
+  // process sort order:
+  $listing = $_GET['listing'];
+  switch($listing){
+    case 'id':
+      $order = 'p.products_id';
+      break;
+    case 'productname':
+      $order = 'pd.products_name';
+      break;
+    case 'model':
+    default:
+      $listing = 'model';
+      $order = 'p.products_model asc';
+  }
+?>
+      <table cellpadding="1" cellspacing="1" border="0">
      <tr class="dataTableHeadingRow">
-      <td class="dataTableHeadingContent" width="75">&nbsp;<?php echo TABLE_HEADING_PRODUCT_ID;?>&nbsp;</td>
-      <td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_PRODUCT_MODEL;?>&nbsp;</td>
-	  <td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_PRODUCT_IMAGE;?>&nbsp;</td>
-	  <td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_CROSS_SELL_THIS;?>&nbsp;</td>
-      <td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_PRODUCT_NAME;?>&nbsp;</td>
-	  <td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_PRODUCT_PRICE;?>&nbsp;</td>
+      <td class="dataTableHeadingContent" width="75" style="white-space: nowrap; padding: 0 5px 0 5px;"><?php
+        echo ($listing=='id' ? tep_image(DIR_WS_IMAGES.'icons/arrow_down.gif', '', '', '', 'style="display: table-cell;vertical-align: middle; padding-right: 3px;"').TABLE_HEADING_PRODUCT_ID
+                             : tep_image(DIR_WS_IMAGES.'icons/arrow_down_grey.png', '', '', '', 'style="display: table-cell;vertical-align: middle; padding-right: 3px; white-space: nowrap;"').'<a href="'.tep_href_link(CURRENT_PAGE, tep_get_all_get_params(array('listing')).'listing=id').'">'.  TABLE_HEADING_PRODUCT_ID . '</a>');
+      ?></td>
+      <td class="dataTableHeadingContent" style="white-space: nowrap; padding: 0 5px 0 5px;"><?php
+        echo ($listing=='model'?tep_image(DIR_WS_IMAGES.'icons/arrow_down.gif', '', '', '', 'style="display: table-cell;vertical-align: middle; padding-right: 3px;"').TABLE_HEADING_PRODUCT_MODEL
+                               :tep_image(DIR_WS_IMAGES.'icons/arrow_down_grey.png', '', '', '', 'style="display: table-cell;vertical-align: middle; padding-right: 3px; white-space: nowrap;"').'<a href="'.tep_href_link(CURRENT_PAGE, tep_get_all_get_params(array('listing')).'listing=model').'">'. TABLE_HEADING_PRODUCT_MODEL . '</a>');
+      ?></td>
+	    <td class="dataTableHeadingContent" style="white-space: nowrap; padding: 0 5px 0 5px;"><?php echo TABLE_HEADING_PRODUCT_IMAGE;?></td>
+	    <td class="dataTableHeadingContent" style="white-space: nowrap; padding: 0 5px 0 5px;"><?php echo TABLE_HEADING_CROSS_SELL_THIS;?></td>
+      <td class="dataTableHeadingContent">&nbsp;<?php
+        echo ($listing=='productname'?tep_image(DIR_WS_IMAGES.'icons/arrow_down.gif', '', '', '', 'style="display: table-cell;vertical-align: middle; padding-right: 3px;"') . TABLE_HEADING_PRODUCT_NAME
+                                     :tep_image(DIR_WS_IMAGES.'icons/arrow_down_grey.png', '', '', '', 'style="display: table-cell;vertical-align: middle; padding-right: 3px; white-space: nowrap;"').'<a href="'.tep_href_link(CURRENT_PAGE, tep_get_all_get_params(array('listing')).'listing=productname').'">'. TABLE_HEADING_PRODUCT_NAME . '</a>') ;
+      ?></td>
+	  <td class="dataTableHeadingContent" style="white-space: nowrap; padding: 0 5px 0 5px;"><?php echo TABLE_HEADING_PRODUCT_PRICE;?>&nbsp;</td>
 	 </tr>
 <?php
-    $products_query_raw = 'select p.products_id, p.products_model, p.products_image, p.products_price, pd.products_name, p.products_id from '.TABLE_PRODUCTS.' p, '.TABLE_PRODUCTS_DESCRIPTION.' pd where p.products_id = pd.products_id and pd.language_id = "'.(int)$languages_id.'" order by p.products_id asc';
+    $products_query_raw = 'select p.products_id, p.products_model, p.products_image, p.products_price, pd.products_name, p.products_id '.
+                          ' from '.TABLE_PRODUCTS.' p, '.TABLE_PRODUCTS_DESCRIPTION.' pd '.
+                          ' where p.products_id = pd.products_id and pd.language_id = "'.(int)$languages_id.'" '.
+                                  $search_params.
+                          ' order by '.$order;
     $products_split = new splitPageResults($HTTP_GET_VARS['page'], MAX_DISPLAY_SEARCH_RESULTS, $products_query_raw, $products_query_numrows);
     $products_query = tep_db_query($products_query_raw);
     while ($products = tep_db_fetch_array($products_query)) {
@@ -245,6 +364,12 @@ td.style.backgroundColor="DFE4F4";
 <?php
     }
 ?>
+     <tr bgcolor='#DFE4F4'>
+      <td class="dataTableContent" align="right" valign="bottom" colspan="6"><?php
+        echo tep_image_submit('button_update.gif') .
+             '&nbsp;<a href="'.tep_href_link(FILENAME_XSELL_PRODUCTS, 'men_id=catalog').'">' . tep_image_button('button_cancel.gif') . '</a>';
+      ?></td>
+     </tr>
 	</table></form></td>
    </tr>
    <tr>
@@ -257,38 +382,94 @@ td.style.backgroundColor="DFE4F4";
    </tr>
   </table>
 <?php
-}elseif($_GET['add_related_product_ID'] != '' && $_GET['sort'] != ''){
+} elseif( $_GET['add_related_product_ID'] != '' && $_GET['sort'] != ''){
 	$products_name_query = tep_db_query('select pd.products_name, p.products_model, p.products_image from '.TABLE_PRODUCTS.' p, '.TABLE_PRODUCTS_DESCRIPTION.' pd where p.products_id = "'.$_GET['add_related_product_ID'].'" and p.products_id = pd.products_id and pd.language_id ="'.(int)$languages_id.'"');
 	$products_name = tep_db_fetch_array($products_name_query);
 ?>
-  <table border="0" cellspacing="0" cellpadding="0" align="left">
-   <tr>
-    <td><?php echo tep_draw_form('update_sort', FILENAME_XSELL_PRODUCTS, tep_get_all_get_params(array('action')) . 'action=update_sort', 'post');?><table cellpadding="1" cellspacing="1" border="0">
-	 <tr>
-	  <td colspan="6"><table cellpadding="3" cellspacing="0" border="0" width="100%">
-	   <tr>
-	    <td valign="top" colspan="2"><span class="main"><?php echo TEXT_SORT_ORDER . ': <strong>' . $products_name['products_name'].'</strong> (Model: '.$products_name['products_model'].') (Product ID: '.$_GET['add_related_product_ID'].')';?></span></td>
-	   </tr>
-	   <tr>
-	    <td align="right"><?php echo tep_image('../images/'.$products_name['products_image']);?></td>
-	    <td align="right" valign="bottom"><?php echo tep_image_submit('button_update.gif') . '&nbsp;<a href="'.tep_href_link(FILENAME_XSELL_PRODUCTS, 'men_id=catalog').'">' . tep_image_button('button_cancel.gif') . '</a>';?></td>
-	   </tr>
-	   <tr>
-	     <td align="right">&nbsp;</td>
-	     <td align="right" valign="bottom">&nbsp;</td>
-	     </tr>
-	  </table></td>
-	 </tr>
+  <table cellpadding="3" cellspacing="0" border="0" width="100%">
+    <tr>
+      <td valign="top"><span class="main"><?php echo TEXT_SORT_ORDER . ': <strong>' . $products_name['products_name'].'</strong> (Model: '.$products_name['products_model'].') (Product ID: '.$_GET['add_related_product_ID'].')';?></span></td>
+    </tr>
+    <tr>
+      <td align="right"><?php echo tep_image('../images/'.$products_name['products_image']);?></td>
+    </tr>
+       <tr>
+         <td align="left" class="main searchfields"><?php
+          // search filter begin
+            $search_terms = $_REQUEST['search_terms'];
+            $search_params = $pr_name = $pr_model = '';
+            $temp = preg_split ('/[\s,]/', trim($search_terms));
+            if (count($temp)>0){
+              foreach ($temp as $word){
+                if (tep_not_null($word)){
+                  $pr_name .= 'pd.products_name like "%'.$word.'%" and ';
+                  $pr_model .= 'p.products_model like "%'.$word.'%" and ';
+                }
+              }
+            }
+            if (tep_not_null($pr_name)){
+              $search_params .= ' and ('.substr($pr_name, 0, strlen($pr_name)-4).') or ('.substr($pr_model, 0, strlen($pr_model)-4).')';
+            }
+           echo tep_draw_form('search_cross', FILENAME_XSELL_PRODUCTS, '', 'get');
+           foreach($_GET as $name => $value){
+             if(!in_array($name, array('action', 'search_terms','x', 'y') )){
+               echo tep_draw_hidden_field($name, $value)."\n";
+             }
+           }
+           echo '<table border="0" cellpadding="0" cellspacing="0" width="100%">'.
+                  '<tr>'.
+                    '<td class="main" style="text-align: right; vertical-align: middle;">'. TEXT_SEARCH_FILTER. tep_draw_input_field('search_terms', '', 'size="65"'). '</td>'.
+                    '<td class="main" style="padding-left: 5px;">'. tep_image_submit('button_search.gif', IMAGE_SEARCH) . '</td>'.
+                '</table> ';
+           echo '</form>';
+           // search filter end
+         ?></td>
+       </tr>
+  </table>
+  <?php echo tep_draw_form('update_sort', FILENAME_XSELL_PRODUCTS, tep_get_all_get_params(array('action')) . 'action=update_sort', 'post');
+  // process sort order:
+  $listing = $_GET['listing'];
+  switch($listing){
+    case 'id':
+      $order = 'p.products_id';
+      break;
+    case 'productname':
+      $order = 'pd.products_name';
+      break;
+    case 'model':
+      $order = 'p.products_model asc';
+    default:
+    case 'sort':
+      $listing = 'sort';
+      $order = 'x.sort_order asc';
+  }
+    ?>
+    <table cellpadding="1" cellspacing="1" border="0" width="100%">
      <tr class="dataTableHeadingRow">
-	  <td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_PRODUCT_ID;?>&nbsp;</td>
-	  <td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_PRODUCT_MODEL;?>&nbsp;</td>
-	  <td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_PRODUCT_IMAGE;?>&nbsp;</td>
-	  <td class="dataTableHeadingContent" align="center">&nbsp;<?php echo TABLE_HEADING_PRODUCT_NAME;?>&nbsp;</td>
-	  <td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_PRODUCT_PRICE;?>&nbsp;</td>
-	  <td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_PRODUCT_SORT;?>&nbsp;</td>
-	 </tr>
+      <td class="dataTableHeadingContent" width="75" style="white-space: nowrap; padding: 0 5px 0 5px;"><?php
+        echo ($listing=='id' ? tep_image(DIR_WS_IMAGES.'icons/arrow_down.gif', '', '', '', 'style="display: table-cell;vertical-align: middle; padding-right: 3px;"').TABLE_HEADING_PRODUCT_ID
+                             : tep_image(DIR_WS_IMAGES.'icons/arrow_down_grey.png', '', '', '', 'style="display: table-cell;vertical-align: middle; padding-right: 3px; white-space: nowrap;"').'<a href="'.tep_href_link(CURRENT_PAGE, tep_get_all_get_params(array('listing')).'listing=id').'">'.  TABLE_HEADING_PRODUCT_ID . '</a>');
+      ?></td>
+      <td class="dataTableHeadingContent" style="white-space: nowrap; padding: 0 5px 0 5px;"><?php
+        echo ($listing=='model'?tep_image(DIR_WS_IMAGES.'icons/arrow_down.gif', '', '', '', 'style="display: table-cell;vertical-align: middle; padding-right: 3px;"').TABLE_HEADING_PRODUCT_MODEL
+                               :tep_image(DIR_WS_IMAGES.'icons/arrow_down_grey.png', '', '', '', 'style="display: table-cell;vertical-align: middle; padding-right: 3px; white-space: nowrap;"').'<a href="'.tep_href_link(CURRENT_PAGE, tep_get_all_get_params(array('listing')).'listing=model').'">'. TABLE_HEADING_PRODUCT_MODEL . '</a>');
+      ?></td>
+	    <td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_PRODUCT_IMAGE;?>&nbsp;</td>
+      <td class="dataTableHeadingContent">&nbsp;<?php
+        echo ($listing=='productname'?tep_image(DIR_WS_IMAGES.'icons/arrow_down.gif', '', '', '', 'style="display: table-cell;vertical-align: middle; padding-right: 3px;"') . TABLE_HEADING_PRODUCT_NAME
+                                     :tep_image(DIR_WS_IMAGES.'icons/arrow_down_grey.png', '', '', '', 'style="display: table-cell;vertical-align: middle; padding-right: 3px; white-space: nowrap;"').'<a href="'.tep_href_link(CURRENT_PAGE, tep_get_all_get_params(array('listing')).'listing=productname').'">'. TABLE_HEADING_PRODUCT_NAME . '</a>') ;
+      ?></td>
+	    <td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_PRODUCT_PRICE;?>&nbsp;</td>
+	    <td class="dataTableHeadingContent" style="white-space: nowrap; padding: 0 5px 0 5px;"><?php
+        echo ($listing=='sort'?tep_image(DIR_WS_IMAGES.'icons/arrow_down.gif', '', '', '', 'style="display: table-cell;vertical-align: middle; padding-right: 3px;"') . TABLE_HEADING_PRODUCT_SORT
+                                     :tep_image(DIR_WS_IMAGES.'icons/arrow_down_grey.png', '', '', '', 'style="display: table-cell;vertical-align: middle; padding-right: 3px; white-space: nowrap;"').'<a href="'.tep_href_link(CURRENT_PAGE, tep_get_all_get_params(array('listing')).'listing=sort').'">'. TABLE_HEADING_PRODUCT_SORT . '</a>') ;
+      ?></td>
+	   </tr>
 <?php
-    $products_query_raw = 'select p.products_id as products_id, p.products_price, p.products_image, p.products_model, pd.products_name, p.products_id, x.products_id as xproducts_id, x.xsell_id, x.sort_order, x.ID from '.TABLE_PRODUCTS.' p, '.TABLE_PRODUCTS_DESCRIPTION.' pd, '.TABLE_PRODUCTS_XSELL.' x where x.xsell_id = p.products_id and x.products_id = "'.$_GET['add_related_product_ID'].'" and p.products_id = pd.products_id and pd.language_id = "'.(int)$languages_id.'" order by x.sort_order asc';
+    $products_query_raw = ' select p.products_id as products_id, p.products_price, p.products_image, p.products_model, pd.products_name, p.products_id, x.products_id as xproducts_id, x.xsell_id, x.sort_order, x.ID '.
+                          ' from '.TABLE_PRODUCTS.' p, '.TABLE_PRODUCTS_DESCRIPTION.' pd, '.TABLE_PRODUCTS_XSELL.' x '.
+                          ' where x.xsell_id = p.products_id and x.products_id = "'.$_GET['add_related_product_ID'].'" and p.products_id = pd.products_id and pd.language_id = "'.(int)$languages_id.'" '. $search_params .
+                          ' order by '. $order;
     $products_split = new splitPageResults($HTTP_GET_VARS['page'], MAX_DISPLAY_SEARCH_RESULTS, $products_query_raw, $products_query_numrows);
 	$sort_order_drop_array = array();
 	for($i=1;$i<=$products_query_numrows;$i++){
@@ -308,17 +489,16 @@ td.style.backgroundColor="DFE4F4";
 <?php
 }
 ?>
-    </table></form></td>
-   </tr>
-   <tr>
-    <td colspan="6"><table border="0" width="100%" cellspacing="0" cellpadding="2" class="infoBoxContent">
+    </table></form>
+    <table border="0" width="100%" cellspacing="0" cellpadding="2" class="infoBoxContent">
+     <tr>
+      <td align="right" valign="bottom" colspan="2"><?php echo tep_image_submit('button_update.gif') . '&nbsp;<a href="'.tep_href_link(FILENAME_XSELL_PRODUCTS, 'men_id=catalog').'">' . tep_image_button('button_cancel.gif') . '</a>';?></td>
+     </tr>
      <tr>
       <td class="smallText" valign="top"><?php echo $products_split->display_count($products_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $HTTP_GET_VARS['page'], TEXT_DISPLAY_NUMBER_OF_PRODUCTS); ?></td>
       <td class="smallText" align="right"><?php echo $products_split->display_links($products_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $HTTP_GET_VARS['page'], tep_get_all_get_params(array('page', 'info', 'x', 'y', 'cID', 'action'))); ?></td>
      </tr>
-    </table></td>
-   </tr>
-  </table>
+    </table>
 <?php
 }
 ?>

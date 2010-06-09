@@ -10,7 +10,7 @@
 */
 
 body, td, th, textarea {
-  font-family: Verdana, Arial, sans-serif; 
+  font-family: Verdana, Arial, sans-serif;
 }
 a img {
   border: none;
@@ -62,11 +62,13 @@ ol li p { padding-top: 0; margin-top: 0; font-weight: normal; font-size: 12px; c
 
 /* data table */
 .dataTableHeadingRow { background-color: #7187BB; }
-.dataTableHeadingContent { font-size: 10px; color: #ffffff; font-weight: bold; }
+.dataTableHeadingContent, td.dataTableHeadingContent a { font-size: 10px; color: #ffffff; font-weight: bold; }
 .dataTableRow { background-color: #F0F1F1; }
 .dataTableRowSelected { background-color: #DEE4E8; }
 .dataTableRowOver { background-color: #FFFFFF; cursor: pointer; }
 .dataTableContent { font-size: 10px; color: #000000; }
+
+
 
 /* info box */
 .infoBoxHeading { font-size: 10px; color: #ffffff; background-color: #B3BAC5; }
@@ -140,9 +142,9 @@ li h2	{
 	padding: 0;
 	margin: 0;
 }
-li.nodisc { 
-	line-height: 18px;	
-	list-style-type: none; 
+li.nodisc {
+	line-height: 18px;
+	list-style-type: none;
 }
 .desc_header {
 	color: #cc0000;

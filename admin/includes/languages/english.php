@@ -316,4 +316,5 @@ define('WARNING_FILE_UPLOADS_DISABLED', 'Warning: File uploads are disabled in t
 
 define('BOX_MODULES_STS', 'STS');
 define('BOX_CATALOG_COUPONS', 'Coupons');
-?>
+
+define('TEXT_SEARCH_FILTER', 'Search: ');
