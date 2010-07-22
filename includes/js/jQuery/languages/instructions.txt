@@ -1,0 +1,8 @@
+Rename the files inside the language files to 
+
+jquery.ui.datepicker.js
+
+i.e., removing the original name scheme in order to activate each language file to
+swisscart's (and oscommerce) language naming.
+
+If a language file doesn't exist - like english - we'll use the default, American English
