@@ -138,7 +138,7 @@ function tep_image($src, $alt = '', $width = '', $height = '', $params = '') {
 
   
   // Decide whether or not we want to process this image
-  if (($width == '' && $height == '' && $page != 'popup' ) || ($width == $image_size[0] && $height == $image_size[0] && $page != 'popup')) {  
+  if (($width == '' && $height == '' && $page != 'popup' ) || ($width == $image_size[0] && $height == $image_size[1] && $page != 'popup')) {  
         if (CFG_PROCESS_GRAPHICS=="False") $calculate = false; //looks like this is a store graphic rather than product image
   }    
 
@@ -159,7 +159,18 @@ function tep_image($src, $alt = '', $width = '', $height = '', $params = '') {
       } elseif (!$width && !$height && !$over_ride) { 
         $width = $image_size[0]; 
         $height = $image_size[1]; 
-      } 
+      } else {
+        // small hack to recalculate the image thumbnail proportionally to the original dimensions
+        // recalculate width or height to ajust for the image's proportions
+        $rx = $width/$image_size[0];
+        $ry = $height/$image_size[1];
+
+        if ($rx > $ry) {
+             $width = intval($ry * $image_size[0]);
+        } else {
+             $height = intval($rx * $image_size[1]);
+        }
+      }
 
       //Encrypt the image filename if switched on
         if (CFG_ENCRYPT_FILENAMES == "True" && CFG_ENCRYPTION_KEY !="") {

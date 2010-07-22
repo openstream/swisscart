@@ -139,9 +139,9 @@
       }
     } else {
       $shipping = false;
-                
+
       tep_redirect(tep_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL'));
-    }    
+    }
   }
 
 // get all available shipping quotes
@@ -225,29 +225,29 @@ function rowOutEffect(object) {
         <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
       </tr>
       <tr>
-        <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
-          <tr>
-            <td class="main"><b><?php echo TABLE_HEADING_SHIPPING_ADDRESS; ?></b></td>
-          </tr>
-        </table></td>
+        <td class="main"><b><?php echo TABLE_HEADING_SHIPPING_ADDRESS; ?></b></td>
       </tr>
       <tr>
-        <td><table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBox">
-          <tr class="infoBoxContents">
-            <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
-              <tr>
-                <td><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td> 
-                <td align="left" width="50%" valign="top"><table border="0" cellspacing="0" cellpadding="2">
-                  <tr>
-                    <td class="main" valign="top"><?php echo tep_address_label($customer_id, $sendto, true, ' ', '<br>'); ?></td>
-                    <td><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td> 
-                  </tr>
-                </table></td>
-                <td class="main" width="50%" valign="top"><?php echo '<br><br><a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING_ADDRESS, '', 'SSL') . '">' . tep_image_button('button_change_address.gif', IMAGE_BUTTON_CHANGE_ADDRESS) . '</a>'; ?></td>                
-              </tr>
-            </table></td>
-          </tr>
-        </table></td>
+        <td>
+        <?php
+          // remove Change address link if buying without account - fix PWA security (Claudio)
+          if ($sendto != 1 && $customer_id != 0){
+            $column_width = '50%';
+            $address_link = '<td class="main" width="50%" valign="top"><br><br><a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING_ADDRESS, '', 'SSL') . '">' . tep_image_button('button_change_address.gif', IMAGE_BUTTON_CHANGE_ADDRESS) . '</a></td>';
+          } else {
+            $column_width = '100%';
+            $address_link = '';
+          }
+          ?>
+          <table border="0" width="100%" cellspacing="0" cellpadding="2">
+            <tr>
+              <td class="main" valign="top" align="left" width="<?php echo $column_width; ?>" valign="top" style="padding: 0 10px 0 10px;">
+                <?php echo tep_address_label($customer_id, $sendto, true, ' ', '<br>'); ?>
+              </td>
+              <?php echo $address_link; ?>
+            </tr>
+          </table>
+        </td>
       </tr>
       <tr>
         <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
@@ -304,7 +304,7 @@ function rowOutEffect(object) {
                     <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
                   </tr>
                 </table></td>
-                <td><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td> 
+                <td><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
               </tr>
 <?php
     } else {
@@ -361,7 +361,7 @@ function rowOutEffect(object) {
         }
 ?>
                 </table></td>
-                <td><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td> 
+                <td><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
               </tr>
 <?php
       }

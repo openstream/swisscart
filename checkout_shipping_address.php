@@ -26,6 +26,11 @@
     tep_redirect(tep_href_link(FILENAME_SHOPPING_CART));
   }
 
+  // fix PWA security (Claudio)
+  if ($customer_id == 0){
+    tep_redirect(tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL'));
+  }
+
   // needs to be included earlier to set the success message in the messageStack
   require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_CHECKOUT_SHIPPING_ADDRESS);
 

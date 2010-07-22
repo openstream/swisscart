@@ -20,10 +20,15 @@
     $navigation->set_snapshot();
     tep_redirect(tep_href_link(FILENAME_LOGIN, '', 'SSL'));
   }
+  // fix PWA security (Claudio)
 
 // if there is nothing in the customers cart, redirect them to the shopping cart page
   if ($cart->count_contents() < 1) {
     tep_redirect(tep_href_link(FILENAME_SHOPPING_CART));
+  }
+
+  if ($customer_id == 0){
+    tep_redirect(tep_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL'));
   }
 
 // needs to be included earlier to set the success message in the messageStack

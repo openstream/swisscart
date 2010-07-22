@@ -121,9 +121,9 @@ function check_form(form_name) {
 
   check_select("country", "", "<?php echo ENTRY_COUNTRY_ERROR; ?>");
 
-  check_input("telephone", <?php echo ENTRY_TELEPHONE_MIN_LENGTH; ?>, "<?php echo ENTRY_TELEPHONE_NUMBER_ERROR; ?>");
-
-<?php
+<?php if(ENTRY_TELEPHONE_REQUIRED != 'no'){
+  echo 'check_input("telephone", '. ENTRY_TELEPHONE_MIN_LENGTH .', "'. ENTRY_TELEPHONE_NUMBER_ERROR.'");'. "\n";
+}
 // PWA BOF
   if (!isset($HTTP_GET_VARS['guest'])) {
 ?>

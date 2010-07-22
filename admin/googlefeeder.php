@@ -5,9 +5,14 @@
 //	Organization: Conceptual Networking
 //  Last Update: 07/15/09 by Jack_mcs at oscommerce-solution.com
 
-require('includes/configure.php');
+	if (file_exists('includes/local/configure.php')) {
+		require_once('includes/local/configure.php');
+	} else {
+		require_once('includes/configure.php');
+	}
 require(DIR_WS_FUNCTIONS . 'database.php');
- 
+require(DIR_WS_INCLUDES . 'database_tables.php');
+
 /*************** BEGIN MASTER SETTINGS ******************/
 
 define('SEO_ENABLED','false');    //Change to 'false' to disable if Ultimate SEO URLs is not installed
@@ -36,7 +41,7 @@ define('OPTIONS_ENABLED_SHIPPING', 0);
 define('OPTIONS_ENABLED_UPC', 0);
 define('OPTIONS_ENABLED_WEIGHT', 0);
 
-//the following only matter if the matching option is enabled above. 
+//the following only matter if the matching option is enabled above.
 define('OPTIONS_AGE_RANGE', '0-9');
 define('OPTIONS_BRAND', '');
 define('OPTIONS_CONDITION', 'New');  //possible entries are New, Refurbished, Used
@@ -47,45 +52,50 @@ define('OPTIONS_MADE_IN', 'DE');
 define('OPTIONS_PAYMENT_ACCEPTED_METHODS', ''); //Acceptable values: cash, check, GoogleCheckout, Visa, MasterCard, AmericanExpress, Discover, wiretransfer
 define('OPTIONS_WEIGHT_ACCEPTED_METHODS', 'lb'); //Valid units include lb, pound, oz, ounce, g, gram, kg, kilogram.
 
-/*************** END MASTER SETTINGS ******************/ 
+/*************** END MASTER SETTINGS ******************/
 
 /*************** NO EDITS NEEDED BELOW THIS LINE *****************/
 
-require_once('../includes/configure.php');
+// Set the local configuration parameters - mainly for developers
+	if (file_exists('../includes/local/configure.php')) {
+		require_once('../includes/local/configure.php');
+	} else {
+		require_once('../includes/configure.php');
+	}
 
 if (! function_exists("tep_not_null"))
 {
-  function tep_not_null($value) {
-    if (is_array($value)) {
-      if (sizeof($value) > 0) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      if (($value != '') && (strtolower($value) != 'null') && (strlen(trim($value)) > 0)) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  }
+	function tep_not_null($value) {
+		if (is_array($value)) {
+			if (sizeof($value) > 0) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			if (($value != '') && (strtolower($value) != 'null') && (strlen(trim($value)) > 0)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
 }
 
 if(SEO_ENABLED=='true'){
-  //********************
-  // Modification for SEO
-  // Since the ultimate SEO was only installed on the public side, we will include our files from there.
-  require_once('../includes/filenames.php');
-  require_once('../includes/database_tables.php');
-  
-  include_once('../' .DIR_WS_CLASSES . 'seo.class.php');
-  $seo_urls = new SEO_URL(DEFAULT_LANGUAGE);
+	//********************
+	// Modification for SEO
+	// Since the ultimate SEO was only installed on the public side, we will include our files from there.
+	require_once('../includes/filenames.php');
+	require_once('../includes/database_tables.php');
 
-  function tep_href_link($page = '', $parameters = '', $connection = 'NONSSL', $add_session_id = true, $search_engine_safe = true) {
-     global $seo_urls;
-     return $seo_urls->href_link($page, $parameters, $connection, $add_session_id);
-  }
+	include_once('../' .DIR_WS_CLASSES . 'seo.class.php');
+	$seo_urls = new SEO_URL(DEFAULT_LANGUAGE);
+
+	function tep_href_link($page = '', $parameters = '', $connection = 'NONSSL', $add_session_id = true, $search_engine_safe = true) {
+		 global $seo_urls;
+		 return $seo_urls->href_link($page, $parameters, $connection, $add_session_id);
+	}
 }
 
 //********************
@@ -96,15 +106,15 @@ $stimer = $stimer[1] + $stimer[0];
 //  -----------
 
 
-$OutFile = "../pub/feeds/" . FEEDNAME; 
-$destination_file = FEEDNAME;   
+$OutFile = "../pub/feeds/" . FEEDNAME;
+$destination_file = FEEDNAME;
 $source_file = $OutFile;
 $imageURL = DOMAIN_NAME . '/images/';
 if(SEO_ENABLED=='true'){
-   $productURL = 'product_info.php'; // ***** Revised for SEO
-   $productParam = "products_id=";   // ***** Added for SEO
+	 $productURL = 'product_info.php'; // ***** Revised for SEO
+	 $productParam = "products_id=";   // ***** Added for SEO
 }else{
-   $productURL = DOMAIN_NAME . '/product_info.php?products_id=';
+	 $productURL = DOMAIN_NAME . '/product_info.php?products_id=';
 }
 
 $already_sent = array();
@@ -113,11 +123,11 @@ $taxCalc = ($taxRate/100) + 1;  //Do not edit
 
 if(CONVERT_CURRENCY)
 {
-   if(SEO_ENABLED=='true'){
-       $productParam="currency=" . CURRENCY_TYPE . "&products_id=";
-   }else{
-       $productURL = DOMAIN_NAME . "/product_info.php?currency=" . CURRENCY_TYPE . "&products_id=";  //where CURRENCY_TYPE is your currency type (eg. USD, EUR, GBP)
-   }
+	 if(SEO_ENABLED=='true'){
+			 $productParam="currency=" . CURRENCY_TYPE . "&products_id=";
+	 }else{
+			 $productURL = DOMAIN_NAME . "/product_info.php?currency=" . CURRENCY_TYPE . "&products_id=";  //where CURRENCY_TYPE is your currency type (eg. USD, EUR, GBP)
+	 }
 }
 
 $feed_exp_date = date('Y-m-d', time() + 2592000 );
@@ -134,49 +144,15 @@ exit();
 }
 
 $sql = "
-SELECT concat( '" . $productURL . "' ,products.products_id) AS product_url,
-products_model AS prodModel,
-manufacturers.manufacturers_name AS mfgName,
-manufacturers.manufacturers_id,
-products.products_id AS id,
-products_description.products_name AS name,
-products_description.products_description AS description,
-products.products_quantity AS quantity,
-products.products_status AS prodStatus,
-products.products_weight AS prodWeight,
-FORMAT( IFNULL(specials.specials_new_products_price, products.products_price) * " . $taxCalc . ",2) AS price,
-CONCAT( '" . $imageURL . "' ,products.products_image) AS image_url,
-products_to_categories.categories_id AS prodCatID,
-categories.parent_id AS catParentID,
-categories_description.categories_name AS catName
-FROM (categories,
-categories_description,
-products,
-products_description,
-products_to_categories)
-
-left join manufacturers on ( manufacturers.manufacturers_id = products.manufacturers_id )
-left join specials on ( specials.products_id = products.products_id AND ( ( (specials.expires_date > CURRENT_DATE) OR (specials.expires_date is NULL) OR (specials.expires_date = 0) ) AND ( specials.status = 1 ) ) )
-
-WHERE products.products_id=products_description.products_id
-AND products.products_id=products_to_categories.products_id
-AND products_to_categories.categories_id=categories.categories_id
-AND categories.categories_id=categories_description.categories_id
-ORDER BY
-products.products_id ASC
-";
+SELECT concat( '" . $productURL . "' ,p.products_id) AS product_url, products_model AS prodModel, m.manufacturers_name AS mfgName, m.manufacturers_id, p.products_id AS id, pd.products_name AS name, pd.products_description AS description, p.products_quantity AS quantity, p.products_status AS prodStatus, c.categories_status, p.products_weight AS prodWeight, FORMAT( IFNULL(s.specials_new_products_price, p.products_price) * " . $taxCalc . ",2) AS price, CONCAT( '" . $imageURL . "' ,p.products_image) AS image_url, p2c.categories_id AS prodCatID, c.parent_id AS catParentID, cd.categories_name AS catName
+FROM (" . TABLE_PRODUCTS . " p left join ". TABLE_PRODUCTS_TO_CATEGORIES. " p2c using (products_id) left join ". TABLE_CATEGORIES ." c using (categories_id)) left join ". TABLE_MANUFACTURERS ." m on ( m.manufacturers_id = p.manufacturers_id ) left join ". TABLE_SPECIALS ." s on ( s.products_id = p.products_id AND ( ( (s.expires_date > CURRENT_DATE) OR (s.expires_date is NULL) OR (s.expires_date = 0) ) AND ( s.status = 1 ))), ". TABLE_CATEGORIES_DESCRIPTION . " cd , ". TABLE_PRODUCTS_DESCRIPTION . " pd ".
+" WHERE c.categories_status=1 and p.products_status=1 and p.products_id=pd.products_id AND c.categories_id=cd.categories_id ".
+" ORDER BY p.products_id ASC";
 
 
-$catInfo = "
-SELECT
-categories.categories_id AS curCatID,
-categories.parent_id AS parentCatID,
-categories_description.categories_name AS catName
-FROM
-categories,
-categories_description
-WHERE categories.categories_id = categories_description.categories_id
-";
+$catInfo = 'SELECT c.categories_id AS curCatID, c.parent_id AS parentCatID, cd.categories_name AS catName '.
+					 ' FROM '. TABLE_CATEGORIES .' c, '. TABLE_CATEGORIES_DESCRIPTION . ' cd '.
+					 ' WHERE c.categories_status=1 and c.categories_id = cd.categories_id';
 
 function findCat($curID, $catTempPar, $catTempDes, $catIndex)
 {
@@ -295,7 +271,7 @@ while( $row = mysql_fetch_object( $result ) )
 {
 	if (isset($already_sent[$row->id])) continue; // if we've sent this one, skip the rest of the while loop
 
-	if( $row->prodStatus == 1 || (OPTIONS_ENABLED == 1 && $quantity == 1) )
+	if( ($row->prodStatus == 1 && $row->categories_status==1) || (OPTIONS_ENABLED == 1 && $quantity == 1) )
 	{
 		if (CONVERT_CURRENCY)
 		{
@@ -304,25 +280,25 @@ while( $row = mysql_fetch_object( $result ) )
 			$row->price = number_format($row->price, 2, '.', ',');
 		}
 
-    if(SEO_ENABLED=='true'){
-            $output .= tep_href_link($productURL,$productParam . $row->id) . "\t" .
-            preg_replace($_strip_search, $_strip_replace, strip_tags( strtr($row->name, $_cleaner_array) ) ) . "\t" .
-            preg_replace($_strip_search, $_strip_replace, strip_tags( strtr($row->description, $_cleaner_array) ) ) . "\t" .
-            $feed_exp_date . "\t" .
-            $row->price . "\t" .
-            $row->image_url . "\t" .
-            $catIndex[$row->prodCatID] . "\t" .
-            $row->id;
-    }else{
-      		$output .= $row->product_url . "\t" .
-      		preg_replace($_strip_search, $_strip_replace, strip_tags( strtr($row->name, $_cleaner_array) ) ) . "\t" .
-      		preg_replace($_strip_search, $_strip_replace, strip_tags( strtr($row->description, $_cleaner_array) ) ) . "\t" .
-      		$feed_exp_date . "\t" .
-      		$row->price . "\t" .
-      		$row->image_url . "\t" .
-      		$catIndex[$row->prodCatID] . "\t" .
-      		$row->id;
-    }
+		if(SEO_ENABLED=='true'){
+						$output .= tep_href_link($productURL,$productParam . $row->id) . "\t" .
+						preg_replace($_strip_search, $_strip_replace, strip_tags( strtr($row->name, $_cleaner_array) ) ) . "\t" .
+						preg_replace($_strip_search, $_strip_replace, strip_tags( strtr($row->description, $_cleaner_array) ) ) . "\t" .
+						$feed_exp_date . "\t" .
+						$row->price . "\t" .
+						$row->image_url . "\t" .
+						$catIndex[$row->prodCatID] . "\t" .
+						$row->id;
+		}else{
+					$output .= $row->product_url . "\t" .
+					preg_replace($_strip_search, $_strip_replace, strip_tags( strtr($row->name, $_cleaner_array) ) ) . "\t" .
+					preg_replace($_strip_search, $_strip_replace, strip_tags( strtr($row->description, $_cleaner_array) ) ) . "\t" .
+					$feed_exp_date . "\t" .
+					$row->price . "\t" .
+					$row->image_url . "\t" .
+					$catIndex[$row->prodCatID] . "\t" .
+					$row->id;
+		}
 
 	//optional values section
 	if(OPTIONS_ENABLED == 1)
@@ -341,8 +317,8 @@ while( $row = mysql_fetch_object( $result ) )
 			$output .= " \t " . $row->prodModel;
 		if(OPTIONS_ENABLED_FEED_QUANTITY == 1)
 			$output .= " \t " . $row->quantity;
-		if(OPTIONS_ENABLED_MADE_IN == 1)    
-			$output .= " \t " . OPTIONS_MADE_IN; 
+		if(OPTIONS_ENABLED_MADE_IN == 1)
+			$output .= " \t " . OPTIONS_MADE_IN;
 		if(OPTIONS_ENABLED_MANUFACTURER == 1)
 			$output .= " \t " . $row->mfgName;
 		if(OPTIONS_ENABLED_PAYMENT_ACCEPTED == 1)

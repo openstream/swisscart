@@ -253,7 +253,11 @@ define('ENTRY_COUNTRY_ERROR', 'Vous devez s&eacute;lectionner un pays dans la li
 define('ENTRY_COUNTRY_TEXT', '*');
 define('ENTRY_TELEPHONE_NUMBER', 'T&eacute;l&eacute;phone&nbsp;:');
 define('ENTRY_TELEPHONE_NUMBER_ERROR', 'Votre t&eacute;l&eacute;phone doit avoir un minimum de ' . ENTRY_TELEPHONE_MIN_LENGTH . ' caract&egrave;res.');
-define('ENTRY_TELEPHONE_NUMBER_TEXT', '*');
+if(ENTRY_TELEPHONE_REQUIRED != 'no'){
+  define('ENTRY_TELEPHONE_NUMBER_TEXT', '*');
+} else {
+  define('ENTRY_TELEPHONE_NUMBER_TEXT', '');
+}  
 define('ENTRY_FAX_NUMBER', 'Fax&nbsp;:');
 define('ENTRY_FAX_NUMBER_ERROR', '');
 define('ENTRY_FAX_NUMBER_TEXT', '');

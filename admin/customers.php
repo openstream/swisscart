@@ -137,7 +137,7 @@
          }
       }
 
-      if (strlen($customers_telephone) < ENTRY_TELEPHONE_MIN_LENGTH) {
+      if (ENTRY_TELEPHONE_REQUIRED != 'no' && strlen($customers_telephone) < ENTRY_TELEPHONE_MIN_LENGTH) {
         $error = true;
         $entry_telephone_error = true;
       } else {
@@ -321,10 +321,12 @@ function check_form() {
     }
   }
 
+<?php if(ENTRY_TELEPHONE_REQUIRED != 'no'){?>
   if (customers_telephone == "" || customers_telephone.length < <?php echo ENTRY_TELEPHONE_MIN_LENGTH; ?>) {
     error_message = error_message + "<?php echo JS_TELEPHONE; ?>";
     error = 1;
   }
+<?php } ?>
 
   if (error == 1) {
     alert(error_message);
@@ -642,7 +644,7 @@ function check_form() {
       echo $cInfo->customers_telephone . tep_draw_hidden_field('customers_telephone');
     }
   } else {
-    echo tep_draw_input_field('customers_telephone', $cInfo->customers_telephone, 'maxlength="32"', true);
+    echo tep_draw_input_field('customers_telephone', $cInfo->customers_telephone, 'maxlength="32"', (ENTRY_TELEPHONE_REQUIRED != 'no') );
   }
 ?></td>
           </tr>

@@ -219,7 +219,6 @@ function session_win() {
   // PWA BOF
   if (defined('PURCHASE_WITHOUT_ACCOUNT') && (PURCHASE_WITHOUT_ACCOUNT == 'ja' || PURCHASE_WITHOUT_ACCOUNT == 'yes')) {
 ?>
-          <tr>
 		  <tr>
 			<td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
 		  </tr>

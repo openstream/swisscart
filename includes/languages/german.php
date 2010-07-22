@@ -208,7 +208,11 @@ define('ENTRY_COUNTRY_ERROR', 'Bitte wählen Sie ein Land aus der Liste.');
 define('ENTRY_COUNTRY_TEXT', '*');
 define('ENTRY_TELEPHONE_NUMBER', 'Telefonnummer:');
 define('ENTRY_TELEPHONE_NUMBER_ERROR', 'Die Telefonnummer sollte mindestens ' . ENTRY_TELEPHONE_MIN_LENGTH . ' Zeichen enthalten.');
-define('ENTRY_TELEPHONE_NUMBER_TEXT', '*');
+if(ENTRY_TELEPHONE_REQUIRED != 'no'){
+  define('ENTRY_TELEPHONE_NUMBER_TEXT', '*');
+} else {
+  define('ENTRY_TELEPHONE_NUMBER_TEXT', '');
+}  
 define('ENTRY_FAX_NUMBER', 'Telefaxnummer:');
 define('ENTRY_FAX_NUMBER_ERROR', '');
 define('ENTRY_FAX_NUMBER_TEXT', '');

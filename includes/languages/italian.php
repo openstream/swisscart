@@ -205,7 +205,11 @@ define('ENTRY_COUNTRY_ERROR', 'Seleziona una Nazione del menù a scorrimento.');
 define('ENTRY_COUNTRY_TEXT', '*');
 define('ENTRY_TELEPHONE_NUMBER', 'Numero di telefono:');
 define('ENTRY_TELEPHONE_NUMBER_ERROR', 'Il campo \"Numero di telefono\" deve contentere minimo ' . ENTRY_TELEPHONE_MIN_LENGTH . ' caratteri.');
-define('ENTRY_TELEPHONE_NUMBER_TEXT', '*');
+if(ENTRY_TELEPHONE_REQUIRED != 'no'){
+  define('ENTRY_TELEPHONE_NUMBER_TEXT', '*');
+} else {
+  define('ENTRY_TELEPHONE_NUMBER_TEXT', '');
+}  
 define('ENTRY_FAX_NUMBER', 'Fax:');
 define('ENTRY_FAX_NUMBER_ERROR', '');
 define('ENTRY_FAX_NUMBER_TEXT', '');
