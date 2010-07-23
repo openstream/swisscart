@@ -40,6 +40,6 @@
 *
 *********************************************************************/
 
-  define('MODULE_ORDER_TOTAL_COD_TITLE', 'Nachnahmegeb&uuml;r');
-  define('MODULE_ORDER_TOTAL_COD_DESCRIPTION', 'Nachnahmegeb&uuml;r');
+  define('MODULE_ORDER_TOTAL_COD_TITLE', 'Nachnahmegeb&uuml;hr');
+  define('MODULE_ORDER_TOTAL_COD_DESCRIPTION', 'Nachnahmegeb&uuml;hr');
 ?>
