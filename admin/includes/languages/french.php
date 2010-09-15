@@ -40,32 +40,32 @@ function tep_date_raw($date, $reverse = false) {
 
 // parse le système d'exploitation
 function jc_get_system() {
-	$sys = php_uname();
-	if (stristr($sys, "Linux"))
-		$system = "linux";
-	if (stristr($sys, "Windows"))
-		$system = "windows";
-	if (stristr($sys, "FreeBSD"))
-		$system = "freebsd";
-	if (stristr($sys, "Macintosh"))
-		$system = "macintosh";
-	return $system;	
+        $sys = php_uname();
+        if (stristr($sys, "Linux"))
+                $system = "linux";
+        if (stristr($sys, "Windows"))
+                $system = "windows";
+        if (stristr($sys, "FreeBSD"))
+                $system = "freebsd";
+        if (stristr($sys, "Macintosh"))
+                $system = "macintosh";
+        return $system; 
 }
 
 $system = jc_get_system();
 switch ($system) {
-	case "freebsd":
-	case "macintosh":
-		@setlocale(LC_TIME, "fr_FR.ISO_8859-1");
-		break;
-	case "windows":
-		@setlocale(LC_TIME, "fr");
-		break;
-	default:
-		@setlocale(LC_TIME, "fr_FR");
-		break;
+        case "freebsd":
+        case "macintosh":
+                @setlocale(LC_TIME, "fr_FR.ISO_8859-1");
+                break;
+        case "windows":
+                @setlocale(LC_TIME, "fr");
+                break;
+        default:
+                @setlocale(LC_TIME, "fr_FR");
+                break;
 }
-		
+                
 define('DATE_FORMAT_SHORT', '%d/%m/%Y');  // this is used for strftime()
 define('DATE_FORMAT_LONG', '%A %d %B %Y'); // this is used for strftime()
 define('DATE_FORMAT', 'd/m/Y'); // this is used for date()
@@ -148,6 +148,7 @@ define('BOX_HEADING_REPORTS', 'Rapports');
 define('BOX_REPORTS_PRODUCTS_VIEWED', 'Produits consult&eacute;s');
 define('BOX_REPORTS_PRODUCTS_PURCHASED', 'Produits achet&eacute;s');
 define('BOX_REPORTS_ORDERS_TOTAL', 'Meilleures commandes');
+define('BOX_REPORTS_SALES', 'Sales Report');
 
 // tools text in includes/boxes/tools.php
 define('BOX_HEADING_TOOLS', 'Outils');

@@ -101,6 +101,7 @@ define('BOX_HEADING_REPORTS', 'Informes');
 define('BOX_REPORTS_PRODUCTS_VIEWED', 'Los Mas Vistos');
 define('BOX_REPORTS_PRODUCTS_PURCHASED', 'Los Mas Comprados');
 define('BOX_REPORTS_ORDERS_TOTAL', 'Total por Cliente');
+define('BOX_REPORTS_SALES', 'Sales Report');
 
 // tools text in includes/boxes/tools.php
 define('BOX_HEADING_TOOLS', 'Herramientas');

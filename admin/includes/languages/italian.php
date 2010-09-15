@@ -98,6 +98,7 @@ define('BOX_HEADING_REPORTS', 'Statistiche');
 define('BOX_REPORTS_PRODUCTS_VIEWED', 'Prodotti visti');
 define('BOX_REPORTS_PRODUCTS_PURCHASED', 'Prodotti acquistati');
 define('BOX_REPORTS_ORDERS_TOTAL', 'Totale Ordini Clienti');
+define('BOX_REPORTS_SALES', 'Sales Report');
 
 // tools text in includes/boxes/tools.php
 define('BOX_HEADING_TOOLS', 'Strumenti utili');
