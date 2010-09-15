@@ -502,7 +502,7 @@ if(preg_match('/edit|new_product/',$action) ){
 		theme_advanced_toolbar_location : "top",
 		theme_advanced_toolbar_align : "left",
 		theme_advanced_path_location : "bottom",
-		extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade]",
+		extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|style],hr[class|width|size|noshade]",
 		external_link_list_url : "example_data/example_link_list.js",
 		external_image_list_url : "example_data/example_image_list.js",
 		flash_external_list_url : "example_data/example_flash_list.js"

@@ -169,7 +169,7 @@ theme_advanced_buttons3_add : "flash,advhr,separator,print,media",
 theme_advanced_toolbar_location : "top",
 theme_advanced_toolbar_align : "left",
 theme_advanced_path_location : "bottom",
-extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|usemap],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
+extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|usemap|style],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
 external_link_list_url : "example_data/example_link_list.js",
 external_image_list_url : "example_data/example_image_list.js",
 flash_external_list_url : "example_data/example_flash_list.js"
