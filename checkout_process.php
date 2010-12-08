@@ -46,17 +46,15 @@
   require(DIR_WS_CLASSES . 'order.php');
   $order = new order;
 
-// load the before_process function from the payment modules
-//  $payment_modules->before_process(); // see below:
-
+// process order modules before payment modules to comply with Paypal standard module. Claudio
   require(DIR_WS_CLASSES . 'order_total.php');
   $order_total_modules = new order_total;
+
   $order_totals = $order_total_modules->process();
 
-// load the before_process function from the payment modules
-// moved to be processed after loading $ordet_totals
-  $payment_modules->before_process();
 
+// load the before_process function from the payment modules
+  $payment_modules->before_process();
 
   $sql_data_array = array('customers_id' => $customer_id,
                           'customers_name' => $order->customer['firstname'] . ' ' . $order->customer['lastname'],
