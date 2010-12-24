@@ -42,23 +42,23 @@ define('TOOLS_FILES', 'Dateiverwaltung');
 
 define('TEXT_ADMIN_FRONTPAGE','<p class="pageHeading">Funktionsübersicht</p>
 <ul class="introduction">
-    <li><h2>Kunden</h2>&nbsp;<a href="http://de.oscommerce.info/kb/MS2/Administrations-Bereich/Kunden" target="_blank"><img src="images/icons/help.png" alt="Nachschlagen in Knowledgebase" border="0" /></a><br>
+    <li><h2>Kunden</h2>&nbsp;<a href="http://www.oscommerce.info/confluence/display/OSCDOCDE22/Kunden" target="_blank"><img src="images/icons/help.png" alt="Nachschlagen in Knowledgebase" border="0" /></a><br>
       Verwaltung Ihrer Kunden und Bestellungen</li>
-    <li><h2>Katalog</h2>&nbsp;<a href="http://de.oscommerce.info/kb/MS2/Administrations-Bereich/Katalog" target="_blank"><img src="images/icons/help.png" alt="Nachschlagen in Knowledgebase" border="0" /></a><br>
+    <li><h2>Katalog</h2>&nbsp;<a href="http://www.oscommerce.info/confluence/display/OSCDOCDE22/Katalog" target="_blank"><img src="images/icons/help.png" alt="Nachschlagen in Knowledgebase" border="0" /></a><br>
       Kategorien- und Artikelverwaltung, sowie Sonderangebote, Cross-Selling, Produktbewertungen, etc.</li>
     <li><h2>Info-Manager</h2><br>
       Verwaltung der Shop-Infoseiten (z.B. Startseite, AGBs, etc.), die dann unter anderem in der <em>Informationen</em>-Box im Shop angezeigt werden.</li>
-    <li><h2>Berichte</h2>&nbsp;<a href="http://de.oscommerce.info/kb/MS2/Administrations-Bereich/Berichte" target="_blank"><img src="images/icons/help.png" alt="Nachschlagen in Knowledgebase" border="0" /></a><br>
+    <li><h2>Berichte</h2>&nbsp;<a href="http://www.oscommerce.info/confluence/display/OSCDOCDE22/Berichte" target="_blank"><img src="images/icons/help.png" alt="Nachschlagen in Knowledgebase" border="0" /></a><br>
       Besuchte Artikel, gekaufte Artikel, Kundenbestellstatistik, ausf&uuml;hrlicher Verkaufsbericht, Suchmaschinenpositionierung</li>
-    <li><h2>Hilfsprogramme</h2>&nbsp;<a href="http://de.oscommerce.info/kb/MS2/Administrations-Bereich/Hilfsprogramme" target="_blank"><img src="images/icons/help.png" alt="Nachschlagen in Knowledgebase" border="0" /></a><br>
+    <li><h2>Hilfsprogramme</h2>&nbsp;<a href="http://www.oscommerce.info/confluence/display/OSCDOCDE22/Hilfsprogramme" target="_blank"><img src="images/icons/help.png" alt="Nachschlagen in Knowledgebase" border="0" /></a><br>
       Import/Export von Kategorien und Artikeln, Bannermanager, E-Mail- und Newsletter-Versand, Wer ist online?</li>
-	<li><h2>Module</h2>&nbsp;<a href="http://de.oscommerce.info/kb/MS2/Administrations-Bereich/Module" target="_blank"><img src="images/icons/help.png" alt="Nachschlagen in Knowledgebase" border="0" /></a><br>
+	<li><h2>Module</h2>&nbsp;<a href="http://www.oscommerce.info/confluence/display/OSCDOCDE22/Module" target="_blank"><img src="images/icons/help.png" alt="Nachschlagen in Knowledgebase" border="0" /></a><br>
 	  Zahlungsweise, Versandart, STS (Simple Template System), Zusammenfassung (Auflistung auf der Bestellbestätigungsseite)</li>  
-    <li><h2>Sprachen/W&auml;hrungen</h2>&nbsp;<a href="http://de.oscommerce.info/kb/MS2/Administrations-Bereich/Sprachen_und_Waehrungen" target="_blank"><img src="images/icons/help.png" alt="Nachschlagen in Knowledgebase" border="0" /></a><br>
+    <li><h2>Sprachen/W&auml;hrungen</h2>&nbsp;<a href="http://www.oscommerce.info/confluence/pages/viewpage.action?pageId=1576819" target="_blank"><img src="images/icons/help.png" alt="Nachschlagen in Knowledgebase" border="0" /></a><br>
       Einrichtung zus&auml;tzlicher W&auml;hrungen und Sprachen; Einrichtung eines weiterer Bestell-Status, z.B. "Storniert" oder "Warten auf Zahlungseingang"</li>
-    <li><h2>Land / Steuer</h2>&nbsp;<a href="http://de.oscommerce.info/kb/MS2/Administrations-Bereich/Land_und_Steuer" target="_blank"><img src="images/icons/help.png" alt="Nachschlagen in Knowledgebase" border="0" /></a><br>
+    <li><h2>Land / Steuer</h2>&nbsp;<a href="http://www.oscommerce.info/confluence/display/OSCDOCDE22/Land+und+Steuer" target="_blank"><img src="images/icons/help.png" alt="Nachschlagen in Knowledgebase" border="0" /></a><br>
 	  Einstellung der Länder, Kantone, Bundesländer, Steuerzonen, Steuerklassen und Steuersätze</li>
-    <li><h2>Konfiguration</h2>&nbsp;<a href="http://de.oscommerce.info/kb/MS2/Administrations-Bereich/Konfiguration" target="_blank"><img src="images/icons/help.png" alt="Nachschlagen in Knowledgebase" border="0" /></a><br>
+    <li><h2>Konfiguration</h2>&nbsp;<a href="http://www.oscommerce.info/confluence/display/OSCDOCDE22/Konfiguration" target="_blank"><img src="images/icons/help.png" alt="Nachschlagen in Knowledgebase" border="0" /></a><br>
       Grundlegende Konfigurations-Parameter. Am wichtigsten sind die Angaben unter &quot;My Store&quot;. Alle anderen Parameter k&ouml;nnen so belassen werden. </li>
     <li><h2>Header Tags</h2><br>
       Die Administration der Header Tags gehört zum Bereich Suchmaschinenoptimierung, automatisches Ausfüllen aller Header Tags, Seitenspezifische Header Tags, etc.</li>
