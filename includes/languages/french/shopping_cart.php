@@ -11,7 +11,7 @@
 */
 
 define('NAVBAR_TITLE', 'Contenu panier');
-define('HEADING_TITLE', 'Qu\'y-a-t-il dans mon panier&nbsp;?');
+define('HEADING_TITLE', 'Qu\'y a-t-il dans mon panier&nbsp;?');
 define('TABLE_HEADING_REMOVE', 'Enlever');
 define('TABLE_HEADING_QUANTITY', 'Qt&eacute;.');
 define('TABLE_HEADING_MODEL', 'Mod&egrave;le');
