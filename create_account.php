@@ -157,7 +157,7 @@
       }
     }
 
-    if (strlen($telephone) < ENTRY_TELEPHONE_MIN_LENGTH) {
+    if (ENTRY_TELEPHONE_REQUIRED != 'no' && strlen($telephone) < ENTRY_TELEPHONE_MIN_LENGTH) {
       $error = true;
 
       $messageStack->add('create_account', ENTRY_TELEPHONE_NUMBER_ERROR);
@@ -167,18 +167,18 @@
     if (!isset($HTTP_GET_VARS['guest']) && !isset($HTTP_POST_VARS['guest'])) {
 // PWA EOF
 
-		if (strlen($password) < ENTRY_PASSWORD_MIN_LENGTH) {
-		  $error = true;
-	
-		  $messageStack->add('create_account', ENTRY_PASSWORD_ERROR);
-		} elseif ($password != $confirmation) {
-		  $error = true;
-	
-		  $messageStack->add('create_account', ENTRY_PASSWORD_ERROR_NOT_MATCHING);
-		}
+                if (strlen($password) < ENTRY_PASSWORD_MIN_LENGTH) {
+                  $error = true;
+
+                  $messageStack->add('create_account', ENTRY_PASSWORD_ERROR);
+                } elseif ($password != $confirmation) {
+                  $error = true;
+
+                  $messageStack->add('create_account', ENTRY_PASSWORD_ERROR_NOT_MATCHING);
+                }
 
 // PWA BOF
-} 
+}
 // PWA EOF
 
     if ($error == false) {
@@ -192,22 +192,22 @@
 
       if (ACCOUNT_GENDER == 'true') $sql_data_array['customers_gender'] = $gender;
       if (ACCOUNT_DOB == 'true') $sql_data_array['customers_dob'] = tep_date_raw($dob);
-	  
+
 // PWA BOF
       if ((isset($HTTP_GET_VARS['guest'])) or (isset($HTTP_POST_VARS['guest'])) && (defined('PURCHASE_WITHOUT_ACCOUNT') && (PURCHASE_WITHOUT_ACCOUNT == 'ja' || PURCHASE_WITHOUT_ACCOUNT == 'yes'))) {
         $pwa_array_customer = $sql_data_array;
         $customer_id = 0;
         tep_session_register('pwa_array_customer');
       } else {
-// PWA EOF	  
+// PWA EOF
 
       tep_db_perform(TABLE_CUSTOMERS, $sql_data_array);
 
       $customer_id = tep_db_insert_id();
-	  
+
 // PWA BOF
-	} 
-// PWA EOF	  
+        }
+// PWA EOF
 
       $sql_data_array = array('customers_id' => $customer_id,
                               'entry_firstname' => $firstname,
@@ -250,8 +250,22 @@
         tep_session_recreate();
       }
 
+//----------------------------- CleverReach Starts --------------------------------------
+
+      if(CR_ENABLED == 'true'){
+       $client = new SoapClient('http://api.cleverreach.com/soap/interface_v2.php?wsdl');
+       $crReceiver = array('email' => utf8_encode($email_address), 'source' => utf8_encode('SwissCart'), 'firstname' => utf8_encode($firstname), 'lastname' => utf8_encode($lastname), 'street' => utf8_encode($street_address), 'zip' => utf8_encode($postcode), 'city' => utf8_encode($city), 'country' => utf8_encode($country), 'company' => utf8_encode($company));
+       $client->add(CR_API_KEY, CR_LIST_ID, $crReceiver);
+       if(!$newsletter){
+        $client->setInactive(CR_API_KEY, CR_LIST_ID, $email_address);
+       }
+      }
+
+//------------------------------ CleverReach Ends --------------------------------------
+
+
 // PWA BOF
-} 
+}
 // PWA EOF
 
       $customer_first_name = $firstname;
@@ -287,13 +301,13 @@
       $email_text .= EMAIL_WELCOME . EMAIL_TEXT . EMAIL_CONTACT . EMAIL_WARNING . "\n\n" . EMAIL_SIGNATURE;
       tep_mail($name, $email_address, EMAIL_SUBJECT, $email_text, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
 
-	  if ($cart->count_contents() == 0) {
+          if ($cart->count_contents() == 0) {
           tep_redirect(tep_href_link(FILENAME_CREATE_ACCOUNT_SUCCESS, '', 'SSL'));
       }
       else {
           tep_redirect(tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL'));
       }
-      
+
     }
   }
 
@@ -543,7 +557,7 @@
 // PWA BOF
   if (!isset($HTTP_GET_VARS['guest']) && !isset($HTTP_POST_VARS['guest'])) {
 // PWA EOF
-?>	  
+?>
       <tr>
         <td class="main"><b><?php echo CATEGORY_OPTIONS; ?></b></td>
       </tr>
@@ -590,9 +604,9 @@
  <tr>
    <td><?php echo tep_draw_hidden_field('guest', 'guest'); ?></td>
  </tr>
-<?php } 
+<?php }
 // PWA EOF
-?>	  
+?>
       <tr>
         <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
       </tr>
