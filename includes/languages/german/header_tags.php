@@ -26,6 +26,13 @@ define('HTDA_ALLPRODS_ON','1'); // Include HEAD_DESC_TAG_ALL in Description
 define('HEAD_TITLE_TAG_ALLPRODS', '');
 define('HEAD_DESC_TAG_ALLPRODS','');
 define('HEAD_KEY_TAG_ALLPRODS','');
+// carecenter.php
+define('HTTA_CARECENTER_ON','0');
+define('HTDA_CARECENTER_ON','0');
+define('HTKA_CARECENTER_ON','0');
+define('HEAD_TITLE_TAG_CARECENTER','');
+define('HEAD_DESC_TAG_CARECENTER','');
+define('HEAD_KEY_TAG_CARECENTER','');
 
 // index.php
 define('HTTA_DEFAULT_ON','1'); // Include HEAD_TITLE_TAG_ALL in Title

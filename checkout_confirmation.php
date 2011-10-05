@@ -187,14 +187,14 @@ win = window.open(mypage,myname,settings)
          '          </tr>' . "\n";
   }
 ?>
-						  <tr><td colspan="3" class="horizontalRule">&nbsp;</td></tr>
-						  <tr><td colspan="3"><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td></tr>
+                                                  <tr><td colspan="3" class="horizontalRule">&nbsp;</td></tr>
+                                                  <tr><td colspan="3"><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td></tr>
                                 <?php
-								  if (MODULE_ORDER_TOTAL_INSTALLED) {
-									$order_total_modules->process();
-									echo $order_total_modules->output();
-								  }
-								?>
+                                                                  if (MODULE_ORDER_TOTAL_INSTALLED) {
+                                                                        $order_total_modules->process();
+                                                                        echo $order_total_modules->output();
+                                                                  }
+                                                                ?>
                         </table></td>
                     </tr>
                   </table></td>
@@ -224,15 +224,15 @@ win = window.open(mypage,myname,settings)
                   </table></td>
                 <td width="50%" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
                     <?php
-			if ($order->info['shipping_method']) {
-			?>
+                        if ($order->info['shipping_method']) {
+                        ?>
                     <tr>
                       <td class="main"><?php echo '<b>' . HEADING_SHIPPING_METHOD . '</b> <a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL') . '"><span class="orderEdit">(' . TEXT_EDIT . ')</span></a>'; ?></td>
                     </tr>
                     <tr>
                       <td class="main"><?php echo $order->info['shipping_method']; ?></td>
                     </tr>
-                    <?php }	?>
+                    <?php }     ?>
                   </table></td>
               </tr>
             </table></td>
@@ -349,7 +349,14 @@ win = window.open(mypage,myname,settings)
     $form_action_url = tep_href_link(FILENAME_CHECKOUT_PROCESS, '', 'SSL');
   }
 
-  echo tep_draw_form('checkout_confirmation', $form_action_url, 'post', 'onsubmit="return check_agree(this);"');
+  // --- PaymentLog
+
+  if(PL_ENABLED == 'true'){
+   echo '<script src="includes/js/paymentlog.js"></script>';
+  }
+  echo tep_draw_form('checkout_confirmation', $form_action_url, 'post', 'onsubmit="if(check_agree(this)){'.(PL_ENABLED == 'true' ? 'paymentlog(this, '.(int)$customer_id.'); ' : '').'}else{return false;}"');
+
+  // --- PaymentLog End
 
   if (is_array($payment_modules->modules)) {
     echo $payment_modules->process_button();

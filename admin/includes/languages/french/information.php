@@ -23,6 +23,7 @@
   define('DELETE_ID_INFORMATION', 'Delete the information ID=');
   define('DELETED_ID_INFORMATION', 'Deleted the information ID=');
   define('EDIT_ID_INFORMATION', 'Edit the information ID=');
+  define('VIEW_PAGE', 'View Page');
   define('ENTRY_DESCRIPTION', 'Description');
   define('ENTRY_PARENT_PAGE', 'Parent page');
   define('ENTRY_SORT_ORDER', 'Sort order');

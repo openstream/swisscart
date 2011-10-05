@@ -92,7 +92,7 @@
       for ($col=0, $n=sizeof($column_list); $col<$n; $col++) {
         $lc_align = '';
 
-		if ($column_list[$col] == 'PRODUCT_LIST_SORT_ORDER') break;
+                if ($column_list[$col] == 'PRODUCT_LIST_SORT_ORDER') break;
 
         switch ($column_list[$col]) {
           case 'PRODUCT_LIST_MODEL':

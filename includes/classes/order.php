@@ -60,7 +60,7 @@
                           'cc_owner' => $order['cc_owner'],
                           'cc_number' => $order['cc_number'],
                           'cc_expires' => $order['cc_expires'],
-						  'cc_cvv2' => $order['cc_cvv2'],
+                                                  'cc_cvv2' => $order['cc_cvv2'],
                           'date_purchased' => $order['date_purchased'],
                           'orders_status' => $order_status['orders_status_name'],
                           'last_modified' => $order['last_modified'],
@@ -108,7 +108,7 @@
       $orders_products_query = tep_db_query("select orders_products_id, products_id, products_name, products_model, products_price, products_tax, products_quantity, final_price from " . TABLE_ORDERS_PRODUCTS . " where orders_id = '" . (int)$order_id . "'");
       while ($orders_products = tep_db_fetch_array($orders_products_query)) {
         $this->products[$index] = array('qty' => $orders_products['products_quantity'],
-	                                'id' => $orders_products['products_id'],
+                                        'id' => $orders_products['products_id'],
                                         'name' => $orders_products['products_name'],
                                         'model' => $orders_products['products_model'],
                                         'tax' => $orders_products['products_tax'],
@@ -138,7 +138,7 @@
       global $customer_id, $sendto, $billto, $cart, $languages_id, $currency, $currencies, $shipping, $payment;
 
       $this->content_type = $cart->get_content_type();
-	  
+          
 // PWA BOF
 if ($customer_id == 0) {
       global $pwa_array_customer, $pwa_array_address, $pwa_array_shipping;
@@ -216,7 +216,7 @@ if ($customer_id == 0) {
                                  'zone_id' => $shipping_address['entry_zone_id'],
                               'country_id' => $shipping_address['entry_country_id']);
 } else {
-// PWA EOF	  
+// PWA EOF        
 
       $customer_address_query = tep_db_query("select c.customers_firstname, c.customers_lastname, c.customers_telephone, c.customers_email_address, ab.entry_company, ab.entry_street_address, ab.entry_suburb, ab.entry_postcode, ab.entry_city, ab.entry_zone_id, z.zone_name, co.countries_id, co.countries_name, co.countries_iso_code_2, co.countries_iso_code_3, co.address_format_id, ab.entry_state from " . TABLE_CUSTOMERS . " c, " . TABLE_ADDRESS_BOOK . " ab left join " . TABLE_ZONES . " z on (ab.entry_zone_id = z.zone_id) left join " . TABLE_COUNTRIES . " co on (ab.entry_country_id = co.countries_id) where c.customers_id = '" . (int)$customer_id . "' and ab.customers_id = '" . (int)$customer_id . "' and c.customers_default_address_id = ab.address_book_id");
       $customer_address = tep_db_fetch_array($customer_address_query);
@@ -229,23 +229,23 @@ if ($customer_id == 0) {
 
       $tax_address_query = tep_db_query("select ab.entry_country_id, ab.entry_zone_id from " . TABLE_ADDRESS_BOOK . " ab left join " . TABLE_ZONES . " z on (ab.entry_zone_id = z.zone_id) where ab.customers_id = '" . (int)$customer_id . "' and ab.address_book_id = '" . (int)($this->content_type == 'virtual' ? $billto : $sendto) . "'");
       $tax_address = tep_db_fetch_array($tax_address_query);
-	  
+          
 // PWA BOF
 }  
-// PWA EOF	  
+// PWA EOF        
 
       $this->info = array('order_status' => DEFAULT_ORDERS_STATUS_ID,
                           'currency' => $currency,
                           'currency_value' => $currencies->currencies[$currency]['value'],
                           'payment_method' => $payment,
-						  'payment_class' => $payment,
+                                                  'payment_class' => $payment,
                           'cc_type' => (isset($GLOBALS['cc_type']) ? $GLOBALS['cc_type'] : ''),
                           'cc_owner' => (isset($GLOBALS['cc_owner']) ? $GLOBALS['cc_owner'] : ''),
                           'cc_number' => (isset($GLOBALS['cc_number']) ? $GLOBALS['cc_number'] : ''),
                           'cc_expires' => (isset($GLOBALS['cc_expires']) ? $GLOBALS['cc_expires'] : ''),
-						  'cc_cvv2' => (isset($GLOBALS['cc_cvv2']) ? $GLOBALS['cc_cvv2'] : ''),
+                                                  'cc_cvv2' => (isset($GLOBALS['cc_cvv2']) ? $GLOBALS['cc_cvv2'] : ''),
                           'shipping_method' => $shipping['title'],
-						  'shipping_class' =>  ( (strpos($shipping['id'],'_') > 0) ?  substr( strrev( strchr(strrev($shipping['id']),'_') ),0,-1) : $shipping['id'] ),
+                                                  'shipping_class' =>  ( (strpos($shipping['id'],'_') > 0) ?  substr( strrev( strchr(strrev($shipping['id']),'_') ),0,-1) : $shipping['id'] ),
                           'shipping_cost' => $shipping['cost'],
                           'subtotal' => 0,
                           'tax' => 0,
@@ -254,7 +254,7 @@ if ($customer_id == 0) {
 
       if (isset($GLOBALS[$payment]) && is_object($GLOBALS[$payment])) {
         $this->info['payment_method'] = $GLOBALS[$payment]->title;
-		$this->info['payment_class'] = $GLOBALS[$payment]->code;
+                $this->info['payment_class'] = $GLOBALS[$payment]->code;
 
         if ( isset($GLOBALS[$payment]->order_status) && is_numeric($GLOBALS[$payment]->order_status) && ($GLOBALS[$payment]->order_status > 0) ) {
           $this->info['order_status'] = $GLOBALS[$payment]->order_status;
@@ -321,7 +321,7 @@ if ($customer_id == 0) {
             $attributes_query = tep_db_query("select popt.products_options_name, poval.products_options_values_name, pa.options_values_price, pa.price_prefix from " . TABLE_PRODUCTS_OPTIONS . " popt, " . TABLE_PRODUCTS_OPTIONS_VALUES . " poval, " . TABLE_PRODUCTS_ATTRIBUTES . " pa where pa.products_id = '" . (int)$products[$i]['id'] . "' and pa.options_id = '" . (int)$option . "' and pa.options_id = popt.products_options_id and pa.options_values_id = '" . (int)$value . "' and pa.options_values_id = poval.products_options_values_id and popt.language_id = '" . (int)$languages_id . "' and poval.language_id = '" . (int)$languages_id . "'");
             $attributes = tep_db_fetch_array($attributes_query);
 
-						//clr 030714 Determine if attribute is a text attribute and change products array if it is.
+                                                //clr 030714 Determine if attribute is a text attribute and change products array if it is.
             if ($value == PRODUCTS_OPTIONS_VALUE_TEXT_ID){
               $attr_value = $products[$i]['attributes_values'][$option];
             } else {

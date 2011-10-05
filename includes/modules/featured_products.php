@@ -14,8 +14,7 @@
 ?>
 <!-- featured_products //-->
 <?php
- if(FEATURED_PRODUCTS_DISPLAY == 'true')
- {
+ if(FEATURED_PRODUCTS_DISPLAY == 'true' && (int)MAX_DISPLAY_FEATURED_PRODUCTS ) {
 	if($new_products_category_id){
 		$featured_products_category_id = $new_products_category_id;
 		$cat_name_query = tep_db_query("select cd.categories_name from " . TABLE_CATEGORIES_DESCRIPTION . " cd left join ". TABLE_CATEGORIES . " c using (categories_id) where c.categories_status=1 and cd.categories_id = '" . $featured_products_category_id . "' and cd.language_id = '" . $languages_id . "' limit 1");
@@ -75,8 +74,7 @@
 
 			new contentBox($info_box_contents);
 	}
- } else // If it's disabled, then include the original New Products box
- {
+ } else {// If it's disabled, then include the original New Products box
 	 // include (DIR_WS_MODULES . FILENAME_NEW_PRODUCTS); // disable for dont show if desactive the feature module
  }
 ?>

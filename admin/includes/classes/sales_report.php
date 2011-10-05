@@ -14,6 +14,8 @@
     var $mode, $globalStartDate, $startDate, $endDate, $info, $previous, $next, $startDates, $endDates, $size;
 
     function sales_report($mode, $startDate = "", $endDate = "", $filter = "") {
+      global $languages_id;
+
       // startDate and endDate have to be a unix timestamp. Use mktime !
       // if set then both have to be valid startDate and endDate
       $this->mode = $mode;
@@ -28,7 +30,8 @@
       $this->globalStartDate = mktime(0, 0, 0, date("m", $first['first']), date("d", $first['first']), date("Y", $first['first']));
 
       // get all possible status for filter
-      $tmp_query = tep_db_query("SELECT * FROM " . TABLE_ORDERS_STATUS);
+      $tmp_query = tep_db_query("SELECT * FROM " . TABLE_ORDERS_STATUS . " WHERE language_id = " . $languages_id);
+//      $tmp_query = tep_db_query("SELECT * FROM " . TABLE_ORDERS_STATUS);
       $i = 0;
       while ($status = tep_db_fetch_array($tmp_query)) {
         $tmp[$i]['index'] = $status['orders_status_id'];

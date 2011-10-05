@@ -23,6 +23,7 @@
   define('DELETE_ID_INFORMATION', 'L&ouml;schen von Seiten-ID=');
   define('DELETED_ID_INFORMATION', 'Gel&ouml;scht Seiten-ID ');
   define('EDIT_ID_INFORMATION', '&Auml;nern von Seiten-ID ');
+  define('VIEW_PAGE', 'Seite anzeigen');
   define('ENTRY_DESCRIPTION', 'Seitenbeschreibung');
   define('ENTRY_PARENT_PAGE', '&Uuml;bergeordnete Seite');
   define('ENTRY_SORT_ORDER', 'Sortierreihenfolge');

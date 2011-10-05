@@ -358,6 +358,13 @@ switch (true) {
    break;
  
 
+// carecenter.php
+  case (strstr($_SERVER['PHP_SELF'],FILENAME_CARECENTER) or strstr($PHP_SELF, FILENAME_CARECENTER));
+    $tags_array = tep_header_tag_page(HTTA_CARECENTER_ON, HEAD_TITLE_TAG_CARECENTER, 
+                                      HTDA_CARECENTER_ON, HEAD_DESC_TAG_CARECENTER, 
+                                      HTKA_CARECENTER_ON, HEAD_KEY_TAG_CARECENTER );
+   break;
+
 // ALL OTHER PAGES NOT DEFINED ABOVE
   default:
     $tags_array['desc'] = HEAD_DESC_TAG_ALL;
