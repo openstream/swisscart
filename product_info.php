@@ -336,11 +336,23 @@ if ($products_attribs_array['options_values_price'] != '0') {
 
 					<div class="buttons"><?php
 				//$link_to_pdf = (SEO_ENABLED == 'true') ?  tep_href_link($GLOBALS['seo_urls']->cache['PRODUCTS'][$product_info['products_id']] . '-' . $product_info['products_id'] . '.pdf') : tep_href_link('pdf_datasheet.php', 'products_id=' . $product_info['products_id']);
-			echo tep_draw_hidden_field('products_id', $product_info['products_id']) . tep_image_submit('button_in_cart.gif', IMAGE_BUTTON_IN_CART) . '&nbsp;
-			<a onclick="window.print(); return(false)" href="#">' . tep_image_button('button_pdf.gif', IMAGE_BUTTON_PDF) . '</a>&nbsp;
-			<script type="text/javascript">var addthis_pub="swisscart"; var addthis_language = "' . $lng->language['code'] . '";</script>
-			<a href="http://www.addthis.com/bookmark.php" onmouseover="return addthis_open(this, \'\', \'[URL]\', \'[TITLE]\');" onmouseout="addthis_close();" onclick="return addthis_sendto();">' . tep_image_button('button_share.gif', BOX_HEADING_TELL_A_FRIEND) . '</a>'; ?>
-						<script type="text/javascript" src="http://s7.addthis.com/js/200/addthis_widget.js"></script>
+			echo '&nbsp;&nbsp;' . tep_draw_hidden_field('products_id', $product_info['products_id']) . tep_image_submit('button_in_cart.gif', IMAGE_BUTTON_IN_CART) . '</a>'; ?>
+            <!-- AddThis Button BEGIN -->
+            <span class="addthis_toolbox addthis_default_style addthis_32x32_style">
+            <a class="addthis_button_preferred_1"></a>
+            <a class="addthis_button_preferred_2"></a>
+            <a class="addthis_button_preferred_3"></a>
+            <a class="addthis_button_preferred_4"></a>
+            <a class="addthis_button_compact"></a>
+            </span>
+            <script type="text/javascript">
+			   var addthis_config = {
+				  data_ga_property: 'UA-12755150-10',
+				  data_ga_social: true
+			   };
+			</script>
+            <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=swisscart"></script>
+            <!-- AddThis Button END -->						
 					</div>
 			 </td>
 			</tr>
