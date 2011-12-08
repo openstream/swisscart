@@ -66,7 +66,6 @@
               
               Google Sitemaps Stylesheets: © 2005 <a href="http://www.baccoubonneville.com">Baccou Bonneville</a> - <a href="http://sourceforge.net/projects/gstoolbox">Project</a> - <a href="http://www.baccoubonneville.com/blogs/index.php/webdesign/2005/08/20/google-sitemaps-stylesheets">Blog</a><br/>
               Contributions: Johannes Müller, SOFTPlus <a href="http://gsitecrawler.com">GSiteCrawler</a> - Tobias Kluge, enarion.net <a href="http://enarion.net/google/phpsitemapng">phpSitemapNG</a>
-              <p><a href="http://www.gnu.org/copyleft/lesser.html"><img src="http://www.baccoubonneville.com/images/stories/80x15/lgpl.jpg" alt="LGPL" border="0"/></a>&#x0020;<a href="http://sourceforge.net/projects/gstoolbox"><img src="http://www.baccoubonneville.com/images/stories/80x15/sourceforge.jpg" alt="SourceForge.net" border="0"/></a></p>
             </td>
           </tr>
         </table>
