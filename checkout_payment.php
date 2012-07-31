@@ -89,15 +89,25 @@
 <base href="<?php echo (($request_type == 'SSL') ? HTTPS_SERVER : HTTP_SERVER) . DIR_WS_CATALOG; ?>">
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
 <script language="javascript"><!--
-var selected;
+var selected, obj, prev_selected = '<?php echo $payment ?>';
 
-function selectRowEffect(object, buttonSelect) {
+function selectRowEffect(object, buttonSelect, module_code) {
   if (!selected) {
     if (document.getElementById) {
       selected = document.getElementById('defaultSelected');
     } else {
       selected = document.all['defaultSelected'];
     }
+  }
+
+  if (prev_selected) {
+    document.getElementById('collation_' + prev_selected).style.display = 'none';
+  }
+  if (obj = document.getElementById('collation_' + module_code)) {
+    prev_selected = module_code;
+    obj.style.display = 'table';
+  } else {
+    prev_selected = '';
   }
 
   if (selected) selected.className = 'moduleRow';
@@ -250,17 +260,12 @@ function rowOutEffect(object) {
 
   $radio_buttons = 0;
   for ($i=0, $n=sizeof($selection); $i<$n; $i++) {
+      $additional_attr = $selection[$i]['id'] == $payment || $n == 1 ? 'id="defaultSelected" class="moduleRowSelected"' : 'class="moduleRow"';
 ?>
               <tr>
                 <td><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
                 <td colspan="2"><table border="0" width="100%" cellspacing="0" cellpadding="2">
-<?php
-    if ( ($selection[$i]['id'] == $payment) || ($n == 1) ) {
-      echo '                  <tr id="defaultSelected" class="moduleRowSelected" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="selectRowEffect(this, ' . $radio_buttons . ')">' . "\n";
-    } else {
-      echo '                  <tr class="moduleRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="selectRowEffect(this, ' . $radio_buttons . ')">' . "\n";
-    }
-?>
+                  <tr <?php echo $additional_attr ?> onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="selectRowEffect(this, '<?php echo $radio_buttons ?>', '<?php echo $selection[$i]['id'] ?>')">
                     <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
                     <td class="main" colspan="3"><b><?php echo $selection[$i]['module']; ?></b></td>
                     <td class="main" align="right">
@@ -287,7 +292,7 @@ function rowOutEffect(object) {
 ?>
                   <tr>
                     <td width="10"><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
-                    <td colspan="4"><table border="0" cellspacing="0" cellpadding="2">
+                    <td colspan="4"><table border="0" cellspacing="0" cellpadding="2" id="collation_<?php echo $selection[$i]['id'] ?>"<?php echo $selection[$i]['id'] != $payment ? ' style="display: none;"' : '' ?>>
 <?php
       for ($j=0, $n2=sizeof($selection[$i]['fields']); $j<$n2; $j++) {
 ?>
