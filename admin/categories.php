@@ -18,6 +18,8 @@
 
 	$action = (isset($HTTP_GET_VARS['action']) ? $HTTP_GET_VARS['action'] : '');
 
+    header("X-XSS-Protection: 0");
+
  if (tep_not_null($action)) {
 		// ULTIMATE Seo Urls 5
 		// If the action will affect the cache entries
@@ -746,7 +748,7 @@ updateGross();
 						<td><table border="0" cellspacing="0" cellpadding="0">
 							<tr>
 								<td class="main" valign="top"><?php echo tep_image(DIR_WS_CATALOG_LANGUAGES . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], $languages[$i]['name']); ?>&nbsp;</td>
-								<td class="main"><?php echo tep_draw_textarea_field('products_description[' . $languages[$i]['id'] . ']', 'soft', '70', '15', (isset($products_description[$languages[$i]['id']]) ? $products_description[$languages[$i]['id']] : tep_get_products_description($pInfo->products_id, $languages[$i]['id'])), 'id="products_description[' . $languages[$i]['id'] . ']"'); ?></td>
+								<td class="main"><?php echo tep_draw_textarea_field('products_description[' . $languages[$i]['id'] . ']', 'soft', '70', '15', (isset($products_description[$languages[$i]['id']]) ? stripslashes($products_description[$languages[$i]['id']]) : tep_get_products_description($pInfo->products_id, $languages[$i]['id'])), 'id="products_description[' . $languages[$i]['id'] . ']"'); ?></td>
 
 							</tr>
 						</table></td>
