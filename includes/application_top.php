@@ -34,10 +34,13 @@ if (is_file('FirePHP_Build/Init.inc.php')) {
 
 // check if register_globals is enabled.
 // since this is a temporary measure this message is hardcoded. The requirement will be removed before 2.2 is finalized.
-	if (function_exists('ini_get')) {
+	/*if (function_exists('ini_get')) {
 		ini_get('register_globals') or exit('Server Requirement Error: register_globals is disabled in your PHP configuration. This can be enabled in your php.ini configuration file or in the .htaccess file in your catalog directory.');
-	}
-
+	}*/
+	
+// Since register global is disabled request values are copyed to HTTP_* and global vars	
+	require('includes/register_globals.php');
+	
 // Set the local configuration parameters - mainly for developers
 	if (file_exists('includes/local/configure.php')) include('includes/local/configure.php');
 
@@ -170,13 +173,25 @@ if (is_file('FirePHP_Build/Init.inc.php')) {
 		ini_set('session.cookie_path', $cookie_path);
 		ini_set('session.cookie_domain', $cookie_domain);
 	}
-
+	
+	@ini_set('session.use_only_cookies', (SESSION_FORCE_COOKIE_USE == 'True') ? 1 : 0);
+	
+// set the session ID if it exists
+	if ( SESSION_FORCE_COOKIE_USE == 'False' ) {
+		if ( isset($HTTP_GET_VARS[tep_session_name()]) && (!isset($HTTP_COOKIE_VARS[tep_session_name()]) || ($HTTP_COOKIE_VARS[tep_session_name()] != $HTTP_GET_VARS[tep_session_name()])) ) {
+			tep_session_id($HTTP_GET_VARS[tep_session_name()]);
+		} elseif ( isset($HTTP_POST_VARS[tep_session_name()]) && (!isset($HTTP_COOKIE_VARS[tep_session_name()]) || ($HTTP_COOKIE_VARS[tep_session_name()] != $HTTP_POST_VARS[tep_session_name()])) ) {
+			tep_session_id($HTTP_POST_VARS[tep_session_name()]);
+		}
+	}
+	
+/*	
 // set the session ID if it exists
 	 if (isset($HTTP_POST_VARS[tep_session_name()])) {
 		 tep_session_id($HTTP_POST_VARS[tep_session_name()]);
 	 } elseif ( ($request_type == 'SSL') && isset($HTTP_GET_VARS[tep_session_name()]) ) {
 		 tep_session_id($HTTP_GET_VARS[tep_session_name()]);
-	 }
+	 }*/
 
 // start the session
 	$session_started = false;
@@ -213,6 +228,18 @@ if (is_file('FirePHP_Build/Init.inc.php')) {
 		$session_started = true;
 	}
 
+
+	if ( ($session_started == true) && (PHP_VERSION >= 4.3) && function_exists('ini_get') && (ini_get('register_globals') == false) ) {
+		extract($_SESSION, EXTR_OVERWRITE+EXTR_REFS);
+	}
+	
+	// initialize a session token
+	if (!tep_session_is_registered('sessiontoken')) {
+		$sessiontoken = md5(tep_rand() . tep_rand() . tep_rand() . tep_rand());
+		tep_session_register('sessiontoken');
+	}
+	
+	
 // set SID once, even if empty
 	$SID = (defined('SID') ? SID : '');
 
@@ -282,24 +309,32 @@ if (is_file('FirePHP_Build/Init.inc.php')) {
 	require (DIR_FS_CATALOG.'includes/functions/debug_functions.php');
 
 // set the language
-	if (!tep_session_is_registered('language') || isset($HTTP_GET_VARS['language'])) {
+	if (!tep_session_is_registered('language') || isset($_GET['language'])) {
+		$set_session = false;
+		
 		if (!tep_session_is_registered('language')) {
-			tep_session_register('language');
+		    tep_session_register('language');
 			tep_session_register('languages_id');
-		}
-
+			$set_session = true;
+		} 
 		include(DIR_WS_CLASSES . 'language.php');
-		$lng = new language();
-
-		if (isset($HTTP_GET_VARS['language']) && tep_not_null($HTTP_GET_VARS['language'])) {
-			$lng->set_language($HTTP_GET_VARS['language']);
+		$lng = new language( );
+		
+		if (isset($_GET['language']) && tep_not_null($_GET['language'])) {
+			$lng->set_language($_GET['language']);
 		} else {
 			$lng->get_browser_language();
 		}
 
 		$language = $lng->language['directory'];
 		$languages_id = $lng->language['id'];
+		
+		if( $set_session ) {
+			tep_session_register('language');
+			tep_session_register('languages_id');
+		}
 	}
+
 
 // include the language translations
 	require(DIR_WS_LANGUAGES . $language . '.php');
@@ -328,6 +363,9 @@ if (is_file('FirePHP_Build/Init.inc.php')) {
 			$broken_navigation = $navigation;
 			$navigation = new navigationHistory;
 			$navigation->unserialize($broken_navigation);
+		} else {
+			tep_session_register('navigation');
+			$navigation = new navigationHistory;				
 		}
 	} else {
 		tep_session_register('navigation');
@@ -468,7 +506,7 @@ if (is_file('FirePHP_Build/Init.inc.php')) {
 																		while (list($key, $value) = each($HTTP_POST_VARS)) {
 																			if (is_array($value)) {
 																				while (list($key2, $value2) = each($value)) {
-																					if (ereg ("(.*)\]\[(.*)", $key2, $var)) {
+																					if (preg_match ("/(.*)\]\[(.*)/", $key2, $var)) {
 																						$id2[$var[1]][$var[2]] = $value2;
 																					}
 																				}
