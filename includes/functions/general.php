@@ -48,7 +48,7 @@
 
 	function tep_output_string($string, $translate = false, $protected = false) {
 		if ($protected == true) {
-			return htmlspecialchars($string, ENT_COMPAT ,'iso-8859-1', true);
+			return htmlentities($string, ENT_COMPAT ,CHARSET);
 		} else {
 			if ($translate == false) {
 				return tep_parse_input_field_data($string, array('"' => '&quot;'));
