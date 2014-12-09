@@ -160,7 +160,7 @@
       $horizontal_graph_string .= '>';
 
 // decide if the value in bar is a color code or image.
-      if (ereg('^#', $bars[$i])) { 
+      if (preg_match('/^#/', $bars[$i])) { 
         $horizontal_graph_string .= '<table cellpadding="0" cellspacing="0" bgcolor="' . $bars[$i] . '" width="' . ($values[$i] * $vals['scale']) . '">' . "\n" .
                                     '  <tr>' . "\n" .
                                     '    <td>&nbsp;</td>' . "\n" .

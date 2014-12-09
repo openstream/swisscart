@@ -29,7 +29,7 @@
 
   if (!is_dir($current_path)) $current_path = DIR_FS_DOCUMENT_ROOT;
 
-  if (!ereg('^' . DIR_FS_DOCUMENT_ROOT, $current_path)) $current_path = DIR_FS_DOCUMENT_ROOT;
+  if (!strpos(DIR_FS_DOCUMENT_ROOT, $current_path)===0) $current_path = DIR_FS_DOCUMENT_ROOT;
 
   $action = (isset($HTTP_GET_VARS['action']) ? $HTTP_GET_VARS['action'] : '');
 

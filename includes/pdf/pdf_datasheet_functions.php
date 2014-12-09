@@ -418,7 +418,7 @@ var $y0;
 						
 					} else {
 										
-						$found= eregi('images/(.*\.gif|.*\.jpg)',$desc_row,$img);
+						$found= preg_match('/images/(.*\.gif|.*\.jpg)/',$desc_row,$img);
 						if($found==true){
 							$img[1]=str_replace('.gif','.jpg',$img[1]);
 							$path_to_image = DIR_WS_IMAGES . $img[1];

@@ -23,7 +23,7 @@
  if (tep_not_null($action)) {
 		// ULTIMATE Seo Urls 5
 		// If the action will affect the cache entries
-		if ( eregi("(insert|update|setflag)", $action) ){
+		if ( preg_match_all("/(insert|update|setflag)/", $action) ){
 			tep_reset_cache_data_seo_urls('reset');
 		}
 

@@ -183,7 +183,7 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 	 */
 	function setExcludeFiles($files) {
 		if ($files != "")
-			$this->_excludeFiles = split(',', $files);
+			$this->_excludeFiles = explode(',', $files);
 	}
 
 	/**
@@ -193,7 +193,7 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 	 */
 	function setIncludeFiles($files) {
 		if ($files != "")
-			$this->_includeFiles = split(',', $files);
+			$this->_includeFiles = explode(',', $files);
 	}
 
 	/**
@@ -203,7 +203,7 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 	 */
 	function setExcludeFolders($folders) {
 		if ($folders != "")
-			$this->_excludeFolders = split(',', $folders);
+			$this->_excludeFolders = explode(',', $folders);
 	}
 
 	/**
@@ -213,7 +213,7 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 	 */
 	function setIncludeFolders($folders) {
 		if ($folders != "")
-			$this->_includeFolders = split(',', $folders);
+			$this->_includeFolders = explode(',', $folders);
 	}
 
 	/**
@@ -431,7 +431,7 @@ class Moxiecode_BasicFileFilter extends Moxiecode_FileFilter {
 	}
 
 	function _fnmatch($pattern, $file) {
-		return ereg($this->_fnmatch2regexp(strtolower($pattern)), strtolower($file));
+		return preg_match('/'.$this->_fnmatch2regexp(strtolower($pattern)).'/i', strtolower($file));
 	}
 
 	function _fnmatch2regexp($str) {

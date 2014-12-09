@@ -48,7 +48,7 @@
 
 	function tep_output_string($string, $translate = false, $protected = false) {
 		if ($protected == true) {
-			return htmlspecialchars($string);
+			return htmlspecialchars($string, ENT_COMPAT ,'iso-8859-1', true);
 		} else {
 			if ($translate == false) {
 				return tep_parse_input_field_data($string, array('"' => '&quot;'));
@@ -63,7 +63,7 @@
 	}
 
 	function tep_sanitize_string($string) {
-		$string = ereg_replace(' +', ' ', trim($string));
+		$string = str_replace(' +', ' ', trim($string));
 
 		return preg_replace("/[<>]/", '_', $string);
 	}
@@ -252,7 +252,7 @@
 	function tep_browser_detect($component) {
 		global $HTTP_USER_AGENT;
 
-		return stristr($HTTP_USER_AGENT, $component);
+		return stristr($_SERVER['HTTP_USER_AGENT'], $component);
 	}
 
 ////
@@ -600,7 +600,7 @@
 		if (@date('Y', mktime($hour, $minute, $second, $month, $day, $year)) == $year) {
 			return date(DATE_FORMAT, mktime($hour, $minute, $second, $month, $day, $year));
 		} else {
-			return ereg_replace('2037' . '$', $year, date(DATE_FORMAT, mktime($hour, $minute, $second, $month, $day, 2037)));
+			return preg_replace('2037' . '$', $year, date(DATE_FORMAT, mktime($hour, $minute, $second, $month, $day, 2037)));
 		}
 	}
 
@@ -610,7 +610,7 @@
 		$search_str = trim(strtolower($search_str));
 
 // Break up $search_str on whitespace; quoted string will be reconstructed later
-		$pieces = split('[[:space:]]+', $search_str);
+		$pieces = explode('[[:space:]]+', $search_str);
 		$objects = array();
 		$tmpstring = '';
 		$flag = '';
@@ -651,7 +651,7 @@
 */
 
 // Add this word to the $tmpstring, starting the $tmpstring
-				$tmpstring = trim(ereg_replace('"', ' ', $pieces[$k]));
+				$tmpstring = trim(preg_replace('"', ' ', $pieces[$k]));
 
 // Check for one possible exception to the rule. That there is a single quoted word.
 				if (substr($pieces[$k], -1 ) == '"') {
@@ -701,7 +701,7 @@
 	 $piece onto the tail of the string, push the $tmpstring onto the $haves,
 	 kill the $tmpstring, turn the $flag "off", and return.
 */
-						$tmpstring .= ' ' . trim(ereg_replace('"', ' ', $pieces[$k]));
+						$tmpstring .= ' ' . trim(preg_replace('"', ' ', $pieces[$k]));
 
 // Push the $tmpstring onto the array of stuff to search for
 						$objects[] = trim($tmpstring);
@@ -1024,7 +1024,7 @@
 ////
 // Get the number of times a word/character is present in a string
 	function tep_word_count($string, $needle) {
-		$temp_array = split($needle, $string);
+		$temp_array = explode($needle, $string);
 
 		return sizeof($temp_array);
 	}
@@ -1034,7 +1034,7 @@
 
 		if (empty($modules)) return $count;
 
-		$modules_array = split(';', $modules);
+		$modules_array = explode(';', $modules);
 
 		for ($i=0, $n=sizeof($modules_array); $i<$n; $i++) {
 			$class = substr($modules_array[$i], 0, strrpos($modules_array[$i], '.'));
@@ -1068,11 +1068,11 @@
 				$char = chr(tep_rand(0,255));
 			}
 			if ($type == 'mixed') {
-				if (eregi('^[a-z0-9]$', $char)) $rand_value .= $char;
+				if (preg_match('/^[a-z0-9]$/i', $char)) $rand_value .= $char;
 			} elseif ($type == 'chars') {
-				if (eregi('^[a-z]$', $char)) $rand_value .= $char;
+				if (preg_match('/^[a-z]$/', $char)) $rand_value .= $char;
 			} elseif ($type == 'digits') {
-				if (ereg('^[0-9]$', $char)) $rand_value .= $char;
+				if (preg_match('/^[0-9]$/', $char)) $rand_value .= $char;
 			}
 		}
 
@@ -1278,7 +1278,7 @@
 // nl2br() prior PHP 4.2.0 did not convert linefeeds on all OSs (it only converted \n)
 	function tep_convert_linefeeds($from, $to, $string) {
 		if ((PHP_VERSION < "4.0.5") && is_array($from)) {
-			return ereg_replace('(' . implode('|', $from) . ')', $to, $string);
+			return preg_replace('(' . implode('|', $from) . ')', $to, $string);
 		} else {
 			return str_replace($from, $to, $string);
 		}
@@ -1332,5 +1332,13 @@ function tep_array_values_to_string($array, $separator = ',') {
 		$get_string = substr($get_string, 0, -$remove_chars);
 	}
 	return $get_string;
+}
+
+////
+// Register Variables Global
+function tep_register_var($var) {
+	if (isset($_REQUEST[ $var ])) {
+		$GLOBALS[ $var ] = $_REQUEST[ $var ];
+	}
 }
 ?>

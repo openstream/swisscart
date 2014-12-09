@@ -26,7 +26,13 @@
       if (tep_not_null($order_id)) {
         $this->query($order_id);
       } else {
-        $this->cart();
+      	tep_register_var('cc_type');
+      	tep_register_var('cc_owner');
+      	tep_register_var('cc_number');
+      	tep_register_var('cc_expires');
+      	tep_register_var('comments');
+
+      	$this->cart();
       }
     }
 

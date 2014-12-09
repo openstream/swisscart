@@ -97,7 +97,7 @@ class clickandbuy {
             $user_country        = tep_db_fetch_array($lang_query);
         }
 
-        $tax = ereg_replace("\.", "", $zone['tax_rate']);
+        $tax = preg_replace("/\./", "", $zone['tax_rate']);
         $tax_factor = '1.'.$tax;
 
         if(!isset($_SESSION['cartID'])) {

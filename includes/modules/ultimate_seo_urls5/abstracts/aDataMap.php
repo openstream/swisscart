@@ -54,10 +54,10 @@ abstract class aDataMap {
       $string = strtr($string, usu::$character_conversion);
     }
     // Remove special characters
-    $pattern = (defined('SEO_REMOVE_ALL_SPEC_CHARS') && SEO_REMOVE_ALL_SPEC_CHARS == 'true') ?  "([^[:alnum:]])+" : "([[:punct:]])+";
-    $link_text = ereg_replace($pattern, '', strtolower($string));
-    $pattern = "([[:space:]]|[[:blank:]])+";
-    $link_text = ereg_replace($pattern, '-', $link_text);
+    $pattern = (defined('SEO_REMOVE_ALL_SPEC_CHARS') && SEO_REMOVE_ALL_SPEC_CHARS == 'true') ?  "/([^[:alnum:]])+/i" : "/([[:punct:]])/i";
+    $link_text = preg_replace($pattern, '', strtolower($string));
+    $pattern = "/([[:space:]]|[[:blank:]])/i";
+    $link_text = preg_replace($pattern, '-', $link_text);
     // No short words so return the base text
     if ( false === strpos($link_text, '-') ){
       return $link_text;

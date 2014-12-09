@@ -10,13 +10,16 @@
 // www.kitwear.com under the term 'football shirts' - Thanks
 //
 
+// Since register global is disabled request values are copyed to HTTP_* and global vars
+require('includes/register_globals.php');
+
 if (file_exists('includes/local/configure.php')) {
   	//use local dev params if available
 	include('includes/local/configure.php');
-} else {
-	// include server parameters
+} 
+// include server parameters analog application_top
 	require('includes/configure.php');
-}
+
 require('includes/imagemagic/imagemagic.functions.php');
 chdir (DIR_FS_CATALOG);
 
@@ -56,6 +59,7 @@ if ( $_GET['w']== SMALL_IMAGE_WIDTH || $_GET['h'] == SMALL_IMAGE_HEIGHT) $thumbn
 elseif ($_GET['w'] == HEADING_IMAGE_WIDTH || $_GET['h'] == HEADING_IMAGE_HEIGHT) $thumbnail_size=2;
 elseif ($_GET['w'] == SUBCATEGORY_IMAGE_WIDTH || $_GET['h'] == SUBCATEGORY_IMAGE_HEIGHT) $thumbnail_size=3;
 
+$page_prefix = '';
 if ($_GET['page'] == "prod_info") {
       $thumbnail_size=4;
       $page_prefix = $page ."prod_info_";
@@ -175,19 +179,21 @@ if ($tn_server_cache) $filename = modify_tn_path($_GET['img'] .'.thumb_'.$page_p
 // $filename = DIR_FS_CATALOG.$filename;
 
 //check the cache for an existing copy, if there send it
-if ($tn_server_cache && file_exists($filename) && filemtime($filename) > filemtime($_GET['img'])) {    
+if ($tn_server_cache && file_exists($filename) && filemtime($filename) > filemtime($_GET['img'])) {
+
 	$quality=100;
-      // Output Cache Headers
-	http_headers($filename);
+    // Output Cache Headers
+	http_headers($filename);	
 	if ($image[2] == 2 || ($image[2] == 1 && $gif_as_jpeg))
 	{
+		
             $src = imagecreatefromjpeg($filename);
             header('Content-type: image/jpeg');
-		imagejpeg($src, '', $quality);
+			imagejpeg($src, null, $quality);
 	}
 	elseif ($image[2] == 1 && function_exists('imagegif'))
 	{
-            $src = imagecreatefromgif($filename);
+		$src = imagecreatefromgif($filename);
 		header('Content-type: image/gif');
             imagegif($src);
 	}
@@ -280,12 +286,12 @@ if ($tn_server_cache && file_exists($filename) && filemtime($filename) > filemti
 	}
 
 	//add selected custom filters to the image
-	if (BRIGHTNESS_ADJUST != "0") adjust_brightness(&$tmp_img,BRIGHTNESS_ADJUST);
-	if (CONTRAST_ADJUST != "0") adjust_contrast(&$tmp_img, CONTRAST_ADJUST);
-	if ($image_watermark) watermark_image(&$tmp_img, DIR_FS_CATALOG.'includes/imagemagic/watermarks/'.WATERMARK_IMAGE ,WATERMARK_IMAGE_POSITION, WATERMARK_IMAGE_OPACITY, WATERMARK_IMAGE_MARGIN);
-	if ($frame) frame(&$tmp_img, FRAME_WIDTH, FRAME_EDGE_WIDTH, FRAME_COLOR, FRAME_INSIDE_COLOR1, FRAME_INSIDE_COLOR2);
-	if ($bevel) bevel (&$tmp_img, BEVEL_HEIGHT, BEVEL_HIGHLIGHT, BEVEL_SHADOW);
-	if ($text_watermark) watermark_text(&$tmp_img, WATERMARK_TEXT, WATERMARK_TEXT_SIZE, WATERMARK_TEXT_POSITION, WATERMARK_TEXT_COLOR, 'includes/imagemagic/fonts/'.WATERMARK_TEXT_FONT, WATERMARK_TEXT_OPACITY, WATERMARK_TEXT_MARGIN, WATERMARK_TEXT_ANGLE);
+	if (BRIGHTNESS_ADJUST != "0") adjust_brightness($tmp_img,BRIGHTNESS_ADJUST);
+	if (CONTRAST_ADJUST != "0") adjust_contrast($tmp_img, CONTRAST_ADJUST);
+	if ($image_watermark) watermark_image($tmp_img, DIR_FS_CATALOG.'includes/imagemagic/watermarks/'.WATERMARK_IMAGE ,WATERMARK_IMAGE_POSITION, WATERMARK_IMAGE_OPACITY, WATERMARK_IMAGE_MARGIN);
+	if ($frame) frame($tmp_img, FRAME_WIDTH, FRAME_EDGE_WIDTH, FRAME_COLOR, FRAME_INSIDE_COLOR1, FRAME_INSIDE_COLOR2);
+	if ($bevel) bevel ($tmp_img, BEVEL_HEIGHT, BEVEL_HIGHLIGHT, BEVEL_SHADOW);
+	if ($text_watermark) watermark_text($tmp_img, WATERMARK_TEXT, WATERMARK_TEXT_SIZE, WATERMARK_TEXT_POSITION, WATERMARK_TEXT_COLOR, 'includes/imagemagic/fonts/'.WATERMARK_TEXT_FONT, WATERMARK_TEXT_OPACITY, WATERMARK_TEXT_MARGIN, WATERMARK_TEXT_ANGLE);
       
     // Output the image:
 	if ($image[2] == 2 || ($image[2] == 1 && $gif_as_jpeg))
@@ -519,7 +525,7 @@ function http_headers($file='', $error='')
 
 
 
-function watermark_text(&$gdimg, $text, $size, $alignment, $hex_color='000000', $ttffont='', $opacity=100, $margin=5, $angle=0) {
+function watermark_text($gdimg, $text, $size, $alignment, $hex_color='000000', $ttffont='', $opacity=100, $margin=5, $angle=0) {
 	// text watermark requested
 	
 	if (!function_exists('ImageTTFbBox')) http_headers('',"FreeType not supported,Switch off text watermarks");
@@ -628,7 +634,7 @@ function watermark_text(&$gdimg, $text, $size, $alignment, $hex_color='000000', 
 }
 
 
-function watermark_image(&$gdimg_dest, $img_watermark_filename, $alignment='*', $opacity=95, $margin=5) {
+function watermark_image($gdimg_dest, $img_watermark_filename, $alignment='*', $opacity=95, $margin=5) {
 	global $image, $reduction_ratio;
       if($image[2] == 1 || $img_watermark_filename=="" || !is_file($img_watermark_filename)) return false; //no gifs allowed    
       
@@ -787,7 +793,7 @@ function watermark_image(&$gdimg_dest, $img_watermark_filename, $alignment='*', 
 	return false;
 }
 
-function adjust_brightness(&$gdimg, $amount=0) {
+function adjust_brightness($gdimg, $amount=0) {
 	global $image;
       if($image[2] == 1 || $amount==0) return false;
 	$amount = max(-255, min(255, $amount));
@@ -813,7 +819,7 @@ function adjust_brightness(&$gdimg, $amount=0) {
 	return true;
 }
 
-function adjust_contrast(&$gdimg, $amount=0) {
+function adjust_contrast($gdimg, $amount=0) {
 	global $image;
       if($image[2] == 1 || $amount==0) return false;     
       $amount = max(-255, min(255, $amount));
@@ -843,7 +849,7 @@ function adjust_contrast(&$gdimg, $amount=0) {
 	}
 }
 
-function bevel(&$gdimg, $width, $hexcolor1, $hexcolor2) {
+function bevel($gdimg, $width, $hexcolor1, $hexcolor2) {
 	$width     = ($width     ? $width     : 5);
 	$hexcolor1 = ($hexcolor1 ? $hexcolor1 : 'CCCCCC');
 	$hexcolor2 = ($hexcolor2 ? $hexcolor2 : '000000');
@@ -862,7 +868,7 @@ function bevel(&$gdimg, $width, $hexcolor1, $hexcolor2) {
 	return true;
 }  
 
-function frame(&$gdimg, $frame_width, $edge_width, $hexcolor_frame, $hexcolor1, $hexcolor2) {
+function frame($gdimg, $frame_width, $edge_width, $hexcolor_frame, $hexcolor1, $hexcolor2) {
 	$frame_width    = ($frame_width    ? $frame_width    : 5);
 	$edge_width     = ($edge_width     ? $edge_width     : 1);
 	$hexcolor_frame = ($hexcolor_frame ? $hexcolor_frame : 'CCCCCC');

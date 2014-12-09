@@ -196,7 +196,7 @@ flash_external_list_url : "example_data/example_flash_list.js"
     <td width="100%" valign="top">
 <table border=0 width="100%">
 <tr><td align=right><?php //echo $languages_id; ?></td></tr>
-<?
+<?php
 switch($_REQUEST['information_action']) {
 
 case "Added":

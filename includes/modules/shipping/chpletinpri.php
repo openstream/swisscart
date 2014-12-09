@@ -49,7 +49,7 @@
 		// error message and leaving the radio button available with
 		// no shipping cost
         $chplet_cost = constant('MODULE_SHIPPING_CHPLETINPRI_COST_1');
-        $chplet_table = split("[:,]" , $chplet_cost);
+        $chplet_table = preg_split("/[:,]/" , $chplet_cost);
 		$maximum_weight = $chplet_table[count($chplet_table)-2];
         if ($_SESSION['cart']->weight > $maximum_weight) $this->enabled = false;
 		
@@ -69,7 +69,7 @@
 
       for ($i=1; $i<=$this->num_chpletinpri; $i++) {
         $countries_table = constant('MODULE_SHIPPING_CHPLETINPRI_COUNTRIES_' . $i);
-        $country_zones = split("[,]", $countries_table);
+        $country_zones = preg_split("/[,]/", $countries_table);
         if (in_array($dest_country, $country_zones)) {
           $dest_zone = $i;
           break;
@@ -82,7 +82,7 @@
         $shipping = -1;
         $chpletinpri_cost = constant('MODULE_SHIPPING_CHPLETINPRI_COST_' . $i);
 
-        $chpletinpri_table = split("[:,]" , $chpletinpri_cost);
+        $chpletinpri_table = preg_split("/[:,]/" , $chpletinpri_cost);
         for ($i=0; $i<sizeof($chpletinpri_table); $i+=2) {
           if ($shipping_weight <= $chpletinpri_table[$i]) {
             $shipping = $chpletinpri_table[$i+1];

@@ -59,18 +59,18 @@
         //check if payment method is cod. If yes, check if cod is possible.
         if ($GLOBALS['payment'] == 'cod') {
           //process installed shipping modules
-          if (substr_count($shipping['id'], 'flat') !=0) $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_FLAT);
-          if (substr_count($shipping['id'], 'item') !=0) $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_ITEM);
-          if (substr_count($shipping['id'], 'table') !=0) $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_TABLE);
-          if (substr_count($shipping['id'], 'ups') !=0) $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_UPS);
-          if (substr_count($shipping['id'], 'usps') !=0) $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_USPS);
-          if (substr_count($shipping['id'], 'fedex') !=0) $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_FEDEX);
-          if (substr_count($shipping['id'], 'zones') !=0) $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_ZONES);
-          if (substr_count($shipping['id'], 'ap') !=0) $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_AP);
-	  if (substr_count($shipping['id'], 'chp') !=0) $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_CHP);
-          if (substr_count($shipping['id'], 'dp') !=0) $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_DP);
+          if (substr_count($shipping['id'], 'flat') !=0) $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_FLAT);
+          if (substr_count($shipping['id'], 'item') !=0) $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_ITEM);
+          if (substr_count($shipping['id'], 'table') !=0) $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_TABLE);
+          if (substr_count($shipping['id'], 'ups') !=0) $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_UPS);
+          if (substr_count($shipping['id'], 'usps') !=0) $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_USPS);
+          if (substr_count($shipping['id'], 'fedex') !=0) $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_FEDEX);
+          if (substr_count($shipping['id'], 'zones') !=0) $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_ZONES);
+          if (substr_count($shipping['id'], 'ap') !=0) $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_AP);
+	  if (substr_count($shipping['id'], 'chp') !=0) $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_CHP);
+          if (substr_count($shipping['id'], 'dp') !=0) $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_DP);
 	  //satt inn av Pompel
-	  if (substr_count($shipping['id'], 'servicepakke') !=0) $cod_zones = split("[:,]", MODULE_ORDER_TOTAL_COD_FEE_SERVICEPAKKE);
+	  if (substr_count($shipping['id'], 'servicepakke') !=0) $cod_zones = preg_split("/[:,]/", MODULE_ORDER_TOTAL_COD_FEE_SERVICEPAKKE);
 	  
             for ($i = 0; $i < count($cod_zones); $i++) {
               if ($cod_zones[$i] == $order->delivery['country']['iso_code_2']) {

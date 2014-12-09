@@ -66,7 +66,7 @@
             $schema .= ',' . "\n";
           }
 
-          $schema = ereg_replace(",\n$", '', $schema);
+          $schema = preg_replace("/,\n$/", '', $schema);
 
 // add the keys
           $index = array();
@@ -110,7 +110,7 @@
                 $schema .= 'NULL, ';
               } elseif (tep_not_null($rows[$i])) {
                 $row = addslashes($rows[$i]);
-                $row = ereg_replace("\n#", "\n".'\#', $row);
+                $row = str_replace("\n#", "\n".'\#', $row);
 
                 $schema .= '\'' . $row . '\', ';
               } else {
@@ -118,7 +118,7 @@
               }
             }
 
-            $schema = ereg_replace(', $', '', $schema) . ');' . "\n";
+            $schema = preg_replace('/, $/', '', $schema) . ');' . "\n";
             fputs($fp, $schema);
 
           }
@@ -237,7 +237,7 @@
               if ($next == '') { // get the last insert query
                 $next = 'insert';
               }
-              if ( (eregi('create', $next)) || (eregi('insert', $next)) || (eregi('drop t', $next)) ) {
+              if ( (strpos('create', $next)!==false) || (strpos('insert', $next)!==false) || (strpos('drop t', $next)!==false) ) {
                 $next = '';
                 $sql_array[] = substr($restore_query, 0, $i);
                 $restore_query = ltrim(substr($restore_query, $i+1));

@@ -18,9 +18,9 @@
 
 // Check if register_globals is enabled.
 // Since this is a temporary measure this message is hardcoded. The requirement will be removed before 2.2 is finalized.
-  if (function_exists('ini_get')) {
+/*  if (function_exists('ini_get')) {
     ini_get('register_globals') or exit('FATAL ERROR: register_globals is disabled in php.ini, please enable it!');
-  }
+  }*/
 
   require('includes/functions/general.php');
   require('includes/functions/database.php');
