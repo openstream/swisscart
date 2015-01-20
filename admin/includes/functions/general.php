@@ -40,7 +40,7 @@
 
 	function tep_output_string($string, $translate = false, $protected = false) {
 		if ($protected == true) {
-			return htmlspecialchars($string);
+			return htmlspecialchars($string, ENT_COMPAT ,'iso-8859-1', true);
 		} else {
 			if ($translate == false) {
 				return tep_parse_input_field_data($string, array('"' => '&quot;'));
@@ -55,7 +55,7 @@
 	}
 
 	function tep_sanitize_string($string) {
-		$string = ereg_replace(' +', ' ', $string);
+		$string = str_replace(' +', ' ', $string);
 
 		return preg_replace("/[<>]/", '_', $string);
 	}
@@ -149,7 +149,7 @@
 		if (@date('Y', mktime($hour, $minute, $second, $month, $day, $year)) == $year) {
 			return date(DATE_FORMAT, mktime($hour, $minute, $second, $month, $day, $year));
 		} else {
-			return ereg_replace('2037' . '$', $year, date(DATE_FORMAT, mktime($hour, $minute, $second, $month, $day, 2037)));
+			return str_replace('2037' . '$', $year, date(DATE_FORMAT, mktime($hour, $minute, $second, $month, $day, 2037)));
 		}
 
 	}
@@ -1019,8 +1019,8 @@
 							$cached_file = $cache_blocks[$i]['file'];
 							$languages = tep_get_languages();
 							for ($j=0, $k=sizeof($languages); $j<$k; $j++) {
-								$cached_file_unlink = ereg_replace('-language', '-' . $languages[$j]['directory'], $cached_file);
-								if (ereg('^' . $cached_file_unlink, $cache_file)) {
+								$cached_file_unlink = str_replace('-language', '-' . $languages[$j]['directory'], $cached_file);
+								if (preg_match("/^$cached_file_unlink/", $cache_file)) {
 									@unlink(DIR_FS_CACHE . $cache_file);
 								}
 							}
@@ -1031,7 +1031,7 @@
 					$cached_file = $cache_blocks[$i]['file'];
 					$languages = tep_get_languages();
 					for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
-						$cached_file = ereg_replace('-language', '-' . $languages[$i]['directory'], $cached_file);
+						$cached_file = str_replace('-language', '-' . $languages[$i]['directory'], $cached_file);
 						@unlink(DIR_FS_CACHE . $cached_file);
 					}
 				}

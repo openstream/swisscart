@@ -14,7 +14,7 @@
 */
 
   function tep_check_gzip() {
-    global $HTTP_ACCEPT_ENCODING;
+    $HTTP_ACCEPT_ENCODING = $_SERVER['HTTP_ACCEPT_ENCODING'];
 
     if (headers_sent() || connection_aborted()) {
       return false;

@@ -21,7 +21,7 @@ if (file_exists(DIR_FS_CATALOG.'includes/js/jQuery/languages/'.$language.'/jquer
 	echo '<script type="text/javascript" src="'. DIR_WS_CATALOG.'includes/js/jQuery/languages/'.$language.'/jquery.ui.datepicker.js"></script>';
 }
 ?>
-<script language="javascript" src="includes/general.js"></script>
+<?php // do not load this ressource twice ... /* <script language="javascript" src="includes/general.js"></script> */ ?>
 
 <script type="text/javascript">
 	jQuery.noConflict();

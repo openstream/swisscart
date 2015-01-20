@@ -194,7 +194,7 @@ class GoogleSitemap{
 							: 	"{sitemap*.xml}"
 					 :	"{sitemap*.xml}";
 		foreach ( glob($this->savepath . $pattern, GLOB_BRACE) as $filename ) {
-			 if ( eregi('index', $filename) ) continue;
+			 if ( preg_match('/index/i', $filename) ) continue;
 			 $content .= "\t" . '<sitemap>' . "\n";
 			 $content .= "\t\t" . '<loc>'.$this->base_url . basename($filename).'</loc>' . "\n";
 			 $content .= "\t\t" . '<lastmod>'.date ("Y-m-d", filemtime($filename)).'</lastmod>' . "\n";
@@ -397,7 +397,7 @@ class GoogleSitemap{
  * @return string Full cPath string
  */
 	function GetFullcPath($cID){
-		if ( ereg('_', $cID) ){
+		if ( preg_match('/_/', $cID) ){
 			return $cID;
 		} else {
 			$c = array();

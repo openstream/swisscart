@@ -44,8 +44,9 @@
 
           if (tep_not_null($manufacturer['manufacturers_url'])) {
             tep_db_query("update " . TABLE_MANUFACTURERS_INFO . " set url_clicked = url_clicked+1, date_last_click = now() where manufacturers_id = '" . (int)$HTTP_GET_VARS['manufacturers_id'] . "' and languages_id = '" . (int)$languages_id . "'");
-
-            tep_redirect($manufacturer['manufacturers_url']);
+           
+            $manufacturer['manufacturers_url'] = str_replace("\r",'',str_replace("\n",'',$manufacturer['manufacturers_url']));
+            tep_redirect('http://' .$manufacturer['manufacturers_url']);
           }
         } else {
 // no url exists for the selected language, lets use the default language then

@@ -275,7 +275,7 @@ while( $row = mysql_fetch_object( $result ) )
 	{
 		if (CONVERT_CURRENCY)
 		{
-			$row->price = ereg_replace("[^.0-9]", "", $row->price);
+			$row->price = preg_replace("/[^.0-9]/", "", $row->price);
 			$row->price = $row->price *  $row3->curUSD;
 			$row->price = number_format($row->price, 2, '.', ',');
 		}

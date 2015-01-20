@@ -6,7 +6,7 @@
 
 	class debugger {
 			var $support_address, $support_dept;
-			static $script_address, $logdir;
+			var $script_address, $logdir;
 			// class constructor
 			function debugger() {
         $this->support_dept = 'Swisscart Support';
@@ -112,7 +112,7 @@
 							debugWindow.document.writeln('<body><font face="verdana,arial">');
 							debugWindow.document.writeln('<hr size=1 width="100%">');
 							</script>
-							<?
+							<?php
 							$window_opened = TRUE;
 					}
 			}

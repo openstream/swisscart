@@ -1426,7 +1426,7 @@ if (!empty($_POST['localfile']) or (isset($_FILES['usrfl']) && isset($_GET['spli
                         $handle = opendir(EP_TEMP_DIRECTORY);
                         while (false!== ($file = readdir($handle))) {
                           if ($file!= "." && $file!= ".." &&!is_dir($file)) {
-                           $namearr = split('\.',$file);
+                           $namearr = preg_split('/\./',$file);
                            if ($namearr[count($namearr)-1] == 'csv' || $namearr[count($namearr)-1] == 'txt') $the_array[] = $file;
                           }
                         }

@@ -60,7 +60,7 @@
 
       for ($i=1; $i<=$this->num_chpleteco; $i++) {
         $countries_table = constant('MODULE_SHIPPING_CHPLETECO_COUNTRIES_' . $i);
-        $country_zones = split("[,]", $countries_table);
+        $country_zones = preg_split("/[,]/", $countries_table);
         if (in_array($dest_country, $country_zones)) {
           $dest_zone = $i;
           break;
@@ -73,7 +73,7 @@
         $shipping = -1;
         $chpleteco_cost = constant('MODULE_SHIPPING_CHPLETECO_COST_' . $i);
 
-        $chpleteco_table = split("[:,]" , $chpleteco_cost);
+        $chpleteco_table = preg_split("/[:,]/" , $chpleteco_cost);
         for ($i=0; $i<sizeof($chpleteco_table); $i+=2) {
           if ($shipping_weight <= $chpleteco_table[$i]) {
             $shipping = $chpleteco_table[$i+1];

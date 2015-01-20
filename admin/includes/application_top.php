@@ -21,9 +21,12 @@
 
 // Check if register_globals is enabled.
 // Since this is a temporary measure this message is hardcoded. The requirement will be removed before 2.2 is finalized.
-        if (function_exists('ini_get')) {
-                ini_get('register_globals') or exit('Server Requirement Error: register_globals is disabled in your PHP configuration. This can be enabled in your php.ini configuration file or in the .htaccess file in your catalog directory.');
-        }
+        /*if (function_exists('ini_get')) {
+                ini_get('register_globals') or $messageStack->add('Server Requirement Error: register_globals is disabled in your PHP configuration.');
+        }*/
+        
+// Since register global is disabled request values are copyed to HTTP_* and global vars
+        require('includes/register_globals.php');        
 
 // Set the local configuration parameters - mainly for developers
         if (file_exists('includes/local/configure.php')) include('includes/local/configure.php');
@@ -86,32 +89,34 @@
 // some code to solve compatibility issues
         require(DIR_WS_FUNCTIONS . 'compatibility.php');
 
-// check to see if php implemented session management functions - if not, include php3/php4 compatible session class
-        if (!function_exists('session_start')) {
-                define('PHP_SESSION_NAME', 'osCAdminID');
-                define('PHP_SESSION_PATH', '/');
-                define('PHP_SESSION_SAVE_PATH', SESSION_WRITE_DIRECTORY);
-
-                include(DIR_WS_CLASSES . 'sessions.php');
-        }
-
 // define how the session functions will be used
         require(DIR_WS_FUNCTIONS . 'sessions.php');
+
+// set the cookie domain
+        $cookie_domain = (($request_type == 'NONSSL') ? HTTP_COOKIE_DOMAIN : HTTPS_COOKIE_DOMAIN);
+        $cookie_path = (($request_type == 'NONSSL') ? HTTP_COOKIE_PATH : HTTPS_COOKIE_PATH);
 
 // set the session name and save path
         tep_session_name('osCAdminID');
         tep_session_save_path(SESSION_WRITE_DIRECTORY);
 
 // set the session cookie parameters
-         if (function_exists('session_set_cookie_params')) {
-                session_set_cookie_params(0, DIR_WS_ADMIN);
+        if (function_exists('session_set_cookie_params')) {
+          session_set_cookie_params(0, $cookie_path, $cookie_domain);
         } elseif (function_exists('ini_set')) {
-                ini_set('session.cookie_lifetime', '0');
-                ini_set('session.cookie_path', DIR_WS_ADMIN);
+          ini_set('session.cookie_lifetime', '0');
+          ini_set('session.cookie_path', $cookie_path);
+          ini_set('session.cookie_domain', $cookie_domain);
         }
+
+        @ini_set('session.use_only_cookies', (SESSION_FORCE_COOKIE_USE == 'True') ? 1 : 0);
 
 // lets start our session
         tep_session_start();
+
+        if ( (PHP_VERSION >= 4.3) && function_exists('ini_get') && (ini_get('register_globals') == false) ) {
+          extract($_SESSION, EXTR_OVERWRITE+EXTR_REFS);
+        }
 
 // set the language
         if (!tep_session_is_registered('language') || isset($HTTP_GET_VARS['language'])) {

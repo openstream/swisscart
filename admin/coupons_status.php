@@ -34,7 +34,7 @@
 		<td class="dataTableHeadingContent"><?php echo TABLE_HEADING_ORDER; ?></td>
 		<td class="dataTableHeadingContent"><?php echo TABLE_HEADING_DATE; ?>&nbsp;&nbsp;</td>
 	</tr>
-	<?
+	<?php
 	function date2german($fdate) {
 		list($jahr, $monat, $tag) = explode("-", $fdate);
 		return sprintf("%02d.%02d.%04d", $tag, $monat, $jahr);

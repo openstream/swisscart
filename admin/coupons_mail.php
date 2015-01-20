@@ -153,8 +153,8 @@
 <?php
 /* Re-Post all POST'ed variables */
     reset($HTTP_POST_VARS);
-    while (list($key, $value) = each($HTTP_POST_VARS)) {
-      if (!is_array($HTTP_POST_VARS[$key])) {
+    while (list($key, $value) = each($_POST)) {
+      if (!is_array($_POST[$key])) {
         echo tep_draw_hidden_field($key, htmlspecialchars(stripslashes($value)));
       }
     }

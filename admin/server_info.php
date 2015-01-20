@@ -112,12 +112,12 @@ hr {display: none;}
     ob_end_clean();
 
     $phpinfo = str_replace('border: 1px', '', $phpinfo);
-    ereg('<body>(.*)</body>', $phpinfo, $regs);
+    $phpinfo = substr($phpinfo, strpos($phpinfo, '<body>'), strpos($phpinfo, '</body>')-14);
     echo '<table border="1" cellpadding="3" width="600" style="border: 0px; border-color: #000000;">' .
          '  <tr><td><a href="http://www.oscommerce.com"><img border="0" src="images/oscommerce.gif" alt=" osCommerce " /></a><h1 class="p"> ' . PROJECT_VERSION . '</h1></td>' . 
          '  </tr>' .
          '</table>';
-    echo $regs[1];
+    echo $phpinfo;
   } else {
     phpinfo();
   }
