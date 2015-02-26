@@ -5,7 +5,7 @@
 	osCommerce, Open Source E-Commerce Solutions
 	http://www.oscommerce.com
 
-	Customized by swisscart®, Swiss Webshop Solutions
+	Customized by swisscartï¿½, Swiss Webshop Solutions
 	http://www.swisscart.com
 
 	Copyright (c) 2003-2007 osCommerce
@@ -31,6 +31,7 @@ if (is_file('FirePHP_Build/Init.inc.php')) {
 
 // set the level of error reporting
 	error_reporting(E_ALL & ~E_NOTICE);
+	ini_set('display_errors', 'On');
 
 // check if register_globals is enabled.
 // since this is a temporary measure this message is hardcoded. The requirement will be removed before 2.2 is finalized.
@@ -47,6 +48,9 @@ if (is_file('FirePHP_Build/Init.inc.php')) {
 // include server parameters
 	require('includes/configure.php');
 
+	ini_set('log_errors', true);
+	ini_set('error_log', DIR_FS_CATALOG . 'error_log/errors.log');
+	
 	if (strlen(DB_SERVER) < 1) {
 		if (is_dir('install')) {
 			header('Location: install/index.php');
@@ -306,7 +310,7 @@ if (is_file('FirePHP_Build/Init.inc.php')) {
 	require(DIR_WS_CLASSES . 'email.php');
 
 	// include debug functions
-	require (DIR_FS_CATALOG.'includes/functions/debug_functions.php');
+	//require (DIR_FS_CATALOG.'includes/functions/debug_functions.php');
 
 // set the language
 	if (!tep_session_is_registered('language') || isset($_GET['language'])) {

@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Customized by swisscart®, Swiss Webshop Solutions
+  Customized by swisscartï¿½, Swiss Webshop Solutions
   http://www.swisscart.com
 
   Copyright (c) 2003-2007 osCommerce
@@ -518,6 +518,11 @@
       if (!isset($xtra_headers)) {
         $xtra_headers = array();
       }
+
+     $subject = mb_encode_mimeheader($subject);
+     $to_name = mb_encode_mimeheader($to_name);
+
+     # die("mail($to_addr, $subject, ".$this->output.", 'From: ' . $from . $this->lf . 'To: ' . $to . $this->lf . ".implode($this->lf, $this->headers) ." . ". $this->lf . implode($this->lf, $xtra_headers));
 
       if (EMAIL_TRANSPORT == 'smtp') {
         return mail($to_addr, $subject, $this->output, 'From: ' . $from . $this->lf . 'To: ' . $to . $this->lf . implode($this->lf, $this->headers) . $this->lf . implode($this->lf, $xtra_headers));

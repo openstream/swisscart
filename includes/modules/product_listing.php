@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Customized by swisscart®, Swiss Webshop Solutions
+  Customized by swisscartï¿½, Swiss Webshop Solutions
   http://www.swisscart.com
 
   Copyright (c) 2003-2007 osCommerce

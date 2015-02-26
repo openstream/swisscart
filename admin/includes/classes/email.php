@@ -519,6 +519,10 @@
         $xtra_headers = array();
       }
 
+
+     $subject = mb_encode_mimeheader($subject);
+     $to_name = mb_encode_mimeheader($to_name);
+
       if (EMAIL_TRANSPORT == 'smtp') {
         return mail($to_addr, $subject, $this->output, 'From: ' . $from . $this->lf . 'To: ' . $to . $this->lf . implode($this->lf, $this->headers) . $this->lf . implode($this->lf, $xtra_headers));
       } else {

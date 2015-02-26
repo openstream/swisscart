@@ -19,7 +19,11 @@
 // on RedHat try 'de_DE'
 // on FreeBSD try 'de_DE.ISO_8859-1'
 // on Windows try 'de' or 'German'
-@setlocale(LC_TIME, 'de_DE.ISO_8859-1');
+
+// get locale setting name for this server system, see PHP-Manual - function.setlocale.html 
+$loc_de = setlocale(LC_ALL, array('de_DE.ISO-8859-1', 'de_DE@euro', 'de_DE', 'de_DE.UTF-8', 'de', 'ge', 'deu_deu'));
+@setlocale(LC_TIME, $loc_de);
+
 
 define('DATE_FORMAT_SHORT', '%d.%m.%Y');  // this is used for strftime()
 define('DATE_FORMAT_LONG', '%A, %d. %B %Y'); // this is used for strftime()
