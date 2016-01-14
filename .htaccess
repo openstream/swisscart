@@ -55,3 +55,7 @@ RewriteRule ^(.*)-i-([0-9]+).html$ information.php?info_id=$2&%{QUERY_STRING}
 
 #RSS Feeds
 RewriteRule whats_new.xml rss.php?box=whats_new 
+
+# deny access to git
+RewriteRule ^/?.git/*.*$ - [F,L]
+RewriteRule ^/?.gitignore$ - [F,L]
