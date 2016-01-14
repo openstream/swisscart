@@ -5,7 +5,7 @@
         osCommerce, Open Source E-Commerce Solutions
         http://www.oscommerce.com
 
-        Customized by swisscart®, Swiss Webshop Solutions
+        Customized by swisscartï¿½, Swiss Webshop Solutions
         http://www.swisscart.com
 
         Copyright (c) 2003-2007 osCommerce
@@ -34,7 +34,10 @@
 // Include application configuration parameters
         require('includes/configure.php');
 
-// Define the project version
+        ini_set('log_errors', true);
+        ini_set('error_log', DIR_FS_CATALOG . 'error_log/errors.log');
+
+        // Define the project version
         define('PROJECT_VERSION', 'osCommerce 2.2-MS2');
         define('SWISSCART_VERSION', 'v4.0');
 
@@ -179,7 +182,7 @@
         require(DIR_WS_CLASSES . 'mime.php');
         require(DIR_WS_CLASSES . 'email.php');
 
-        require(DIR_FS_CATALOG.DIR_WS_FUNCTIONS.'debug_functions.php');
+        // require(DIR_FS_CATALOG.DIR_WS_FUNCTIONS.'debug_functions.php');
         
 // file uploading class
         require(DIR_WS_CLASSES . 'upload.php');

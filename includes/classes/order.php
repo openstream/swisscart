@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Customized by swisscart®, Swiss Webshop Solutions
+  Customized by swisscartï¿½, Swiss Webshop Solutions
   http://www.swisscart.com
 
   Copyright (c) 2003-2007 osCommerce
@@ -249,10 +249,10 @@ if ($customer_id == 0) {
                           'cc_owner' => (isset($GLOBALS['cc_owner']) ? $GLOBALS['cc_owner'] : ''),
                           'cc_number' => (isset($GLOBALS['cc_number']) ? $GLOBALS['cc_number'] : ''),
                           'cc_expires' => (isset($GLOBALS['cc_expires']) ? $GLOBALS['cc_expires'] : ''),
-                                                  'cc_cvv2' => (isset($GLOBALS['cc_cvv2']) ? $GLOBALS['cc_cvv2'] : ''),
-                          'shipping_method' => $shipping['title'],
-                                                  'shipping_class' =>  ( (strpos($shipping['id'],'_') > 0) ?  substr( strrev( strchr(strrev($shipping['id']),'_') ),0,-1) : $shipping['id'] ),
-                          'shipping_cost' => $shipping['cost'],
+                              'cc_cvv2' => (isset($GLOBALS['cc_cvv2']) ? $GLOBALS['cc_cvv2'] : ''),
+                          'shipping_method' => (isset($shipping['title']) ? $shipping['title'] : ''),
+                              'shipping_class' =>  ( isset($shipping['id']) ? ( (strpos($shipping['id'],'_') > 0) ?  substr( strrev( strchr(strrev($shipping['id']),'_') ),0,-1) : $shipping['id'] ) : '' ),
+                          'shipping_cost' => isset($shipping['cost']),
                           'subtotal' => 0,
                           'tax' => 0,
                           'tax_groups' => array(),
@@ -260,7 +260,7 @@ if ($customer_id == 0) {
 
       if (isset($GLOBALS[$payment]) && is_object($GLOBALS[$payment])) {
         $this->info['payment_method'] = $GLOBALS[$payment]->title;
-                $this->info['payment_class'] = $GLOBALS[$payment]->code;
+                $this->info['payment_class'] = isset($GLOBALS[$payment]->code) ? $GLOBALS[$payment]->code : '';
 
         if ( isset($GLOBALS[$payment]->order_status) && is_numeric($GLOBALS[$payment]->order_status) && ($GLOBALS[$payment]->order_status > 0) ) {
           $this->info['order_status'] = $GLOBALS[$payment]->order_status;
@@ -316,7 +316,7 @@ if ($customer_id == 0) {
                                         'tax' => tep_get_tax_rate($products[$i]['tax_class_id'], $tax_address['entry_country_id'], $tax_address['entry_zone_id']),
                                         'tax_description' => tep_get_tax_description($products[$i]['tax_class_id'], $tax_address['entry_country_id'], $tax_address['entry_zone_id']),
                                         'price' => $products[$i]['price'],
-                                        'final_price' => $products[$i]['price'] + $cart->attributes_price($products[$i]['id']),
+        								'final_price' => str_replace(',','.', $products[$i]['price'] + $cart->attributes_price($products[$i]['id'])),// + operator changes decimalpoint
                                         'weight' => $products[$i]['weight'],
                                         'id' => $products[$i]['id']);
 

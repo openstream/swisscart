@@ -7,7 +7,6 @@
 
   Released under the GNU General Public License
 */
-  $DOCUMENT_ROOT = "E:/xampp/htdocs/os/swisscart/";
 
 // Define the webserver and path parameters
 // * DIR_FS_* = Filesystem directories (local/physical)
@@ -17,9 +16,9 @@
   define('ENABLE_SSL', false); // secure webserver for checkout procedure?
   define('HTTP_COOKIE_DOMAIN', 'http://localhost');
   define('HTTPS_COOKIE_DOMAIN', '');
-  define('HTTP_COOKIE_PATH', '/os/swisscart/');
+  define('HTTP_COOKIE_PATH', '/o/swisscart/');
   define('HTTPS_COOKIE_PATH', '');
-  define('DIR_WS_HTTP_CATALOG', '/os/swisscart/');
+  define('DIR_WS_HTTP_CATALOG', '/o/swisscart/');
   define('DIR_WS_HTTPS_CATALOG', '');
   define('DIR_WS_IMAGES', 'images/');
   define('DIR_WS_ICONS', DIR_WS_IMAGES . 'icons/');
@@ -31,14 +30,14 @@
   define('DIR_WS_LANGUAGES', DIR_WS_INCLUDES . 'languages/');
 
   define('DIR_WS_DOWNLOAD_PUBLIC', 'pub/');
-  define('DIR_FS_CATALOG', $DOCUMENT_ROOT);
+  define('DIR_FS_CATALOG', '/var/www/o/swisscart/');
   define('DIR_FS_DOWNLOAD', DIR_FS_CATALOG . 'download/');
   define('DIR_FS_DOWNLOAD_PUBLIC', DIR_FS_CATALOG . 'pub/');
 
 // define our database connection
   define('DB_SERVER', 'localhost'); // eg, localhost - should not be empty for productive servers
-  define('DB_SERVER_USERNAME', 'root');
-  define('DB_SERVER_PASSWORD', 'mecolodic');
+  define('DB_SERVER_USERNAME', 'user');
+  define('DB_SERVER_PASSWORD', 'password');
   define('DB_DATABASE', 'os_swisscart');
   define('USE_PCONNECT', 'false'); // use persistent connections?
   define('STORE_SESSIONS', 'mysql'); // leave empty '' for default handler or set to 'mysql'

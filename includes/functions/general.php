@@ -5,7 +5,7 @@
 	osCommerce, Open Source E-Commerce Solutions
 	http://www.oscommerce.com
 
-	Customized by swisscart®, Swiss Webshop Solutions
+	Customized by swisscartï¿½, Swiss Webshop Solutions
 	http://www.swisscart.com
 
 	Copyright (c) 2003-2007 osCommerce
@@ -991,6 +991,11 @@
 
 	function tep_mail($to_name, $to_email_address, $email_subject, $email_text, $from_email_name, $from_email_address) {
 		if (SEND_EMAILS != 'true') return false;
+
+		$to_name = html_entity_decode($to_name, ENT_COMPAT, CHARSET);
+		$email_subject = html_entity_decode($email_subject, ENT_COMPAT, CHARSET);
+		$email_text = html_entity_decode($email_text, ENT_COMPAT, CHARSET);
+		$from_email_name = html_entity_decode($from_email_name, ENT_COMPAT, CHARSET);
 
 		// Instantiate a new mail object
 		$message = new email(array('X-Mailer: osCommerce Mailer'));

@@ -47,7 +47,7 @@ function sts_strip_content_tags($tmpstr, $commentlabel) {
   if ($formstart !== false and $formstart < $tablestart) {
      $tablestart = $formstart;
      $formfirst = true;
-  }
+  } else $formfirst = false;
 
   // If empty, return nothing
   if ($tablestart < 1) {
